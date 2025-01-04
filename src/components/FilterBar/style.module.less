@@ -1,0 +1,46 @@
+.searchBar {
+  position: relative;
+  width: 100%;
+
+  .searchBarInner {
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    background-color: white;
+
+    &:hover {
+      border-color: darkgray;
+    }
+
+    &:focus-within {
+      border-color: dodgerblue;
+    }
+  }
+
+  .multiLineSearchBar {
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .pullContainerWrapper {
+    display: flex;
+    flex-grow: 1;
+  }
+
+  .filterIconContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+
+    svg {
+      height: 14px;
+      width: 14px;
+    }
+  }
+}

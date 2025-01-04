@@ -1,0 +1,21 @@
+.arrayItem {
+  display: flex;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid lightgray;
+  }
+
+  &:hover {
+    background-color: #DDDDDD;
+  }
+
+  .text {
+    display: flex;
+    margin-left: 5px;
+    align-items: center;
+  }
+}
+
+.active {
+  background-color: #DDDDDD;
+}

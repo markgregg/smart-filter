@@ -1,0 +1,25 @@
+.option {
+  display: flex;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid lightgray;
+  }
+
+  &:hover {
+    background-color: #DDDDDD;
+  }
+
+  .optionText {
+    flex-grow: 1;
+
+    .matchText {
+      background-color: rgb(206, 174, 30);
+    }
+  }
+
+  .optionField {}
+}
+
+.active {
+  background-color: #DDDDDD;
+}

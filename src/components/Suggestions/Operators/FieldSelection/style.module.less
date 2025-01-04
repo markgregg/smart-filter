@@ -1,0 +1,52 @@
+.fieldSelection {
+  position: relative;
+
+  .addFieldIcon {
+    align-items: center;
+    display: flex;
+    height: 20px;
+  }
+
+  .filterSelectionPopup {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    left: 10px;
+    max-width: 160px;
+    border: 1px solid #d3d3d3;
+    border-radius: 3px;
+    transform-origin: top center;
+    background-color: white;
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.73);
+
+    .filter {
+      width: 100%;
+      overflow: hidden;
+      border-bottom: 1px solid black;
+
+      input {
+        outline: none;
+        border: none;
+      }
+    }
+
+    .fields {
+      display: flex;
+      flex-direction: column;
+      max-height: 200px;
+      overflow-y: auto;
+
+      .field {
+        padding: 2px 4px;
+        user-select: none;
+        white-space: nowrap;
+
+        &:hover {
+          background-color: lightgray;
+        }
+      }
+    }
+  }
+}
