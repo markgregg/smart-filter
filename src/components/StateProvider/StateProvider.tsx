@@ -21,7 +21,7 @@ export const StateProvider = React.memo(({ props, children }: ProviderProps) => 
   const configStore = React.useMemo(() => createConfigStore(props), [props]);
   const [focusStore] = React.useState(createFocusStore);
   const [mouseStore] = React.useState(createMouseStore);
-  const [filterBarStore] = React.useState(createFilterBarStore);
+  const filterBarStore = React.useMemo(() => createFilterBarStore(props), [props]);
   const [hintStore] = React.useState(createHintStore);
   const matcherStore = React.useMemo(() => createMatcherStore(props), [props]);
   const optionsStore = React.useMemo(() => createOptionsStore(props), [props]);

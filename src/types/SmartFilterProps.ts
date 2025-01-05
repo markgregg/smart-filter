@@ -9,8 +9,8 @@ export interface SmartFilterProps extends UICustomisations {
   onChange?: (matchers: Matcher[]) => void;
 
   onClear?: () => void;
-  onLock?: () => void;
-  onExpand?: () => void;
+  onLock?: (locked: boolean) => void;
+  onExpand?: (expanded: boolean) => void;
 
   fields: Field[];
   hints?: Hints;

@@ -6,7 +6,7 @@ import { StoreApi, UseBoundStore, create } from "zustand";
 import { v4 as uuidv4 } from "uuid";
 
 export const createMatcherStore = (props: SmartFilterProps): UseBoundStore<StoreApi<MatcherState>> => {
-  const { fields, matchers, onChange } = props;
+  const { fields, matchers, onChange, onClear } = props;
   const fieldMap = new Map(fields.map((f) => [f.name, f]));
 
   return create<MatcherState>((set) => {
@@ -91,11 +91,14 @@ export const createMatcherStore = (props: SmartFilterProps): UseBoundStore<Store
         return {};
       }),
       clearMatchers: () => {
-        setNotify({ matchers: [], selectedMatcher: null, selectedIndex: null, editPosition: null, editMatcher: null }),
-          set((state) => {
-            state.clearCallbacks.forEach(c => c());
-            return {};
-          });
+        setNotify({ matchers: [], selectedMatcher: null, selectedIndex: null, editPosition: null, editMatcher: null });
+        set((state) => {
+          state.clearCallbacks.forEach(c => c());
+          return {};
+        });
+        if (onClear) {
+          onClear();
+        }
       },
       addClearCallback: (callback: Function) => set((state) => {
         if (!state.clearCallbacks.includes(callback)) {
