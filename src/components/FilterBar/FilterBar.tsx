@@ -29,12 +29,15 @@ export const FilterBar = React.memo(() => {
   } = useMouse(state => state);
   const {
     editMatcher,
+    selectedMatcher,
     next,
     prev,
     first,
     last,
     selectedIndex,
     editPosition,
+    matchers,
+    clearEditPosition,
   } = useMatcher(state => state);
   const { matcherKey, clearOptions } = useOptions(state => state);
   const { matcher, setMatcher } = useArray(state => state);
@@ -50,13 +53,22 @@ export const FilterBar = React.memo(() => {
   const showMoveNext = enableExpand && !expanded && (editPosition !== null || editPosition !== null || selectedIndex !== null);
 
   React.useEffect(() => {
-    if (matcherKey && matcherKey !== editMatcher?.key) {
-      clearOptions();
-    }
     if (matcher?.key !== editMatcher?.key) {
       setMatcher(null);
     }
-  }, [editMatcher, matcherKey, matcher]);
+  }, [editMatcher, matcher]);
+
+  React.useEffect(() => {
+    if (matcherKey && matcherKey !== selectedMatcher?.key) {
+      clearOptions();
+    }
+  }, [matcherKey, selectedMatcher]);
+
+  React.useEffect(() => {
+    if (editPosition !== null && editPosition === matchers.length) {
+      clearEditPosition();
+    }
+  }, [editPosition, matchers]);
 
   const handleFocus = useDynamicCallback(() => {
     if (!hasFocus) {

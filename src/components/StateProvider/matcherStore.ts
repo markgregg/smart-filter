@@ -1,5 +1,5 @@
 import { ArrayMatcher, Brackets, Field, LogicalOperator, Matcher, SmartFilterProps } from "@/types";
-import { MatcherState } from "@/types/State";
+import { DROP_POSITION, MatcherState } from "@/types/State";
 import { MatcherValue } from "@/types/values";
 import { AND } from "@/util/constants";
 import { StoreApi, UseBoundStore, create } from "zustand";
@@ -28,6 +28,7 @@ export const createMatcherStore = (props: SmartFilterProps): UseBoundStore<Store
     }
 
     return ({
+      clearCallbacks: [],
       matchers: matchers ?? [],
       selectedIndex: null,
       selectedMatcher: null,
@@ -40,14 +41,41 @@ export const createMatcherStore = (props: SmartFilterProps): UseBoundStore<Store
       },
       addBracket: (bracket: Brackets, position: number | null, operator?: LogicalOperator) => {
         const bracketMatcher = { key: uuidv4(), bracket, operator: operator ?? AND };
-        setNotify((state) => updateMatcherList(state.matchers, bracketMatcher, position));
+        setNotify((state) => updateMatcherList(state.matchers, bracketMatcher, position, state.selectedMatcher !== null));
       },
-      updateMatcher: (matcher: Matcher) => setNotify((state) => matcher.key === state.selectedMatcher?.key
-        ? ({ matchers: state.matchers.map(m => m.key === matcher.key ? matcher : m), selectedMatcher: matcher })
-        : ({ matchers: state.matchers.map(m => m.key === matcher.key ? matcher : m) })
-      ),
-      deleteMatcher: (matcher: Matcher) => setNotify((state) => ({ matchers: state.matchers.filter(m => m.key !== matcher.key), selectedMatcher: null, selectedIndex: null })),
-      clearMatchers: () => setNotify({ matchers: [], selectedMatcher: null, selectedIndex: null }),
+      updateMatcher: (matcher: Matcher) => {
+        if (!matcher.locked) {
+          setNotify((state) => matcher.key === state.selectedMatcher?.key
+            ? ({ matchers: state.matchers.map(m => m.key === matcher.key ? matcher : m), selectedMatcher: matcher })
+            : ({ matchers: state.matchers.map(m => m.key === matcher.key ? matcher : m) }));
+        }
+      },
+      deleteMatcher: (matcher: Matcher) => {
+        if (!matcher.locked) {
+          setNotify((state) => ({ matchers: state.matchers.filter(m => m.key !== matcher.key), selectedMatcher: null, selectedIndex: null }));
+        }
+      },
+      moveTo: (from: number, to: number, position: DROP_POSITION) => setNotify((state) => {
+        const { matchers: currentMatchers, selectedMatcher } = state;
+        if (from >= 0 && from < currentMatchers.length && to >= 0 && to < currentMatchers.length) {
+          const matcher = currentMatchers[from];
+          if (matcher.locked) {
+            return {};
+          }
+          const toPos = position === 'before' ? to : to + 1;
+          if (from > to) {
+            currentMatchers.splice(from, 1);
+            currentMatchers.splice(toPos, 0, matcher);
+          } else {
+            currentMatchers.splice(toPos, 0, matcher);
+            currentMatchers.splice(from, 1);
+          }
+          const matchers = [...currentMatchers];
+          const selectedIndex = matchers.findIndex(m => m.key === selectedMatcher?.key) ?? null;
+          return { matchers, selectedIndex };
+        }
+        return {};
+      }),
       selectMatcher: (key: string) => set((state) => {
         const index = state.matchers.findIndex(m => m.key === key);
         const selectedIndex = index !== -1 ? index : null;
@@ -55,9 +83,37 @@ export const createMatcherStore = (props: SmartFilterProps): UseBoundStore<Store
         const editMatcher = selectedMatcher !== null && selectedMatcher.key !== state.editMatcher?.key ? null : state.editMatcher;
         return ({ selectedMatcher, selectedIndex, editPosition: null, editMatcher });
       }),
-      selectMatcherForEdit: (key: string) => set((state) => ({ editMatcher: state.matchers.find(m => m.key === key) ?? null })),
-      clearSelections: () => set({ editMatcher: null, selectedMatcher: null, selectedIndex: null, editPosition: null }),
+      selectMatcherForEdit: (key: string) => set((state) => {
+        const editMatcher = state.matchers.find(m => m.key === key) ?? null;
+        if (!editMatcher?.locked) {
+          return { editMatcher };
+        }
+        return {};
+      }),
+      clearMatchers: () => {
+        setNotify({ matchers: [], selectedMatcher: null, selectedIndex: null, editPosition: null, editMatcher: null }),
+          set((state) => {
+            state.clearCallbacks.forEach(c => c());
+            return {};
+          });
+      },
+      addClearCallback: (callback: Function) => set((state) => {
+        if (!state.clearCallbacks.includes(callback)) {
+          return { clearCallbacks: [...state.clearCallbacks, callback] };
+        }
+        return {};
+      }),
+      removeClearCallback: (callback: Function) => set((state) => {
+        if (state.clearCallbacks.includes(callback)) {
+          return { clearCallbacks: state.clearCallbacks.filter(c => c !== callback) };
+        }
+        return {};
+      }),
+      clearSelections: () => set({ selectedMatcher: null, selectedIndex: null, editPosition: null, editMatcher: null }),
       clearEditPosition: () => set({ editPosition: null }),
+      clearEditMatcher: () => set({ editMatcher: null }),
+      lockMatchers: () => setNotify((state) => ({ matchers: state.matchers?.map(m => ({ ...m, locked: true })), editMatcher: null })),
+      unlockMatchers: () => setNotify((state) => ({ matchers: state.matchers?.map(m => ({ ...m, locked: false })), editMatcher: null })),
       next: () => set((state) => {
         const { editPosition, selectedIndex, matchers } = state;
         if (matchers.length > 0) {
@@ -128,15 +184,20 @@ const updateMatcherList = (
   matchers: Matcher[],
   matcher: Matcher,
   position: number | null,
+  matcherSelected?: boolean,
 ): Partial<MatcherState> => {
   const newMatchers = (position !== null)
     ? [
       ...(position > 0 ? matchers.slice(0, position) : []),
       matcher,
-      ...(position < matchers.length - 1 ? matchers.slice(position, matchers.length - 1) : []),
+      ...(position < matchers.length ? matchers.slice(position, matchers.length) : []),
     ]
     : [...matchers, matcher];
-  return { matchers: newMatchers, selectedMatcher: matcher, selectedIndex: position ?? newMatchers.length - 1 };
+  const editPosition = position !== null ? position + 1 : null;
+  if (matcherSelected) {
+    return { matchers: newMatchers, selectedMatcher: matcher, selectedIndex: position ?? newMatchers.length - 1, editPosition };
+  }
+  return { matchers: newMatchers, editPosition }
 }
 
 const updateMatchers = (
@@ -148,11 +209,14 @@ const updateMatchers = (
   operator?: LogicalOperator,
   comparison?: string,
 ) => {
-  if (!('valueTo' in value)) {
+  if (!('valueTo' in value) && (selectedMatcher || position === null || position > 0)) {
     const { matchers: newMatchers = null, selectedMatcher: updatedMatcher = null } = appendToList(matchers, fieldMap, value, selectedMatcher, position);
     if (newMatchers && updatedMatcher) {
-      const selectedIndex = newMatchers.findIndex(m => m.key === updatedMatcher.key);
-      return { matchers: newMatchers, selectedMatcher: updatedMatcher, selectedIndex };
+      if (selectedMatcher !== null) {
+        const selectedIndex = newMatchers.findIndex(m => m.key === updatedMatcher.key);
+        return { matchers: newMatchers, selectedMatcher: updatedMatcher, selectedIndex };
+      }
+      return { matchers: newMatchers };
     }
   }
   const matcher: Matcher = {
@@ -162,7 +226,7 @@ const updateMatchers = (
     key: uuidv4(),
   }
 
-  return updateMatcherList(matchers, matcher, position);
+  return updateMatcherList(matchers, matcher, position, selectedMatcher !== null);
 }
 
 const getTagetMatcher = (
@@ -173,11 +237,11 @@ const getTagetMatcher = (
   if (selectedMatcher) {
     return selectedMatcher;
   }
-  const prevIndex = position === 0 || matchers.length === 0
+  const prevIndex = matchers.length === 0
     ? null
     : position === null
       ? matchers.length - 1
-      : position;
+      : position - 1;
   return prevIndex !== null ? matchers[prevIndex] : null;
 }
 const appendToList = (
@@ -188,7 +252,7 @@ const appendToList = (
   position: number | null,
 ) => {
   const targetMatcher = getTagetMatcher(matchers, selectedMatcher, position)
-  if (targetMatcher) {
+  if (targetMatcher && !targetMatcher.locked) {
     if ('field' in targetMatcher && targetMatcher.field === value.field && !('valueTo' in targetMatcher)) {
       const field = fieldMap.get(value.field);
       if (field?.allowList) {

@@ -1,7 +1,22 @@
 .pill {
   display: flex;
   align-items: baseline;
-  margin: 2px 0;
+
+  .rightInsert {
+    background-color: #1e3cc0;
+    width: 3px;
+    align-self: center;
+    border-radius: 3px;
+    margin-left: 3px;
+  }
+
+  .leftInsert {
+    background-color: #1e3cc0;
+    width: 3px;
+    align-self: center;
+    border-radius: 3px;
+    margin-right: 3px;
+  }
 
   .pillContent {
     display: flex;
@@ -11,6 +26,12 @@
     border-radius: 3px;
     font-size: small;
     color: white;
+
+    .locked {
+      padding-right: 3px;
+      align-items: center;
+      display: flex;
+    }
 
     .field {
       padding: 0 3px 2px 0;
@@ -30,7 +51,7 @@
 
     .closeButton {
       position: absolute;
-      top: -4px;
+      top: -2px;
       left: calc(100% - 10px);
       z-index: 1;
     }

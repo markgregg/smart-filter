@@ -2,7 +2,7 @@ import React from 'react';
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import { MdOutlineClear } from "react-icons/md";
 import { CgUndo } from "react-icons/cg";
-import { CiLock, CiUnlock } from "react-icons/ci";
+import { AiFillLock, AiFillUnlock } from "react-icons/ai";
 import { Button } from '../../common/Button';
 import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import { DEFAULT_FILTER_BAR_HEIGHT } from '@/util/constants';
@@ -19,8 +19,14 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
     enableExpand,
     expanded,
     setExpanded,
+    locked,
+    setlocked
   } = useFilterBar(state => state);
-  const clearMatchers = useMatcher(state => state.clearMatchers);
+  const {
+    clearMatchers,
+    lockMatchers,
+    unlockMatchers,
+  } = useMatcher(state => state);
 
   const handleClearClick = useDynamicCallback(() => {
     clearMatchers();
@@ -30,6 +36,12 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
   });
 
   const handleLockClick = useDynamicCallback(() => {
+    if (locked) {
+      unlockMatchers();
+    } else {
+      lockMatchers();
+    }
+    setlocked(!locked);
   });
 
   const handleExpandClick = useDynamicCallback(() => {
@@ -51,7 +63,7 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
     },
     {
       id: 'lock',
-      Icon: expanded ? CiUnlock : CiLock,
+      Icon: locked ? AiFillLock : AiFillUnlock,
       onClick: handleLockClick,
       hide: !allowLocking
     },

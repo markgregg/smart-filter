@@ -28,6 +28,9 @@ export const RangeContent = React.memo(({ matcher, field }: ContentProps) => {
   }, [editMatcher]);
 
   const handleClick = useDynamicCallback(() => {
+    if (matcher.locked) {
+      return;
+    }
     setEditField('value');
     if (editMatcher?.key !== matcher.key) {
       selectMatcherForEdit(matcher.key);
@@ -35,6 +38,9 @@ export const RangeContent = React.memo(({ matcher, field }: ContentProps) => {
   });
 
   const handleClickTo = useDynamicCallback(() => {
+    if (matcher.locked) {
+      return;
+    }
     setEditField('valueto');
     if (editMatcher?.key !== matcher.key) {
       selectMatcherForEdit(matcher.key);

@@ -7,6 +7,9 @@ import { MouseState } from "./mouse";
 import { MatcherState } from "./matcher";
 import { OptionsState } from "./options";
 import { ArrayState } from "./array";
+import { DragState } from "./drag";
+import { Matcher } from "../matcher";
+import { BracketState } from "./brackets";
 
 export interface State {
   configStore: UseBoundStore<StoreApi<ConfigState>>;
@@ -17,4 +20,6 @@ export interface State {
   matcherStore: UseBoundStore<StoreApi<MatcherState>>;
   optionsStore: UseBoundStore<StoreApi<OptionsState>>;
   arrayStore: UseBoundStore<StoreApi<ArrayState>>;
+  matcherDragStore: UseBoundStore<StoreApi<DragState<Matcher>>>;
+  bracketsStore: UseBoundStore<StoreApi<BracketState>>;
 }

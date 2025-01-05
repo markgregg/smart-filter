@@ -23,6 +23,7 @@ export const App = () => {
     <div className={style.mainContainer}>
       <div className={style.mainMultiselect}>
         <SmartFilter
+          allowLocking
           fields={[
             {
               name: 'test', title: 'test', operators: ['=', '!'],

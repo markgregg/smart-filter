@@ -5,7 +5,9 @@ export const createFilterBarStore = (): UseBoundStore<StoreApi<FilterBarState>> 
   return create<FilterBarState>((set) => ({
     enableExpand: false,
     expanded: false,
+    locked: false,
     setEnableExpand: (value: boolean) => set({ enableExpand: value }),
     setExpanded: (value: boolean) => set({ expanded: value }),
+    setlocked: (value: boolean) => set({ locked: value }),
   }));
 }

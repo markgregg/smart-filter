@@ -29,6 +29,9 @@ export const ValueContent = React.memo(({ matcher, field }: ContentProps) => {
   }, [editMatcher, inEdit]);
 
   const handleClick = useDynamicCallback(() => {
+    if (matcher.locked) {
+      return;
+    }
     setInEdit(true);
     if (editMatcher?.key !== matcher.key) {
       selectMatcherForEdit(matcher.key);

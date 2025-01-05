@@ -1,9 +1,9 @@
 import React from 'react';
 import { MainSearch } from '../MainSearch';
-import { useFilterBar, useMatcher } from '../StateProvider/useState';
+import { useBrackets, useFilterBar, useMatcher } from '../StateProvider/useState';
 import { Pill } from '../Pill/Pill';
-import s from './style.module.less';
 import { useDynamicCallback } from '@/hooks/useDynamicCallback';
+import s from './style.module.less';
 
 interface PillContainerProps {
   singleLine?: boolean;
@@ -17,6 +17,11 @@ export const PillContainer = React.memo(({ singleLine, maxWidth }: PillContainer
     enableExpand,
     setEnableExpand,
   } = useFilterBar(state => state);
+  const updateBracekts = useBrackets(state => state.updateBracekts);
+
+  React.useEffect(() => {
+    updateBracekts(matchers);
+  }, [matchers]);
 
   const checkWidth = (ref: HTMLDivElement | null) => {
     if (ref) {
@@ -45,7 +50,7 @@ export const PillContainer = React.memo(({ singleLine, maxWidth }: PillContainer
       {matchers.map((m, i) =>
         <React.Fragment key={m.key}>
           {i === editPosition && <MainSearch reducedWidth position={i} />}
-          <Pill matcher={m} tabIndex={i} />
+          <Pill matcher={m} index={i} />
         </React.Fragment>)}
       {editPosition === null ? <MainSearch /> : <div className={s.searchPlaceholder} onClick={handleMainSearchClick} />}
     </div>)

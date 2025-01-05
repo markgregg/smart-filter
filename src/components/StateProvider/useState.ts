@@ -1,7 +1,8 @@
 import React from "react";
 import { StateContext } from "@/state/state";
 import { StoreApi, UseBoundStore, useStore } from "zustand";
-import { ArrayState, ConfigState, FilterBarState, FocusState, HintState, MatcherState, MouseState, OptionsState, State } from "@/types/State";
+import { ArrayState, BracketState, ConfigState, DragState, FilterBarState, FocusState, HintState, MatcherState, MouseState, OptionsState, State } from "@/types/State";
+import { Matcher } from "@/types";
 
 const useState = <T, U>(storeSelector: (state: State) => UseBoundStore<StoreApi<T>>, selector: (state: T) => U) => {
   const store = storeSelector(React.useContext(StateContext));
@@ -44,4 +45,12 @@ export const useOptions = <U>(selector: (state: OptionsState) => U) => {
 
 export const useArray = <U>(selector: (state: ArrayState) => U) => {
   return useState(s => s.arrayStore, selector);
+}
+
+export const useMatcherDrag = <U>(selector: (state: DragState<Matcher>) => U) => {
+  return useState(s => s.matcherDragStore, selector);
+}
+
+export const useBrackets = <U>(selector: (state: BracketState) => U) => {
+  return useState(s => s.bracketsStore, selector);
 }

@@ -8,3 +8,5 @@ export * from './uiCustomisations';
 export * from './matcher';
 export * from './options';
 export * from './array';
+export * from './drag';
+export * from './brackets';

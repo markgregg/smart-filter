@@ -7,6 +7,8 @@ interface BaseMatcher {
   key: string;
   /* and/or */
   operator: LogicalOperator;
+  /* can the matcher be modified or delete */
+  locked?: boolean;
 }
 
 export interface BracketMatcher extends BaseMatcher {

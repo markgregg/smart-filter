@@ -29,7 +29,17 @@ export const SearchBox = React.memo(({ matcherKey, field, text, onSelect, positi
     active,
   } = useOptions(state => state);
   const clearSelections = useMatcher(state => state.clearSelections);
-  const { editMatcher, selectedMatcher, editPosition } = useMatcher(state => state);
+  const { editMatcher, selectedMatcher, editPosition, addClearCallback, removeClearCallback } = useMatcher(state => state);
+
+  React.useEffect(() => {
+    if (!matcherKey) {
+      const clearSeachText = () => {
+        setSearchText('');
+      }
+      addClearCallback(clearSeachText);
+      return () => removeClearCallback(clearSeachText);
+    }
+  }, []);
 
   React.useEffect(() => {
     setSearchText(text[0]);
@@ -57,6 +67,9 @@ export const SearchBox = React.memo(({ matcherKey, field, text, onSelect, positi
     if (!matcherKey && position === undefined) {
       clearSelections();
     }
+    if (!matcherKey) {
+      buildOptions(handleOptionSelected, searchText ?? '', field, [], matcherKey);
+    }
   });
 
   const handleChange = useDynamicCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,6 +80,12 @@ export const SearchBox = React.memo(({ matcherKey, field, text, onSelect, positi
     if (active) {
       onSelect(active);
       clearOptions();
+    }
+  }
+
+  const addOptionToSearchText = () => {
+    if (active !== null) {
+      setSearchText(active.text);
     }
   }
 
@@ -108,6 +127,10 @@ export const SearchBox = React.memo(({ matcherKey, field, text, onSelect, positi
         break;
       case KeyBoardkeys.Enter:
         select();
+        endPropogation = true;
+        break;
+      case KeyBoardkeys.Tab:
+        addOptionToSearchText();
         endPropogation = true;
         break;
     }

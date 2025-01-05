@@ -23,5 +23,6 @@ export const KeyBoardkeys = {
   PageDown: 'PageDown',
   Home: 'Home',
   End: 'End',
-  Enter: 'Enter'
+  Enter: 'Enter',
+  Tab: 'Tab',
 }

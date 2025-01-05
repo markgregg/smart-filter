@@ -39,10 +39,12 @@ export const Or = React.memo(({ matcher }: OrProps) => {
   });
 
   const handleChangeToAnd = useDynamicCallback(() => {
-    updateMatcher({
-      ...matcher,
-      operator: AND,
-    });
+    if (!matcher.locked) {
+      updateMatcher({
+        ...matcher,
+        operator: AND,
+      });
+    }
   });
 
   return (
@@ -57,6 +59,7 @@ export const Or = React.memo(({ matcher }: OrProps) => {
     >or
       {mouseOver && <div className={s.closeButton}>
         <Button
+          disabled={matcher.locked}
           onClick={handleChangeToAnd}
           height={12}
           width={12}
