@@ -127,7 +127,11 @@ export const createMatcherStore = (props: SmartFilterProps): UseBoundStore<Store
           }
           if (selectedIndex !== null) {
             if (selectedIndex < matchers.length - 1) {
-              return editPositionUpdate(selectedIndex + 1);
+              if (matchers[selectedIndex].locked) {
+                return selectMatcherUpdate(matchers[selectedIndex + 1], selectedIndex + 1, state.editMatcher);
+              } else {
+                return editPositionUpdate(selectedIndex + 1);
+              }
             }
           }
         }
@@ -146,7 +150,11 @@ export const createMatcherStore = (props: SmartFilterProps): UseBoundStore<Store
           }
           if (selectedIndex !== null) {
             if (selectedIndex >= 0) {
-              return editPositionUpdate(selectedIndex);
+              if (matchers[selectedIndex].locked) {
+                return selectMatcherUpdate(matchers[selectedIndex - 1], selectedIndex - 1, state.editMatcher);
+              } else {
+                return editPositionUpdate(selectedIndex);
+              }
             }
           }
         }

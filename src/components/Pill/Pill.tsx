@@ -177,7 +177,7 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
       onDragEnd={handleDragEnd}
     >
       {dragOverItem?.item?.key === matcher.key && dragOverItem?.position === 'before' && <div className={s.leftInsert} style={{ height: pillHeight * .8 }} />}
-      {matcher.operator === OR && <Or matcher={matcher} />}
+      {matcher.operator === OR && index > 0 && <Or matcher={matcher} />}
       <div
         className={s.pillContent}
         onClick={handleMatcherClicked}
@@ -194,9 +194,8 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
         {(('comparison' in matcher) && field && getDefaultComparison(field) !== matcher.comparison)
           && <span className={s.comparison}>{matcher.comparison}</span>}
         <Content matcher={matcher} field={field} />
-        {showDelete && <div className={s.closeButton}>
+        {showDelete && !matcher.locked && <div className={s.closeButton}>
           <Button
-            disabled={matcher.locked}
             onClick={handleDeleteMatcher}
             height={12}
             width={12}

@@ -145,7 +145,10 @@ const startBuild = async (buildState: BuildState) => {
     buildState = checkForRange(buildState);
   }
   if (buildState.text.length > 0) {
-    contructOptions(buildState);
+    contructOptions({
+      ...buildState,
+      matchText: buildState.text,
+    });
   } else {
     set(() => ({ options: [], matchText: '', activeIndex: null, active: null }));
   }

@@ -13,6 +13,7 @@ interface OrProps {
 
 export const Or = React.memo(({ matcher }: OrProps) => {
   const [mouseOver, setMouseOver] = React.useState<boolean>(false);
+  const [showDelete, setShowDelete] = React.useState<boolean>(false);
   const pillHeight = useConfig(state => state.pillHeight);
   const {
     selectedMatcher,
@@ -27,15 +28,17 @@ export const Or = React.memo(({ matcher }: OrProps) => {
 
   const handleMouseEnter = useDynamicCallback(() => {
     setMouseOver(true);
+    setShowDelete(true);
     setTimeout(() => {
-      if (mouseOver) {
-        setMouseOver(false);
+      if (showDelete) {
+        setShowDelete(false);
       }
-    }, 2000);
+    }, 1000);
   });
 
   const handleMouseLeave = useDynamicCallback(() => {
     setMouseOver(false);
+    setShowDelete(false);
   });
 
   const handleChangeToAnd = useDynamicCallback(() => {
@@ -57,9 +60,8 @@ export const Or = React.memo(({ matcher }: OrProps) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >or
-      {mouseOver && <div className={s.closeButton}>
+      {mouseOver && !matcher.locked && <div className={s.closeButton}>
         <Button
-          disabled={matcher.locked}
           onClick={handleChangeToAnd}
           height={12}
           width={12}
