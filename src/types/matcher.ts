@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Value = any;
 export type LogicalOperator = 'and' | 'or';
 export type Brackets = '(' | ')';
@@ -53,4 +54,8 @@ export interface RangeMatcher extends BaseMatcher {
 
 export type ValueMatcher = SingleMatcher | ArrayMatcher | RangeMatcher;
 
-export type Matcher = BracketMatcher | SingleMatcher | ArrayMatcher | RangeMatcher;
+export type Matcher =
+  | BracketMatcher
+  | SingleMatcher
+  | ArrayMatcher
+  | RangeMatcher;

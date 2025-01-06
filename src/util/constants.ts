@@ -25,4 +25,4 @@ export const KeyBoardkeys = {
   End: 'End',
   Enter: 'Enter',
   Tab: 'Tab',
-}
+};

@@ -1,11 +1,13 @@
+@import (reference) '../../../util/common.less';
+
 .tooltipContainer {
   position: relative;
   display: flex;
 
   .tooltip {
     position: absolute;
-    background-color: #555;
-    color: #fff;
+    background-color: @tooltip-background;
+    color: @tooltip;
     text-align: center;
     white-space: nowrap;
     border-radius: 3px;
@@ -24,7 +26,7 @@
       margin-left: -5px;
       border-width: 5px;
       border-style: solid;
-      border-color: #555 transparent transparent transparent;
+      border-color: @tooltip-border transparent transparent transparent;
     }
   }
 

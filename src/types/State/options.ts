@@ -1,6 +1,6 @@
-import { Field } from "../field";
-import { LogicalOperator, Value } from "../matcher";
-import { Option } from "../option";
+import { Field } from '../field';
+import { LogicalOperator, Value } from '../matcher';
+import { Option } from '../option';
 
 export type OptionSelectedCallback = (option: Option) => void;
 
@@ -14,7 +14,13 @@ export interface OptionsState {
   active: Option | null;
   activeIndex: number | null;
   onOptionSelected: OptionSelectedCallback | null;
-  buildOptions: (callback: OptionSelectedCallback, text: string, field?: Field, currentValues?: Value[], matcherKey?: string) => void;
+  buildOptions: (
+    callback: OptionSelectedCallback,
+    text: string,
+    field?: Field,
+    currentValues?: Value[],
+    matcherKey?: string,
+  ) => void;
   clearOptions: () => void;
   selectOption: (option: Option) => void;
   next: () => void;

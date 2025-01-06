@@ -1,15 +1,15 @@
-import { StoreApi, UseBoundStore } from "zustand";
-import { ConfigState } from "./config";
-import { FilterBarState } from "./filter";
-import { FocusState } from "./focus";
-import { HintState } from "./hint";
-import { MouseState } from "./mouse";
-import { MatcherState } from "./matcher";
-import { OptionsState } from "./options";
-import { ArrayState } from "./array";
-import { DragState } from "./drag";
-import { Matcher } from "../matcher";
-import { BracketState } from "./brackets";
+import { StoreApi, UseBoundStore } from 'zustand';
+import { ConfigState } from './config';
+import { FilterBarState } from './filter';
+import { FocusState } from './focus';
+import { HintState } from './hint';
+import { MouseState } from './mouse';
+import { MatcherState } from './matcher';
+import { OptionsState } from './options';
+import { ArrayState } from './array';
+import { DragState } from './drag';
+import { Matcher } from '../matcher';
+import { BracketState } from './brackets';
 
 export interface State {
   configStore: UseBoundStore<StoreApi<ConfigState>>;

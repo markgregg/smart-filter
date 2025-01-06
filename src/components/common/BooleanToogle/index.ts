@@ -1,1 +1,1 @@
-export * from './BooleanToogle'
+export * from './BooleanToogle';

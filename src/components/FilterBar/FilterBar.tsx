@@ -1,13 +1,21 @@
 import React from 'react';
-import { TbFilter } from "react-icons/tb";
-import { FaCaretRight, FaCaretLeft } from "react-icons/fa6";
+import { TbFilter } from 'react-icons/tb';
+import { FaCaretRight, FaCaretLeft } from 'react-icons/fa6';
 import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import { PillContainer } from '../PillContainer';
 import { FilterButtons } from './FilterButtons';
 import { Dropdown } from '../Dropdown';
 import { DEFAULT_FILTER_BAR_HEIGHT, KeyBoardkeys } from '@/util/constants';
 import { useSizeWatcher } from '@/hooks/useSizeWatcher';
-import { useArray, useConfig, useFilterBar, useFocus, useMatcher, useMouse, useOptions } from '../StateProvider/useState';
+import {
+  useArray,
+  useConfig,
+  useFilterBar,
+  useFocus,
+  useMatcher,
+  useMouse,
+  useOptions,
+} from '../../state/useState';
 import { Button } from '../common/Button';
 import s from './style.module.less';
 
@@ -18,15 +26,9 @@ export const FilterBar = React.memo(() => {
     filterBarHeight = DEFAULT_FILTER_BAR_HEIGHT,
     expandedLines,
     showSearchIcon,
-  } = useConfig(state => state);
-  const {
-    hasFocus,
-    setHasFocus,
-  } = useFocus(state => state);
-  const {
-    hasMouse,
-    setHasMouse,
-  } = useMouse(state => state);
+  } = useConfig((state) => state);
+  const { hasFocus, setHasFocus } = useFocus((state) => state);
+  const { hasMouse, setHasMouse } = useMouse((state) => state);
   const {
     editMatcher,
     selectedMatcher,
@@ -38,19 +40,27 @@ export const FilterBar = React.memo(() => {
     editPosition,
     matchers,
     clearEditPosition,
-  } = useMatcher(state => state);
-  const { matcherKey, clearOptions } = useOptions(state => state);
-  const { matcher, setMatcher } = useArray(state => state);
-  const {
-    expanded,
-    enableExpand,
-  } = useFilterBar(state => state);
+  } = useMatcher((state) => state);
+  const { matcherKey, clearOptions } = useOptions((state) => state);
+  const { matcher, setMatcher } = useArray((state) => state);
+  const { expanded, enableExpand } = useFilterBar((state) => state);
   const { width = '100%' } = useSizeWatcher(searchBar.current);
-  const height = expanded ? (expandedLines ? expandedLines * filterBarHeight : undefined) : filterBarHeight;
+  const height = expanded
+    ? expandedLines
+      ? expandedLines * filterBarHeight
+      : undefined
+    : filterBarHeight;
 
-  const maxPillContainerWidth = (searchBar.current?.clientWidth ?? 2000) - (filterBuittons.current?.scrollWidth ?? 70) - (showSearchIcon ? 30 : 0);
-  const showMovePrev = enableExpand && !expanded && (editPosition === null || editPosition > 0);
-  const showMoveNext = enableExpand && !expanded && (editPosition !== null || editPosition !== null || selectedIndex !== null);
+  const maxPillContainerWidth =
+    (searchBar.current?.clientWidth ?? 2000) -
+    (filterBuittons.current?.scrollWidth ?? 70) -
+    (showSearchIcon ? 30 : 0);
+  const showMovePrev =
+    enableExpand && !expanded && (editPosition === null || editPosition > 0);
+  const showMoveNext =
+    enableExpand &&
+    !expanded &&
+    (editPosition !== null || editPosition !== null || selectedIndex !== null);
 
   React.useEffect(() => {
     if (matcher?.key !== editMatcher?.key) {
@@ -101,22 +111,29 @@ export const FilterBar = React.memo(() => {
   const handleKeyDown = useDynamicCallback((event: React.KeyboardEvent) => {
     let endPropogation = false;
     switch (event.key) {
-      case KeyBoardkeys.ArrowRight:
+      case KeyBoardkeys.ArrowRight: {
         next();
         endPropogation = true;
         break;
-      case KeyBoardkeys.ArrowLeft:
+      }
+      case KeyBoardkeys.ArrowLeft: {
         prev();
         endPropogation = true;
         break;
-      case KeyBoardkeys.Home:
+      }
+      case KeyBoardkeys.Home: {
         first();
         endPropogation = true;
         break;
-      case KeyBoardkeys.End:
+      }
+      case KeyBoardkeys.End: {
         last();
         endPropogation = true;
         break;
+      }
+      default: {
+        // ignore
+      }
     }
     if (endPropogation) {
       event.stopPropagation();
@@ -126,6 +143,7 @@ export const FilterBar = React.memo(() => {
 
   return (
     <div
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       tabIndex={0}
       ref={searchBar}
       style={{ height: filterBarHeight }}
@@ -137,30 +155,50 @@ export const FilterBar = React.memo(() => {
       onKeyDown={handleKeyDown}
     >
       <div
-        className={[s.searchBarInner, expanded ? s.multiLineSearchBar : ''].join(' ')}
+        className={[
+          s.searchBarInner,
+          expanded ? s.multiLineSearchBar : '',
+        ].join(' ')}
         style={{
           height,
           width,
         }}
       >
-        {showMovePrev && <Button
-          onClick={handleMovePrev}
-          height={filterBarHeight - 2}
-          width={26}
-        ><FaCaretLeft /></Button>}
-        {showSearchIcon && <div className={s.filterIconContainer} style={{ height: filterBarHeight }}>
-          <TbFilter />
-        </div>}
+        {showMovePrev && (
+          <Button
+            onClick={handleMovePrev}
+            height={filterBarHeight - 2}
+            width={26}
+          >
+            <FaCaretLeft />
+          </Button>
+        )}
+        {showSearchIcon && (
+          <div
+            className={s.filterIconContainer}
+            style={{ height: filterBarHeight }}
+          >
+            <TbFilter />
+          </div>
+        )}
         <div className={s.pullContainerWrapper}>
-          <PillContainer maxWidth={maxPillContainerWidth} singleLine={!expanded} />
+          <PillContainer
+            maxWidth={maxPillContainerWidth}
+            singleLine={!expanded}
+          />
         </div>
-        {showMoveNext && <Button
-          onClick={handleMoveNext}
-          height={filterBarHeight - 2}
-          width={26}
-        ><FaCaretRight /></Button>}
+        {showMoveNext && (
+          <Button
+            onClick={handleMoveNext}
+            height={filterBarHeight - 2}
+            width={26}
+          >
+            <FaCaretRight />
+          </Button>
+        )}
         <FilterButtons ref={filterBuittons} />
         {(hasFocus || hasMouse) && <Dropdown />}
       </div>
-    </div>)
+    </div>
+  );
 });

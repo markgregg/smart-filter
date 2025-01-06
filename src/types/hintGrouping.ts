@@ -1,7 +1,7 @@
-import { Hint } from "./hint";
+import { Hint } from './hint';
 
 export interface HintGrouping {
   title: string;
-  field?: string;
+  field: string;
   hints: Hint[];
 }

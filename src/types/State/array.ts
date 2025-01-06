@@ -1,4 +1,4 @@
-import { ArrayMatcher } from "../matcher";
+import { ArrayMatcher } from '../matcher';
 
 export interface ArrayState {
   index: number | null;

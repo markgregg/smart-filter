@@ -3,10 +3,9 @@ import { Operators } from './Operators';
 import { Hints } from './Hints';
 import s from './style.module.less';
 
-export const Suggestions = React.memo(() => {
-  return (
-    <div className={s.suggestions}>
-      <Operators />
-      <Hints />
-    </div>)
-});
+export const Suggestions = React.memo(() => (
+  <div className={s.suggestions}>
+    <Operators />
+    <Hints />
+  </div>
+));

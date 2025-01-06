@@ -1,4 +1,4 @@
-import { HintGrouping } from "./hintGrouping";
+import { HintGrouping } from './hintGrouping';
 
 export interface Hints {
   hintsPerColumn?: number;

@@ -1,10 +1,10 @@
-import { UICustomisations } from "./State";
-import { Field } from "./field";
-import { Hints } from "./hints";
-import { Matcher } from "./matcher";
-import { Operator } from "./operator";
+import { UIProperties } from './State';
+import { Field } from './field';
+import { Hints } from './hints';
+import { Matcher } from './matcher';
+import { Operator } from './operator';
 
-export interface SmartFilterProps extends UICustomisations {
+export interface SmartFilterProps extends UIProperties {
   matchers?: Matcher[];
   onChange?: (matchers: Matcher[]) => void;
 

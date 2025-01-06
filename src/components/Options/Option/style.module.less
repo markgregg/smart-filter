@@ -1,25 +1,38 @@
+@import (reference) '../../../util/common.less';
+
 .option {
   display: flex;
 
   &:not(:last-child) {
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid @border-bottom;
   }
 
   &:hover {
-    background-color: #DDDDDD;
+    background-color: @hover;
   }
 
   .optionText {
     flex-grow: 1;
 
     .matchText {
-      background-color: rgb(206, 174, 30);
+      background-color: @highlight;
+    }
+
+    .matchTextRange {
+      background-color: @highlight;
+      display: flex;
+      align-items: center;
+      column-gap: 5px;
+      width: fit-content;
+    }
+
+    .icon {
+      height: 12px;
+      width: 12px;
     }
   }
-
-  .optionField {}
 }
 
 .active {
-  background-color: #DDDDDD;
+  background-color: @selected;
 }

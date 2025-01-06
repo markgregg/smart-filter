@@ -7,10 +7,7 @@ interface TooltipProps {
   children: JSX.Element;
 }
 
-export const Tooltip = React.memo(({
-  caption,
-  children,
-}: TooltipProps) => {
+export const Tooltip = React.memo(({ caption, children }: TooltipProps) => {
   const [showTooltip, setShowTooltip] = React.useState<boolean>(false);
   const [marginLeft, setMarginLeft] = React.useState<number>(0);
 
@@ -35,7 +32,11 @@ export const Tooltip = React.memo(({
       onMouseLeave={handleMouseLeave}
     >
       {children}
-      {showTooltip && <div className={s.tooltip} style={{ marginLeft }} ref={handleSetSize}>{caption}</div>}
+      {showTooltip && (
+        <div className={s.tooltip} style={{ marginLeft }} ref={handleSetSize}>
+          {caption}
+        </div>
+      )}
     </div>
-  )
+  );
 });

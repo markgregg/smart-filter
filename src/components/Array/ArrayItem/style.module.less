@@ -1,12 +1,14 @@
+@import (reference) '../../../util/common.less';
+
 .arrayItem {
   display: flex;
 
   &:not(:last-child) {
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid @seperator;
   }
 
   &:hover {
-    background-color: #DDDDDD;
+    background-color: @background;
   }
 
   .text {
@@ -17,5 +19,5 @@
 }
 
 .active {
-  background-color: #DDDDDD;
+  background-color: @selected;
 }

@@ -1,10 +1,11 @@
 import React from 'react';
-import { useConfig, useMatcher } from '@/components/StateProvider/useState';
+import { IoClose } from 'react-icons/io5';
+import { useConfig, useMatcher } from '@/state/useState';
 import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import { Button } from '@/components/common/Button';
-import { IoClose } from 'react-icons/io5';
 import { AND } from '@/util/constants';
 import { Matcher } from '@/types';
+import { Colours } from '@/util/colours';
 import s from './style.module.less';
 
 interface OrProps {
@@ -14,26 +15,24 @@ interface OrProps {
 export const Or = React.memo(({ matcher }: OrProps) => {
   const [mouseOver, setMouseOver] = React.useState<boolean>(false);
   const [showDelete, setShowDelete] = React.useState<boolean>(false);
-  const pillHeight = useConfig(state => state.pillHeight);
-  const {
-    selectedMatcher,
-    updateMatcher,
-  } = useMatcher(state => state);
+  const pillHeight = useConfig((state) => state.pillHeight);
+  const { selectedMatcher, updateMatcher } = useMatcher((state) => state);
 
-  const backgroundColor = React.useMemo(() => {
-    return selectedMatcher?.key === matcher.key
-      ? (mouseOver ? '#3C3C3C' : '#1C1C1C')
-      : 'rgb(98, 98, 98)'
-  }, [mouseOver, selectedMatcher, matcher]);
+  const backgroundColor = React.useMemo(
+    () =>
+      selectedMatcher?.key === matcher.key
+        ? mouseOver
+          ? Colours.backgrounds.selectedHover
+          : Colours.backgrounds.selected
+        : mouseOver
+          ? Colours.backgrounds.hover
+          : Colours.backgrounds.standard,
+    [mouseOver, selectedMatcher, matcher],
+  );
 
   const handleMouseEnter = useDynamicCallback(() => {
     setMouseOver(true);
     setShowDelete(true);
-    setTimeout(() => {
-      if (showDelete) {
-        setShowDelete(false);
-      }
-    }, 1000);
   });
 
   const handleMouseLeave = useDynamicCallback(() => {
@@ -55,29 +54,34 @@ export const Or = React.memo(({ matcher }: OrProps) => {
       className={s.or}
       style={{
         height: pillHeight,
-        backgroundColor
+        backgroundColor,
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-    >or
-      {mouseOver && !matcher.locked && <div className={s.closeButton}>
-        <Button
-          onClick={handleChangeToAnd}
-          height={12}
-          width={12}
-          color='white'
-          hoverColor='black'
-          backgroundColor='red'
-          hoverBackgroundColor='white'
-          style={{
-            alignSelf: 'center',
-            marginLeft: '3px',
-            paddingBlock: 0,
-            paddingInline: 0,
-            borderRadius: '3px',
-          }}
-        ><IoClose /></Button>
-      </div>}
+    >
+      or
+      {showDelete && !matcher.locked && (
+        <div className={s.closeButton}>
+          <Button
+            onClick={handleChangeToAnd}
+            height={12}
+            width={12}
+            color={Colours.buttons.delete}
+            hoverColor={Colours.buttons.deleteHover}
+            backgroundColor={Colours.buttons.deleteBackground}
+            hoverBackgroundColor={Colours.buttons.deleteHoverBackground}
+            style={{
+              alignSelf: 'center',
+              marginLeft: '3px',
+              paddingBlock: 0,
+              paddingInline: 0,
+              borderRadius: '3px',
+            }}
+          >
+            <IoClose />
+          </Button>
+        </div>
+      )}
     </div>
-  )
+  );
 });

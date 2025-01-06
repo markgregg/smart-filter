@@ -1,15 +1,17 @@
+@import (reference) '../../../util/common.less';
+
 .or {
   position: relative;
   border-radius: 3px;
   font-size: small;
-  color: white;
+  color: @background;
   margin-right: 1px;
   padding: 0 2px;
 
   .closeButton {
     position: absolute;
     top: -2px;
-    left: calc(100% - 10px);
+    left: calc(100% - 8px);
     z-index: 1;
   }
 }

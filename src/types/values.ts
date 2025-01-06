@@ -1,4 +1,4 @@
-import { Value } from "./matcher";
+import { Value } from './matcher';
 
 export interface BaseValue {
   field: string;

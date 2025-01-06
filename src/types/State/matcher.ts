@@ -1,15 +1,29 @@
-import { Brackets, LogicalOperator, Matcher } from "../matcher";
-import { MatcherValue } from "../values";
-import { DROP_POSITION } from "./drag";
+import { Brackets, LogicalOperator, Matcher } from '../matcher';
+import { MatcherValue } from '../values';
+import { DROP_POSITION } from './drag';
 
+export type ClearCallbackFunction = () => void;
 export interface MatcherState {
-  clearCallbacks: Function[],
+  clearCallbacks: ClearCallbackFunction[];
   matchers: Matcher[];
   selectedIndex: number | null;
   selectedMatcher: Matcher | null;
+  focus: boolean;
   editPosition: number | null;
   editMatcher: Matcher | null;
-  addValue: (value: MatcherValue, position: number | null, operator?: LogicalOperator, comparison?: string) => void;
+  addValue: ({
+    value,
+    position,
+    operator,
+    comparison,
+    dontAppend,
+  }: {
+    value: MatcherValue;
+    position: number | null;
+    operator?: LogicalOperator;
+    comparison?: string;
+    dontAppend?: true;
+  }) => void;
   addBracket: (bracket: Brackets, position: number | null) => void;
   updateMatcher: (matcher: Matcher) => void;
   deleteMatcher: (matcher: Matcher) => void;
@@ -17,8 +31,8 @@ export interface MatcherState {
   selectMatcherForEdit: (key: string) => void;
   moveTo: (from: number, to: number, position: DROP_POSITION) => void;
   clearMatchers: () => void;
-  addClearCallback: (callback: Function) => void;
-  removeClearCallback: (callback: Function) => void;
+  addClearCallback: (callback: ClearCallbackFunction) => void;
+  removeClearCallback: (callback: ClearCallbackFunction) => void;
   clearSelections: () => void;
   clearEditPosition: () => void;
   clearEditMatcher: () => void;

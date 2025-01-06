@@ -1,9 +1,11 @@
+@import (reference) '../../util/common.less';
+
 .pill {
   display: flex;
-  align-items: baseline;
+  align-items: center;
 
   .rightInsert {
-    background-color: #1e3cc0;
+    background-color: @insert;
     width: 3px;
     align-self: center;
     border-radius: 3px;
@@ -11,7 +13,7 @@
   }
 
   .leftInsert {
-    background-color: #1e3cc0;
+    background-color: @insert;
     width: 3px;
     align-self: center;
     border-radius: 3px;
@@ -25,12 +27,17 @@
     position: relative;
     border-radius: 3px;
     font-size: small;
-    color: white;
+    color: @background;
 
     .locked {
       padding-right: 3px;
       align-items: center;
       display: flex;
+
+      .lockIcon {
+        width: 12px;
+        height: 12px;
+      }
     }
 
     .field {
@@ -40,7 +47,7 @@
     }
 
     .arrayCount {
-      padding: 0 3px 0 0;
+      padding: 0 3px 2px 0;
     }
 
     .comparison {
@@ -52,7 +59,7 @@
     .closeButton {
       position: absolute;
       top: -2px;
-      left: calc(100% - 10px);
+      left: calc(100% - 8px);
       z-index: 1;
     }
   }

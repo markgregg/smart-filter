@@ -1,8 +1,7 @@
-import { Value } from "./matcher";
+import { Value } from './matcher';
 
 export interface BaseHint {
-  field: string;
-  dislayText: string;
+  display: string | JSX.Element;
 }
 
 export interface SingleValueHint extends BaseHint {

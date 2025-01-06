@@ -1,6 +1,16 @@
-import { FieldMatch } from "./fieldMatches";
+import { IconType } from 'react-icons';
+import { FieldMatch } from './fieldMatches';
+import { Value } from './matcher';
 
-export type ValueType = 'bool' | 'integer' | 'float' | 'text' | 'date' | 'datetime';
+export type ValueType =
+  | 'bool'
+  | 'integer'
+  | 'float'
+  | 'text'
+  | 'date'
+  | 'datetime';
+
+export type FieldDisplay = 'icon' | 'text' | 'both';
 
 export interface Field {
   name: string;
@@ -20,7 +30,7 @@ export interface Field {
   min?: number | string | Date;
   /* maximum date or number value */
   max?: number | string | Date;
-  /* increments when clicking up or down*/
+  /* increments when clicking up or down */
   increments?: number;
   /* order in which two equal items will appear in the suggestions list */
   precedence?: number;
@@ -30,4 +40,12 @@ export interface Field {
   allowRange?: boolean;
   /* allow blank values */
   allowBlanks?: boolean;
+  /* to map values to icons */
+  iconMap?: Map<Value, IconType>;
+  /* to config showing icons or text, defaults to both */
+  display?: FieldDisplay;
+  /* text getter if working with objects */
+  textGetter?: (item: object) => string;
+  /* value getter if working with objects */
+  valueGetter?: (item: object) => Value;
 }

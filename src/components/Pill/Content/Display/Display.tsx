@@ -7,6 +7,7 @@ export interface DisplayComponentProps {
   field?: Field;
   text: string;
   value?: Value;
+  html: JSX.Element | null;
   onClick: () => void;
   onChanged?: (text: string, value: Value) => void;
 }
@@ -15,19 +16,29 @@ interface DisplayProps {
   field: Field;
   text: string;
   value: Value;
+  html: JSX.Element | null;
   onClick: () => void;
   onChanged: (text: string, value: Value) => void;
 }
 
-export const Display = React.memo(({ field, text, value, onClick, onChanged }: DisplayProps) => {
-  const Display = React.useMemo(() => {
-    if (field.editorType === 'bool') {
-      return BooleanDisplay;
-    }
-    return TextDisplay;
-  }, [field]);
+export const Display = React.memo(
+  ({ field, text, value, html, onClick, onChanged }: DisplayProps) => {
+    const ContentDisplay = React.useMemo(() => {
+      if (field.editorType === 'bool') {
+        return BooleanDisplay;
+      }
+      return TextDisplay;
+    }, [field]);
 
-  return (
-    <Display field={field} text={text} value={value} onClick={onClick} onChanged={onChanged} />
-  )
-});
+    return (
+      <ContentDisplay
+        field={field}
+        text={text}
+        value={value}
+        html={html}
+        onClick={onClick}
+        onChanged={onChanged}
+      />
+    );
+  },
+);

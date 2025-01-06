@@ -1,12 +1,12 @@
-import { SmartFilterProps } from "@/types";
-import { FilterBarState } from "@/types/State";
-import { StoreApi, UseBoundStore, create } from "zustand";
+import { StoreApi, UseBoundStore, create } from 'zustand';
+import { SmartFilterProps } from '@/types';
+import { FilterBarState } from '@/types/State';
 
 export const createFilterBarStore = ({
   onLock,
   onExpand,
-}: SmartFilterProps): UseBoundStore<StoreApi<FilterBarState>> => {
-  return create<FilterBarState>((set) => ({
+}: SmartFilterProps): UseBoundStore<StoreApi<FilterBarState>> =>
+  create<FilterBarState>((set) => ({
     enableExpand: false,
     expanded: false,
     locked: false,
@@ -24,4 +24,3 @@ export const createFilterBarStore = ({
       }
     },
   }));
-}

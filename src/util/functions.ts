@@ -1,32 +1,41 @@
-import { Field, LookupBase, Matcher, SourceItem, Value, ValueMatch } from "..";
-import moment from "moment";
-import { DEFAULT_DATE_FORMAT, DEFAULT_DATE_TIME_FORMAT, EQUALS } from "./constants";
-import { ArrayValue, RangeValue, SingleValue } from "@/types/values";
+import moment from 'moment';
+import { Field, Matcher, SourceItem, Value, ValueMatch } from '..';
+import {
+  DEFAULT_DATE_FORMAT,
+  DEFAULT_DATE_TIME_FORMAT,
+  EQUALS,
+} from './constants';
+import { ArrayValue, RangeValue, SingleValue } from '@/types/values';
 
-export const ignoreCaseCompare = (text1: string, text2: string) => {
-  return text1.toLocaleLowerCase().includes(text2.toLocaleLowerCase());
-}
+export const ignoreCaseCompare = (text1: string, text2: string) =>
+  text1.toLocaleLowerCase().includes(text2.toLocaleLowerCase());
 
-export const getDefaultComparison = (field?: Field) => {
-  return field?.defaultComparison ?? EQUALS;
-}
+export const getDefaultComparison = (field?: Field) =>
+  field?.defaultComparison ?? EQUALS;
 
 const getMin = (field: Field): Date | undefined => {
   if (field.min) {
     if (typeof field.min === 'string') {
-      return moment(field.min, field.dateTimeFormat ?? (field.editorType === 'date' ? DEFAULT_DATE_FORMAT : DEFAULT_DATE_TIME_FORMAT), true).toDate();
+      return moment(
+        field.min,
+        field.dateTimeFormat ??
+          (field.editorType === 'date'
+            ? DEFAULT_DATE_FORMAT
+            : DEFAULT_DATE_TIME_FORMAT),
+        true,
+      ).toDate();
     }
     if (field.min instanceof Date) {
       return field.min;
     }
   }
   if (field.editorType === 'datetime') {
-    return new Date(Date.now())
+    return new Date(Date.now());
   }
   const date = new Date(Date.now());
   date.setHours(0, 0, 0, 0);
   return date;
-}
+};
 
 export const getDefaultTextValue = (field?: Field) => {
   if (field?.editorType === 'bool') {
@@ -34,34 +43,42 @@ export const getDefaultTextValue = (field?: Field) => {
   }
   if (field?.editorType === 'date') {
     const date = getMin(field);
-    return { text: moment(date, true).format(field.dateTimeFormat ?? DEFAULT_DATE_FORMAT), value: date };
+    return {
+      text: moment(date, true).format(
+        field.dateTimeFormat ?? DEFAULT_DATE_FORMAT,
+      ),
+      value: date,
+    };
   }
   if (field?.editorType === 'datetime') {
     const date = getMin(field);
-    return { text: moment(date, true).format(field.dateTimeFormat ?? DEFAULT_DATE_TIME_FORMAT), value: date };
+    return {
+      text: moment(date, true).format(
+        field.dateTimeFormat ?? DEFAULT_DATE_TIME_FORMAT,
+      ),
+      value: date,
+    };
   }
   if (field?.editorType === 'float') {
     const number = field.min && typeof field.min === 'number' ? field.min : 0.0;
-    return { text: number + '', value: number };
+    return { text: `${number}`, value: number };
   }
   if (field?.editorType === 'integer') {
     const number = field.min && typeof field.min === 'number' ? field.min : 0.0;
-    return { text: number + '', value: number };
+    return { text: `${number}`, value: number };
   }
   return { text: '', value: null };
-}
+};
 
 export const createArrayValue = ({
   field,
   valueArray,
   textArray,
-}: ArrayValue): ArrayValue => {
-  return {
-    field,
-    valueArray,
-    textArray
-  };
-}
+}: ArrayValue): ArrayValue => ({
+  field,
+  valueArray,
+  textArray,
+});
 
 export const createRangeValue = ({
   field,
@@ -69,27 +86,23 @@ export const createRangeValue = ({
   text,
   valueTo,
   textTo,
-}: RangeValue): RangeValue => {
-  return {
-    field,
-    value,
-    text,
-    valueTo,
-    textTo,
-  };
-}
+}: RangeValue): RangeValue => ({
+  field,
+  value,
+  text,
+  valueTo,
+  textTo,
+});
 
 export const createValue = ({
   field,
   value,
   text,
-}: SingleValue): SingleValue => {
-  return {
-    field,
-    value,
-    text,
-  };
-}
+}: SingleValue): SingleValue => ({
+  field,
+  value,
+  text,
+});
 
 export const hasError = (matcher: Matcher) => {
   if ('value' in matcher && matcher.value === null) {
@@ -102,41 +115,37 @@ export const hasError = (matcher: Matcher) => {
   if ('valueArray' in matcher && matcher.valueArray.length === 0) {
     return true;
   }
-}
+  return false;
+};
 
-export const valueMatches = (match: ValueMatch, text: string) => {
-  return typeof match.match === 'function'
+export const valueMatches = (match: ValueMatch, text: string) =>
+  typeof match.match === 'function'
     ? match.match(text)
     : text.match(match.match);
-}
 
-export const trimIfNotSpaces = (text: string): string => {
-  return text.trimStart().length > 0 ? text.trimStart() : text;
-}
+export const trimIfNotSpaces = (text: string): string =>
+  text.trimStart().length > 0 ? text.trimStart() : text;
 
-export const ignoreCaseEquals = (str1: string, str2: string): boolean => {
-  return str1.toLocaleLowerCase() === str2.toLocaleLowerCase();
-}
+export const ignoreCaseEquals = (str1: string, str2: string): boolean =>
+  str1.toLocaleLowerCase() === str2.toLocaleLowerCase();
 
-export const getValue = (item: SourceItem, lookup: LookupBase,): Value => {
-  return lookup.valueGetter && typeof item === 'object'
-    ? lookup.valueGetter(item)
+export const getValue = (item: SourceItem, field: Field): Value =>
+  field.valueGetter && typeof item === 'object'
+    ? field.valueGetter(item)
     : item.toString();
-}
 
-export const getText = (item: SourceItem, lookup: LookupBase,): string => {
-  return lookup.textGetter && typeof item === 'object'
-    ? lookup.textGetter(item)
+export const getText = (item: SourceItem, field: Field): string =>
+  field.textGetter && typeof item === 'object'
+    ? field.textGetter(item)
     : item.toString();
-}
 
 export const matchItem = (
   sourceItem: SourceItem,
-  lookup: LookupBase,
+  field: Field,
   text: string,
   ignoreCase?: boolean,
 ): boolean => {
-  const actualItem = getText(sourceItem, lookup);
+  const actualItem = getText(sourceItem, field);
   return ignoreCase
     ? actualItem.toLocaleLowerCase().includes(text.toLocaleLowerCase())
     : actualItem.includes(text);
@@ -144,11 +153,11 @@ export const matchItem = (
 
 export const matchExact = (
   sourceItem: SourceItem,
-  lookup: LookupBase,
+  field: Field,
   searchText: string,
   ignoreCase?: boolean,
 ): boolean => {
-  const actualItem = getText(sourceItem, lookup);
+  const actualItem = getText(sourceItem, field);
   return ignoreCase
     ? ignoreCaseEquals(actualItem, searchText)
     : actualItem === searchText;

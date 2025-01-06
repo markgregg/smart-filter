@@ -1,20 +1,26 @@
-import { BracketMatcher, Matcher } from "@/types";
-import { BracketState } from "@/types/State";
-import { StoreApi, UseBoundStore, create } from "zustand";
+import { StoreApi, UseBoundStore, create } from 'zustand';
+import { BracketMatcher, Matcher } from '@/types';
+import { BracketState } from '@/types/State';
 
 interface Bracket extends BracketMatcher {
-  matchedBracket: string | null
+  matchedBracket: string | null;
 }
 
-export const createBracketsStore = (): UseBoundStore<StoreApi<BracketState>> => {
-  return create<BracketState>((set) => ({
+export const createBracketsStore = (): UseBoundStore<StoreApi<BracketState>> =>
+  create<BracketState>((set) => ({
     bracketMap: new Map(),
     unmatchedBrackets: new Set(),
     hoverBracket: null,
     matchingHover: null,
-    setHoverBracket: (hoverBracket: string | null) => set((state) => ({ hoverBracket, matchingHover: state.bracketMap.get(hoverBracket ?? '') ?? null })),
+    setHoverBracket: (hoverBracket: string | null) =>
+      set((state) => ({
+        hoverBracket,
+        matchingHover: state.bracketMap.get(hoverBracket ?? '') ?? null,
+      })),
     updateBracekts: (matchers: Matcher[]) => {
-      const brackets = matchers.filter(m => 'bracket' in m).map((b) => ({ ...(b as BracketMatcher), matchedBracket: null }));
+      const brackets = matchers
+        .filter((m) => 'bracket' in m)
+        .map((b) => ({ ...(b as BracketMatcher), matchedBracket: null }));
       if (brackets.length > 0) {
         let index = 0;
         while (index < brackets.length) {
@@ -25,12 +31,17 @@ export const createBracketsStore = (): UseBoundStore<StoreApi<BracketState>> => 
           }
         }
       }
-      const bracketMap = new Map<string, string>(brackets.filter(b => b.matchedBracket !== null).map(b => ([b.key, b.matchedBracket ?? ''])));
-      const unmatchedBrackets = new Set(brackets.filter(b => b.matchedBracket === null).map(b => b.key));
+      const bracketMap = new Map<string, string>(
+        brackets
+          .filter((b) => b.matchedBracket !== null)
+          .map((b) => [b.key, b.matchedBracket ?? '']),
+      );
+      const unmatchedBrackets = new Set(
+        brackets.filter((b) => b.matchedBracket === null).map((b) => b.key),
+      );
       set({ bracketMap, unmatchedBrackets });
-    }
+    },
   }));
-}
 
 const findMatch = (brackets: Bracket[], index: number): number => {
   let matchIndex = index + 1;
@@ -46,4 +57,4 @@ const findMatch = (brackets: Bracket[], index: number): number => {
     }
   }
   return matchIndex;
-}
+};

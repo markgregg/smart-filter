@@ -1,6 +1,6 @@
 import React from 'react';
 import { Option as OptionType } from '@/types';
-import { useOptions } from '@/components/StateProvider/useState';
+import { useOptions } from '@/state/useState';
 import { splitText } from './functions';
 import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import s from './style.module.less';
@@ -12,12 +12,17 @@ interface OptionProps {
 
 export const Option = React.memo(({ option, active }: OptionProps) => {
   const { text, field: fieldName } = option;
-  const { matchText, selectOption } = useOptions(state => state);
+  const { matchText, selectOption } = useOptions((state) => state);
 
-  const [left, match, right] = React.useMemo(() => splitText('displayText' in option ? option.displayText : text, matchText), [text, matchText]);
+  const [left, match, right] = React.useMemo(
+    () =>
+      splitText('displayText' in option ? option.displayText : text, matchText),
+    [text, matchText],
+  );
 
-  const handleClick = useDynamicCallback(() => {
-    selectOption(option)
+  const handleClick = useDynamicCallback((event: React.MouseEvent) => {
+    selectOption(option);
+    event.stopPropagation();
   });
 
   return (
@@ -26,12 +31,32 @@ export const Option = React.memo(({ option, active }: OptionProps) => {
       onClick={handleClick}
     >
       <div className={s.optionText}>
-        {left}
-        <span className={s.matchText}>{match}</span>
-        {right}
+        {'textTo' in option ? (
+          <div className={s.matchTextRange}>
+            <span>
+              {option.text} {option.Icon && <option.Icon className={s.icon} />}
+            </span>
+            to
+            <span>
+              {option.textTo}{' '}
+              {option.IconTo && <option.IconTo className={s.icon} />}
+            </span>
+          </div>
+        ) : option.Icon ? (
+          <div className={s.matchTextRange}>
+            <div>
+              {option.text} {option.Icon && <option.Icon className={s.icon} />}
+            </div>
+          </div>
+        ) : (
+          <div>
+            {left}
+            <span className={s.matchText}>{match}</span>
+            {right}
+          </div>
+        )}
       </div>
-      <div className={s.optionField}>
-        ({fieldName})
-      </div>
-    </div>)
+      <div>({fieldName})</div>
+    </div>
+  );
 });

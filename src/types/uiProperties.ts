@@ -4,6 +4,7 @@ interface FilterBar {
   showUndoIcon?: boolean;
   filterBarHeight?: number;
   pillHeight?: number;
+  maxValueWidth?: number;
 }
 
 interface DropDown {
@@ -15,4 +16,4 @@ interface Input {
   placeholder?: string;
 }
 
-export interface UICustomisations extends FilterBar, DropDown, Input { };
+export interface UIProperties extends FilterBar, DropDown, Input {}

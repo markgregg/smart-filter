@@ -1,4 +1,4 @@
-import { Matcher } from "./matcher";
+import { Matcher } from './matcher';
 
 export interface Matchers {
   matchers: Matcher[];

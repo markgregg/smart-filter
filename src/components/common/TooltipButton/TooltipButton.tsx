@@ -12,13 +12,12 @@ interface TooltipButtonProps {
 }
 
 export const TooltipButton = React.memo((props: TooltipButtonProps) => {
-  const {
-    caption,
-    children,
-    ...buttonProps
-  } = props;
+  const { caption, children, ...buttonProps } = props;
 
   return (
-    <Tooltip caption={caption}><Button {...buttonProps}>{children}</Button></Tooltip>
-  )
+    <Tooltip caption={caption}>
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+      <Button {...buttonProps}>{children}</Button>
+    </Tooltip>
+  );
 });

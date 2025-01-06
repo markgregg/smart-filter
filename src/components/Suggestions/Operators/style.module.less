@@ -1,13 +1,16 @@
+@import (reference) '../../../util/common.less';
+
+
 .operators {
   display: flex;
   column-gap: 4px;
-  background-color: #FAFAFA;
-  border-bottom: 1px solid darkgray;
+  background-color: @operators-background;
+  border-bottom: 1px solid @border-bottom;
   font-size: small;
   padding: 0px 3px;
 
   .seperator {
-    border-left: 2px solid lightgray;
+    border-left: 2px solid @seperator;
     margin-left: 4px;
     margin-right: 2px;
     height: 14px;

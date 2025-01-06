@@ -1,10 +1,8 @@
-import { LogicalOperator, Value } from "./matcher";
+import { LogicalOperator, Value } from './matcher';
 
 export type SourceItem = string | object;
 
 export interface LookupBase {
-  textGetter?: (item: object) => string;
-  valueGetter?: (item: object) => Value;
   minimumSearchLength?: number; // minium charactes entered before matcher is used
 }
 
@@ -27,7 +25,7 @@ export interface PromiseMatch extends LookupBase {
   /* a Promise that returns mathcing items */
   lookup: PromiseLookup;
   /* a promise that returns a match for the pasted value */
-  lookupOnPaste?: ((text: string) => Promise<SourceItem | null>);
+  lookupOnPaste?: (text: string) => Promise<SourceItem | null>;
 }
 
 export interface ValueBase {
