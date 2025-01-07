@@ -11,6 +11,7 @@ export function App() {
       <div className={style.mainMultiselect}>
         <SmartFilter
           allowLocking
+          showSearchIcon
           fields={[
             {
               name: 'test',

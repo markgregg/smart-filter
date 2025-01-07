@@ -51,7 +51,7 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
       id: 'undo',
       Icon: CgUndo,
       onClick: handleUndoClick,
-      hide: showUndoIcon,
+      hide: !showUndoIcon,
     },
     {
       id: 'lock',
