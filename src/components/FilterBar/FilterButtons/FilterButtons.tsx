@@ -23,12 +23,9 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
 
   const handleClearClick = useDynamicCallback(() => {
     clearMatchers();
-    if (locked) {
-      unlockMatchers();
-    }
   });
 
-  const handleUndoClick = useDynamicCallback(() => {});
+  const handleUndoClick = useDynamicCallback(() => { });
 
   const handleLockClick = useDynamicCallback(() => {
     if (locked) {

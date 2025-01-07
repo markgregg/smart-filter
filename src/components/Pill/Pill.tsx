@@ -243,13 +243,14 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
         dragOverItem?.position === 'before' && (
           <div className={s.leftInsert} style={{ height: pillHeight * 0.8 }} />
         )}
-      {matcher.operator === OR && index > 0 && <Or matcher={matcher} />}
+      {matcher.operator === OR && index > 0 && (!('bracket' in matcher) || matcher.bracket === '(') && <Or matcher={matcher} />}
       <div
         id="pill-content"
         className={s.pillContent}
         onClick={handleMatcherClicked}
         style={{
           backgroundColor,
+          height: pillHeight,
         }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

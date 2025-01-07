@@ -13,7 +13,7 @@ import s from './style.module.less';
 
 interface HintItemsProps {
   field: string;
-  hints: Hint[];
+  hintSource: Hint[] | (() => Hint[]);
   showAll?: boolean;
 }
 
@@ -24,6 +24,15 @@ interface HintAndState {
 
 const containsHint = (field: string, hint: Hint, matcher: Matcher): boolean => {
   if (!('field' in matcher) || field !== matcher.field) {
+    return false;
+  }
+  if (typeof hint === 'string') {
+    if ('valueArray' in matcher) {
+      return matcher.valueArray.includes(hint);
+    }
+    if ('value' in matcher && !('valueTo' in matcher)) {
+      return matcher.value === hint;
+    }
     return false;
   }
   if ('valueTo' in hint) {
@@ -57,7 +66,7 @@ const containsHint = (field: string, hint: Hint, matcher: Matcher): boolean => {
 };
 
 export const HintItems = React.memo(
-  ({ field, hints, showAll }: HintItemsProps) => {
+  ({ field, hintSource, showAll }: HintItemsProps) => {
     const {
       hints: { hintsPerColumn = 3, hintWidth: width = 90 } = {},
       fieldMap,
@@ -70,6 +79,7 @@ export const HintItems = React.memo(
       editPosition,
       matchers,
     } = useMatcher((state) => state);
+    const hints = React.useMemo(() => typeof hintSource === 'function' ? hintSource() : hintSource, [hintSource]);
     const targetMatcher = React.useMemo(() => {
       if (selectedMatcher) {
         return selectedMatcher;
@@ -88,13 +98,17 @@ export const HintItems = React.memo(
             return;
           }
           if ('valueArray' in targetMatcher) {
-            if (
-              ('valueArray' in hint.hint || 'value' in hint.hint) &&
-              !('valueTo' in hint.hint)
-            ) {
+            if (typeof hint.hint === 'string' || 'valueArray' in hint.hint || ('value' in hint.hint && !('valueTo' in hint.hint))) {
               let valueArray: Value[];
               let textArray: string[];
-              if ('valueArray' in hint.hint) {
+              if (typeof hint.hint === 'string') {
+                valueArray = targetMatcher.valueArray.filter(
+                  (v) => hint.hint !== v,
+                );
+                textArray = targetMatcher.textArray.filter(
+                  (t) => hint.hint !== t,
+                );
+              } else if ('valueArray' in hint.hint) {
                 const arrayHint = hint.hint as ArrayHint;
                 valueArray = targetMatcher.valueArray.filter(
                   (v) => !arrayHint.valueArray.includes(v),
@@ -129,11 +143,13 @@ export const HintItems = React.memo(
           throw new Error(`${field} does not exist`);
         }
         const value =
-          'valueArray' in hint.hint
-            ? createArrayValue({ field, ...hint.hint })
-            : 'valueTo' in hint.hint
-              ? createRangeValue({ field, ...hint.hint })
-              : createValue({ field, ...hint.hint });
+          typeof hint.hint === 'string'
+            ? createValue({ field, text: hint.hint, value: hint.hint })
+            : 'valueArray' in hint.hint
+              ? createArrayValue({ field, ...hint.hint })
+              : 'valueTo' in hint.hint
+                ? createRangeValue({ field, ...hint.hint })
+                : createValue({ field, ...hint.hint });
         addValue({
           value,
           position: editPosition,
@@ -166,7 +182,7 @@ export const HintItems = React.memo(
                 className={s.hint}
                 style={{ width, fontWeight: h.selected ? 'bold' : 'normal' }}
               >
-                {h.hint.display}
+                {typeof h.hint === 'string' ? h.hint : h.hint.display}
               </div>
             </Button>
           </div>

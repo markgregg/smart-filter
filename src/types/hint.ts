@@ -23,4 +23,4 @@ export interface ArrayHint extends BaseHint {
   comparison?: string;
 }
 
-export type Hint = SingleValueHint | RangeHint | ArrayHint;
+export type Hint = string | SingleValueHint | RangeHint | ArrayHint;

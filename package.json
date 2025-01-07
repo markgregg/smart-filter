@@ -25,9 +25,9 @@
   ],
   "author": "Mark Gregg <gregg.mark@gmail.com> (https://github.com/markgregg)",
   "license": "MIT",
-  "main": "dist/react-smart-search.min.js",
-  "main::production": "dist/react-smart-search.min.js",
-  "main::development": "dist/react-smart-search.js",
+  "main": "dist/smart-filter.min.js",
+  "main::production": "dist/smart-filter.min.js",
+  "main::development": "dist/smart-filter.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"

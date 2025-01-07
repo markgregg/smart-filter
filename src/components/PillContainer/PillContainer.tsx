@@ -50,7 +50,7 @@ export const PillContainer = React.memo(
           singleLine ? s.singleLine : s.multiLine,
         ].join(' ')}
         ref={checkWidth}
-        style={{ maxWidth }}
+        style={{ maxWidth: maxWidth * .97 }}
       >
         {matchers.map((m, i) => (
           <React.Fragment key={m.key}>

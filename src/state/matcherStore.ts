@@ -99,17 +99,17 @@ export const createMatcherStore = (
           setNotify((state) =>
             matcher.key === state.selectedMatcher?.key
               ? {
-                  matchers: state.matchers.map((m) =>
-                    m.key === matcher.key ? matcher : m,
-                  ),
-                  selectedMatcher: matcher,
-                  focus: false,
-                }
+                matchers: state.matchers.map((m) =>
+                  m.key === matcher.key ? matcher : m,
+                ),
+                selectedMatcher: matcher,
+                focus: false,
+              }
               : {
-                  matchers: state.matchers.map((m) =>
-                    m.key === matcher.key ? matcher : m,
-                  ),
-                },
+                matchers: state.matchers.map((m) =>
+                  m.key === matcher.key ? matcher : m,
+                ),
+              },
           );
         }
       },
@@ -158,7 +158,7 @@ export const createMatcherStore = (
           const selectedMatcher = index !== -1 ? state.matchers[index] : null;
           const editMatcher =
             selectedMatcher !== null &&
-            selectedMatcher.key !== state.editMatcher?.key
+              selectedMatcher.key !== state.editMatcher?.key
               ? null
               : state.editMatcher;
           return {
@@ -178,13 +178,13 @@ export const createMatcherStore = (
           return {};
         }),
       clearMatchers: () => {
-        setNotify({
-          matchers: [],
+        setNotify((state) => ({
+          matchers: state.matchers.filter(m => m.locked),
           selectedMatcher: null,
           selectedIndex: null,
           editPosition: null,
           editMatcher: null,
-        });
+        }));
         set((state) => {
           state.clearCallbacks.forEach((c) => c());
           return {};
@@ -354,12 +354,12 @@ const updateMatcherList = (
   const newMatchers =
     position !== null
       ? [
-          ...(position > 0 ? matchers.slice(0, position) : []),
-          matcher,
-          ...(position < matchers.length
-            ? matchers.slice(position, matchers.length)
-            : []),
-        ]
+        ...(position > 0 ? matchers.slice(0, position) : []),
+        matcher,
+        ...(position < matchers.length
+          ? matchers.slice(position, matchers.length)
+          : []),
+      ]
       : [...matchers, matcher];
   const editPosition = position !== null ? position + 1 : null;
   return {

@@ -31,7 +31,6 @@ export const FilterBar = React.memo(() => {
   const { hasMouse, setHasMouse } = useMouse((state) => state);
   const {
     editMatcher,
-    selectedMatcher,
     next,
     prev,
     first,
@@ -52,9 +51,9 @@ export const FilterBar = React.memo(() => {
     : filterBarHeight;
 
   const maxPillContainerWidth =
-    (searchBar.current?.clientWidth ?? 2000) -
-    (filterBuittons.current?.scrollWidth ?? 70) -
-    (showSearchIcon ? 30 : 0);
+    Math.floor((searchBar.current?.clientWidth ?? 2000) -
+      (filterBuittons.current?.scrollWidth ?? 70) -
+      (showSearchIcon ? 30 : 0));
   const showMovePrev =
     enableExpand && !expanded && (editPosition === null || editPosition > 0);
   const showMoveNext =
@@ -63,16 +62,16 @@ export const FilterBar = React.memo(() => {
     (editPosition !== null || editPosition !== null || selectedIndex !== null);
 
   React.useEffect(() => {
-    if (matcher?.key !== editMatcher?.key) {
+    if (matcher?.key !== editMatcher?.key || !editMatcher) {
       setMatcher(null);
     }
   }, [editMatcher, matcher]);
 
   React.useEffect(() => {
-    if (matcherKey && matcherKey !== selectedMatcher?.key) {
+    if (matcherKey && (matcherKey !== editMatcher?.key || !editMatcher)) {
       clearOptions();
     }
-  }, [matcherKey, selectedMatcher]);
+  }, [matcherKey, editMatcher]);
 
   React.useEffect(() => {
     if (editPosition !== null && editPosition === matchers.length) {
@@ -81,15 +80,11 @@ export const FilterBar = React.memo(() => {
   }, [editPosition, matchers]);
 
   const handleFocus = useDynamicCallback(() => {
-    if (!hasFocus) {
-      setHasFocus(true);
-    }
+    setHasFocus(true);
   });
 
   const handleLostFocus = useDynamicCallback(() => {
-    if (hasFocus) {
-      setHasFocus(false);
-    }
+    setHasFocus(false);
   });
 
   const handleMouseEnter = useDynamicCallback(() => {
@@ -164,6 +159,14 @@ export const FilterBar = React.memo(() => {
           width,
         }}
       >
+        {showSearchIcon && (
+          <div
+            className={s.filterIconContainer}
+            style={{ height: filterBarHeight }}
+          >
+            <TbFilter />
+          </div>
+        )}
         {showMovePrev && (
           <Button
             onClick={handleMovePrev}
@@ -172,14 +175,6 @@ export const FilterBar = React.memo(() => {
           >
             <FaCaretLeft />
           </Button>
-        )}
-        {showSearchIcon && (
-          <div
-            className={s.filterIconContainer}
-            style={{ height: filterBarHeight }}
-          >
-            <TbFilter />
-          </div>
         )}
         <div className={s.pullContainerWrapper}>
           <PillContainer
