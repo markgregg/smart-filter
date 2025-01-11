@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button } from '@/components/common/Button';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import { ArrayHint, Hint, Matcher, SingleValueHint, Value } from '@/types';
 import { useConfig, useMatcher } from '@/state/useState';
 import {
@@ -10,6 +9,7 @@ import {
   getDefaultComparison,
 } from '@/util/functions';
 import s from './style.module.less';
+import { VALUE, VALUE_ARRAY, VALUE_TO } from '@/util/constants';
 
 interface HintItemsProps {
   field: string;
@@ -27,22 +27,22 @@ const containsHint = (field: string, hint: Hint, matcher: Matcher): boolean => {
     return false;
   }
   if (typeof hint === 'string') {
-    if ('valueArray' in matcher) {
+    if (VALUE_ARRAY in matcher) {
       return matcher.valueArray.includes(hint);
     }
-    if ('value' in matcher && !('valueTo' in matcher)) {
+    if (VALUE in matcher && !(VALUE_TO in matcher)) {
       return matcher.value === hint;
     }
     return false;
   }
-  if ('valueTo' in hint) {
-    if (!('valueTo' in matcher)) {
+  if (VALUE_TO in hint) {
+    if (!(VALUE_TO in matcher)) {
       return false;
     }
     return matcher.value === hint.value && matcher.valueTo === hint.valueTo;
   }
-  if ('valueArray' in hint) {
-    if (!('valueArray' in matcher)) {
+  if (VALUE_ARRAY in hint) {
+    if (!(VALUE_ARRAY in matcher)) {
       return false;
     }
 
@@ -54,11 +54,11 @@ const containsHint = (field: string, hint: Hint, matcher: Matcher): boolean => {
     }
     return true;
   }
-  if ('value' in hint) {
-    if ('valueArray' in matcher) {
+  if (VALUE in hint) {
+    if (VALUE_ARRAY in matcher) {
       return matcher.valueArray.includes(hint.value);
     }
-    if ('value' in matcher && !('valueTo' in matcher)) {
+    if (VALUE in matcher && !(VALUE_TO in matcher)) {
       return matcher.value === hint.value;
     }
   }
@@ -90,15 +90,15 @@ export const HintItems = React.memo(
       return matchers.length > 0 ? matchers[matchers.length - 1] : null;
     }, [matchers, selectedMatcher]);
 
-    const handleValueClick = useDynamicCallback((hint: HintAndState) => {
+    const handleValueClick = React.useCallback((hint: HintAndState) => {
       if (hint.selected) {
         if (targetMatcher) {
-          if ('value' in targetMatcher) {
+          if (VALUE in targetMatcher) {
             deleteMatcher(targetMatcher);
             return;
           }
-          if ('valueArray' in targetMatcher) {
-            if (typeof hint.hint === 'string' || 'valueArray' in hint.hint || ('value' in hint.hint && !('valueTo' in hint.hint))) {
+          if (VALUE_ARRAY in targetMatcher) {
+            if (typeof hint.hint === 'string' || VALUE_ARRAY in hint.hint || (VALUE in hint.hint && !(VALUE_TO in hint.hint))) {
               let valueArray: Value[];
               let textArray: string[];
               if (typeof hint.hint === 'string') {
@@ -108,7 +108,7 @@ export const HintItems = React.memo(
                 textArray = targetMatcher.textArray.filter(
                   (t) => hint.hint !== t,
                 );
-              } else if ('valueArray' in hint.hint) {
+              } else if (VALUE_ARRAY in hint.hint) {
                 const arrayHint = hint.hint as ArrayHint;
                 valueArray = targetMatcher.valueArray.filter(
                   (v) => !arrayHint.valueArray.includes(v),
@@ -145,9 +145,9 @@ export const HintItems = React.memo(
         const value =
           typeof hint.hint === 'string'
             ? createValue({ field, text: hint.hint, value: hint.hint })
-            : 'valueArray' in hint.hint
+            : VALUE_ARRAY in hint.hint
               ? createArrayValue({ field, ...hint.hint })
-              : 'valueTo' in hint.hint
+              : VALUE_TO in hint.hint
                 ? createRangeValue({ field, ...hint.hint })
                 : createValue({ field, ...hint.hint });
         addValue({
@@ -156,7 +156,7 @@ export const HintItems = React.memo(
           comparison: getDefaultComparison(hintField),
         });
       }
-    });
+    }, [targetMatcher, editPosition]);
 
     const visibleHints: HintAndState[] = React.useMemo(
       () =>

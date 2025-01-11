@@ -1,7 +1,6 @@
 import React from 'react';
 import { FaCaretRight } from 'react-icons/fa6';
 import { IoClose } from 'react-icons/io5';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import { useArray, useMatcher } from '@/state/useState';
 import { Button } from '@/components/common/Button';
 import { Matcher } from '@/types';
@@ -20,12 +19,12 @@ export const ArrayItem = React.memo(
     const { selectItem, setMatcher, matcher } = useArray((state) => state);
     const updateMatcher = useMatcher((state) => state.updateMatcher);
 
-    const handleClick = useDynamicCallback((event: React.MouseEvent) => {
+    const handleClick = React.useCallback((event: React.MouseEvent) => {
       selectItem(index);
       event.stopPropagation();
-    });
+    }, [selectItem, index]);
 
-    const handleDeleteArrayItem = useDynamicCallback(() => {
+    const handleDeleteArrayItem = React.useCallback(() => {
       if (matcher) {
         const newMatcher: Matcher = {
           ...matcher,
@@ -35,7 +34,7 @@ export const ArrayItem = React.memo(
         updateMatcher(newMatcher);
         setMatcher(newMatcher);
       }
-    });
+    }, [matcher, index]);
 
     return (
       <div

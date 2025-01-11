@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 import { EditorComponentProps } from '../Editor';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import { Value, Field } from '@/types';
 import {
   DEFAULT_DATE_FORMAT,
@@ -17,9 +16,9 @@ const formatDate = (value: Value, field: Field): string => {
     return moment(
       value,
       field.dateTimeFormat ??
-        (field.editorType === 'date'
-          ? DEFAULT_DATE_FORMAT
-          : DEFAULT_DATE_TIME_FORMAT),
+      (field.editorType === 'date'
+        ? DEFAULT_DATE_FORMAT
+        : DEFAULT_DATE_TIME_FORMAT),
       true,
     ).format(field.editorType === 'date' ? DATE_FORMAT : DATE_TIME_FORMAT);
   }
@@ -41,7 +40,7 @@ export const DateTimeEditor = React.memo(
       inputRef?.current?.focus();
     }, []);
 
-    const handleChange = useDynamicCallback(
+    const handleChange = React.useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = moment(
           event.currentTarget.value,
@@ -50,13 +49,13 @@ export const DateTimeEditor = React.memo(
         ).toDate();
         const label = moment(newValue, true).format(
           field.dateTimeFormat ??
-            (field.editorType === 'date'
-              ? DEFAULT_DATE_FORMAT
-              : DEFAULT_DATE_TIME_FORMAT),
+          (field.editorType === 'date'
+            ? DEFAULT_DATE_FORMAT
+            : DEFAULT_DATE_TIME_FORMAT),
         );
         onChanged({ text: label, value: newValue }, true);
       },
-    );
+      [field]);
 
     return (
       <input

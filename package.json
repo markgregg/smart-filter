@@ -62,6 +62,7 @@
     "@vitejs/plugin-react-swc": "^3.6.0",
     "@vitest/coverage-v8": "^1.6.0",
     "ag-grid-community": "30.2.0",
+    "ag-grid-enterprise": "33.0.3",
     "ag-grid-react": "30.2.0",
     "ag-grid-view-manager": "0.1.1",
     "eslint": "^8.57.0",

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import { Colours } from '@/util/colours';
 import s from './style.module.less';
 
@@ -33,18 +32,18 @@ export const Button = React.memo(
     const foreColor = mouseOver ? hoverColor : color;
     const backColor = mouseOver ? hoverBackgroundColor : backgroundColor;
 
-    const handleMouseEnter = useDynamicCallback(() => {
+    const handleMouseEnter = React.useCallback(() => {
       setMouseOver(true);
-    });
+    }, [setMouseOver]);
 
-    const handleMouseLeave = useDynamicCallback(() => {
+    const handleMouseLeave = React.useCallback(() => {
       setMouseOver(false);
-    });
+    }, [setMouseOver]);
 
-    const handleClick = useDynamicCallback((event: MouseEvent) => {
+    const handleClick = React.useCallback((event: React.MouseEvent) => {
       onClick();
       event.stopPropagation();
-    });
+    }, [onClick]);
 
     return (
       <button

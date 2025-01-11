@@ -1,6 +1,5 @@
 import React from 'react';
 import { EditorComponentProps } from '../Editor';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import s from './style.module.less';
 
 export const NumberEditor = React.memo(
@@ -11,7 +10,7 @@ export const NumberEditor = React.memo(
       inputRef?.current?.focus();
     }, []);
 
-    const handleChange = useDynamicCallback(
+    const handleChange = React.useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
         const value =
           field.editorType === 'integer'
@@ -19,7 +18,7 @@ export const NumberEditor = React.memo(
             : Number.parseFloat(event.currentTarget.value);
         onChanged({ text: value.toString(), value }, true);
       },
-    );
+      [field]);
 
     return (
       <input

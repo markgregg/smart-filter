@@ -2,7 +2,6 @@ import React from 'react';
 import { MainSearch } from '../MainSearch';
 import { useBrackets, useFilterBar, useMatcher } from '../../state/useState';
 import { Pill } from '../Pill/Pill';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import s from './style.module.less';
 
 interface PillContainerProps {
@@ -36,12 +35,12 @@ export const PillContainer = React.memo(
       }
     };
 
-    const handleMainSearchClick = useDynamicCallback(
+    const handleMainSearchClick = React.useCallback(
       (event: React.MouseEvent) => {
         clearEditPosition();
         event.stopPropagation();
       },
-    );
+      [clearEditPosition]);
 
     return (
       <div

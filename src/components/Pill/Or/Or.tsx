@@ -1,7 +1,6 @@
 import React from 'react';
 import { IoClose } from 'react-icons/io5';
 import { useConfig, useMatcher } from '@/state/useState';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import { Button } from '@/components/common/Button';
 import { AND } from '@/util/constants';
 import { Matcher } from '@/types';
@@ -22,32 +21,34 @@ export const Or = React.memo(({ matcher }: OrProps) => {
     () =>
       selectedMatcher?.key === matcher.key
         ? mouseOver
-          ? Colours.backgrounds.selectedHover
-          : Colours.backgrounds.selected
-        : mouseOver
           ? Colours.backgrounds.hover
-          : Colours.backgrounds.standard,
+          : Colours.backgrounds.selected
+        : matcher.locked
+          ? Colours.backgrounds.locked
+          : mouseOver
+            ? Colours.backgrounds.hover
+            : Colours.backgrounds.standard,
     [mouseOver, selectedMatcher, matcher],
   );
 
-  const handleMouseEnter = useDynamicCallback(() => {
+  const handleMouseEnter = React.useCallback(() => {
     setMouseOver(true);
     setShowDelete(true);
-  });
+  }, []);
 
-  const handleMouseLeave = useDynamicCallback(() => {
+  const handleMouseLeave = React.useCallback(() => {
     setMouseOver(false);
     setShowDelete(false);
-  });
+  }, [setMouseOver, setShowDelete]);
 
-  const handleChangeToAnd = useDynamicCallback(() => {
+  const handleChangeToAnd = React.useCallback(() => {
     if (!matcher.locked) {
       updateMatcher({
         ...matcher,
         operator: AND,
       });
     }
-  });
+  }, [matcher, updateMatcher]);
 
   return (
     <div

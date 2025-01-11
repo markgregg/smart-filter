@@ -2,8 +2,8 @@ import React from 'react';
 import { Option as OptionType } from '@/types';
 import { useOptions } from '@/state/useState';
 import { splitText } from './functions';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import s from './style.module.less';
+import { TEXT_TO } from '@/util/constants';
 
 interface OptionProps {
   option: OptionType;
@@ -20,10 +20,10 @@ export const Option = React.memo(({ option, active }: OptionProps) => {
     [text, matchText],
   );
 
-  const handleClick = useDynamicCallback((event: React.MouseEvent) => {
+  const handleClick = React.useCallback((event: React.MouseEvent) => {
     selectOption(option);
     event.stopPropagation();
-  });
+  }, [option, selectOption]);
 
   return (
     <div
@@ -31,7 +31,7 @@ export const Option = React.memo(({ option, active }: OptionProps) => {
       onClick={handleClick}
     >
       <div className={s.optionText}>
-        {'textTo' in option ? (
+        {TEXT_TO in option ? (
           <div className={s.matchTextRange}>
             <span>
               {option.text} {option.Icon && <option.Icon className={s.icon} />}

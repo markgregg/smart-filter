@@ -1,6 +1,5 @@
 import React from 'react';
 import { ArrayMatcher, Value } from '@/types';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import { useArray, useMatcher, useOptions } from '@/state/useState';
 import { TextDisplay } from '../Display/TextDisplay';
 import { Editor, TextValue } from '../Editor';
@@ -78,8 +77,7 @@ export const ArrayContent = React.memo(({ matcher, field }: ContentProps) => {
     }
   }, [editMatcher, inEdit]);
 
-  const handleClick = useDynamicCallback((event: React.MouseEvent) => {
-    event.stopPropagation();
+  const handleClick = React.useCallback(() => {
     if (matcher.locked) {
       return;
     }
@@ -88,9 +86,9 @@ export const ArrayContent = React.memo(({ matcher, field }: ContentProps) => {
       selectMatcherForEdit(matcher.key);
     }
     setMatcher(arrayMatcher);
-  });
+  }, [matcher, setInEdit, selectMatcherForEdit, setMatcher]);
 
-  const handleCancel = useDynamicCallback(() => {
+  const handleCancel = React.useCallback(() => {
     if (selectedIndex !== null || options.length > 0) {
       selectItem(null);
       clearOptions();
@@ -99,9 +97,9 @@ export const ArrayContent = React.memo(({ matcher, field }: ContentProps) => {
       setInEdit(false);
       setMatcher(null);
     }
-  });
+  }, [selectedIndex, options, selectItem, clearOptions, setTextValue, setInEdit]);
 
-  const handleChange = useDynamicCallback((text: string, value: Value) => {
+  const handleChange = React.useCallback((text: string, value: Value) => {
     if (selectedIndex === null) {
       if (arrayMatcher.valueArray.includes(value)) {
         throw new Error(`${value} alrady exist in pill`);
@@ -110,14 +108,14 @@ export const ArrayContent = React.memo(({ matcher, field }: ContentProps) => {
     const valueArray =
       selectedIndex !== null
         ? arrayMatcher.valueArray.map((v, idx) =>
-            idx === selectedIndex ? value : v,
-          )
+          idx === selectedIndex ? value : v,
+        )
         : [...arrayMatcher.valueArray, value];
     const textArray =
       selectedIndex !== null
         ? arrayMatcher.textArray.map((t, idx) =>
-            idx === selectedIndex ? text : t,
-          )
+          idx === selectedIndex ? text : t,
+        )
         : [...arrayMatcher.textArray, text];
     const newMatcher = {
       ...arrayMatcher,
@@ -129,9 +127,9 @@ export const ArrayContent = React.memo(({ matcher, field }: ContentProps) => {
     selectItem(null);
     clearOptions();
     setTextValue({ text: '', value: null });
-  });
+  }, [selectedIndex, arrayMatcher, updateMatcher, setMatcher, selectItem, clearOptions, setTextValue]);
 
-  const handleKeyDown = useDynamicCallback((event: React.KeyboardEvent) => {
+  const handleKeyDown = React.useCallback((event: React.KeyboardEvent) => {
     let endPropogation = false;
     switch (event.key) {
       case KeyBoardkeys.ArrowDown: {
@@ -177,7 +175,7 @@ export const ArrayContent = React.memo(({ matcher, field }: ContentProps) => {
       event.stopPropagation();
       event.preventDefault();
     }
-  });
+  }, [next, prev, first, last, nextPage, prevPage, selectItem]);
 
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment
@@ -187,23 +185,23 @@ export const ArrayContent = React.memo(({ matcher, field }: ContentProps) => {
           <div onKeyDown={handleKeyDown} className={s.arrayContent}>
             {inEdit
               ? field && (
-                  <Editor
-                    matcherKey={matcher.key}
-                    field={field}
-                    textValue={textValue}
-                    unset={textValue.value === null}
-                    onChanged={handleChange}
-                    onCancel={handleCancel}
-                  />
-                )
+                <Editor
+                  matcherKey={matcher.key}
+                  field={field}
+                  textValue={textValue}
+                  unset={textValue.value === null}
+                  onChanged={handleChange}
+                  onCancel={handleCancel}
+                />
+              )
               : field && (
-                  <TextDisplay
-                    field={field}
-                    text={arrayMatcher.textArray.join(',')}
-                    html={html}
-                    onClick={handleClick}
-                  />
-                )}
+                <TextDisplay
+                  field={field}
+                  text={arrayMatcher.textArray.join(',')}
+                  html={html}
+                  onClick={handleClick}
+                />
+              )}
           </div>
         ) : (
           <div />

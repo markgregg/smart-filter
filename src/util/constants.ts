@@ -8,7 +8,7 @@ export const OR = 'or';
 export const EQUALS = '=';
 
 export const EMPTY = 'Empty';
-export const defaultComparison: string[] = ['=', '!'];
+export const defaultComparisons: string[] = ['=', '!'];
 export const stringComparisons: string[] = ['=', '!', '*', '!*', '<*', '>*'];
 export const numberComparisons: string[] = ['=', '>', '<', '>=', '<=', '!'];
 
@@ -26,3 +26,28 @@ export const KeyBoardkeys = {
   Enter: 'Enter',
   Tab: 'Tab',
 };
+
+export const AgTypes = {
+  text: 'text',
+  boolean: 'boolean',
+  number: 'number',
+  date: 'date',
+  dateString: 'dateString',
+}
+
+export const AgFilters = {
+  agSetColumnFilter: 'agSetColumnFilter',
+  agTextColumnFilter: 'agTextColumnFilter',
+  agNumberColumnFilter: 'agNumberColumnFilter',
+  agBooleanColumnFilter: 'agBooleanColumnFilter',
+  agDateColumnFilter: 'agDateColumnFilter',
+  agDateStringColumnFilter: 'agDateStringColumnFilter',
+}
+
+
+export const VALUE = 'value';
+export const VALUE_TO = 'valueTo';
+export const VALUE_ARRAY = 'valueArray';
+export const TEXT_TO = 'textTo';
+export const TEXT_ARRAY = 'textArray';
+export const BRACKET = 'bracket';

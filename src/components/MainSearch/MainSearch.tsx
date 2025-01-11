@@ -1,6 +1,5 @@
 import React from 'react';
 import { SearchBox } from '../SearchBox';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import { Option } from '@/types';
 import { useConfig, useMatcher, useOptions } from '../../state/useState';
 import {
@@ -8,7 +7,7 @@ import {
   createValue,
   getDefaultComparison,
 } from '@/util/functions';
-import { AND } from '@/util/constants';
+import { AND, TEXT_TO, VALUE_TO } from '@/util/constants';
 import s from './style.module.less';
 
 interface MainSearchProps {
@@ -24,10 +23,10 @@ export const MainSearch = React.memo(
     const { comparison, operator } = useOptions((state) => state);
     const maxWidth = reducedWidth ? '130px' : undefined;
 
-    const handleSelect = useDynamicCallback((option: Option) => {
+    const handleSelect = React.useCallback((option: Option) => {
       const field = fieldMap.get(option.field);
       const value =
-        'valueTo' in option && 'textTo' in option
+        VALUE_TO in option && TEXT_TO in option
           ? createRangeValue(option)
           : createValue(option);
       addValue({
@@ -37,7 +36,7 @@ export const MainSearch = React.memo(
         comparison: comparison ?? getDefaultComparison(field),
       });
       setText(['']);
-    });
+    }, [addValue, fieldMap, editPosition, operator, comparison]);
 
     return (
       <div

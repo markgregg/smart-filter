@@ -13,9 +13,6 @@ export const Array = React.memo(() => {
           index={idx}
           key={item}
           text={item}
-          value={
-            matcher.valueArray.length > idx ? matcher.valueArray[idx] : null
-          }
           active={idx === index}
           selected={idx === selectedIndex}
         />

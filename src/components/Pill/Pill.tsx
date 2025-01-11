@@ -3,7 +3,6 @@ import { IoClose } from 'react-icons/io5';
 import { AiFillLock } from 'react-icons/ai';
 import { Field, Matcher } from '@/types';
 import { getDefaultComparison, hasError } from '@/util/functions';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import {
   useBrackets,
   useConfig,
@@ -15,7 +14,7 @@ import { Button } from '../common/Button';
 import { ArrayContent, RangeContent, ValueContent } from './Content';
 import { BracketContent } from './Content/BracketContent';
 import { Or } from './Or';
-import { DEFAULT_PILL_HEIGHT, OR } from '@/util/constants';
+import { BRACKET, DEFAULT_PILL_HEIGHT, OR, VALUE_ARRAY, VALUE_TO } from '@/util/constants';
 import { clonePill, removePillFromDocument } from './pillFuntions';
 import s from './style.module.less';
 import { Colours } from '@/util/colours';
@@ -69,21 +68,22 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
         ? Colours.backgrounds.errorHover
         : Colours.backgrounds.error;
     }
+    if (matcher.locked) {
+      return Colours.backgrounds.locked;
+    }
     if (selectedMatcher?.key === matcher.key) {
-      return mouseOver
-        ? Colours.backgrounds.selectedHover
-        : Colours.backgrounds.selected;
+      return Colours.backgrounds.selected;
     }
     if (mouseOver || matchingHover === matcher.key) {
       return Colours.backgrounds.hover;
     }
-    if ('valueArray' in matcher && comparisonsMap.has('list')) {
+    if (VALUE_ARRAY in matcher && comparisonsMap.has('list')) {
       return (
         comparisonsMap.get('list')?.pillBackgroundColour ??
         Colours.backgrounds.standard
       );
     }
-    if ('valueTo' in matcher && comparisonsMap.has('range')) {
+    if (VALUE_TO in matcher && comparisonsMap.has('range')) {
       return (
         comparisonsMap.get('range')?.pillBackgroundColour ??
         Colours.backgrounds.standard
@@ -119,44 +119,44 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
 
   const Content = React.useMemo(
     () =>
-      'bracket' in matcher
+      BRACKET in matcher
         ? BracketContent
-        : 'valueArray' in matcher
+        : VALUE_ARRAY in matcher
           ? ArrayContent
-          : 'valueTo' in matcher
+          : VALUE_TO in matcher
             ? RangeContent
             : ValueContent,
     [matcher],
   );
 
-  const handleDeleteMatcher = useDynamicCallback(() => {
+  const handleDeleteMatcher = React.useCallback(() => {
     if (!matcher.locked) {
       deleteMatcher(matcher);
     }
-  });
+  }, [matcher, deleteMatcher]);
 
-  const handleMatcherClicked = useDynamicCallback((event: React.MouseEvent) => {
+  const handleMatcherClicked = React.useCallback((event: React.MouseEvent) => {
     selectMatcher(matcher.key);
     event.stopPropagation();
-  });
+  }, [selectMatcher, matcher]);
 
-  const handleMouseEnter = useDynamicCallback(() => {
+  const handleMouseEnter = React.useCallback(() => {
     setMouseOver(true);
-    if ('bracket' in matcher && hoverBracket !== matcher.key) {
+    if (BRACKET in matcher && hoverBracket !== matcher.key) {
       setHoverBracket(matcher.key);
     }
     setShowDelete(true);
-  });
+  }, [setMouseOver, setShowDelete, matcher, hoverBracket]);
 
-  const handleMouseLeave = useDynamicCallback(() => {
+  const handleMouseLeave = React.useCallback(() => {
     setMouseOver(false);
     setShowDelete(false);
     if (hoverBracket === matcher.key) {
       setHoverBracket(null);
     }
-  });
+  }, [setMouseOver, setShowDelete, matcher, hoverBracket]);
 
-  const handleDragStart = useDynamicCallback((event: React.DragEvent) => {
+  const handleDragStart = React.useCallback((event: React.DragEvent) => {
     if (matcher.locked) {
       return;
     }
@@ -171,9 +171,9 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
       event.dataTransfer.setDragImage(clonedPillRef.current, xLoc, 20);
       event.stopPropagation();
     }
-  });
+  }, [matcher, editMatcher, draggedItem, setDragItem, clearEditMatcher]);
 
-  const handleDragOver = useDynamicCallback(
+  const handleDragOver = React.useCallback(
     (event: React.DragEvent<HTMLDivElement>) => {
       if (matcher.locked) {
         return;
@@ -194,9 +194,16 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
         event.preventDefault();
       }
     },
-  );
+    [draggedItem, dragOverItem, matcher, index, setDraggedOverItem]);
 
-  const handleDrop = useDynamicCallback((event: React.DragEvent) => {
+  const clearClonedPill = React.useCallback(() => {
+    if (clonedPillRef.current) {
+      removePillFromDocument(clonedPillRef.current);
+      clonedPillRef.current = null;
+    }
+  }, [removePillFromDocument]);
+
+  const handleDrop = React.useCallback((event: React.DragEvent) => {
     if (matcher.locked) {
       return;
     }
@@ -210,20 +217,13 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
     clearItems();
     clearClonedPill();
     event.stopPropagation();
-  });
+  }, [draggedItem, dragOverItem, clearClonedPill, clearItems, moveTo]);
 
-  const handleDragEnd = useDynamicCallback((event: React.DragEvent) => {
+  const handleDragEnd = React.useCallback((event: React.DragEvent) => {
     clearItems();
     clearClonedPill();
     event.stopPropagation();
-  });
-
-  const clearClonedPill = () => {
-    if (clonedPillRef.current) {
-      removePillFromDocument(clonedPillRef.current);
-      clonedPillRef.current = null;
-    }
-  };
+  }, [clearClonedPill, clearItems]);
 
   return (
     <div
@@ -243,7 +243,7 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
         dragOverItem?.position === 'before' && (
           <div className={s.leftInsert} style={{ height: pillHeight * 0.8 }} />
         )}
-      {matcher.operator === OR && index > 0 && (!('bracket' in matcher) || matcher.bracket === '(') && <Or matcher={matcher} />}
+      {matcher.operator === OR && index > 0 && (!(BRACKET in matcher) || matcher.bracket === '(') && <Or matcher={matcher} />}
       <div
         id="pill-content"
         className={s.pillContent}
@@ -261,7 +261,7 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
           </div>
         )}
         {'field' in matcher && <span className={s.field}>{matcher.field}</span>}
-        {'valueArray' in matcher && (
+        {VALUE_ARRAY in matcher && (
           <span className={s.arrayCount}>({matcher.valueArray.length})</span>
         )}
         {'comparison' in matcher &&

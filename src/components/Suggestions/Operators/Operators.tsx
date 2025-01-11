@@ -3,15 +3,14 @@ import { MdOutlinePhonelinkErase, MdOutlineListAlt } from 'react-icons/md';
 import { TbArrowBarBoth } from 'react-icons/tb';
 import { IoTextOutline } from 'react-icons/io5';
 import { Button } from '@/components/common/Button';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import { TooltipButton } from '@/components/common/TooltipButton';
 import { Brackets, LogicalOperator } from '@/types';
 import { useConfig, useMatcher } from '@/state/useState';
 import { FieldSelection } from './FieldSelection';
-import { AND, EMPTY, OR } from '@/util/constants';
+import { AND, BRACKET, EMPTY, OR, VALUE, VALUE_ARRAY, VALUE_TO } from '@/util/constants';
 import s from './style.module.less';
 
-const brackets = ['(', ')'];
+const brackets: Brackets[] = ['(', ')'];
 export const Operators = React.memo(() => {
   const { fieldMap, comparisonsMap } = useConfig((state) => state);
   const { selectedMatcher, matchers, updateMatcher, addBracket, editPosition } =
@@ -33,49 +32,49 @@ export const Operators = React.memo(() => {
   );
 
   const specialFunctions = React.useMemo(() => {
-    if (selectedMatcher && !('bracket' in selectedMatcher)) {
+    if (selectedMatcher && !(BRACKET in selectedMatcher)) {
       return [
         ...(field?.allowBlanks &&
-        !('valueTo' in selectedMatcher) &&
-        !('valueArray' in selectedMatcher) &&
-        selectedMatcher.value !== null
+          !(VALUE_TO in selectedMatcher) &&
+          !(VALUE_ARRAY in selectedMatcher) &&
+          selectedMatcher.value !== null
           ? [
-              {
-                code: 'empty',
-                icon: <MdOutlinePhonelinkErase />,
-                tooltip: 'Set value as empty',
-              },
-            ]
+            {
+              code: 'empty',
+              icon: <MdOutlinePhonelinkErase />,
+              tooltip: 'Set value as empty',
+            },
+          ]
           : []),
-        ...(field?.allowList && !('valueTo' in selectedMatcher)
+        ...(field?.allowList && !(VALUE_TO in selectedMatcher)
           ? [
-              {
-                code: 'list',
-                icon: <MdOutlineListAlt />,
-                tooltip: 'Make pill a list',
-              },
-            ]
-          : []),
-        ...(field?.allowRange &&
-        'value' in selectedMatcher &&
-        !('valueArray' in selectedMatcher)
-          ? [
-              {
-                code: 'range',
-                icon: <TbArrowBarBoth />,
-                tooltip: 'Make pill a range',
-              },
-            ]
+            {
+              code: 'list',
+              icon: <MdOutlineListAlt />,
+              tooltip: 'Make pill a list',
+            },
+          ]
           : []),
         ...(field?.allowRange &&
-        ('valueTo' in selectedMatcher || 'valueArray' in selectedMatcher)
+          VALUE in selectedMatcher &&
+          !(VALUE_ARRAY in selectedMatcher)
           ? [
-              {
-                code: 'value',
-                icon: <IoTextOutline />,
-                tooltip: 'Make pill a single value',
-              },
-            ]
+            {
+              code: 'range',
+              icon: <TbArrowBarBoth />,
+              tooltip: 'Make pill a range',
+            },
+          ]
+          : []),
+        ...(field?.allowRange &&
+          (VALUE_TO in selectedMatcher || VALUE_ARRAY in selectedMatcher)
+          ? [
+            {
+              code: 'value',
+              icon: <IoTextOutline />,
+              tooltip: 'Make pill a single value',
+            },
+          ]
           : []),
       ];
     }
@@ -84,23 +83,23 @@ export const Operators = React.memo(() => {
 
   const currentOperator = selectedMatcher?.operator === AND ? OR : AND;
 
-  const handleComparisonClick = useDynamicCallback((comparison: string) => {
+  const handleComparisonClick = React.useCallback((comparison: string) => {
     if (selectedMatcher) {
       updateMatcher({
         ...selectedMatcher,
         comparison,
       });
     }
-  });
+  }, [selectedMatcher, updateMatcher]);
 
-  const handleSpecialClick = useDynamicCallback((func: string) => {
+  const handleSpecialClick = React.useCallback((func: string) => {
     if (selectedMatcher) {
       switch (func) {
         case 'empty': {
           if (
-            !('valueTo' in selectedMatcher) &&
-            !('valueArray' in selectedMatcher) &&
-            !('bracket' in selectedMatcher)
+            !(VALUE_TO in selectedMatcher) &&
+            !(VALUE_ARRAY in selectedMatcher) &&
+            !(BRACKET in selectedMatcher)
           ) {
             updateMatcher({
               ...selectedMatcher,
@@ -111,7 +110,7 @@ export const Operators = React.memo(() => {
           break;
         }
         case 'list': {
-          if ('value' in selectedMatcher) {
+          if (VALUE in selectedMatcher) {
             const {
               key,
               field: mField,
@@ -132,8 +131,8 @@ export const Operators = React.memo(() => {
         }
         case 'range': {
           if (
-            'value' in selectedMatcher &&
-            !('valueArray' in selectedMatcher)
+            VALUE in selectedMatcher &&
+            !(VALUE_ARRAY in selectedMatcher)
           ) {
             const {
               key,
@@ -160,7 +159,7 @@ export const Operators = React.memo(() => {
           break;
         }
         case 'value': {
-          if ('valueTo' in selectedMatcher) {
+          if (VALUE_TO in selectedMatcher) {
             const {
               key,
               field: mField,
@@ -176,7 +175,7 @@ export const Operators = React.memo(() => {
               text,
               value,
             });
-          } else if ('valueArray' in selectedMatcher) {
+          } else if (VALUE_ARRAY in selectedMatcher) {
             const {
               key,
               field: mField,
@@ -203,13 +202,13 @@ export const Operators = React.memo(() => {
         }
       }
     }
-  });
+  }, [selectedMatcher, updateMatcher]);
 
-  const handleBracketClick = useDynamicCallback((symbol: Brackets) => {
+  const handleBracketClick = React.useCallback((symbol: Brackets) => {
     addBracket(symbol, editPosition);
-  });
+  }, [addBracket, editPosition]);
 
-  const handleLogicalOperatorClick = useDynamicCallback(
+  const handleLogicalOperatorClick = React.useCallback(
     (operator: LogicalOperator) => {
       if (selectedMatcher) {
         updateMatcher({
@@ -218,7 +217,7 @@ export const Operators = React.memo(() => {
         });
       }
     },
-  );
+    [selectedMatcher, updateMatcher]);
 
   return (
     <div className={s.operators}>

@@ -4,6 +4,9 @@ import {
   DEFAULT_DATE_FORMAT,
   DEFAULT_DATE_TIME_FORMAT,
   EQUALS,
+  VALUE,
+  VALUE_ARRAY,
+  VALUE_TO,
 } from './constants';
 import { ArrayValue, RangeValue, SingleValue } from '@/types/values';
 
@@ -19,9 +22,9 @@ const getMin = (field: Field): Date | undefined => {
       return moment(
         field.min,
         field.dateTimeFormat ??
-          (field.editorType === 'date'
-            ? DEFAULT_DATE_FORMAT
-            : DEFAULT_DATE_TIME_FORMAT),
+        (field.editorType === 'date'
+          ? DEFAULT_DATE_FORMAT
+          : DEFAULT_DATE_TIME_FORMAT),
         true,
       ).toDate();
     }
@@ -105,14 +108,14 @@ export const createValue = ({
 });
 
 export const hasError = (matcher: Matcher) => {
-  if ('value' in matcher && matcher.value === null) {
+  if (VALUE in matcher && matcher.value === null) {
     return true;
   }
-  if ('valueTo' in matcher && matcher.valueTo === null) {
+  if (VALUE_TO in matcher && matcher.valueTo === null) {
     return true;
   }
 
-  if ('valueArray' in matcher && matcher.valueArray.length === 0) {
+  if (VALUE_ARRAY in matcher && matcher.valueArray.length === 0) {
     return true;
   }
   return false;

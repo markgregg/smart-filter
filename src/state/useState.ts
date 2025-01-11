@@ -10,7 +10,6 @@ import {
   FocusState,
   HintState,
   MatcherState,
-  MouseState,
   OptionsState,
   State,
 } from '@/types/State';
@@ -33,9 +32,6 @@ export const useConfig = <U>(selector: (state: ConfigState) => U) =>
 
 export const useFocus = <U>(selector: (state: FocusState) => U) =>
   useState((s) => s.focusStore, selector);
-
-export const useMouse = <U>(selector: (state: MouseState) => U) =>
-  useState((s) => s.mouseStore, selector);
 
 export const useFilterBar = <U>(selector: (state: FilterBarState) => U) =>
   useState((s) => s.filterBarStore, selector);

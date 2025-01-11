@@ -1,6 +1,5 @@
 import React from 'react';
 import { MdAddBox } from 'react-icons/md';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import { useConfig, useMatcher } from '@/state/useState';
 import { Tooltip } from '@/components/common/Tooltip';
 import { Field } from '@/types';
@@ -23,14 +22,14 @@ export const FieldSelection = React.memo(() => {
     [fields, filter],
   );
 
-  const handleShowFields = useDynamicCallback(() => {
+  const handleShowFields = React.useCallback(() => {
     setShowFields(true);
-  });
+  }, [setShowFields]);
 
-  const handleHideFields = useDynamicCallback(() => {
+  const handleHideFields = React.useCallback(() => {
     setShowFields(false);
     setFilter('');
-  });
+  }, [setShowFields, setFilter]);
 
   const addMatcher = (field: Field) => {
     const { text, value } = getDefaultTextValue(field);
@@ -49,24 +48,24 @@ export const FieldSelection = React.memo(() => {
     setFilter('');
   };
 
-  const handleAddMatcher = useDynamicCallback(
+  const handleAddMatcher = React.useCallback(
     (event: React.MouseEvent, field: Field) => {
       addMatcher(field);
       event.stopPropagation();
     },
-  );
+    [addMatcher]);
 
-  const handleChanged = useDynamicCallback(
+  const handleChanged = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setFilter(event.currentTarget.value);
     },
-  );
+    [setFilter]);
 
-  const handleKeyDown = useDynamicCallback((event: React.KeyboardEvent) => {
+  const handleKeyDown = React.useCallback((event: React.KeyboardEvent) => {
     if (event.key === 'Enter' && filteredFields.length > 0) {
       addMatcher(filteredFields[0]);
     }
-  });
+  }, [addMatcher, filteredFields]);
 
   return (
     <div className={s.fieldSelection}>

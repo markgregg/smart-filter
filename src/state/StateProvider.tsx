@@ -1,6 +1,5 @@
 import React from 'react';
 import { createFocusStore } from './focusStore';
-import { createMouseStore } from './mouseStore';
 import { createFilterBarStore } from './filterBarStore';
 import { createHintStore } from './hintStore';
 import { createConfigStore } from './configStore';
@@ -21,7 +20,6 @@ export const StateProvider = React.memo(
   ({ props, children }: ProviderProps) => {
     const configStore = React.useMemo(() => createConfigStore(props), [props]);
     const focusStore = React.useMemo(createFocusStore, []);
-    const mouseStore = React.useMemo(createMouseStore, []);
     const filterBarStore = React.useMemo(
       () => createFilterBarStore(props),
       [props],
@@ -43,7 +41,6 @@ export const StateProvider = React.memo(
       () => ({
         configStore,
         focusStore,
-        mouseStore,
         filterBarStore,
         hintStore,
         matcherStore,
@@ -55,7 +52,6 @@ export const StateProvider = React.memo(
       [
         configStore,
         focusStore,
-        mouseStore,
         filterBarStore,
         hintStore,
         matcherStore,

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useConfig, useMatcher, useOptions } from '../../state/useState';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import { KeyBoardkeys } from '@/util/constants';
 import { Field, Option } from '@/types';
 import s from './style.module.less';
@@ -89,12 +88,12 @@ export const SearchBox = React.memo(
       );
     }, [searchText]);
 
-    const handleOptionSelected = (option: Option) => {
+    const handleOptionSelected = React.useCallback((option: Option) => {
       // option selected via click on option
       onSelect(option);
-    };
+    }, [onSelect]);
 
-    const handleFocus = useDynamicCallback(() => {
+    const handleFocus = React.useCallback(() => {
       if (!matcherKey && position === undefined) {
         clearSelections();
       }
@@ -107,28 +106,28 @@ export const SearchBox = React.memo(
           matcherKey,
         );
       }
-    });
+    }, [matcherKey, position, searchText, field, matcherKey, buildOptions, handleOptionSelected, clearSelections]);
 
-    const handleChange = useDynamicCallback(
+    const handleChange = React.useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchText(event.currentTarget.value);
       },
-    );
+      [setSearchText]);
 
-    const select = () => {
+    const select = React.useCallback(() => {
       if (active) {
         onSelect(active);
         clearOptions();
       }
-    };
+    }, [active, onSelect, clearOptions]);
 
-    const addOptionToSearchText = () => {
+    const addOptionToSearchText = React.useCallback(() => {
       if (active !== null) {
         setSearchText(active.text);
       }
-    };
+    }, [active, setSearchText]);
 
-    const handleKeyDown = useDynamicCallback((event: React.KeyboardEvent) => {
+    const handleKeyDown = React.useCallback((event: React.KeyboardEvent) => {
       if (searchText.length === 0) {
         return;
       }
@@ -190,11 +189,11 @@ export const SearchBox = React.memo(
         event.stopPropagation();
         event.preventDefault();
       }
-    });
+    }, [next, prev, first, last, select, addOptionToSearchText]);
 
-    const handleClick = useDynamicCallback((event: MouseEvent) => {
+    const handleClick = React.useCallback((event: React.MouseEvent) => {
       event.stopPropagation();
-    });
+    }, []);
 
     return (
       <input

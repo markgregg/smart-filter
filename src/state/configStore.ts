@@ -32,12 +32,12 @@ export const createConfigStore = ({
     fieldMap: new Map(fields.map((f) => [f.name, f])),
     hints: hints
       ? {
-          ...hints,
-          hintGroups: hints.hintGroups.map((g) => ({
-            ...g,
-            hints: g.hints.map((h) => ({ ...h, key: uuidv4() })),
-          })),
-        }
+        ...hints,
+        hintGroups: hints.hintGroups.map((g) => ({
+          ...g,
+          hints: typeof g.hints === 'function' ? g.hints : g.hints.map((h) => typeof h === 'string' ? h : ({ ...h, key: uuidv4() })),
+        })),
+      }
       : undefined,
     comparisons: operators ?? [],
     comparisonsMap: new Map((operators ?? []).map((o) => [o.symbol, o])),

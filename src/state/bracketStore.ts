@@ -1,6 +1,7 @@
 import { StoreApi, UseBoundStore, create } from 'zustand';
 import { BracketMatcher, Matcher } from '@/types';
 import { BracketState } from '@/types/State';
+import { BRACKET } from '@/util/constants';
 
 interface Bracket extends BracketMatcher {
   matchedBracket: string | null;
@@ -19,7 +20,7 @@ export const createBracketsStore = (): UseBoundStore<StoreApi<BracketState>> =>
       })),
     updateBracekts: (matchers: Matcher[]) => {
       const brackets = matchers
-        .filter((m) => 'bracket' in m)
+        .filter((m) => BRACKET in m)
         .map((b) => ({ ...(b as BracketMatcher), matchedBracket: null }));
       if (brackets.length > 0) {
         let index = 0;

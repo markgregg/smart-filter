@@ -1,7 +1,6 @@
 import React from 'react';
 import { TbFilter } from 'react-icons/tb';
 import { FaCaretRight, FaCaretLeft } from 'react-icons/fa6';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import { PillContainer } from '../PillContainer';
 import { FilterButtons } from './FilterButtons';
 import { Dropdown } from '../Dropdown';
@@ -13,7 +12,6 @@ import {
   useFilterBar,
   useFocus,
   useMatcher,
-  useMouse,
   useOptions,
 } from '../../state/useState';
 import { Button } from '../common/Button';
@@ -27,8 +25,7 @@ export const FilterBar = React.memo(() => {
     expandedLines,
     showSearchIcon,
   } = useConfig((state) => state);
-  const { hasFocus, setHasFocus } = useFocus((state) => state);
-  const { hasMouse, setHasMouse } = useMouse((state) => state);
+  const { hasFocus, setHasFocus, hasMouse, setHasMouse } = useFocus((state) => state);
   const {
     editMatcher,
     next,
@@ -79,31 +76,31 @@ export const FilterBar = React.memo(() => {
     }
   }, [editPosition, matchers]);
 
-  const handleFocus = useDynamicCallback(() => {
+  const handleFocus = React.useCallback(() => {
     setHasFocus(true);
-  });
+  }, [setHasFocus]);
 
-  const handleLostFocus = useDynamicCallback(() => {
+  const handleLostFocus = React.useCallback(() => {
     setHasFocus(false);
-  });
+  }, [setHasFocus]);
 
-  const handleMouseEnter = useDynamicCallback(() => {
+  const handleMouseEnter = React.useCallback(() => {
     setHasMouse(true);
-  });
+  }, [setHasMouse]);
 
-  const handleMouseLeave = useDynamicCallback(() => {
+  const handleMouseLeave = React.useCallback(() => {
     setHasMouse(false);
-  });
+  }, [setHasMouse]);
 
-  const handleMovePrev = useDynamicCallback(() => {
+  const handleMovePrev = React.useCallback(() => {
     prev();
-  });
+  }, [prev]);
 
-  const handleMoveNext = useDynamicCallback(() => {
+  const handleMoveNext = React.useCallback(() => {
     next();
-  });
+  }, [next]);
 
-  const handleKeyDown = useDynamicCallback((event: React.KeyboardEvent) => {
+  const handleKeyDown = React.useCallback((event: React.KeyboardEvent) => {
     let endPropogation = false;
     switch (event.key) {
       case KeyBoardkeys.ArrowRight: {
@@ -134,7 +131,7 @@ export const FilterBar = React.memo(() => {
       event.stopPropagation();
       event.preventDefault();
     }
-  });
+  }, [first, last, next, prev]);
 
   return (
     <div

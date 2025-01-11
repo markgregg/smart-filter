@@ -4,7 +4,6 @@ import { Field, Value } from '@/types';
 import { TextEditor } from './TextEditor';
 import { DateTimeEditor } from './DateEditor';
 import { Button } from '@/components/common/Button';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import { NumberEditor } from './NumberEditor';
 import { SearchEditor } from './SearchEditor';
 import { Colours } from '@/util/colours';
@@ -61,7 +60,7 @@ export const Editor = React.memo(
       return SearchEditor;
     }, [field]);
 
-    const handleChanged = useDynamicCallback(
+    const handleChanged = React.useCallback(
       (newTextValue: TextValue, isValid: boolean) => {
         if (isValid && newTextValue.value === tempTextValue.value) {
           onChanged(tempTextValue.text, tempTextValue.value);
@@ -70,15 +69,15 @@ export const Editor = React.memo(
         setTempTextValue(newTextValue);
         setValid(isValid);
       },
-    );
+      [onChanged, tempTextValue, setTempTextValue, setValid]);
 
-    const handleCancel = useDynamicCallback(() => {
+    const handleCancel = React.useCallback(() => {
       onCancel();
-    });
+    }, [oncancel]);
 
-    const handleValueChoosen = useDynamicCallback(() => {
+    const handleValueChoosen = React.useCallback(() => {
       onChanged(tempTextValue.text, tempTextValue.value);
-    });
+    }, [onChanged, tempTextValue]);
 
     return (
       <div className={s.textEditor}>

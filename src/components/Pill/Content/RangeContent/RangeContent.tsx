@@ -1,6 +1,5 @@
 import React from 'react';
 import { RangeMatcher, Value } from '@/types';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import { useMatcher, useOptions } from '@/state/useState';
 import { Editor } from '../Editor';
 import { Display } from '../Display';
@@ -59,10 +58,9 @@ export const RangeContent = React.memo(({ matcher, field }: ContentProps) => {
     if (editMatcher?.key !== matcher.key) {
       setEditField('none');
     }
-  }, [editMatcher]);
+  }, [editMatcher, setEditField]);
 
-  const handleClick = useDynamicCallback((event: React.MouseEvent) => {
-    event.stopPropagation();
+  const handleClick = React.useCallback(() => {
     if (matcher.locked) {
       return;
     }
@@ -70,10 +68,9 @@ export const RangeContent = React.memo(({ matcher, field }: ContentProps) => {
     if (editMatcher?.key !== matcher.key) {
       selectMatcherForEdit(matcher.key);
     }
-  });
+  }, [matcher, editMatcher, setEditField, selectMatcherForEdit]);
 
-  const handleClickTo = useDynamicCallback((event: React.MouseEvent) => {
-    event.stopPropagation();
+  const handleClickTo = React.useCallback(() => {
     if (matcher.locked) {
       return;
     }
@@ -81,14 +78,14 @@ export const RangeContent = React.memo(({ matcher, field }: ContentProps) => {
     if (editMatcher?.key !== matcher.key) {
       selectMatcherForEdit(matcher.key);
     }
-  });
+  }, [matcher, editField, setEditField, selectMatcherForEdit]);
 
-  const handleCancel = useDynamicCallback(() => {
+  const handleCancel = React.useCallback(() => {
     setEditField('none');
     clearOptions();
-  });
+  }, [setEditField, clearOptions]);
 
-  const handleChange = useDynamicCallback((text: string, value: Value) => {
+  const handleChange = React.useCallback((text: string, value: Value) => {
     setEditField('none');
     updateMatcher({
       ...matcher,
@@ -96,9 +93,9 @@ export const RangeContent = React.memo(({ matcher, field }: ContentProps) => {
       value,
     });
     clearOptions();
-  });
+  }, [setEditField, matcher, updateMatcher, clearOptions]);
 
-  const handleChangeTo = useDynamicCallback(
+  const handleChangeTo = React.useCallback(
     (textTo: string, valueTo: Value) => {
       setEditField('none');
       updateMatcher({
@@ -107,7 +104,7 @@ export const RangeContent = React.memo(({ matcher, field }: ContentProps) => {
         valueTo,
       });
     },
-  );
+    [setEditField, matcher, updateMatcher]);
 
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment
@@ -117,45 +114,45 @@ export const RangeContent = React.memo(({ matcher, field }: ContentProps) => {
           <>
             {editField === 'value'
               ? field && (
-                  <Editor
-                    matcherKey={matcher.key}
-                    field={field}
-                    textValue={itemValue}
-                    onChanged={handleChange}
-                    onCancel={handleCancel}
-                  />
-                )
+                <Editor
+                  matcherKey={matcher.key}
+                  field={field}
+                  textValue={itemValue}
+                  onChanged={handleChange}
+                  onCancel={handleCancel}
+                />
+              )
               : field && (
-                  <Display
-                    field={field}
-                    text={rangeMatcher.text}
-                    value={rangeMatcher.value}
-                    html={html}
-                    onClick={handleClick}
-                    onChanged={handleChange}
-                  />
-                )}
+                <Display
+                  field={field}
+                  text={rangeMatcher.text}
+                  value={rangeMatcher.value}
+                  html={html}
+                  onClick={handleClick}
+                  onChanged={handleChange}
+                />
+              )}
             <div className={s.toText}>to</div>
             {editField === 'valueto'
               ? field && (
-                  <Editor
-                    matcherKey={matcher.key}
-                    field={field}
-                    textValue={itemValueTo}
-                    onChanged={handleChangeTo}
-                    onCancel={handleCancel}
-                  />
-                )
+                <Editor
+                  matcherKey={matcher.key}
+                  field={field}
+                  textValue={itemValueTo}
+                  onChanged={handleChangeTo}
+                  onCancel={handleCancel}
+                />
+              )
               : field && (
-                  <Display
-                    field={field}
-                    text={rangeMatcher.textTo ?? ''}
-                    value={rangeMatcher.valueTo}
-                    html={htmlTo}
-                    onClick={handleClickTo}
-                    onChanged={handleChangeTo}
-                  />
-                )}
+                <Display
+                  field={field}
+                  text={rangeMatcher.textTo ?? ''}
+                  value={rangeMatcher.valueTo}
+                  html={htmlTo}
+                  onClick={handleClickTo}
+                  onChanged={handleChangeTo}
+                />
+              )}
           </>
         ) : (
           <div />

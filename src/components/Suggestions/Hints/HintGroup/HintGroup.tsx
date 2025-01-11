@@ -2,7 +2,6 @@ import React from 'react';
 import { TiArrowBack } from 'react-icons/ti';
 import { AiFillCaretRight } from 'react-icons/ai';
 import { IconType } from 'react-icons';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import { TooltipButton } from '@/components/common/TooltipButton';
 import { useConfig, useHint } from '@/state/useState';
 import s from './style.module.less';
@@ -21,13 +20,13 @@ export const HintGroup = React.memo(
 
     const hasMore = !selected && hints > hintsPerColumn;
 
-    const handleTitleClick = useDynamicCallback(() => {
+    const handleTitleClick = React.useCallback(() => {
       if (selected) {
         clearSelection();
       } else if (hasMore) {
         selectHintGroup(title);
       }
-    });
+    }, [selected, clearSelection, selectHintGroup]);
 
     const renderTitle = (Icon?: IconType, selectable?: boolean) => (
       <div

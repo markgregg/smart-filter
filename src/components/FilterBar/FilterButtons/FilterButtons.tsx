@@ -4,7 +4,6 @@ import { MdOutlineClear } from 'react-icons/md';
 import { CgUndo } from 'react-icons/cg';
 import { AiFillLock, AiFillUnlock } from 'react-icons/ai';
 import { Button } from '../../common/Button';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import { DEFAULT_FILTER_BAR_HEIGHT } from '@/util/constants';
 import { useConfig, useFilterBar, useMatcher } from '@/state/useState';
 import s from './style.module.less';
@@ -21,24 +20,26 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
     (state) => state,
   );
 
-  const handleClearClick = useDynamicCallback(() => {
+  const handleClearClick = React.useCallback(() => {
     clearMatchers();
-  });
+  }, [clearMatchers]);
 
-  const handleUndoClick = useDynamicCallback(() => { });
+  const handleUndoClick = React.useCallback(() => { }, []);
 
-  const handleLockClick = useDynamicCallback(() => {
+  const handleLockClick = React.useCallback(() => {
     if (locked) {
       unlockMatchers();
     } else {
       lockMatchers();
     }
     setlocked(!locked);
-  });
+    if (locked) {
+    }
+  }, [locked, setlocked, unlockMatchers, lockMatchers]);
 
-  const handleExpandClick = useDynamicCallback(() => {
+  const handleExpandClick = React.useCallback(() => {
     setExpanded(!expanded);
-  });
+  }, [expanded, setExpanded]);
 
   const buttons = [
     {

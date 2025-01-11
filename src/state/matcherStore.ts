@@ -14,7 +14,7 @@ import {
   MatcherState,
 } from '@/types/State';
 import { MatcherValue } from '@/types/values';
-import { AND } from '@/util/constants';
+import { AND, TEXT_ARRAY, VALUE, VALUE_ARRAY, VALUE_TO } from '@/util/constants';
 
 export const createMatcherStore = (
   props: SmartFilterProps,
@@ -383,7 +383,7 @@ const updateMatchers = (
 ) => {
   if (
     !dontAppend &&
-    !('valueTo' in value) &&
+    !(VALUE_TO in value) &&
     (selectedMatcher || position === null || position > 0)
   ) {
     const {
@@ -440,14 +440,14 @@ const appendToList = (
     if (
       'field' in targetMatcher &&
       targetMatcher.field === value.field &&
-      !('valueTo' in targetMatcher)
+      !(VALUE_TO in targetMatcher)
     ) {
       const mField = fieldMap.get(value.field);
       if (mField?.allowList) {
-        const newText = 'textArray' in value ? value.textArray : [value.text];
+        const newText = TEXT_ARRAY in value ? value.textArray : [value.text];
         const newValues =
-          'valueArray' in value ? value.valueArray : [value.value];
-        if ('valueArray' in targetMatcher) {
+          VALUE_ARRAY in value ? value.valueArray : [value.value];
+        if (VALUE_ARRAY in targetMatcher) {
           const existing = newValues.filter((v) =>
             targetMatcher.valueArray.includes(v),
           );
@@ -455,18 +455,18 @@ const appendToList = (
             throw new Error(`${existing.join(',')} alrady exist in pill`);
           }
         }
-        if ('value' in targetMatcher) {
+        if (VALUE in targetMatcher) {
           const existing = newValues.filter((v) => targetMatcher.value === v);
           if (existing.length > 0) {
             throw new Error(`${existing.join(',')} alrady exist in pill`);
           }
         }
         const textArray =
-          'textArray' in targetMatcher
+          TEXT_ARRAY in targetMatcher
             ? [...targetMatcher.textArray, ...newText]
             : [targetMatcher.text, ...newText];
         const valueArray =
-          'valueArray' in targetMatcher
+          VALUE_ARRAY in targetMatcher
             ? [...targetMatcher.valueArray, ...newValues]
             : [targetMatcher.value, ...newValues];
         const { key, field, comparison, operator } = targetMatcher;

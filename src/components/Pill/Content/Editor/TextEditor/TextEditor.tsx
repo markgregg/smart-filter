@@ -1,6 +1,5 @@
 import React from 'react';
 import { EditorComponentProps } from '../Editor';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import s from './style.module.less';
 
 export const TextEditor = React.memo(
@@ -11,16 +10,16 @@ export const TextEditor = React.memo(
       inputRef?.current?.focus();
     }, []);
 
-    const handleChange = useDynamicCallback(
+    const handleChange = React.useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
         const text = event.currentTarget.value;
         onChanged({ text, value: text }, text.length !== 0);
       },
-    );
+      [onChanged]);
 
-    const handleClick = useDynamicCallback((event: MouseEvent) => {
+    const handleClick = (event: React.MouseEvent) => {
       event.stopPropagation();
-    });
+    };
 
     return (
       <input

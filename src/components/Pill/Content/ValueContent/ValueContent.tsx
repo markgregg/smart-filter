@@ -1,6 +1,5 @@
 import React from 'react';
 import { SingleMatcher, Value } from '@/types';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 import { useMatcher, useOptions } from '@/state/useState';
 import { Editor } from '../Editor';
 import { Display } from '../Display';
@@ -48,8 +47,7 @@ export const ValueContent = React.memo(({ matcher, field }: ContentProps) => {
     }
   }, [editMatcher, inEdit]);
 
-  const handleClick = useDynamicCallback((event: React.MouseEvent) => {
-    event.stopPropagation();
+  const handleClick = React.useCallback(() => {
     if (matcher.locked) {
       return;
     }
@@ -57,14 +55,14 @@ export const ValueContent = React.memo(({ matcher, field }: ContentProps) => {
     if (editMatcher?.key !== matcher.key) {
       selectMatcherForEdit(matcher.key);
     }
-  });
+  }, [matcher, setInEdit, matcher, selectMatcherForEdit]);
 
-  const handleCancel = useDynamicCallback(() => {
+  const handleCancel = React.useCallback(() => {
     setInEdit(false);
     clearOptions();
-  });
+  }, [setInEdit, clearOptions]);
 
-  const handleChange = useDynamicCallback((text: string, value: Value) => {
+  const handleChange = React.useCallback((text: string, value: Value) => {
     setInEdit(false);
     updateMatcher({
       ...matcher,
@@ -72,7 +70,7 @@ export const ValueContent = React.memo(({ matcher, field }: ContentProps) => {
       value,
     });
     clearOptions();
-  });
+  }, [setInEdit, matcher, updateMatcher, clearOptions]);
 
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment
@@ -83,24 +81,24 @@ export const ValueContent = React.memo(({ matcher, field }: ContentProps) => {
           <>
             {inEdit
               ? field && (
-                  <Editor
-                    matcherKey={matcher.key}
-                    field={field}
-                    textValue={itemValue}
-                    onChanged={handleChange}
-                    onCancel={handleCancel}
-                  />
-                )
+                <Editor
+                  matcherKey={matcher.key}
+                  field={field}
+                  textValue={itemValue}
+                  onChanged={handleChange}
+                  onCancel={handleCancel}
+                />
+              )
               : field && (
-                  <Display
-                    field={field}
-                    text={valueMatcher.text}
-                    value={valueMatcher.value}
-                    html={html}
-                    onClick={handleClick}
-                    onChanged={handleChange}
-                  />
-                )}
+                <Display
+                  field={field}
+                  text={valueMatcher.text}
+                  value={valueMatcher.value}
+                  html={html}
+                  onClick={handleClick}
+                  onChanged={handleChange}
+                />
+              )}
           </>
         ) : (
           <div />

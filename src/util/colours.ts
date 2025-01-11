@@ -17,17 +17,17 @@ export const Colours = {
 
     delete: 'white',
     deleteHover: 'black',
-    deleteBackground: 'red',
+    deleteBackground: '#da0000',
     deleteHoverBackground: 'white',
   },
 
   backgrounds: {
-    standard: 'rgb(98, 98, 98)',
-    hover: '#189bcd',
+    standard: '#626262',
+    hover: '#444444',
+    locked: '#44444',
     selected: '#1C1C1C',
-    selectedHover: '#3C3C3C',
 
-    errorHover: 'rgb(195 81 74)',
-    error: '#9a3d37',
+    errorHover: '#e60000',
+    error: '#da0000',
   },
 };

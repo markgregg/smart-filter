@@ -1,7 +1,6 @@
 import React from 'react';
 import { FaCircle } from 'react-icons/fa';
 import s from './style.module.less';
-import { useDynamicCallback } from '@/hooks/useDynamicCallback';
 
 interface BooleanToogleProps {
   value: boolean;
@@ -10,12 +9,13 @@ interface BooleanToogleProps {
 
 export const BooleanToogle = React.memo(
   ({ value, onChange }: BooleanToogleProps) => {
-    const handleClick = useDynamicCallback((event: React.MouseEvent) => {
+
+    const handleClick = React.useCallback((event: React.MouseEvent) => {
       if (onChange) {
         onChange(!value);
       }
       event.stopPropagation();
-    });
+    }, [onChange, value]);
 
     return (
       <div
