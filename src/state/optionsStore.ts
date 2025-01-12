@@ -156,8 +156,8 @@ export const createOptionsStore = (
         const { activeIndex: index, options } = state;
         const activeIndex =
           index === null ||
-          (index !== options.length - 1 &&
-            index + pageSize >= options.length - 1)
+            (index !== options.length - 1 &&
+              index + pageSize >= options.length - 1)
             ? options.length - 1
             : index === options.length - 1
               ? 0
@@ -262,16 +262,18 @@ const checkForField = (buildState: BuildState): BuildState => {
     text
       .trim()
       .toLocaleLowerCase()
-      .includes(`${foundField.title.toLocaleLowerCase()} `) &&
+      .includes(`${foundField.title.toLocaleLowerCase()}`) &&
+    text.length > foundField.title.length &&
+    !text[foundField.title.length].match(/[a-z]/i) &&
     !text
       .trim()
       .toLocaleLowerCase()
       .includes(`${foundField.title.toLocaleLowerCase()} to `)
     ? {
-        ...buildState,
-        field: foundField,
-        text: text.substring(foundField.title.length),
-      }
+      ...buildState,
+      field: foundField,
+      text: text.substring(foundField.title.length).trimStart(),
+    }
     : buildState;
 };
 
@@ -285,7 +287,7 @@ const checkForComparison = (buildState: BuildState): BuildState => {
         return {
           ...buildState,
           comparison: symbolPair,
-          text: text.substring(length),
+          text: text.substring(length).trimStart(),
         };
       }
     }
@@ -329,6 +331,7 @@ const contructOptions = (buildState: BuildState) => {
   fields
     .filter((f) => !field || field.name === f.name)
     .forEach((f) => {
+      console.log('here')
       if (text.trim() === '' || text.trim() === EMPTY) {
         if (f.allowBlanks) {
           addOption(buildState, f, EMPTY, null, true);
@@ -402,11 +405,11 @@ const optionSort = (
   }
   const xdiff = Math.abs(
     ('displayText' in x.option ? x.option.displayText : x.option.text).length -
-      (matchedText?.length ?? 0),
+    (matchedText?.length ?? 0),
   );
   const ydiff = Math.abs(
     ('displayText' in y.option ? y.option.displayText : y.option.text).length -
-      (matchedText?.length ?? 0),
+    (matchedText?.length ?? 0),
   );
   return xdiff === ydiff ? x.precedence - y.precedence : xdiff - ydiff;
 };
@@ -465,9 +468,9 @@ const getValueIfValid = (text: string, field: Field) => {
       const date = moment(
         text,
         field.dateTimeFormat ??
-          (field.editorType === 'date'
-            ? DEFAULT_DATE_FORMAT
-            : DEFAULT_DATE_TIME_FORMAT),
+        (field.editorType === 'date'
+          ? DEFAULT_DATE_FORMAT
+          : DEFAULT_DATE_TIME_FORMAT),
         true,
       );
       if (date.isValid()) {
