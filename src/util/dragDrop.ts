@@ -3,7 +3,7 @@ export const clonePill = (pill: HTMLElement): HTMLElement => {
   clonedPill.style.position = 'absolute';
   clonedPill.style.left = '-10000px';
   clonedPill.style.top = '-10000px';
-  clonedPill.style.width = `${pill.clientWidth}px`;
+  clonedPill.style.width = `${pill.clientWidth > 200 ? 200 : pill.clientWidth}px`;
   clonedPill.style.height = `${pill.clientHeight}px`;
 
   const childrenToRemove: ChildNode[] = [];

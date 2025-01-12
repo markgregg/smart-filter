@@ -10,5 +10,6 @@ export interface DragState<T> {
   dragOverItem: DragItem<T> | null;
   setDragItem: (item: T, index: number) => void;
   setDraggedOverItem: (item: T, index: number, position: DROP_POSITION) => void;
+  clearDragOverItem: () => void;
   clearItems: () => void;
 }

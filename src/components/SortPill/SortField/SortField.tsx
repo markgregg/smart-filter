@@ -45,7 +45,7 @@ export const SortField = React.memo(
         {display !== 'none' && <div
           className={s.sortField}
         >
-          <div className={s.optionText}>{field?.title}</div>
+          <div className={s.sortText}>{field?.title}</div>
           {display !== 'field' ? <div className={s.sortIcon}>
             <Button
               onClick={handleClick}

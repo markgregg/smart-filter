@@ -50,7 +50,11 @@ export const FilterBar = React.memo(() => {
   const { matcherKey, clearOptions } = useOptions((state) => state);
   const { matcher, setMatcher } = useArray((state) => state);
   const { expanded, enableExpand } = useFilterBar((state) => state);
-  const sort = useSort(state => state.sort);
+  const {
+    sort,
+    active,
+    setActive,
+  } = useSort(state => state);
 
   const { width = '100%' } = useSizeWatcher(searchBar.current);
 
@@ -93,6 +97,12 @@ export const FilterBar = React.memo(() => {
       clearEditPosition();
     }
   }, [editPosition, matchers]);
+
+  React.useEffect(() => {
+    if (active && (editMatcher !== null || selectedIndex !== null)) {
+      setActive(false);
+    }
+  }, [active, setActive, selectedIndex, editMatcher]);
 
   const handleFocus = React.useCallback(() => {
     setHasFocus(true);

@@ -165,3 +165,7 @@ export const matchExact = (
     ? ignoreCaseEquals(actualItem, searchText)
     : actualItem === searchText;
 };
+
+export const isVisible = (element: HTMLElement) => {
+  return element.offsetParent !== null;
+}

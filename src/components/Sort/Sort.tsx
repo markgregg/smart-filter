@@ -8,10 +8,11 @@ export const Sort = React.memo(() => {
 
   return (
     <div className={s.sort}>
-      {sort.map((sortItem) => (
+      {sort.map((sortItem, index) => (
         <SortItem
           key={sortItem.field}
           sort={sortItem}
+          index={index}
         />
       ))}
     </div>

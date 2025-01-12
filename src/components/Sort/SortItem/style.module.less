@@ -1,15 +1,39 @@
 @import (reference) '../../../util/common.less';
 
-.sortItem {
+.sortItemWrapper {
   display: flex;
-  column-gap: 10px;
+  flex-direction: column;
   flex-grow: 1;
 
-  &:not(:last-child) {
-    border-bottom: 1px solid @seperator;
+  .topInsert {
+    background-color: @insert;
+    height: 3px;
+    align-self: center;
+    border-radius: 3px;
+    margin-bottom: 3px;
+    width: 100%;
   }
 
-  .sortOption {
+  .bottomInsert {
+    background-color: @insert;
+    height: 3px;
+    align-self: center;
+    border-radius: 3px;
+    margin-top: 3px;
+    width: 100%;
+  }
+
+  .sortItem {
+    display: flex;
+    column-gap: 10px;
     flex-grow: 1;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid @seperator;
+    }
+
+    .sortOption {
+      flex-grow: 1;
+    }
   }
 }

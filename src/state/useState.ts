@@ -13,7 +13,7 @@ import {
   OptionsState,
   State,
 } from '@/types/State';
-import { Matcher } from '@/types';
+import { Matcher, Sort } from '@/types';
 import { SortState } from '@/types/State/sort';
 
 const useState = <T, U>(
@@ -57,3 +57,6 @@ export const useBrackets = <U>(selector: (state: BracketState) => U) =>
 
 export const useSort = <U>(selector: (state: SortState) => U) =>
   useState((s) => s.sortStore, selector);
+
+export const useSortDrag = <U>(selector: (state: DragState<Sort>) => U) =>
+  useState((s) => s.sortDragStore, selector);

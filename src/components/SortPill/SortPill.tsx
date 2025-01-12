@@ -1,5 +1,5 @@
 import React from 'react';
-import { useConfig, useFilterBar, useSort } from '@/state/useState';
+import { useConfig, useFilterBar, useMatcher, useSort } from '@/state/useState';
 import { DEFAULT_PILL_HEIGHT, DEFAULT_SORT_PILL_WIDTH } from '@/util/constants';
 import { SortField } from './SortField';
 import { Colours } from '@/util/colours';
@@ -18,7 +18,11 @@ export const SortPill = React.memo(() => {
     sort,
     clearSort,
     setActive,
+    active,
   } = useSort((state) => state);
+  const {
+    clearSelections,
+  } = useMatcher((state) => state);
   const expanded = useFilterBar((state) => state.expanded);
 
   const { width: contentWidth = 0 } = useSizeWatcher(sortContentRef.current);
@@ -27,12 +31,13 @@ export const SortPill = React.memo(() => {
     if (mouseOver) {
       return Colours.backgrounds.hover;
     }
-    /*if (selectedMatcher?.key === matcher.key) {
+    if (active) {
       return Colours.backgrounds.selected;
-    }*/
+    }
     return Colours.backgrounds.standard;
   }, [
-    mouseOver
+    mouseOver,
+    active
   ]);
 
   const handleMouseEnter = React.useCallback(() => {
@@ -49,7 +54,8 @@ export const SortPill = React.memo(() => {
 
   const handleClick = React.useCallback(() => {
     setActive(true);
-  }, [setActive])
+    clearSelections();
+  }, [setActive, clearSelections])
 
 
   return (

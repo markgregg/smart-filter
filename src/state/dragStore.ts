@@ -1,19 +1,19 @@
 import { StoreApi, UseBoundStore, create } from 'zustand';
-import { Matcher } from '@/types';
 import { DROP_POSITION, DragState } from '@/types/State';
 
-export const createMatcherDragStore = (): UseBoundStore<
-  StoreApi<DragState<Matcher>>
+export const createMatcherDragStore = <T>(): UseBoundStore<
+  StoreApi<DragState<T>>
 > =>
-  create<DragState<Matcher>>((set) => ({
+  create<DragState<T>>((set) => ({
     draggedItem: null,
     dragOverItem: null,
-    setDragItem: (item: Matcher, index: number) =>
+    setDragItem: (item: T, index: number) =>
       set({ draggedItem: { item, index } }),
     setDraggedOverItem: (
-      item: Matcher,
+      item: T,
       index: number,
       position: DROP_POSITION,
     ) => set({ dragOverItem: { item, index, position } }),
+    clearDragOverItem: () => set({ dragOverItem: null }),
     clearItems: () => set({ dragOverItem: null, draggedItem: null }),
   }));

@@ -4,11 +4,11 @@ import { createFilterBarStore } from './filterBarStore';
 import { createHintStore } from './hintStore';
 import { createConfigStore } from './configStore';
 import { StateContext } from '@/state/state';
-import { SmartFilterProps } from '@/types';
+import { Matcher, SmartFilterProps, Sort } from '@/types';
 import { createMatcherStore } from './matcherStore';
 import { createOptionsStore } from './optionsStore';
 import { createArrayStore } from './arrayStore';
-import { createMatcherDragStore } from './matcherDragStore';
+import { createMatcherDragStore } from './dragStore';
 import { createBracketsStore } from './bracketStore';
 import { createSortStore } from './SortStore';
 
@@ -35,12 +35,13 @@ export const StateProvider = React.memo(
       [props],
     );
     const arrayStore = React.useMemo(() => createArrayStore(props), [props]);
-    const matcherDragStore = React.useMemo(createMatcherDragStore, []);
+    const matcherDragStore = React.useMemo(() => createMatcherDragStore<Matcher>(), []);
     const bracketsStore = React.useMemo(createBracketsStore, []);
     const sortStore = React.useMemo(
       () => createSortStore(props),
       [props],
     );
+    const sortDragStore = React.useMemo(() => createMatcherDragStore<Sort>(), []);
 
     const stateValue = React.useMemo(
       () => ({
@@ -54,6 +55,7 @@ export const StateProvider = React.memo(
         matcherDragStore,
         bracketsStore,
         sortStore,
+        sortDragStore,
       }),
       [
         configStore,
@@ -66,6 +68,7 @@ export const StateProvider = React.memo(
         matcherDragStore,
         bracketsStore,
         sortStore,
+        sortDragStore,
       ],
     );
 

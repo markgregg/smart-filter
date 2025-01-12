@@ -1,8 +1,9 @@
 import React from 'react';
-import { useConfig, useMatcher, useOptions } from '../../state/useState';
+import { useConfig, useFilterBar, useMatcher, useOptions, useSort } from '../../state/useState';
 import { KeyBoardkeys } from '@/util/constants';
 import { Field, Option } from '@/types';
 import s from './style.module.less';
+import { isVisible } from '@/util/functions';
 
 interface SearchBoxProps {
   matcherKey?: string;
@@ -36,6 +37,11 @@ export const SearchBox = React.memo(
       addClearCallback,
       removeClearCallback,
     } = useMatcher((state) => state);
+    const {
+      active: sortActive,
+      setActive,
+    } = useSort((state) => state);
+    const enableExpand = useFilterBar((state) => state.enableExpand)
 
     React.useEffect(() => {
       if (!matcherKey) {
@@ -57,22 +63,22 @@ export const SearchBox = React.memo(
       if (inputRef.current) {
         if (matcherKey) {
           inputRef.current?.focus();
-        } else if (selectedMatcher === null) {
-          inputRef.current.scrollIntoView({ behavior: 'smooth' });
-          inputRef.current.focus();
         }
       }
-    }, [text, matcherKey, selectedMatcher]);
+    }, [text, matcherKey, selectedMatcher, sortActive]);
 
     React.useEffect(() => {
       if (
         (editMatcher == null &&
           selectedMatcher === null &&
+          !sortActive &&
           editPosition === null) ||
         (editPosition !== null && editPosition === position)
       ) {
         if (inputRef.current) {
-          inputRef.current.scrollIntoView({ behavior: 'smooth' });
+          if (enableExpand && !isVisible(inputRef.current)) {
+            inputRef.current.scrollIntoView({ behavior: 'smooth' });
+          }
           inputRef.current.focus();
         }
       }
@@ -94,6 +100,9 @@ export const SearchBox = React.memo(
     }, [onSelect]);
 
     const handleFocus = React.useCallback(() => {
+      if (sortActive) {
+        setActive(false);
+      }
       if (!matcherKey && position === undefined) {
         clearSelections();
       }
@@ -106,7 +115,7 @@ export const SearchBox = React.memo(
           matcherKey,
         );
       }
-    }, [matcherKey, position, searchText, field, matcherKey, buildOptions, handleOptionSelected, clearSelections]);
+    }, [matcherKey, position, searchText, field, matcherKey, buildOptions, handleOptionSelected, clearSelections, sortActive, setActive]);
 
     const handleChange = React.useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {

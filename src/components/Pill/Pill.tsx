@@ -1,7 +1,7 @@
 import React from 'react';
 import { AiFillLock } from 'react-icons/ai';
 import { Field, Matcher } from '@/types';
-import { getDefaultComparison, hasError } from '@/util/functions';
+import { getDefaultComparison, hasError, isVisible } from '@/util/functions';
 import {
   useBrackets,
   useConfig,
@@ -13,10 +13,10 @@ import { ArrayContent, RangeContent, ValueContent } from './Content';
 import { BracketContent } from './Content/BracketContent';
 import { Or } from './Or';
 import { BRACKET, DEFAULT_PILL_HEIGHT, OR, VALUE_ARRAY, VALUE_TO } from '@/util/constants';
-import { clonePill, removePillFromDocument } from './pillFuntions';
 import { Colours } from '@/util/colours';
 import { CloseButton } from '../CloseButton';
 import s from './style.module.less';
+import { clonePill, removePillFromDocument } from '@/util/dragDrop';
 
 interface PillProps {
   matcher: Matcher;
@@ -48,7 +48,10 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
     addCopyMatcher,
     copyMatchers,
   } = useMatcher((state) => state);
-  const expanded = useFilterBar((state) => state.expanded);
+  const {
+    expanded,
+    enableExpand
+  } = useFilterBar((state) => state);
   const {
     draggedItem,
     dragOverItem,
@@ -116,7 +119,9 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
       (editMatcher?.key === matcher.key ||
         (selectedMatcher?.key === matcher.key && focus))
     ) {
-      pillRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      if (enableExpand && !isVisible(pillRef.current)) {
+        pillRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }
       pillRef.current.focus();
     }
   }, [editMatcher, selectedMatcher, matcher, focus, expanded]);
