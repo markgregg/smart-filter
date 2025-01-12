@@ -1,9 +1,10 @@
 import React from 'react';
 import { Suggestions } from '../Suggestions';
-import { useArray, useConfig, useOptions } from '../../state/useState';
+import { useArray, useConfig, useOptions, useSort } from '../../state/useState';
 import { Options } from '../Options';
 import { Array } from '../Array';
 import s from './style.module.less';
+import { Sort } from '../Sort';
 
 export const Dropdown = React.memo(() => {
   const { maxDropdownHeight: maxHeight, dropdownWidth: width } = useConfig(
@@ -11,10 +12,13 @@ export const Dropdown = React.memo(() => {
   );
   const options = useOptions((state) => state.options);
   const arrayMatcher = useArray((state) => state.matcher);
+  const active = useSort((state) => state.active);
 
   return (
     <div className={s.dropdown} style={{ maxHeight, width }}>
-      {options.length > 0 ? (
+      {active ? (
+        <Sort />
+      ) : options.length > 0 ? (
         <Options />
       ) : arrayMatcher ? (
         <Array />

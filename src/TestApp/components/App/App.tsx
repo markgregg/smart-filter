@@ -12,6 +12,7 @@ export function App() {
         <SmartFilter
           allowLocking
           showSearchIcon
+          enableSort
           fields={[
             {
               name: 'test',
@@ -88,6 +89,7 @@ export function App() {
             { symbol: '!', description: 'Not equals' },
           ]}
           hints={{
+            sortHints: true,
             hintGroups: [
               {
                 title: 'test',

@@ -12,7 +12,7 @@ import s from './style.module.less';
 
 const brackets: Brackets[] = ['(', ')'];
 export const Operators = React.memo(() => {
-  const { fieldMap, comparisonsMap } = useConfig((state) => state);
+  const { fieldMap, comparisonsMap, hints: { sortHints = false } = {} } = useConfig((state) => state);
   const { selectedMatcher, matchers, updateMatcher, addBracket, editPosition } =
     useMatcher((state) => state);
 
@@ -223,6 +223,10 @@ export const Operators = React.memo(() => {
     <div className={s.operators}>
       <FieldSelection />
       <div className={s.seperator} />
+      {sortHints && <>
+        <FieldSelection showSort />
+        <div className={s.seperator} />
+      </>}
       <div className={s.operatorSelection}>
         {selectedMatcher &&
           field?.operators.map((o) => (

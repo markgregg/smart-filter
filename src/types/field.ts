@@ -1,6 +1,8 @@
 import { IconType } from 'react-icons';
 import { FieldMatch } from './fieldMatches';
 import { Value } from './matcher';
+import { DisplayComponentProps } from '@/components/Pill/Content/Display';
+import { EditorComponentProps } from '@/components/Pill/Content/Editor';
 
 export type ValueType =
   | 'bool'
@@ -48,4 +50,8 @@ export interface Field {
   textGetter?: (item: object) => string;
   /* value getter if working with objects */
   valueGetter?: (item: object) => Value;
+  /* custom component to display values */
+  displayComponent?: React.ComponentType<DisplayComponentProps>;
+  /* custom component to edit values */
+  editComponent?: React.ComponentType<EditorComponentProps>;
 }

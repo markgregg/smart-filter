@@ -1,3 +1,9 @@
+export const CLIPBOARD_FORMAT = 'text/json';
+export const DELIMITERS = [',', '\t', '\n'];
+
+
+export const DEFAULT_SORT_OPTION_WIDTH = 200;
+export const DEFAULT_SORT_PILL_WIDTH = 90;
 export const DEFAULT_FILTER_BAR_HEIGHT = 30;
 export const DEFAULT_PILL_HEIGHT = 22;
 export const DEFAULT_DATE_FORMAT = 'DD/MM/YYYY';
@@ -25,6 +31,12 @@ export const KeyBoardkeys = {
   End: 'End',
   Enter: 'Enter',
   Tab: 'Tab',
+  c: 'c',
+  C: 'C',
+  x: 'x',
+  X: 'X',
+  v: 'v',
+  V: 'V',
 };
 
 export const AgTypes = {
@@ -43,7 +55,6 @@ export const AgFilters = {
   agDateColumnFilter: 'agDateColumnFilter',
   agDateStringColumnFilter: 'agDateStringColumnFilter',
 }
-
 
 export const VALUE = 'value';
 export const VALUE_TO = 'valueTo';

@@ -5,7 +5,7 @@ import { splitText } from './functions';
 import s from './style.module.less';
 import { TEXT_TO } from '@/util/constants';
 
-interface OptionProps {
+export interface OptionProps {
   option: OptionType;
   active: boolean;
 }

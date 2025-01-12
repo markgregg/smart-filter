@@ -7,7 +7,7 @@ import { Matcher } from '@/types';
 import { Colours } from '@/util/colours';
 import s from './style.module.less';
 
-interface OptionProps {
+interface ArrayItemProps {
   index: number;
   text: string;
   active: boolean;
@@ -15,7 +15,7 @@ interface OptionProps {
 }
 
 export const ArrayItem = React.memo(
-  ({ index, text, active, selected }: OptionProps) => {
+  ({ index, text, active, selected }: ArrayItemProps) => {
     const { selectItem, setMatcher, matcher } = useArray((state) => state);
     const updateMatcher = useMatcher((state) => state.updateMatcher);
 

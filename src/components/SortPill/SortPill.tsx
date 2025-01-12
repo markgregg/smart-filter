@@ -1,0 +1,82 @@
+import React from 'react';
+import { useConfig, useFilterBar, useSort } from '@/state/useState';
+import { DEFAULT_PILL_HEIGHT, DEFAULT_SORT_PILL_WIDTH } from '@/util/constants';
+import { SortField } from './SortField';
+import { Colours } from '@/util/colours';
+import { useSizeWatcher } from '@/hooks/useSizeWatcher';
+import { CloseButton } from '../CloseButton';
+import s from './style.module.less';
+
+export const SortPill = React.memo(() => {
+  const sortContentRef = React.useRef<HTMLDivElement | null>(null);
+  const [mouseOver, setMouseOver] = React.useState<boolean>(false);
+  const {
+    pillHeight: height = DEFAULT_PILL_HEIGHT,
+    sortPillWidth: maxWidth = DEFAULT_SORT_PILL_WIDTH,
+  } = useConfig((state) => state);
+  const {
+    sort,
+    clearSort,
+    setActive,
+  } = useSort((state) => state);
+  const expanded = useFilterBar((state) => state.expanded);
+
+  const { width: contentWidth = 0 } = useSizeWatcher(sortContentRef.current);
+
+  const backgroundColor = React.useMemo(() => {
+    if (mouseOver) {
+      return Colours.backgrounds.hover;
+    }
+    /*if (selectedMatcher?.key === matcher.key) {
+      return Colours.backgrounds.selected;
+    }*/
+    return Colours.backgrounds.standard;
+  }, [
+    mouseOver
+  ]);
+
+  const handleMouseEnter = React.useCallback(() => {
+    setMouseOver(true);
+  }, [setMouseOver]);
+
+  const handleMouseLeave = React.useCallback(() => {
+    setMouseOver(false);
+  }, [setMouseOver]);
+
+  const handleClearSort = React.useCallback(() => {
+    clearSort();
+  }, [clearSort])
+
+  const handleClick = React.useCallback(() => {
+    setActive(true);
+  }, [setActive])
+
+
+  return (
+    <div
+      className={s.sortPill}
+      style={{
+        height,
+        backgroundColor,
+        marginTop: expanded ? '2px' : '3px',
+      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
+    >
+      <div className={s.sortTitle}>Sort ({sort.length})</div>
+      <div
+        ref={sortContentRef}
+        className={s.sortFields}
+        style={{ maxWidth }}
+      >
+        {sort.map((s) => (<SortField key={s.field} sort={s} />))}
+      </div>
+      {contentWidth >= maxWidth && <div>...</div>}
+      {mouseOver && (
+        <CloseButton onClick={handleClearSort} />
+      )}
+    </div>
+  );
+
+});

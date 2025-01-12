@@ -11,7 +11,7 @@ import {
 import s from './style.module.less';
 import { VALUE, VALUE_ARRAY, VALUE_TO } from '@/util/constants';
 
-interface HintItemsProps {
+export interface HintItemsProps {
   field: string;
   hintSource: Hint[] | (() => Hint[]);
   showAll?: boolean;

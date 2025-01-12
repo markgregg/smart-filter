@@ -1,5 +1,4 @@
 import React from 'react';
-import { IoClose } from 'react-icons/io5';
 import { AiFillLock } from 'react-icons/ai';
 import { Field, Matcher } from '@/types';
 import { getDefaultComparison, hasError } from '@/util/functions';
@@ -10,14 +9,14 @@ import {
   useMatcher,
   useMatcherDrag,
 } from '../../state/useState';
-import { Button } from '../common/Button';
 import { ArrayContent, RangeContent, ValueContent } from './Content';
 import { BracketContent } from './Content/BracketContent';
 import { Or } from './Or';
 import { BRACKET, DEFAULT_PILL_HEIGHT, OR, VALUE_ARRAY, VALUE_TO } from '@/util/constants';
 import { clonePill, removePillFromDocument } from './pillFuntions';
-import s from './style.module.less';
 import { Colours } from '@/util/colours';
+import { CloseButton } from '../CloseButton';
+import s from './style.module.less';
 
 interface PillProps {
   matcher: Matcher;
@@ -33,7 +32,6 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
   const pillRef = React.useRef<HTMLDivElement | null>(null);
   const clonedPillRef = React.useRef<HTMLElement | null>(null);
   const [mouseOver, setMouseOver] = React.useState<boolean>(false);
-  const [showDelete, setShowDelete] = React.useState<boolean>(false);
   const {
     fieldMap,
     comparisonsMap,
@@ -47,6 +45,8 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
     selectMatcher,
     clearEditMatcher,
     moveTo,
+    addCopyMatcher,
+    copyMatchers,
   } = useMatcher((state) => state);
   const expanded = useFilterBar((state) => state.expanded);
   const {
@@ -68,14 +68,17 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
         ? Colours.backgrounds.errorHover
         : Colours.backgrounds.error;
     }
-    if (matcher.locked) {
+    if (matcher.locked && !copyMatchers?.includes(matcher.key)) {
       return Colours.backgrounds.locked;
+    }
+    if (mouseOver || matchingHover === matcher.key) {
+      return Colours.backgrounds.hover;
     }
     if (selectedMatcher?.key === matcher.key) {
       return Colours.backgrounds.selected;
     }
-    if (mouseOver || matchingHover === matcher.key) {
-      return Colours.backgrounds.hover;
+    if (copyMatchers?.includes(matcher.key)) {
+      return Colours.backgrounds.multiSelect;
     }
     if (VALUE_ARRAY in matcher && comparisonsMap.has('list')) {
       return (
@@ -95,7 +98,7 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
         Colours.backgrounds.standard
       );
     }
-    return 'rgb(98,98,98)';
+    return Colours.backgrounds.standard;
   }, [
     matcher,
     selectedMatcher,
@@ -103,6 +106,7 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
     mouseOver,
     matchingHover,
     unmatchedBrackets,
+    copyMatchers,
   ]);
 
   React.useEffect(() => {
@@ -112,7 +116,7 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
       (editMatcher?.key === matcher.key ||
         (selectedMatcher?.key === matcher.key && focus))
     ) {
-      pillRef.current.scrollIntoView({ behavior: 'smooth' });
+      pillRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
       pillRef.current.focus();
     }
   }, [editMatcher, selectedMatcher, matcher, focus, expanded]);
@@ -136,7 +140,11 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
   }, [matcher, deleteMatcher]);
 
   const handleMatcherClicked = React.useCallback((event: React.MouseEvent) => {
-    selectMatcher(matcher.key);
+    if (event.ctrlKey) {
+      addCopyMatcher(matcher.key);
+    } else {
+      selectMatcher(matcher.key);
+    }
     event.stopPropagation();
   }, [selectMatcher, matcher]);
 
@@ -145,16 +153,14 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
     if (BRACKET in matcher && hoverBracket !== matcher.key) {
       setHoverBracket(matcher.key);
     }
-    setShowDelete(true);
-  }, [setMouseOver, setShowDelete, matcher, hoverBracket]);
+  }, [setMouseOver, matcher, hoverBracket]);
 
   const handleMouseLeave = React.useCallback(() => {
     setMouseOver(false);
-    setShowDelete(false);
     if (hoverBracket === matcher.key) {
       setHoverBracket(null);
     }
-  }, [setMouseOver, setShowDelete, matcher, hoverBracket]);
+  }, [setMouseOver, matcher, hoverBracket]);
 
   const handleDragStart = React.useCallback((event: React.DragEvent) => {
     if (matcher.locked) {
@@ -270,27 +276,8 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
             <span className={s.comparison}>{matcher.comparison}</span>
           )}
         <Content matcher={matcher} field={field} />
-        {showDelete && !matcher.locked && (
-          <div id="pill-close" className={s.closeButton}>
-            <Button
-              onClick={handleDeleteMatcher}
-              height={12}
-              width={12}
-              color={Colours.buttons.delete}
-              hoverColor={Colours.buttons.deleteHover}
-              backgroundColor={Colours.buttons.deleteBackground}
-              hoverBackgroundColor={Colours.buttons.deleteHoverBackground}
-              style={{
-                alignSelf: 'center',
-                marginLeft: '3px',
-                paddingBlock: 0,
-                paddingInline: 0,
-                borderRadius: '3px',
-              }}
-            >
-              <IoClose />
-            </Button>
-          </div>
+        {mouseOver && !matcher.locked && (
+          <CloseButton onClick={handleDeleteMatcher} />
         )}
       </div>
       {dragOverItem?.item?.key === matcher.key &&

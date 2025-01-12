@@ -8,7 +8,14 @@ export const TextDisplay = React.memo(
     const maxWidth = useConfig((state) => state.maxValueWidth);
 
     return (
-      <div className={s.display} onClick={onClick} style={{ maxWidth }}>
+      <div
+        className={s.display}
+        onClick={onClick}
+        style={{
+          maxWidth,
+          padding: !html ? '0 0 2px 0' : '',
+        }}
+      >
         {html || text}
       </div>
     );

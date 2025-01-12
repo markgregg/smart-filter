@@ -54,6 +54,7 @@ export const createMatcherStore = (
       focus: false,
       editPosition: null,
       editMatcher: null,
+      copyMatchers: null,
       addValue: ({
         value,
         position,
@@ -79,6 +80,9 @@ export const createMatcherStore = (
             dontAppend,
           ),
         );
+      },
+      insertMatchers: (matchers: Matcher | Matcher[], position: number | null) => {
+        setNotify((state) => updateMatcherList(state.matchers, matchers, position));
       },
       addBracket: (
         bracket: Brackets,
@@ -120,6 +124,18 @@ export const createMatcherStore = (
             selectedMatcher: null,
             selectedIndex: null,
             editMatcher: null,
+            copyMatchers: null,
+          }));
+        }
+      },
+      deleteMatchers: (matchers: Matcher[]) => {
+        if (matchers.every(m => !m.locked)) {
+          setNotify((state) => ({
+            matchers: state.matchers.filter((m) => !matchers.find(fm => fm.key === m.key)),
+            selectedMatcher: null,
+            selectedIndex: null,
+            editMatcher: null,
+            copyMatchers: null,
           }));
         }
       },
@@ -167,8 +183,22 @@ export const createMatcherStore = (
             editPosition: null,
             editMatcher,
             focus: true,
+            copyMatchers: null,
           };
         }),
+      clearCopyMatcher: () => set({ copyMatchers: null }),
+      addCopyMatcher: (key: string) => set((state) => {
+        const { copyMatchers, selectedMatcher, selectMatcher } = state;
+        if (!selectedMatcher) {
+          selectMatcher(key);
+          return {};
+        }
+        return {
+          copyMatchers: copyMatchers?.includes(key)
+            ? copyMatchers.filter(cm => cm !== key)
+            : [...(copyMatchers ?? []), key],
+        };
+      }),
       selectMatcherForEdit: (key: string) =>
         set((state) => {
           const editMatcher = state.matchers.find((m) => m.key === key) ?? null;
@@ -184,6 +214,7 @@ export const createMatcherStore = (
           selectedIndex: null,
           editPosition: null,
           editMatcher: null,
+          copyMatchers: null,
         }));
         set((state) => {
           state.clearCallbacks.forEach((c) => c());
@@ -217,6 +248,7 @@ export const createMatcherStore = (
           selectedIndex: null,
           editPosition: null,
           editMatcher: null,
+          copyMatchers: null,
         }),
       clearEditPosition: () => set({ editPosition: null }),
       clearEditMatcher: () => set({ editMatcher: null }),
@@ -348,24 +380,30 @@ const selectMatcherUpdate = (
 
 const updateMatcherList = (
   matchers: Matcher[],
-  matcher: Matcher,
+  matcher: Matcher | Matcher[],
   position: number | null,
 ): Partial<MatcherState> => {
   const newMatchers =
     position !== null
       ? [
         ...(position > 0 ? matchers.slice(0, position) : []),
-        matcher,
+        ...(Array.isArray(matcher) ? matcher : [matcher]),
         ...(position < matchers.length
           ? matchers.slice(position, matchers.length)
           : []),
       ]
-      : [...matchers, matcher];
-  const editPosition = position !== null ? position + 1 : null;
+      : [...matchers, ...(Array.isArray(matcher) ? matcher : [matcher])];
+  const editPosition = position !== null ? position + (Array.isArray(matcher) ? matcher.length : 1) : null;
+  const selectedMatcher = Array.isArray(matcher)
+    ? matcher[matcher.length - 1]
+    : matcher;
+  const selectedIndex = position
+    ? (Array.isArray(matcher) ? position + matcher.length : position)
+    : newMatchers.length - 1;
   return {
     matchers: newMatchers,
-    selectedMatcher: matcher,
-    selectedIndex: position ?? newMatchers.length - 1,
+    selectedMatcher,
+    selectedIndex,
     editPosition,
     focus: false,
   };

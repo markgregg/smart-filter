@@ -11,6 +11,7 @@ export interface MatcherState {
   focus: boolean;
   editPosition: number | null;
   editMatcher: Matcher | null;
+  copyMatchers: string[] | null;
   addValue: ({
     value,
     position,
@@ -24,11 +25,15 @@ export interface MatcherState {
     comparison?: string;
     dontAppend?: true;
   }) => void;
+  insertMatchers: (matchers: Matcher | Matcher[], position: number | null) => void;
   addBracket: (bracket: Brackets, position: number | null) => void;
   updateMatcher: (matcher: Matcher) => void;
   deleteMatcher: (matcher: Matcher) => void;
+  deleteMatchers: (matchers: Matcher[]) => void;
   selectMatcher: (key: string) => void;
   selectMatcherForEdit: (key: string) => void;
+  clearCopyMatcher: () => void;
+  addCopyMatcher: (key: string) => void;
   moveTo: (from: number, to: number, position: DROP_POSITION) => void;
   clearMatchers: () => void;
   addClearCallback: (callback: ClearCallbackFunction) => void;

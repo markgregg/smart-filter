@@ -1,0 +1,15 @@
+@import (reference) '../../../util/common.less';
+
+.sortItem {
+  display: flex;
+  column-gap: 10px;
+  flex-grow: 1;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid @seperator;
+  }
+
+  .sortOption {
+    flex-grow: 1;
+  }
+}

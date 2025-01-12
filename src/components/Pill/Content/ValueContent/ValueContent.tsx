@@ -25,10 +25,10 @@ export const ValueContent = React.memo(({ matcher, field }: ContentProps) => {
     }
     const Icon = field?.iconMap?.get(valueMatcher.value);
     return field?.display === 'icon' ? (
-      <div className={s.iconText}>{Icon && <Icon className={s.icon} />}</div>
+      <div>{Icon && <Icon className={s.icon} />}</div>
     ) : (
-      <div>
-        {valueMatcher.text}
+      <div className={s.iconText}>
+        <div className={s.text}>{valueMatcher.text}</div>
         {Icon && <Icon className={s.icon} />}
       </div>
     );

@@ -1,6 +1,7 @@
 import React from 'react';
 import { MdAddBox } from 'react-icons/md';
-import { useConfig, useMatcher } from '@/state/useState';
+import { BiSort } from "react-icons/bi";
+import { useConfig, useMatcher, useSort } from '@/state/useState';
 import { Tooltip } from '@/components/common/Tooltip';
 import { Field } from '@/types';
 import {
@@ -9,16 +10,24 @@ import {
   getDefaultTextValue,
   ignoreCaseCompare,
 } from '@/util/functions';
+import { FieldOption } from './FieldOption';
+import { SortOption } from './SortOption';
 import s from './style.module.less';
+import { SortDirection } from '@/types/sort';
 
-export const FieldSelection = React.memo(() => {
+interface FieldSelectionProps {
+  showSort?: boolean;
+}
+
+export const FieldSelection = React.memo(({ showSort }: FieldSelectionProps) => {
   const [filter, setFilter] = React.useState<string>('');
   const [showFields, setShowFields] = React.useState<boolean>(false);
-  const fields = useConfig((state) => state.fields);
+  const { fields, hints: { sortHints = false } = {} } = useConfig((state) => state);
   const { addValue, editPosition } = useMatcher((state) => state);
+  const { updateSort } = useSort((state) => state);
 
   const filteredFields = React.useMemo(
-    () => fields.filter((f) => ignoreCaseCompare(f.title, filter)),
+    () => fields.filter((f) => (!showSort || sortHints === true || sortHints && sortHints.includes(f.name)) && ignoreCaseCompare(f.title, filter)),
     [fields, filter],
   );
 
@@ -31,29 +40,32 @@ export const FieldSelection = React.memo(() => {
     setFilter('');
   }, [setShowFields, setFilter]);
 
-  const addMatcher = (field: Field) => {
+  const addMatcher = React.useCallback((field: Field) => {
     const { text, value } = getDefaultTextValue(field);
     const matcher = createValue({
       field: field.name,
       text,
       value,
     });
-    addValue({
-      value: matcher,
-      position: editPosition,
-      comparison: getDefaultComparison(field),
-      dontAppend: true,
-    });
+    if (!showSort) {
+      addValue({
+        value: matcher,
+        position: editPosition,
+        comparison: getDefaultComparison(field),
+        dontAppend: true,
+      });
+    }
     setShowFields(false);
     setFilter('');
-  };
+  }, [editPosition, addValue]);
 
-  const handleAddMatcher = React.useCallback(
-    (event: React.MouseEvent, field: Field) => {
-      addMatcher(field);
-      event.stopPropagation();
-    },
-    [addMatcher]);
+  const handleAddMatcher = React.useCallback((field: Field) => {
+    addMatcher(field);
+  }, [addMatcher]);
+
+  const handleAddSort = React.useCallback((field: string, sortDirection: SortDirection) => {
+    updateSort(field, sortDirection);
+  }, [updateSort]);
 
   const handleChanged = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,21 +74,29 @@ export const FieldSelection = React.memo(() => {
     [setFilter]);
 
   const handleKeyDown = React.useCallback((event: React.KeyboardEvent) => {
-    if (event.key === 'Enter' && filteredFields.length > 0) {
+    if (event.key === 'Enter' && filteredFields.length > 0 && !showSort) {
       addMatcher(filteredFields[0]);
     }
   }, [addMatcher, filteredFields]);
 
   return (
-    <div className={s.fieldSelection}>
-      <Tooltip caption="Add field">
-        <div className={s.addFieldIcon} onMouseEnter={handleShowFields}>
-          <MdAddBox />
+    <div
+      className={s.fieldSelection}
+      onMouseLeave={handleHideFields}
+    >
+      <Tooltip caption={showSort ? 'Add Sort Field' : 'Add Field'}>
+        <div
+          className={s.addFieldIcon}
+          onMouseEnter={handleShowFields}
+        >
+          {showSort ? <BiSort /> : <MdAddBox />}
         </div>
       </Tooltip>
       {showFields && (
-        <div className={s.filterSelectionPopup} onMouseLeave={handleHideFields}>
+        <div className={s.filterSelectionPopup}>
+          <div className={s.title}>{showSort ? 'Add Sort Field' : 'Add Field'}</div>
           <div className={s.filter}>
+            <label>Filter:</label>
             <input
               value={filter}
               onChange={handleChanged}
@@ -84,15 +104,10 @@ export const FieldSelection = React.memo(() => {
             />
           </div>
           <div className={s.fields}>
-            {filteredFields.map((f) => (
-              <div
-                className={s.field}
-                key={f.name}
-                onClick={(e) => handleAddMatcher(e, f)}
-              >
-                {f.title}
-              </div>
-            ))}
+            {filteredFields.map((f) => showSort
+              ? <SortOption key={f.name} field={f} onSelect={handleAddSort} />
+              : <FieldOption key={f.name} field={f} onSelect={handleAddMatcher} />
+            )}
           </div>
         </div>
       )}

@@ -1,3 +1,5 @@
+@import (reference) '../../../../util/common.less';
+
 .fieldSelection {
   position: relative;
 
@@ -15,16 +17,27 @@
     top: 10px;
     left: 10px;
     max-width: 160px;
-    border: 1px solid #d3d3d3;
+    border: 1px solid @border;
     border-radius: 3px;
     transform-origin: top center;
-    background-color: white;
-    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.73);
+    background-color: @background;
+    box-shadow: @box-shaddow;
+
+    .title {
+      display: flex;
+      font-weight: bold;
+      border-bottom: 1px solid @border-bottom;
+      padding-left: 4px;
+    }
 
     .filter {
-      width: 100%;
+      padding-left: 4px;
+      display: flex;
+      flex-grow: 1;
       overflow: hidden;
-      border-bottom: 1px solid black;
+      border-bottom: 1px solid @border-bottom;
+      font-weight: bold;
+      column-gap: 3px;
 
       input {
         outline: none;
@@ -37,16 +50,6 @@
       flex-direction: column;
       max-height: 200px;
       overflow-y: auto;
-
-      .field {
-        padding: 2px 4px;
-        user-select: none;
-        white-space: nowrap;
-
-        &:hover {
-          background-color: lightgray;
-        }
-      }
     }
   }
 }

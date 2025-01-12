@@ -4,7 +4,7 @@ import { FaCaretRight, FaCaretLeft } from 'react-icons/fa6';
 import { PillContainer } from '../PillContainer';
 import { FilterButtons } from './FilterButtons';
 import { Dropdown } from '../Dropdown';
-import { DEFAULT_FILTER_BAR_HEIGHT, KeyBoardkeys } from '@/util/constants';
+import { DEFAULT_FILTER_BAR_HEIGHT, DEFAULT_SORT_PILL_WIDTH, KeyBoardkeys } from '@/util/constants';
 import { useSizeWatcher } from '@/hooks/useSizeWatcher';
 import {
   useArray,
@@ -13,8 +13,11 @@ import {
   useFocus,
   useMatcher,
   useOptions,
+  useSort,
 } from '../../state/useState';
 import { Button } from '../common/Button';
+import { getMatchersFromText } from './functions';
+import { SortPill } from '../SortPill';
 import s from './style.module.less';
 
 export const FilterBar = React.memo(() => {
@@ -24,6 +27,10 @@ export const FilterBar = React.memo(() => {
     filterBarHeight = DEFAULT_FILTER_BAR_HEIGHT,
     expandedLines,
     showSearchIcon,
+    pasteOptions,
+    fieldMap,
+    enableSort,
+    sortPillWidth = DEFAULT_SORT_PILL_WIDTH,
   } = useConfig((state) => state);
   const { hasFocus, setHasFocus, hasMouse, setHasMouse } = useFocus((state) => state);
   const {
@@ -36,27 +43,38 @@ export const FilterBar = React.memo(() => {
     editPosition,
     matchers,
     clearEditPosition,
+    copyMatchers,
+    insertMatchers,
+    deleteMatchers,
   } = useMatcher((state) => state);
   const { matcherKey, clearOptions } = useOptions((state) => state);
   const { matcher, setMatcher } = useArray((state) => state);
   const { expanded, enableExpand } = useFilterBar((state) => state);
+  const sort = useSort(state => state.sort);
+
   const { width = '100%' } = useSizeWatcher(searchBar.current);
+
   const height = expanded
     ? expandedLines
       ? expandedLines * filterBarHeight
       : undefined
     : filterBarHeight;
 
-  const maxPillContainerWidth =
-    Math.floor((searchBar.current?.clientWidth ?? 2000) -
-      (filterBuittons.current?.scrollWidth ?? 70) -
-      (showSearchIcon ? 30 : 0));
   const showMovePrev =
     enableExpand && !expanded && (editPosition === null || editPosition > 0);
   const showMoveNext =
     enableExpand &&
     !expanded &&
     (editPosition !== null || editPosition !== null || selectedIndex !== null);
+
+  const maxPillContainerWidth =
+    Math.floor((searchBar.current?.clientWidth ?? 2000) -
+      (filterBuittons.current?.scrollWidth ?? 70) -
+      (sort.length > 0 ? sortPillWidth + 60 : 0) -
+      (showMoveNext ? 26 : 0) -
+      (showMovePrev ? 26 : 0) -
+      (showSearchIcon ? 30 : 0));
+
 
   React.useEffect(() => {
     if (matcher?.key !== editMatcher?.key || !editMatcher) {
@@ -100,6 +118,30 @@ export const FilterBar = React.memo(() => {
     next();
   }, [next]);
 
+  const handleCopy = React.useCallback(() => {
+    const matchersToCopy = matchers.filter((m, i) => selectedIndex === i || (copyMatchers && copyMatchers.includes(m.key)));
+    if (matchersToCopy.length > 0) {
+      navigator.clipboard.writeText(JSON.stringify(matchersToCopy));
+    }
+  }, [matchers, selectedIndex, copyMatchers]);
+
+  const handleCut = React.useCallback(() => {
+    const matchersToCut = matchers.filter((m, i) => selectedIndex === i || (copyMatchers && copyMatchers.includes(m.key)));
+    if (matchersToCut.length > 0 && matchersToCut.every(m => !m.locked)) {
+      navigator.clipboard.writeText(JSON.stringify(matchersToCut));
+      deleteMatchers(matchersToCut);
+    }
+  }, [matchers, selectedIndex, copyMatchers, deleteMatchers]);
+
+  const handlePaste = React.useCallback(() => {
+    navigator.clipboard.readText().then(text => {
+      const pasteMatchers = getMatchersFromText(text, fieldMap, pasteOptions);
+      if (pasteMatchers) {
+        insertMatchers(pasteMatchers, editPosition);
+      }
+    });
+  }, [insertMatchers, fieldMap, pasteOptions, editPosition]);
+
   const handleKeyDown = React.useCallback((event: React.KeyboardEvent) => {
     let endPropogation = false;
     switch (event.key) {
@@ -123,6 +165,27 @@ export const FilterBar = React.memo(() => {
         endPropogation = true;
         break;
       }
+      case KeyBoardkeys.c:
+      case KeyBoardkeys.C:
+        if (event.ctrlKey) {
+          handleCopy();
+          endPropogation = true;
+        }
+        break;
+      case KeyBoardkeys.x:
+      case KeyBoardkeys.X:
+        if (event.ctrlKey) {
+          handleCut();
+          endPropogation = true;
+        }
+        break;
+      case KeyBoardkeys.v:
+      case KeyBoardkeys.V:
+        if (event.ctrlKey) {
+          handlePaste();
+          endPropogation = true;
+        }
+        break;
       default: {
         // ignore
       }
@@ -131,7 +194,7 @@ export const FilterBar = React.memo(() => {
       event.stopPropagation();
       event.preventDefault();
     }
-  }, [first, last, next, prev]);
+  }, [first, last, next, prev, handleCopy, handlePaste, handleCut]);
 
   return (
     <div
@@ -188,8 +251,9 @@ export const FilterBar = React.memo(() => {
             <FaCaretRight />
           </Button>
         )}
+        {enableSort && sort.length > 0 && <SortPill />}
         <FilterButtons ref={filterBuittons} />
-        {(hasFocus || hasMouse) && <Dropdown />}
+        {(hasFocus || hasMouse || true) && <Dropdown />}
       </div>
     </div>
   );

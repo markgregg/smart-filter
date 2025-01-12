@@ -3,6 +3,7 @@
 .pill {
   display: flex;
   align-items: center;
+  color: @secondary;
 
   .rightInsert {
     background-color: @insert;
@@ -27,7 +28,6 @@
     position: relative;
     border-radius: 3px;
     font-size: small;
-    color: @background;
 
     .locked {
       padding-right: 3px;
@@ -54,13 +54,6 @@
       padding: 0 3px 2px 0;
       user-select: none;
       white-space: nowrap;
-    }
-
-    .closeButton {
-      position: absolute;
-      top: -2px;
-      left: calc(100% - 8px);
-      z-index: 1;
     }
   }
 }

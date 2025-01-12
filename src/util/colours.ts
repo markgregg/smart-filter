@@ -19,6 +19,11 @@ export const Colours = {
     deleteHover: 'black',
     deleteBackground: '#da0000',
     deleteHoverBackground: 'white',
+
+    sort: 'white',
+    sortHover: 'black',
+    sortBackground: 'transparent',
+    sortHoverBackground: 'white',
   },
 
   backgrounds: {
@@ -26,6 +31,7 @@ export const Colours = {
     hover: '#444444',
     locked: '#44444',
     selected: '#1C1C1C',
+    multiSelect: '#202020',
 
     errorHover: '#e60000',
     error: '#da0000',

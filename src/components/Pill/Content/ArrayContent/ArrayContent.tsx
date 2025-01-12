@@ -42,13 +42,13 @@ export const ArrayContent = React.memo(({ matcher, field }: ContentProps) => {
                 ? arrayMatcher.textArray[i]
                 : '';
             return field?.display === 'both' ? (
-              <div key={text}>
-                {text}
+              <div key={text} className={s.iconText}>
+                <div className={s.text}>{text}</div>
                 {Icon && <Icon className={s.icon} />}
-                {i < a.length - 1 ? ',' : ''}
+                <div className={s.text}>{i < a.length - 1 ? ',' : ''}</div>
               </div>
             ) : (
-              <div key={text} className={s.iconText}>
+              <div key={text}>
                 {Icon && <Icon className={s.icon} />}
               </div>
             );
@@ -86,7 +86,7 @@ export const ArrayContent = React.memo(({ matcher, field }: ContentProps) => {
       selectMatcherForEdit(matcher.key);
     }
     setMatcher(arrayMatcher);
-  }, [matcher, setInEdit, selectMatcherForEdit, setMatcher]);
+  }, [matcher, editMatcher, setInEdit, selectMatcherForEdit, setMatcher]);
 
   const handleCancel = React.useCallback(() => {
     if (selectedIndex !== null || options.length > 0) {

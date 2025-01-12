@@ -21,6 +21,12 @@ export const createConfigStore = ({
   showSearchIcon,
   allowLocking,
   showUndoIcon,
+  debounce,
+  pageSize,
+  pasteOptions,
+  sortPillWidth,
+  enableSort,
+  sortOptionWidth,
 }: SmartFilterProps): UseBoundStore<StoreApi<ConfigState>> =>
   create<ConfigState>(() => ({
     filterBarHeight: filterBarHeight ?? DEFAULT_FILTER_BAR_HEIGHT,
@@ -46,4 +52,10 @@ export const createConfigStore = ({
     showSearchIcon,
     allowLocking,
     showUndoIcon,
+    debounce,
+    pageSize,
+    pasteOptions,
+    sortPillWidth,
+    enableSort,
+    sortOptionWidth,
   }));

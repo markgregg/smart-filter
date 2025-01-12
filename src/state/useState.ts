@@ -14,6 +14,7 @@ import {
   State,
 } from '@/types/State';
 import { Matcher } from '@/types';
+import { SortState } from '@/types/State/sort';
 
 const useState = <T, U>(
   storeSelector: (state: State) => UseBoundStore<StoreApi<T>>,
@@ -53,3 +54,6 @@ export const useMatcherDrag = <U>(selector: (state: DragState<Matcher>) => U) =>
 
 export const useBrackets = <U>(selector: (state: BracketState) => U) =>
   useState((s) => s.bracketsStore, selector);
+
+export const useSort = <U>(selector: (state: SortState) => U) =>
+  useState((s) => s.sortStore, selector);

@@ -27,7 +27,7 @@ export const createArrayStore = (
         if (matcher !== null) {
           const index =
             currentIndex === null ||
-            currentIndex >= matcher.valueArray.length - 1
+              currentIndex >= matcher.valueArray.length - 1
               ? 0
               : currentIndex + 1;
           return { index };
@@ -52,8 +52,8 @@ export const createArrayStore = (
         if (matcher !== null) {
           const index =
             currentIndex === null ||
-            (currentIndex !== matcher.valueArray.length - 1 &&
-              currentIndex + pageSize >= matcher.valueArray.length - 1)
+              (currentIndex !== matcher.valueArray.length - 1 &&
+                currentIndex + pageSize >= matcher.valueArray.length - 1)
               ? matcher.valueArray.length - 1
               : currentIndex === matcher.valueArray.length - 1
                 ? 0
@@ -68,7 +68,7 @@ export const createArrayStore = (
         if (matcher !== null) {
           const index =
             currentIndex === null ||
-            (currentIndex !== 0 && currentIndex - pageSize <= 0)
+              (currentIndex !== 0 && currentIndex - pageSize <= 0)
               ? 0
               : currentIndex === 0
                 ? matcher.valueArray.length - 1

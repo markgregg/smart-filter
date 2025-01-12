@@ -48,6 +48,9 @@ export const Editor = React.memo(
     }, [textValue]);
 
     const ContentEditor = React.useMemo(() => {
+      if (field.editComponent) {
+        return field.editComponent;
+      }
       if (field.editorType === 'date' || field.editorType === 'datetime') {
         return DateTimeEditor;
       }
@@ -73,7 +76,7 @@ export const Editor = React.memo(
 
     const handleCancel = React.useCallback(() => {
       onCancel();
-    }, [oncancel]);
+    }, [onCancel]);
 
     const handleValueChoosen = React.useCallback(() => {
       onChanged(tempTextValue.text, tempTextValue.value);

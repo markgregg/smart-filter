@@ -24,6 +24,9 @@ interface DisplayProps {
 export const Display = React.memo(
   ({ field, text, value, html, onClick, onChanged }: DisplayProps) => {
     const ContentDisplay = React.useMemo(() => {
+      if (field.displayComponent) {
+        return field.displayComponent;
+      }
       if (field.editorType === 'bool') {
         return BooleanDisplay;
       }

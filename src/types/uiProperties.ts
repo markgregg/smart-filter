@@ -5,6 +5,8 @@ interface FilterBar {
   filterBarHeight?: number;
   pillHeight?: number;
   maxValueWidth?: number;
+  sortPillWidth?: number;
+  sortOptionWidth?: number;
 }
 
 interface DropDown {
@@ -16,4 +18,4 @@ interface Input {
   placeholder?: string;
 }
 
-export interface UIProperties extends FilterBar, DropDown, Input {}
+export interface UIProperties extends FilterBar, DropDown, Input { }

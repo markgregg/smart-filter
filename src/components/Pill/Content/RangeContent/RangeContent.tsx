@@ -32,8 +32,8 @@ export const RangeContent = React.memo(({ matcher, field }: ContentProps) => {
     return field?.display === 'icon' ? (
       <div>{Icon && <Icon className={s.icon} />}</div>
     ) : (
-      <div>
-        {rangeMatcher.text}
+      <div className={s.iconText}>
+        <div className={s.text}>{rangeMatcher.text}</div>
         {Icon && <Icon className={s.icon} />}
       </div>
     );
@@ -47,8 +47,8 @@ export const RangeContent = React.memo(({ matcher, field }: ContentProps) => {
     return field?.display === 'icon' ? (
       <div className={s.iconText}>{Icon && <Icon className={s.icon} />}</div>
     ) : (
-      <div>
-        {rangeMatcher.textTo}
+      <div className={s.iconText}>
+        <div className={s.text}>{rangeMatcher.textTo}</div>
         {Icon && <Icon className={s.icon} />}
       </div>
     );
