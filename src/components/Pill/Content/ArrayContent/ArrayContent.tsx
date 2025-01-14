@@ -48,9 +48,7 @@ export const ArrayContent = React.memo(({ matcher, field }: ContentProps) => {
                 <div className={s.text}>{i < a.length - 1 ? ',' : ''}</div>
               </div>
             ) : (
-              <div key={text}>
-                {Icon && <Icon className={s.icon} />}
-              </div>
+              <div key={text}>{Icon && <Icon className={s.icon} />}</div>
             );
           })}
         </div>
@@ -97,85 +95,106 @@ export const ArrayContent = React.memo(({ matcher, field }: ContentProps) => {
       setInEdit(false);
       setMatcher(null);
     }
-  }, [selectedIndex, options, selectItem, clearOptions, setTextValue, setInEdit]);
+  }, [
+    selectedIndex,
+    options,
+    selectItem,
+    clearOptions,
+    setTextValue,
+    setInEdit,
+  ]);
 
-  const handleChange = React.useCallback((text: string, value: Value) => {
-    if (selectedIndex === null) {
-      if (arrayMatcher.valueArray.includes(value)) {
-        throw new Error(`${value} alrady exist in pill`);
+  const handleChange = React.useCallback(
+    (text: string, value: Value) => {
+      if (selectedIndex === null) {
+        if (arrayMatcher.valueArray.includes(value)) {
+          throw new Error(`${value} alrady exist in pill`);
+        }
       }
-    }
-    const valueArray =
-      selectedIndex !== null
-        ? arrayMatcher.valueArray.map((v, idx) =>
-          idx === selectedIndex ? value : v,
-        )
-        : [...arrayMatcher.valueArray, value];
-    const textArray =
-      selectedIndex !== null
-        ? arrayMatcher.textArray.map((t, idx) =>
-          idx === selectedIndex ? text : t,
-        )
-        : [...arrayMatcher.textArray, text];
-    const newMatcher = {
-      ...arrayMatcher,
-      valueArray,
-      textArray,
-    };
-    updateMatcher(newMatcher);
-    setMatcher(newMatcher);
-    selectItem(null);
-    clearOptions();
-    setTextValue({ text: '', value: null });
-  }, [selectedIndex, arrayMatcher, updateMatcher, setMatcher, selectItem, clearOptions, setTextValue]);
+      const valueArray =
+        selectedIndex !== null
+          ? arrayMatcher.valueArray.map((v, idx) =>
+            idx === selectedIndex ? value : v,
+          )
+          : [...arrayMatcher.valueArray, value];
+      const textArray =
+        selectedIndex !== null
+          ? arrayMatcher.textArray.map((t, idx) =>
+            idx === selectedIndex ? text : t,
+          )
+          : [...arrayMatcher.textArray, text];
+      const newMatcher = {
+        ...arrayMatcher,
+        valueArray,
+        textArray,
+      };
+      updateMatcher(newMatcher);
+      setMatcher(newMatcher);
+      selectItem(null);
+      clearOptions();
+      setTextValue({ text: '', value: null });
+    },
+    [
+      selectedIndex,
+      arrayMatcher,
+      updateMatcher,
+      setMatcher,
+      selectItem,
+      clearOptions,
+      setTextValue,
+    ],
+  );
 
-  const handleKeyDown = React.useCallback((event: React.KeyboardEvent) => {
-    let endPropogation = false;
-    switch (event.key) {
-      case KeyBoardkeys.ArrowDown: {
-        next();
-        endPropogation = true;
-        break;
+  const handleKeyDown = React.useCallback(
+    (event: React.KeyboardEvent) => {
+      let endPropogation = false;
+      switch (event.key) {
+        case KeyBoardkeys.ArrowDown: {
+          next();
+          endPropogation = true;
+          break;
+        }
+        case KeyBoardkeys.ArrowUp: {
+          prev();
+          endPropogation = true;
+          break;
+        }
+        case KeyBoardkeys.PageDown: {
+          nextPage();
+          endPropogation = true;
+          break;
+        }
+        case KeyBoardkeys.PageUp: {
+          prevPage();
+          endPropogation = true;
+          break;
+        }
+        case KeyBoardkeys.Home: {
+          first();
+          endPropogation = true;
+          break;
+        }
+        case KeyBoardkeys.End: {
+          last();
+          endPropogation = true;
+          break;
+        }
+        case KeyBoardkeys.Enter: {
+          selectItem(index);
+          endPropogation = true;
+          break;
+        }
+        default: {
+          // ingore
+        }
       }
-      case KeyBoardkeys.ArrowUp: {
-        prev();
-        endPropogation = true;
-        break;
+      if (endPropogation) {
+        event.stopPropagation();
+        event.preventDefault();
       }
-      case KeyBoardkeys.PageDown: {
-        nextPage();
-        endPropogation = true;
-        break;
-      }
-      case KeyBoardkeys.PageUp: {
-        prevPage();
-        endPropogation = true;
-        break;
-      }
-      case KeyBoardkeys.Home: {
-        first();
-        endPropogation = true;
-        break;
-      }
-      case KeyBoardkeys.End: {
-        last();
-        endPropogation = true;
-        break;
-      }
-      case KeyBoardkeys.Enter: {
-        selectItem(index);
-        endPropogation = true;
-        break;
-      }
-      default: {
-        // ingore
-      }
-    }
-    if (endPropogation) {
-      event.stopPropagation();
-      event.preventDefault();
-    }
-  }, [next, prev, first, last, nextPage, prevPage, selectItem]);
+    },
+    [next, prev, first, last, nextPage, prevPage, selectItem, index],
+  );
 
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment

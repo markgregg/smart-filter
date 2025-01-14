@@ -7,7 +7,7 @@
   "plugins": [
     "import",
     "react",
-    "prettier",
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -56,7 +56,9 @@
         ]
       }
     ],
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "react/function-component-definition": "off"
   },
   "overrides": [
     {

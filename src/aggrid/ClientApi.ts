@@ -1,8 +1,20 @@
-import { Column, ColumnApi, GridAPi } from "@/types/agGrid";
-import { FilterFunction, FilterValueGetter, getColumn, getColumns } from "./agGridApi";
-import { FieldMatch, SourceItem, Matcher, ValueMatcher } from "..";
-import moment from "moment";
-import { AgTypes, BRACKET, OR, VALUE_ARRAY, VALUE_TO } from "@/util/constants";
+import moment from 'moment';
+import { Column, ColumnApi, GridAPi } from '@/types/agGrid';
+import {
+  FilterFunction,
+  FilterValueGetter,
+  getColumn,
+  getColumns,
+} from './agGridApi';
+import { FieldMatch, SourceItem, Matcher, ValueMatcher } from '..';
+import {
+  AgFilters,
+  AgTypes,
+  BRACKET,
+  OR,
+  VALUE_ARRAY,
+  VALUE_TO,
+} from '@/util/constants';
 
 export const defaultDateFormat = 'YYYY-MM-DD';
 
@@ -36,16 +48,10 @@ export const createClientApi = (
     return null;
   }
 
-  const getAgColumn = (
-    column: string,
-  ): Column | null => {
-    return getColumn(column, gridApi, columnApi);
-  }
+  const getAgColumn = (column: string): Column | null =>
+    getColumn(column, gridApi, columnApi);
 
-  const getAgColumns = (
-  ): Column[] | null => {
-    return getColumns(gridApi, columnApi);
-  }
+  const getAgColumns = (): Column[] | null => getColumns(gridApi, columnApi);
 
   const getBooleanText = (name: string): string => {
     if (name.length > 1) {
@@ -74,7 +80,14 @@ export const createClientApi = (
         ignoreCase: true,
         lookup: async (text, op) =>
           new Promise((resolve) => {
-            resolve(findUniqueSourceItems(text, field, op === 'or', filterValueGetter));
+            resolve(
+              findUniqueSourceItems(
+                text,
+                field,
+                op === 'or',
+                filterValueGetter,
+              ),
+            );
           }),
         lookupOnPaste: async (text) =>
           new Promise((resolve) => {
@@ -82,7 +95,10 @@ export const createClientApi = (
           }),
       };
     }
-    if (type === AgTypes.number || filter === 'AgFilters.agNumberColumnFilter') {
+    if (
+      type === AgTypes.number ||
+      filter === 'AgFilters.agNumberColumnFilter'
+    ) {
       return {
         match: (text: string) => !Number.isNaN(Number(text)),
         value: (text: string) => Number.parseFloat(text),
@@ -93,9 +109,14 @@ export const createClientApi = (
       return {
         match: (text: string) =>
           Number.isNaN(Number(text)) &&
-          (dateFormats ? moment(text, dateFormats, true) : moment(text)).isValid(),
+          (dateFormats
+            ? moment(text, dateFormats, true)
+            : moment(text)
+          ).isValid(),
         value: (text: string) =>
-          dateFormats ? moment(text, dateFormats, true).toDate() : moment(text).toDate(),
+          dateFormats
+            ? moment(text, dateFormats, true).toDate()
+            : moment(text).toDate(),
         label: (value: any) => {
           const date = moment(value);
           return date.isValid()
@@ -105,7 +126,10 @@ export const createClientApi = (
         matchOnPaste: true,
       };
     }
-    if (type === AgTypes.dateString || filter === 'AgFilters.agDateStringColumnFilter') {
+    if (
+      type === AgTypes.dateString ||
+      filter === 'AgFilters.agDateStringColumnFilter'
+    ) {
       return {
         match: (text: string) =>
           Number.isNaN(Number(text)) && moment(text).isValid(),
@@ -127,12 +151,11 @@ export const createClientApi = (
     };
   };
 
-
   const getNestedValue = <T>(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data: any,
     fields: string[],
-    idx: number
+    idx: number,
   ): T | undefined => {
     const value = data[fields[idx]];
     if (!value) {
@@ -145,7 +168,10 @@ export const createClientApi = (
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const getValueOrNestedValue = <T>(data: any, field: string): T | undefined => {
+  const getValueOrNestedValue = <T>(
+    data: any,
+    field: string,
+  ): T | undefined => {
     if (field.includes('.')) {
       return getNestedValue(data, field.split('.'), 0);
     }
@@ -195,15 +221,23 @@ export const createClientApi = (
         const value = filterValueGetter
           ? filterValueGetter(row.data)
           : getValueOrNestedValue(row.data, field);
-        if (value && typeof value === 'string' && value.toLocaleUpperCase().includes(text.toLocaleUpperCase())) {
+        if (
+          value &&
+          typeof value === 'string' &&
+          value.toLocaleUpperCase().includes(text.toLocaleUpperCase())
+        ) {
           uniqueItems.add(value);
         }
         if (
           value &&
           Array.isArray(value) &&
-          value.some((item: string) => item.toLocaleUpperCase().includes(text.toLocaleUpperCase()))
+          value.some((itemText: string) =>
+            itemText.toLocaleUpperCase().includes(text.toLocaleUpperCase()),
+          )
         ) {
-          const item = value.find((item: string) => item.toLocaleUpperCase().includes(text.toLocaleUpperCase()));
+          const item = value.find((itemText: string) =>
+            itemText.toLocaleUpperCase().includes(text.toLocaleUpperCase()),
+          );
           if (item) {
             uniqueItems.add(item);
           }
@@ -216,9 +250,7 @@ export const createClientApi = (
       gridApi.forEachNodeAfterFilter(uniqueValueCallback);
     }
     const items = [...uniqueItems].sort();
-    return items.length > 10
-      ? items?.slice(10)
-      : items;
+    return items.length > 10 ? items?.slice(10) : items;
   };
 
   const findItem = (
@@ -245,7 +277,7 @@ export const createClientApi = (
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getFieldsFunction = (
-    field: string | ((params: any) => any | null | undefined)
+    field: string | ((params: any) => any | null | undefined),
   ): ValueGetter => {
     if (typeof field === 'function') {
       return (data: any) => field(data);
@@ -259,9 +291,7 @@ export const createClientApi = (
     return (data: any) => data[field];
   };
 
-  const constructFilter = (
-    matchers: Matcher[],
-  ): FilterFunction | null => {
+  const constructFilter = (matchers: Matcher[]): FilterFunction | null => {
     if (matchers.length === 0) {
       return null;
     }
@@ -291,7 +321,6 @@ export const createClientApi = (
           if (matchBracket) {
             return { filter: currentFilter, isOr: isOr ?? false, index };
           }
-          console.log('bad filter');
           return { filter: null, isOr: false, index };
         }
         if (currentMatcher.bracket === '(') {
@@ -328,35 +357,33 @@ export const createClientApi = (
   ): { filter: FilterFunction | null; isOr: boolean } => {
     let filterFunc: FilterFunction | null = null;
     const colunmn = getAgColumn(matcher.field);
-    const {
-      field,
-      cellDataType,
-      filter,
-      filterValueGetter,
-    } = colunmn?.getColDef() ?? {};
+    const { field, cellDataType, filter, filterValueGetter } =
+      colunmn?.getColDef() ?? {};
 
     if (field) {
-      const valueGetter: ValueGetter = getFieldsFunction(filterValueGetter ?? field);
+      const valueGetter: ValueGetter = getFieldsFunction(
+        filterValueGetter ?? field,
+      );
       switch (filter ?? cellDataType) {
         case AgTypes.text:
-        case 'AgFilters.agTextColumnFilter':
-        case 'getSetColumnFilter':
+        case AgFilters.agTextColumnFilter:
+        case AgFilters.agSetColumnFilter:
           filterFunc = constructTextFilter(matcher, valueGetter);
           break;
         case AgTypes.number:
-        case 'getNumberColumnFilter':
+        case AgFilters.agNumberColumnFilter:
           filterFunc = constructNumberFilter(matcher, valueGetter);
           break;
         case AgTypes.date:
-        case 'getDateColumnFilter':
+        case AgFilters.agDateColumnFilter:
           filterFunc = constructDateFilter(matcher, valueGetter);
           break;
         case AgTypes.dateString:
-        case 'getSetColumnFilter':
+        case AgFilters.agDateStringColumnFilter:
           filterFunc = constructDateStringFilter(matcher, valueGetter);
           break;
         case AgTypes.boolean:
-        case 'getSetColumnFilter':
+        case AgFilters.agBooleanColumnFilter:
           filterFunc = constructBooleanFilter(matcher, valueGetter);
           break;
         default:
@@ -369,7 +396,6 @@ export const createClientApi = (
     return { filter: filterFunc, isOr: matcher.operator === OR };
   };
 
-
   const constructTextFilter = (
     matcher: ValueMatcher,
     valueGetter: ValueGetter,
@@ -379,10 +405,8 @@ export const createClientApi = (
     }
     const getStringValue = (row: any) => {
       const temp = valueGetter<string | undefined>(row.data);
-      return typeof temp === 'string'
-        ? temp.toLocaleUpperCase()
-        : temp;
-    }
+      return typeof temp === 'string' ? temp.toLocaleUpperCase() : temp;
+    };
     const compareString = (
       valueValuePredicate: (x: string, y: string) => boolean,
       arrayValuePredicate: (x: string[], y: string) => boolean,
@@ -391,75 +415,121 @@ export const createClientApi = (
     ): FilterFunction => {
       if (VALUE_ARRAY in matcher) {
         return (row) => {
-          const value = getStringValue(row);
+          const value = getStringValue(row.data);
           if (value && Array.isArray(value)) {
             return arrayArraypredicate(value, matcher.valueArray);
           }
           return (
-            value != undefined &&
+            value !== undefined &&
             valueArrayPredicate(value, matcher.valueArray)
           );
         };
       }
       return (row) => {
-        const value = getStringValue(row);
+        const value = getStringValue(row.data);
         if (Array.isArray(value)) {
           return arrayValuePredicate(value, matcher.value.toLocaleUpperCase());
         }
         return (
-          value != undefined &&
+          value !== undefined &&
           typeof value === 'string' &&
           valueValuePredicate(value, matcher.value.toLocaleUpperCase())
         );
       };
-    }
+    };
     switch (matcher.comparison) {
       case '=':
         return compareString(
           (v, m) => v === m.toLocaleUpperCase(),
-          (v, m) => v.some((vi) => vi.toLocaleUpperCase() === m.toLocaleUpperCase()),
+          (v, m) =>
+            v.some((vi) => vi.toLocaleUpperCase() === m.toLocaleUpperCase()),
           (v, m) => m.find((mv) => v.toLocaleUpperCase() === mv) !== undefined,
-          (v, m) => m.every((mv) => v.some((vi) => vi.toLocaleUpperCase() === mv.toLocaleUpperCase())),
+          (v, m) =>
+            m.every((mv) =>
+              v.some((vi) => vi.toLocaleUpperCase() === mv.toLocaleUpperCase()),
+            ),
         );
 
       case '!':
         return compareString(
           (v, m) => v !== m.toLocaleUpperCase(),
-          (v, m) => v.every((vi) => vi.toLocaleUpperCase() !== m.toLocaleUpperCase()),
+          (v, m) =>
+            v.every((vi) => vi.toLocaleUpperCase() !== m.toLocaleUpperCase()),
           (v, m) => !m.find((mv) => v.toLocaleUpperCase() === mv),
-          (v, m) => m.every((mv) => v.every((vi) => vi.toLocaleUpperCase() !== mv.toLocaleUpperCase())),
+          (v, m) =>
+            m.every((mv) =>
+              v.every(
+                (vi) => vi.toLocaleUpperCase() !== mv.toLocaleUpperCase(),
+              ),
+            ),
         );
 
       case '*':
         return compareString(
           (v, m) => v.includes(m.toLocaleUpperCase()),
-          (v, m) => v.some((vi) => vi.toLocaleUpperCase().includes(m.toLocaleUpperCase())),
-          (v, m) => m.find((mv) => v.toLocaleUpperCase().includes(mv)) !== undefined,
-          (v, m) => m.every((mv) => v.some((vi) => vi.toLocaleUpperCase().includes(mv.toLocaleUpperCase()))),
+          (v, m) =>
+            v.some((vi) =>
+              vi.toLocaleUpperCase().includes(m.toLocaleUpperCase()),
+            ),
+          (v, m) =>
+            m.find((mv) => v.toLocaleUpperCase().includes(mv)) !== undefined,
+          (v, m) =>
+            m.every((mv) =>
+              v.some((vi) =>
+                vi.toLocaleUpperCase().includes(mv.toLocaleUpperCase()),
+              ),
+            ),
         );
 
       case '!*':
         return compareString(
           (v, m) => !v.includes(m.toLocaleUpperCase()),
-          (v, m) => v.every((vi) => !vi.toLocaleUpperCase().includes(m.toLocaleUpperCase())),
+          (v, m) =>
+            v.every(
+              (vi) => !vi.toLocaleUpperCase().includes(m.toLocaleUpperCase()),
+            ),
           (v, m) => !m.find((mv) => v.toLocaleUpperCase().includes(mv)),
-          (v, m) => m.every((mv) => !v.every((vi) => vi.toLocaleUpperCase().includes(mv.toLocaleUpperCase()))),
+          (v, m) =>
+            m.every(
+              (mv) =>
+                !v.every((vi) =>
+                  vi.toLocaleUpperCase().includes(mv.toLocaleUpperCase()),
+                ),
+            ),
         );
 
       case '<*':
         return compareString(
           (v, m) => v.startsWith(m.toLocaleUpperCase()),
-          (v, m) => v.some((vi) => vi.toLocaleUpperCase().startsWith(m.toLocaleUpperCase())),
-          (v, m) => m.find((mv) => v.toLocaleUpperCase().startsWith(mv)) !== undefined,
-          (v, m) => m.every((mv) => v.some((vi) => vi.toLocaleUpperCase().startsWith(mv.toLocaleUpperCase()))),
+          (v, m) =>
+            v.some((vi) =>
+              vi.toLocaleUpperCase().startsWith(m.toLocaleUpperCase()),
+            ),
+          (v, m) =>
+            m.find((mv) => v.toLocaleUpperCase().startsWith(mv)) !== undefined,
+          (v, m) =>
+            m.every((mv) =>
+              v.some((vi) =>
+                vi.toLocaleUpperCase().startsWith(mv.toLocaleUpperCase()),
+              ),
+            ),
         );
 
       case '>*':
         return compareString(
           (v, m) => v.endsWith(m.toLocaleUpperCase()),
-          (v, m) => v.some((vi) => vi.toLocaleUpperCase().endsWith(m.toLocaleUpperCase())),
-          (v, m) => m.find((mv) => v.toLocaleUpperCase().endsWith(mv)) !== undefined,
-          (v, m) => m.every((mv) => v.some((vi) => vi.toLocaleUpperCase().endsWith(mv.toLocaleUpperCase()))),
+          (v, m) =>
+            v.some((vi) =>
+              vi.toLocaleUpperCase().endsWith(m.toLocaleUpperCase()),
+            ),
+          (v, m) =>
+            m.find((mv) => v.toLocaleUpperCase().endsWith(mv)) !== undefined,
+          (v, m) =>
+            m.every((mv) =>
+              v.some((vi) =>
+                vi.toLocaleUpperCase().endsWith(mv.toLocaleUpperCase()),
+              ),
+            ),
         );
 
       default:
@@ -468,7 +538,6 @@ export const createClientApi = (
         return null;
     }
   };
-
 
   const constructNumberFilter = (
     matcher: ValueMatcher,
@@ -481,27 +550,29 @@ export const createClientApi = (
       return (row) => {
         const value = valueGetter<number | undefined>(row.data);
         return (
-          value !== undefined && value >= matcher.value && value < matcher.valueTo
+          value !== undefined &&
+          value >= matcher.value &&
+          value < matcher.valueTo
         );
       };
     }
 
-    const compareNumber = (
-      valueValuePredicate: (x: number, y: number) => boolean,
-      arrayValuePredicate: (x: number[], y: number) => boolean,
-    ): FilterFunction => {
-      return (row) => {
-        const value = valueGetter<number | undefined>(row);
-        if (Array.isArray(value)) {
-          return arrayValuePredicate(value, matcher.value);
-        }
-        return (
-          value != undefined &&
-          typeof value === AgTypes.number &&
-          valueValuePredicate(value, matcher.value)
-        );
-      };
-    }
+    const compareNumber =
+      (
+        valueValuePredicate: (x: number, y: number) => boolean,
+        arrayValuePredicate: (x: number[], y: number) => boolean,
+      ): FilterFunction =>
+        (row) => {
+          const value = valueGetter<number | undefined>(row.data);
+          if (Array.isArray(value)) {
+            return arrayValuePredicate(value, matcher.value);
+          }
+          return (
+            value !== undefined &&
+            typeof value === 'number' &&
+            valueValuePredicate(value, matcher.value)
+          );
+        };
 
     switch (matcher.comparison) {
       case '=':
@@ -564,22 +635,22 @@ export const createClientApi = (
         );
       };
     }
-    const compareDate = (
-      valueValuePredicate: (x: Date, y: Date) => boolean,
-      arrayValuePredicate: (x: Date[], y: Date) => boolean,
-    ): FilterFunction => {
-      return (row) => {
-        const value = valueGetter<Date | undefined>(row);
-        if (Array.isArray(value)) {
-          return arrayValuePredicate(value, matcher.value);
-        }
-        return (
-          value != undefined &&
-          value instanceof Date &&
-          valueValuePredicate(value, matcher.value)
-        );
-      };
-    }
+    const compareDate =
+      (
+        valueValuePredicate: (x: Date, y: Date) => boolean,
+        arrayValuePredicate: (x: Date[], y: Date) => boolean,
+      ): FilterFunction =>
+        (row) => {
+          const value = valueGetter<Date | undefined>(row.data);
+          if (Array.isArray(value)) {
+            return arrayValuePredicate(value, matcher.value);
+          }
+          return (
+            value !== undefined &&
+            value instanceof Date &&
+            valueValuePredicate(value, matcher.value)
+          );
+        };
 
     switch (matcher.comparison) {
       case '=':
@@ -645,29 +716,26 @@ export const createClientApi = (
         );
       };
     }
-    const compareDateString = (
-      valueValuePredicate: (x: moment.Moment, y: moment.Moment) => boolean,
-      arrayValuePredicate: (x: string[], y: moment.Moment) => boolean,
-    ): FilterFunction => {
-      return (row) => {
-        if (!matcher.value || typeof matcher.value !== 'string') {
-          return false;
-        }
-        const dateM = moment(matcher.value);
-        const value = valueGetter<string | undefined>(row);
-        if (Array.isArray(value)) {
-          return arrayValuePredicate(value, dateM);
-        }
-        if (!value || typeof value !== 'string') {
-          return false;
-        }
-        const dateV = moment(value);
-        return (
-          dateV.isValid() &&
-          valueValuePredicate(dateV, dateM)
-        );
-      };
-    }
+    const compareDateString =
+      (
+        valueValuePredicate: (x: moment.Moment, y: moment.Moment) => boolean,
+        arrayValuePredicate: (x: string[], y: moment.Moment) => boolean,
+      ): FilterFunction =>
+        (row) => {
+          if (!matcher.value || typeof matcher.value !== 'string') {
+            return false;
+          }
+          const dateM = moment(matcher.value);
+          const value = valueGetter<string | undefined>(row.data);
+          if (Array.isArray(value)) {
+            return arrayValuePredicate(value, dateM);
+          }
+          if (!value || typeof value !== 'string') {
+            return false;
+          }
+          const dateV = moment(value);
+          return dateV.isValid() && valueValuePredicate(dateV, dateM);
+        };
 
     switch (matcher.comparison) {
       case '=':
@@ -736,7 +804,6 @@ export const createClientApi = (
         console.log(`Unrecognised comparison ${matcher.comparison}`);
         return null;
     }
-
   };
 
   return {
@@ -745,5 +812,5 @@ export const createClientApi = (
     getAgColumns,
     getFieldMatch,
     findUniqueHintValues,
-  }
-}
+  };
+};

@@ -8,6 +8,13 @@ import {
 } from '@/util/constants';
 
 export const createConfigStore = ({
+  matchers,
+  onChange,
+  sort,
+  onSortChange,
+  onClear,
+  onLock,
+  onExpand,
   filterBarHeight,
   pillHeight,
   maxDropdownHeight,
@@ -26,9 +33,17 @@ export const createConfigStore = ({
   pasteOptions,
   sortPillWidth,
   enableSort,
-  sortOptionWidth,
+  optionWidth,
+  showDropdownOnMouseOver
 }: SmartFilterProps): UseBoundStore<StoreApi<ConfigState>> =>
   create<ConfigState>(() => ({
+    matchers,
+    onChange,
+    sort,
+    onSortChange,
+    onClear,
+    onLock,
+    onExpand,
     filterBarHeight: filterBarHeight ?? DEFAULT_FILTER_BAR_HEIGHT,
     pillHeight: pillHeight ?? DEFAULT_PILL_HEIGHT,
     maxValueWidth,
@@ -41,7 +56,12 @@ export const createConfigStore = ({
         ...hints,
         hintGroups: hints.hintGroups.map((g) => ({
           ...g,
-          hints: typeof g.hints === 'function' ? g.hints : g.hints.map((h) => typeof h === 'string' ? h : ({ ...h, key: uuidv4() })),
+          hints:
+            typeof g.hints === 'function'
+              ? g.hints
+              : g.hints.map((h) =>
+                typeof h === 'string' ? h : { ...h, key: uuidv4() },
+              ),
         })),
       }
       : undefined,
@@ -57,5 +77,6 @@ export const createConfigStore = ({
     pasteOptions,
     sortPillWidth,
     enableSort,
-    sortOptionWidth,
+    optionWidth,
+    showDropdownOnMouseOver,
   }));

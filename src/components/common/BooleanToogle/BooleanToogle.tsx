@@ -9,13 +9,15 @@ interface BooleanToogleProps {
 
 export const BooleanToogle = React.memo(
   ({ value, onChange }: BooleanToogleProps) => {
-
-    const handleClick = React.useCallback((event: React.MouseEvent) => {
-      if (onChange) {
-        onChange(!value);
-      }
-      event.stopPropagation();
-    }, [onChange, value]);
+    const handleClick = React.useCallback(
+      (event: React.MouseEvent) => {
+        if (onChange) {
+          onChange(!value);
+        }
+        event.stopPropagation();
+      },
+      [onChange, value],
+    );
 
     return (
       <div

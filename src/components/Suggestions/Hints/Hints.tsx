@@ -42,7 +42,11 @@ export const Hints = React.memo(() => {
       </div>
       <div className={s.hintItems}>
         {hintGroup ? (
-          <HintItems field={hintGroup.field} hintSource={hintGroup.hints} showAll />
+          <HintItems
+            field={hintGroup.field}
+            hintSource={hintGroup.hints}
+            showAll
+          />
         ) : (
           hints?.hintGroups.map((h) => (
             <HintItems field={h.field} key={h.title} hintSource={h.hints} />

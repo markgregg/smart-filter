@@ -1,12 +1,10 @@
 import { StoreApi, UseBoundStore, create } from 'zustand';
-import { ArrayMatcher, SmartFilterProps } from '@/types';
+import { ArrayMatcher } from '@/types';
 import { ArrayState } from '@/types/State';
-import { DEFAULT_PAGE_SIZE } from '@/util/constants';
 
 export const createArrayStore = (
-  props: SmartFilterProps,
+  pageSize: number,
 ): UseBoundStore<StoreApi<ArrayState>> => {
-  const { pageSize = DEFAULT_PAGE_SIZE } = props;
   return create<ArrayState>((set) => ({
     index: null,
     matcher: null,

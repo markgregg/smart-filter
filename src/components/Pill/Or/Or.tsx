@@ -13,18 +13,21 @@ interface OrProps {
 export const Or = React.memo(({ matcher }: OrProps) => {
   const [mouseOver, setMouseOver] = React.useState<boolean>(false);
   const pillHeight = useConfig((state) => state.pillHeight);
-  const { selectedMatcher, updateMatcher, copyMatchers } = useMatcher((state) => state);
+  const { selectedMatcher, updateMatcher, copyMatchers } = useMatcher(
+    (state) => state,
+  );
 
   const backgroundColor = React.useMemo(
-    () => matcher.locked && !copyMatchers?.includes(matcher.key)
-      ? Colours.backgrounds.locked
-      : mouseOver
-        ? Colours.backgrounds.hover
-        : selectedMatcher?.key === matcher.key
-          ? Colours.backgrounds.selected
-          : copyMatchers?.includes(matcher.key)
-            ? Colours.backgrounds.multiSelect
-            : Colours.backgrounds.standard,
+    () =>
+      matcher.locked && !copyMatchers?.includes(matcher.key)
+        ? Colours.backgrounds.locked
+        : mouseOver
+          ? Colours.backgrounds.hover
+          : selectedMatcher?.key === matcher.key
+            ? Colours.backgrounds.selected
+            : copyMatchers?.includes(matcher.key)
+              ? Colours.backgrounds.multiSelect
+              : Colours.backgrounds.standard,
     [mouseOver, selectedMatcher, matcher, copyMatchers],
   );
 

@@ -8,7 +8,6 @@ import {
   Operator,
   Option,
   PromiseMatch,
-  SmartFilterProps,
   SourceItem,
   Value,
   ValueMatch,
@@ -25,7 +24,6 @@ import {
   AND,
   DEFAULT_DATE_FORMAT,
   DEFAULT_DATE_TIME_FORMAT,
-  DEFAULT_PAGE_SIZE,
   EMPTY,
   OR,
 } from '@/util/constants';
@@ -61,9 +59,11 @@ interface BuildState {
 }
 
 export const createOptionsStore = (
-  props: SmartFilterProps,
+  fields: Field[],
+  operators: Operator[],
+  pageSize: number,
+  debounce?: number,
 ): UseBoundStore<StoreApi<OptionsState>> => {
-  const { debounce, pageSize = DEFAULT_PAGE_SIZE, fields, operators } = props;
   const fieldMap = new Map(fields.map((f) => [f.name, f]));
   const comparisonsMap = new Map((operators ?? []).map((o) => [o.symbol, o]));
 
@@ -331,7 +331,6 @@ const contructOptions = (buildState: BuildState) => {
   fields
     .filter((f) => !field || field.name === f.name)
     .forEach((f) => {
-      console.log('here')
       if (text.trim() === '' || text.trim() === EMPTY) {
         if (f.allowBlanks) {
           addOption(buildState, f, EMPTY, null, true);

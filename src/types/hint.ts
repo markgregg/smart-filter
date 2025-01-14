@@ -10,7 +10,7 @@ export interface SingleValueHint extends BaseHint {
   text: string;
   /* Value value */
   value: Value;
-  /* comparison operator to apply*/
+  /* comparison operator to apply */
   comparison?: string;
 }
 
@@ -19,18 +19,18 @@ export interface RangeHint extends BaseHint {
   text: string;
   /* Option value */
   value: Value;
-  /* Option text to*/
+  /* Option text to */
   textTo: string;
-  /* Option value to*/
+  /* Option value to */
   valueTo: Value;
 }
 
 export interface ArrayHint extends BaseHint {
-  /* Option value array*/
+  /* Option value array */
   textArray: string[];
-  /* Option value array*/
+  /* Option value array */
   valueArray: Value[];
-  /* comparison operator to apply*/
+  /* comparison operator to apply */
   comparison?: string;
 }
 

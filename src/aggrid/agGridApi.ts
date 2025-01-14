@@ -1,4 +1,4 @@
-import { AdvancedFilterModel, ApplyColumnStateParams, ColumnApi, GridAPi } from "@/types/agGrid";
+import { ApplyColumnStateParams, ColumnApi, GridAPi } from '@/types/agGrid';
 
 export type FilterValueGetter = (params: any) => any | null | undefined;
 
@@ -23,7 +23,7 @@ export const getColumns = (
     return [];
   }
   return api.getColumns();
-}
+};
 
 export const getColumn = (
   column: string,
@@ -36,7 +36,7 @@ export const getColumn = (
     return null;
   }
   return api.getColumn(column);
-}
+};
 
 export const getColumnState = (
   gridApi: GridAPi | null,
@@ -48,7 +48,7 @@ export const getColumnState = (
     return null;
   }
   return api.getColumnState();
-}
+};
 
 export const applyColumnState = (
   columnState: ApplyColumnStateParams,
@@ -60,15 +60,5 @@ export const applyColumnState = (
   if (!api) {
     return;
   }
-  return api.applyColumnState(columnState);
-}
-
-export const setAdvancedFilterModel = (
-  filter: AdvancedFilterModel | null,
-  gridApi: GridAPi | null,
-) => {
-  if (!gridApi) {
-    return;
-  }
-  return gridApi.setAdvancedFilterModel(filter);
-}
+  api.applyColumnState(columnState);
+};

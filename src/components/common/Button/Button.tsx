@@ -40,10 +40,13 @@ export const Button = React.memo(
       setMouseOver(false);
     }, [setMouseOver]);
 
-    const handleClick = React.useCallback((event: React.MouseEvent) => {
-      onClick();
-      event.stopPropagation();
-    }, [onClick]);
+    const handleClick = React.useCallback(
+      (event: React.MouseEvent) => {
+        onClick();
+        event.stopPropagation();
+      },
+      [onClick],
+    );
 
     return (
       <button

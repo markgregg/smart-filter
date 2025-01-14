@@ -1,6 +1,7 @@
 export type ColumnPinnedType = 'left' | 'right' | boolean | null | undefined;
 
 export interface ColumnState {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   aggFun?: string | ((params: any) => any) | null;
   sort?: 'asc' | 'desc' | null;
   sortIndex?: number | null;
@@ -51,7 +52,9 @@ export interface GridAPi {
   ) => void;
 }
 
-export type AdvancedFilterModel = JoinAdvancedFilterModel | ColumnAdvancedFilterModel;
+export type AdvancedFilterModel =
+  | JoinAdvancedFilterModel
+  | ColumnAdvancedFilterModel;
 /** Represents a series of filter conditions joined together. */
 export interface JoinAdvancedFilterModel {
   filterType: 'join';
@@ -61,9 +64,31 @@ export interface JoinAdvancedFilterModel {
   conditions: AdvancedFilterModel[];
 }
 /** Represents a single filter condition on a column */
-export type ColumnAdvancedFilterModel = TextAdvancedFilterModel | NumberAdvancedFilterModel | BooleanAdvancedFilterModel | DateAdvancedFilterModel | DateStringAdvancedFilterModel | ObjectAdvancedFilterModel;
-export type TextAdvancedFilterModelType = 'equals' | 'notEqual' | 'contains' | 'notContains' | 'startsWith' | 'endsWith' | 'blank' | 'notBlank';
-export type ScalarAdvancedFilterModelType = 'equals' | 'notEqual' | 'lessThan' | 'lessThanOrEqual' | 'greaterThan' | 'greaterThanOrEqual' | 'blank' | 'notBlank';
+export type ColumnAdvancedFilterModel =
+  | TextAdvancedFilterModel
+  | NumberAdvancedFilterModel
+  | BooleanAdvancedFilterModel
+  | DateAdvancedFilterModel
+  | DateStringAdvancedFilterModel
+  | ObjectAdvancedFilterModel;
+export type TextAdvancedFilterModelType =
+  | 'equals'
+  | 'notEqual'
+  | 'contains'
+  | 'notContains'
+  | 'startsWith'
+  | 'endsWith'
+  | 'blank'
+  | 'notBlank';
+export type ScalarAdvancedFilterModelType =
+  | 'equals'
+  | 'notEqual'
+  | 'lessThan'
+  | 'lessThanOrEqual'
+  | 'greaterThan'
+  | 'greaterThanOrEqual'
+  | 'blank'
+  | 'notBlank';
 export type BooleanAdvancedFilterModelType = 'true' | 'false';
 /** Represents a single filter condition for a text column */
 export interface TextAdvancedFilterModel {

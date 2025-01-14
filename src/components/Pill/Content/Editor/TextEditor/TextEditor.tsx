@@ -15,7 +15,8 @@ export const TextEditor = React.memo(
         const text = event.currentTarget.value;
         onChanged({ text, value: text }, text.length !== 0);
       },
-      [onChanged]);
+      [onChanged],
+    );
 
     const handleClick = (event: React.MouseEvent) => {
       event.stopPropagation();

@@ -72,7 +72,8 @@ export const Editor = React.memo(
         setTempTextValue(newTextValue);
         setValid(isValid);
       },
-      [onChanged, tempTextValue, setTempTextValue, setValid]);
+      [onChanged, tempTextValue, setTempTextValue, setValid],
+    );
 
     const handleCancel = React.useCallback(() => {
       onCancel();

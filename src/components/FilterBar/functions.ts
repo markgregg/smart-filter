@@ -1,7 +1,14 @@
-import { ArrayMatcher, Field, Matcher, PasteOptions, SingleMatcher, ValueMatcher } from "@/types";
-import { AND, BRACKET, DELIMITERS } from "@/util/constants";
-import { getDefaultComparison } from "@/util/functions";
 import { v4 as uuidv4 } from 'uuid';
+import {
+  ArrayMatcher,
+  Field,
+  Matcher,
+  PasteOptions,
+  SingleMatcher,
+  ValueMatcher,
+} from '@/types';
+import { AND, BRACKET, DELIMITERS } from '@/util/constants';
+import { getDefaultComparison } from '@/util/functions';
 
 const fromPartial = (matcher: Partial<Matcher>): Matcher => {
   if (BRACKET in matcher) {
@@ -9,7 +16,7 @@ const fromPartial = (matcher: Partial<Matcher>): Matcher => {
       key: uuidv4(),
       operator: matcher.operator ?? AND,
       bracket: matcher.bracket ?? '(',
-    }
+    };
   }
   const valueMatcher = matcher as ValueMatcher;
   if (!valueMatcher.field) {
@@ -23,7 +30,7 @@ const fromPartial = (matcher: Partial<Matcher>): Matcher => {
       comparison: valueMatcher.comparison ?? '=',
       valueArray: valueMatcher.valueArray ?? [],
       textArray: valueMatcher.textArray ?? [],
-    }
+    };
   }
   if ('valueTo' in valueMatcher) {
     return {
@@ -34,10 +41,10 @@ const fromPartial = (matcher: Partial<Matcher>): Matcher => {
       text: valueMatcher.text ?? '',
       valueTo: valueMatcher.valueTo ?? null,
       textTo: valueMatcher.textTo ?? '',
-    }
+    };
   }
   if ('value' in valueMatcher) {
-    const singleMatcher = valueMatcher as SingleMatcher
+    const singleMatcher = valueMatcher as SingleMatcher;
     return {
       key: uuidv4(),
       field: singleMatcher.field,
@@ -45,13 +52,13 @@ const fromPartial = (matcher: Partial<Matcher>): Matcher => {
       comparison: singleMatcher.comparison ?? '=',
       value: singleMatcher.value ?? null,
       text: singleMatcher.text ?? '',
-    }
+    };
   }
   throw Error('Unkonw type of matcher');
-}
+};
 
 const splitString = (text: string): string[] | null => {
-  for (let index = 0; index < DELIMITERS.length; index++) {
+  for (let index = 0; index < DELIMITERS.length; index += 1) {
     const delimiter = DELIMITERS[index];
     const textArray = text.split(delimiter);
     if (textArray.length > 1) {
@@ -59,24 +66,39 @@ const splitString = (text: string): string[] | null => {
     }
   }
   return null;
-}
+};
 
-const findFieldMatch = (textArray: string[], pasteOptions: PasteOptions): string | null => {
+const findFieldMatch = (
+  textArray: string[],
+  pasteOptions: PasteOptions,
+): string | null => {
   if (pasteOptions.fieldPasteMatchPatterns) {
-    for (let idx = 0; idx < pasteOptions.fieldPasteMatchPatterns.length; idx++) {
+    for (
+      let idx = 0;
+      idx < pasteOptions.fieldPasteMatchPatterns.length;
+      idx += 1
+    ) {
       const pastePatterns = pasteOptions.fieldPasteMatchPatterns[idx];
-      const patternArray = Array.isArray(pastePatterns.patterns) ? pastePatterns.patterns : [pastePatterns.patterns];
-      for (let patternIdx = 0; patternIdx < patternArray.length; patternIdx++) {
+      const patternArray = Array.isArray(pastePatterns.patterns)
+        ? pastePatterns.patterns
+        : [pastePatterns.patterns];
+      for (
+        let patternIdx = 0;
+        patternIdx < patternArray.length;
+        patternIdx += 1
+      ) {
         const pattern = patternArray[patternIdx];
-        const matches = textArray.filter(text => typeof pattern === 'function' ? pattern(text) : text.match(pattern)).length;
-        if (matches > (textArray.length * .8)) {
+        const matches = textArray.filter((text) =>
+          typeof pattern === 'function' ? pattern(text) : text.match(pattern),
+        ).length;
+        if (matches > textArray.length * 0.8) {
           return pastePatterns.field;
         }
       }
     }
   }
   return null;
-}
+};
 
 const createMatcher = (textArray: string[], field: Field): ArrayMatcher => {
   const valueArray = [...textArray];
@@ -86,14 +108,18 @@ const createMatcher = (textArray: string[], field: Field): ArrayMatcher => {
     operator: AND,
     comparison: getDefaultComparison(field),
     textArray,
-    valueArray
+    valueArray,
   };
-}
+};
 
-export const getMatchersFromText = (text: string, fieldMap: Map<string, Field>, pasteOptions?: PasteOptions): Matcher | Matcher[] | null => {
+export const getMatchersFromText = (
+  text: string,
+  fieldMap: Map<string, Field>,
+  pasteOptions?: PasteOptions,
+): Matcher | Matcher[] | null => {
   if (pasteOptions) {
     if (pasteOptions.customParsers) {
-      for (let idx = 0; idx < pasteOptions.customParsers.length; idx++) {
+      for (let idx = 0; idx < pasteOptions.customParsers.length; idx += 1) {
         const parser = pasteOptions.customParsers[idx];
         const matchers = parser(text);
         if (matchers) {
@@ -117,9 +143,9 @@ export const getMatchersFromText = (text: string, fieldMap: Map<string, Field>, 
     return Array.isArray(matchers)
       ? matchers.map((m) => ({ ...m, key: uuidv4() }))
       : {
-        ...matchers,
-        key: uuidv4(),
-      }
+          ...matchers,
+          key: uuidv4(),
+        };
   }
   return null;
-}
+};

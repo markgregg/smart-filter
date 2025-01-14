@@ -40,7 +40,8 @@ export const PillContainer = React.memo(
         clearEditPosition();
         event.stopPropagation();
       },
-      [clearEditPosition]);
+      [clearEditPosition],
+    );
 
     return (
       <div
@@ -49,7 +50,7 @@ export const PillContainer = React.memo(
           singleLine ? s.singleLine : s.multiLine,
         ].join(' ')}
         ref={checkWidth}
-        style={{ maxWidth: maxWidth * .97 }}
+        style={{ maxWidth: maxWidth * 0.97 }}
       >
         {matchers.map((m, i) => (
           <React.Fragment key={m.key}>

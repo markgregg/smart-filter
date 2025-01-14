@@ -18,7 +18,8 @@ export const NumberEditor = React.memo(
             : Number.parseFloat(event.currentTarget.value);
         onChanged({ text: value.toString(), value }, true);
       },
-      [field]);
+      [field],
+    );
 
     return (
       <input

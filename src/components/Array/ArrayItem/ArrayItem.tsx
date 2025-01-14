@@ -19,10 +19,13 @@ export const ArrayItem = React.memo(
     const { selectItem, setMatcher, matcher } = useArray((state) => state);
     const updateMatcher = useMatcher((state) => state.updateMatcher);
 
-    const handleClick = React.useCallback((event: React.MouseEvent) => {
-      selectItem(index);
-      event.stopPropagation();
-    }, [selectItem, index]);
+    const handleClick = React.useCallback(
+      (event: React.MouseEvent) => {
+        selectItem(index);
+        event.stopPropagation();
+      },
+      [selectItem, index],
+    );
 
     const handleDeleteArrayItem = React.useCallback(() => {
       if (matcher) {

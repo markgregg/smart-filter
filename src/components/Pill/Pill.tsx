@@ -12,7 +12,13 @@ import {
 import { ArrayContent, RangeContent, ValueContent } from './Content';
 import { BracketContent } from './Content/BracketContent';
 import { Or } from './Or';
-import { BRACKET, DEFAULT_PILL_HEIGHT, OR, VALUE_ARRAY, VALUE_TO } from '@/util/constants';
+import {
+  BRACKET,
+  DEFAULT_PILL_HEIGHT,
+  OR,
+  VALUE_ARRAY,
+  VALUE_TO,
+} from '@/util/constants';
 import { Colours } from '@/util/colours';
 import { CloseButton } from '../CloseButton';
 import s from './style.module.less';
@@ -48,10 +54,7 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
     addCopyMatcher,
     copyMatchers,
   } = useMatcher((state) => state);
-  const {
-    expanded,
-    enableExpand
-  } = useFilterBar((state) => state);
+  const { expanded, enableExpand } = useFilterBar((state) => state);
   const {
     draggedItem,
     dragOverItem,
@@ -122,9 +125,11 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
       if (enableExpand && !isVisible(pillRef.current)) {
         pillRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
       }
-      pillRef.current.focus();
+      if (editMatcher?.key !== matcher.key) {
+        pillRef.current.focus();
+      }
     }
-  }, [editMatcher, selectedMatcher, matcher, focus, expanded]);
+  }, [editMatcher, selectedMatcher, matcher, focus, expanded, enableExpand]);
 
   const Content = React.useMemo(
     () =>
@@ -144,14 +149,17 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
     }
   }, [matcher, deleteMatcher]);
 
-  const handleMatcherClicked = React.useCallback((event: React.MouseEvent) => {
-    if (event.ctrlKey) {
-      addCopyMatcher(matcher.key);
-    } else {
-      selectMatcher(matcher.key);
-    }
-    event.stopPropagation();
-  }, [selectMatcher, matcher]);
+  const handleMatcherClicked = React.useCallback(
+    (event: React.MouseEvent) => {
+      if (event.ctrlKey) {
+        addCopyMatcher(matcher.key);
+      } else {
+        selectMatcher(matcher.key);
+      }
+      event.stopPropagation();
+    },
+    [selectMatcher, matcher],
+  );
 
   const handleMouseEnter = React.useCallback(() => {
     setMouseOver(true);
@@ -167,22 +175,25 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
     }
   }, [setMouseOver, matcher, hoverBracket]);
 
-  const handleDragStart = React.useCallback((event: React.DragEvent) => {
-    if (matcher.locked) {
-      return;
-    }
-    if (!draggedItem || draggedItem.item.key !== matcher.key) {
-      setDragItem(matcher, index);
-      if (editMatcher?.key === matcher.key) {
-        clearEditMatcher();
+  const handleDragStart = React.useCallback(
+    (event: React.DragEvent) => {
+      if (matcher.locked) {
+        return;
       }
-      clonedPillRef.current = clonePill(event.currentTarget as HTMLElement);
-      event.dataTransfer.dropEffect = 'move';
-      const xLoc = Math.round(clonedPillRef.current.clientWidth / 2);
-      event.dataTransfer.setDragImage(clonedPillRef.current, xLoc, 20);
-      event.stopPropagation();
-    }
-  }, [matcher, editMatcher, draggedItem, setDragItem, clearEditMatcher]);
+      if (!draggedItem || draggedItem.item.key !== matcher.key) {
+        setDragItem(matcher, index);
+        if (editMatcher?.key === matcher.key) {
+          clearEditMatcher();
+        }
+        clonedPillRef.current = clonePill(event.currentTarget as HTMLElement);
+        event.dataTransfer.dropEffect = 'move';
+        const xLoc = Math.round(clonedPillRef.current.clientWidth / 2);
+        event.dataTransfer.setDragImage(clonedPillRef.current, xLoc, 20);
+        event.stopPropagation();
+      }
+    },
+    [matcher, editMatcher, draggedItem, setDragItem, clearEditMatcher],
+  );
 
   const handleDragOver = React.useCallback(
     (event: React.DragEvent<HTMLDivElement>) => {
@@ -205,7 +216,8 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
         event.preventDefault();
       }
     },
-    [draggedItem, dragOverItem, matcher, index, setDraggedOverItem]);
+    [draggedItem, dragOverItem, matcher, index, setDraggedOverItem],
+  );
 
   const clearClonedPill = React.useCallback(() => {
     if (clonedPillRef.current) {
@@ -214,27 +226,33 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
     }
   }, [removePillFromDocument]);
 
-  const handleDrop = React.useCallback((event: React.DragEvent) => {
-    if (matcher.locked) {
-      return;
-    }
-    if (dragOverItem && draggedItem) {
-      moveTo(
-        draggedItem.index,
-        dragOverItem.index,
-        dragOverItem.position ?? 'before',
-      );
-    }
-    clearItems();
-    clearClonedPill();
-    event.stopPropagation();
-  }, [draggedItem, dragOverItem, clearClonedPill, clearItems, moveTo]);
+  const handleDrop = React.useCallback(
+    (event: React.DragEvent) => {
+      if (matcher.locked) {
+        return;
+      }
+      if (dragOverItem && draggedItem) {
+        moveTo(
+          draggedItem.index,
+          dragOverItem.index,
+          dragOverItem.position ?? 'before',
+        );
+      }
+      clearItems();
+      clearClonedPill();
+      event.stopPropagation();
+    },
+    [draggedItem, dragOverItem, clearClonedPill, clearItems, moveTo],
+  );
 
-  const handleDragEnd = React.useCallback((event: React.DragEvent) => {
-    clearItems();
-    clearClonedPill();
-    event.stopPropagation();
-  }, [clearClonedPill, clearItems]);
+  const handleDragEnd = React.useCallback(
+    (event: React.DragEvent) => {
+      clearItems();
+      clearClonedPill();
+      event.stopPropagation();
+    },
+    [clearClonedPill, clearItems],
+  );
 
   return (
     <div
@@ -254,7 +272,11 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
         dragOverItem?.position === 'before' && (
           <div className={s.leftInsert} style={{ height: pillHeight * 0.8 }} />
         )}
-      {matcher.operator === OR && index > 0 && (!(BRACKET in matcher) || matcher.bracket === '(') && <Or matcher={matcher} />}
+      {matcher.operator === OR &&
+        index > 0 &&
+        (!(BRACKET in matcher) || matcher.bracket === '(') && (
+          <Or matcher={matcher} />
+        )}
       <div
         id="pill-content"
         className={s.pillContent}
@@ -271,7 +293,7 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
             <AiFillLock className={s.lockIcon} />
           </div>
         )}
-        {'field' in matcher && <span className={s.field}>{matcher.field}</span>}
+        {'field' in matcher && <span className={s.field}>{field?.title ?? matcher.field}</span>}
         {VALUE_ARRAY in matcher && (
           <span className={s.arrayCount}>({matcher.valueArray.length})</span>
         )}

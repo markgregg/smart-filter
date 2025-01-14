@@ -11,6 +11,7 @@ import { createArrayStore } from './arrayStore';
 import { createMatcherDragStore } from './dragStore';
 import { createBracketsStore } from './bracketStore';
 import { createSortStore } from './SortStore';
+import { DEFAULT_PAGE_SIZE } from '@/util/constants';
 
 export interface ProviderProps {
   props: SmartFilterProps;
@@ -20,28 +21,25 @@ export interface ProviderProps {
 export const StateProvider = React.memo(
   ({ props, children }: ProviderProps) => {
     const configStore = React.useMemo(() => createConfigStore(props), [props]);
-    const focusStore = React.useMemo(createFocusStore, []);
-    const filterBarStore = React.useMemo(
-      () => createFilterBarStore(props),
-      [props],
-    );
+    const focusStore = React.useMemo(() => createFocusStore(props.showDropdownOnMouseOver, props.dropDownDispalyWhenKeyPressed), [props.showDropdownOnMouseOver, props.dropDownDispalyWhenKeyPressed]);
+    const filterBarStore = React.useMemo(createFilterBarStore, []);
     const hintStore = React.useMemo(createHintStore, []);
-    const matcherStore = React.useMemo(
-      () => createMatcherStore(props),
-      [props],
-    );
+    const matcherStore = React.useMemo(createMatcherStore, []);
     const optionsStore = React.useMemo(
-      () => createOptionsStore(props),
-      [props],
+      () => createOptionsStore(props.fields, props.operators ?? [], props.pageSize ?? DEFAULT_PAGE_SIZE, props.debounce),
+      [props.fields, props.operators, props.pageSize, props.debounce],
     );
-    const arrayStore = React.useMemo(() => createArrayStore(props), [props]);
-    const matcherDragStore = React.useMemo(() => createMatcherDragStore<Matcher>(), []);
+    const arrayStore = React.useMemo(() => createArrayStore(props.pageSize ?? DEFAULT_PAGE_SIZE), [props.pageSize]);
+    const matcherDragStore = React.useMemo(
+      () => createMatcherDragStore<Matcher>(),
+      [],
+    );
     const bracketsStore = React.useMemo(createBracketsStore, []);
-    const sortStore = React.useMemo(
-      () => createSortStore(props),
-      [props],
+    const sortStore = React.useMemo(createSortStore, []);
+    const sortDragStore = React.useMemo(
+      () => createMatcherDragStore<Sort>(),
+      [],
     );
-    const sortDragStore = React.useMemo(() => createMatcherDragStore<Sort>(), []);
 
     const stateValue = React.useMemo(
       () => ({

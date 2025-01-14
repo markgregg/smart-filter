@@ -11,4 +11,4 @@ export type SmartFilterAgGridProps = Omit<SmartFilterProps, 'fields'> & {
   onFiltersChanged?: (filterFunction: FilterFunction | null) => void;
   gridApi: GridAPi | null; // ag-grid api
   columnApi: ColumnApi | null; // ag-grid column api
-}
+};

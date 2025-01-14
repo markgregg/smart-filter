@@ -1,7 +1,7 @@
 export const CLIPBOARD_FORMAT = 'text/json';
 export const DELIMITERS = [',', '\t', '\n'];
 
-
+export const DEFAULT_KEYBOARD_DROPDOWN_DISPLAY_TIME = 1500;
 export const DEFAULT_SORT_OPTION_WIDTH = 200;
 export const DEFAULT_SORT_PILL_WIDTH = 90;
 export const DEFAULT_FILTER_BAR_HEIGHT = 30;
@@ -45,7 +45,7 @@ export const AgTypes = {
   number: 'number',
   date: 'date',
   dateString: 'dateString',
-}
+};
 
 export const AgFilters = {
   agSetColumnFilter: 'agSetColumnFilter',
@@ -54,7 +54,7 @@ export const AgFilters = {
   agBooleanColumnFilter: 'agBooleanColumnFilter',
   agDateColumnFilter: 'agDateColumnFilter',
   agDateStringColumnFilter: 'agDateStringColumnFilter',
-}
+};
 
 export const VALUE = 'value';
 export const VALUE_TO = 'valueTo';

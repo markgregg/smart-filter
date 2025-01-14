@@ -1,5 +1,12 @@
 import React from 'react';
-import { useConfig, useFilterBar, useMatcher, useOptions, useSort } from '../../state/useState';
+import {
+  useConfig,
+  useFilterBar,
+  useFocus,
+  useMatcher,
+  useOptions,
+  useSort,
+} from '../../state/useState';
 import { KeyBoardkeys } from '@/util/constants';
 import { Field, Option } from '@/types';
 import s from './style.module.less';
@@ -28,6 +35,7 @@ export const SearchBox = React.memo(
       first,
       last,
       active,
+      options
     } = useOptions((state) => state);
     const clearSelections = useMatcher((state) => state.clearSelections);
     const {
@@ -37,11 +45,9 @@ export const SearchBox = React.memo(
       addClearCallback,
       removeClearCallback,
     } = useMatcher((state) => state);
-    const {
-      active: sortActive,
-      setActive,
-    } = useSort((state) => state);
-    const enableExpand = useFilterBar((state) => state.enableExpand)
+    const { active: sortActive, setActive } = useSort((state) => state);
+    const enableExpand = useFilterBar((state) => state.enableExpand);
+    const setKeyboardFocus = useFocus((state) => state.setKeyboardFocus)
 
     React.useEffect(() => {
       if (!matcherKey) {
@@ -69,7 +75,8 @@ export const SearchBox = React.memo(
 
     React.useEffect(() => {
       if (
-        (editMatcher == null &&
+        (!matcherKey &&
+          editMatcher === null &&
           selectedMatcher === null &&
           !sortActive &&
           editPosition === null) ||
@@ -82,7 +89,7 @@ export const SearchBox = React.memo(
           inputRef.current.focus();
         }
       }
-    }, [editMatcher, selectedMatcher, editPosition, position]);
+    }, [editMatcher, selectedMatcher, editPosition, sortActive, position, enableExpand]);
 
     React.useEffect(() => {
       buildOptions(
@@ -94,10 +101,13 @@ export const SearchBox = React.memo(
       );
     }, [searchText]);
 
-    const handleOptionSelected = React.useCallback((option: Option) => {
-      // option selected via click on option
-      onSelect(option);
-    }, [onSelect]);
+    const handleOptionSelected = React.useCallback(
+      (option: Option) => {
+        // option selected via click on option
+        onSelect(option);
+      },
+      [onSelect],
+    );
 
     const handleFocus = React.useCallback(() => {
       if (sortActive) {
@@ -115,13 +125,25 @@ export const SearchBox = React.memo(
           matcherKey,
         );
       }
-    }, [matcherKey, position, searchText, field, matcherKey, buildOptions, handleOptionSelected, clearSelections, sortActive, setActive]);
+    }, [
+      matcherKey,
+      position,
+      searchText,
+      field,
+      matcherKey,
+      buildOptions,
+      handleOptionSelected,
+      clearSelections,
+      sortActive,
+      setActive,
+    ]);
 
     const handleChange = React.useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchText(event.currentTarget.value);
       },
-      [setSearchText]);
+      [setSearchText],
+    );
 
     const select = React.useCallback(() => {
       if (active) {
@@ -136,69 +158,67 @@ export const SearchBox = React.memo(
       }
     }, [active, setSearchText]);
 
-    const handleKeyDown = React.useCallback((event: React.KeyboardEvent) => {
-      if (searchText.length === 0) {
-        return;
-      }
-      let endPropogation = false;
-      switch (event.key) {
-        case KeyBoardkeys.ArrowRight: {
+    const handleKeyDown = React.useCallback(
+      (event: React.KeyboardEvent) => {
+        setKeyboardFocus();
+        let endPropogation = false;
+        switch (event.key) {
+          case KeyBoardkeys.ArrowDown: {
+            if (options.length > 0) {
+              next();
+              endPropogation = true;
+            }
+            break;
+          }
+          case KeyBoardkeys.ArrowUp: {
+            if (options.length > 0) {
+              prev();
+              endPropogation = true;
+            }
+            break;
+          }
+          case KeyBoardkeys.PageDown: {
+            if (options.length > 0) {
+              nextPage();
+              endPropogation = true;
+            }
+            break;
+          }
+          case KeyBoardkeys.PageUp: {
+            if (options.length > 0) {
+              prevPage();
+              endPropogation = true;
+            }
+            break;
+          }
+          case KeyBoardkeys.Enter: {
+            if (options.length > 0) {
+              select();
+              endPropogation = true;
+            }
+            break;
+          }
+          case KeyBoardkeys.Tab: {
+            if (options.length > 0) {
+              addOptionToSearchText();
+              endPropogation = true;
+            }
+            break;
+          }
+          default: {
+            if (searchText.length > 0) {
+              event.stopPropagation();
+            }
+            // ignore
+          }
+        }
+        if (endPropogation) {
+          event.stopPropagation();
           event.preventDefault();
-          break;
         }
-        case KeyBoardkeys.ArrowLeft: {
-          event.preventDefault();
-          break;
-        }
-        case KeyBoardkeys.ArrowDown: {
-          next();
-          endPropogation = true;
-          break;
-        }
-        case KeyBoardkeys.ArrowUp: {
-          prev();
-          endPropogation = true;
-          break;
-        }
-        case KeyBoardkeys.PageDown: {
-          nextPage();
-          endPropogation = true;
-          break;
-        }
-        case KeyBoardkeys.PageUp: {
-          prevPage();
-          endPropogation = true;
-          break;
-        }
-        case KeyBoardkeys.Home: {
-          first();
-          endPropogation = true;
-          break;
-        }
-        case KeyBoardkeys.End: {
-          last();
-          endPropogation = true;
-          break;
-        }
-        case KeyBoardkeys.Enter: {
-          select();
-          endPropogation = true;
-          break;
-        }
-        case KeyBoardkeys.Tab: {
-          addOptionToSearchText();
-          endPropogation = true;
-          break;
-        }
-        default: {
-          // ignore
-        }
-      }
-      if (endPropogation) {
-        event.stopPropagation();
-        event.preventDefault();
-      }
-    }, [next, prev, first, last, select, addOptionToSearchText]);
+      },
+      [next, prev, first, last, select, addOptionToSearchText, options],
+    );
 
     const handleClick = React.useCallback((event: React.MouseEvent) => {
       event.stopPropagation();

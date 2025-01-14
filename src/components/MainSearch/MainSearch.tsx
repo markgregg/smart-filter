@@ -23,20 +23,24 @@ export const MainSearch = React.memo(
     const { comparison, operator } = useOptions((state) => state);
     const maxWidth = reducedWidth ? '130px' : undefined;
 
-    const handleSelect = React.useCallback((option: Option) => {
-      const field = fieldMap.get(option.field);
-      const value =
-        VALUE_TO in option && TEXT_TO in option
-          ? createRangeValue(option)
-          : createValue(option);
-      addValue({
-        value,
-        position: editPosition,
-        operator: operator ?? AND,
-        comparison: comparison ?? getDefaultComparison(field),
-      });
-      setText(['']);
-    }, [addValue, fieldMap, editPosition, operator, comparison]);
+    const handleSelect = React.useCallback(
+      (option: Option) => {
+        const field = fieldMap.get(option.field);
+        const value =
+          VALUE_TO in option && TEXT_TO in option
+            ? createRangeValue(option)
+            : createValue(option);
+        addValue({
+          fieldMap,
+          value,
+          position: editPosition,
+          operator: operator ?? AND,
+          comparison: comparison ?? getDefaultComparison(field),
+        });
+        setText(['']);
+      },
+      [addValue, fieldMap, editPosition, operator, comparison],
+    );
 
     return (
       <div

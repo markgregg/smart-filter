@@ -1,9 +1,9 @@
 import React from 'react';
 import { Option as OptionType } from '@/types';
-import { useOptions } from '@/state/useState';
+import { useConfig, useOptions } from '@/state/useState';
 import { splitText } from './functions';
+import { DEFAULT_SORT_OPTION_WIDTH, TEXT_TO } from '@/util/constants';
 import s from './style.module.less';
-import { TEXT_TO } from '@/util/constants';
 
 export interface OptionProps {
   option: OptionType;
@@ -14,23 +14,35 @@ export const Option = React.memo(({ option, active }: OptionProps) => {
   const { text, field: fieldName } = option;
   const { matchText, selectOption } = useOptions((state) => state);
 
+  const {
+    optionWidth: maxWidth = DEFAULT_SORT_OPTION_WIDTH,
+    fieldMap,
+  } = useConfig((state) => state);
+  const field = React.useMemo(
+    () => fieldMap.get(fieldName) ?? null,
+    [fieldName, fieldMap],
+  );
+
   const [left, match, right] = React.useMemo(
     () =>
       splitText('displayText' in option ? option.displayText : text, matchText),
     [text, matchText],
   );
 
-  const handleClick = React.useCallback((event: React.MouseEvent) => {
-    selectOption(option);
-    event.stopPropagation();
-  }, [option, selectOption]);
+  const handleClick = React.useCallback(
+    (event: React.MouseEvent) => {
+      selectOption(option);
+      event.stopPropagation();
+    },
+    [option, selectOption],
+  );
 
   return (
     <div
       className={[s.option, active ? s.active : ''].join(' ')}
       onClick={handleClick}
     >
-      <div className={s.optionText}>
+      <div className={s.optionText} style={{ maxWidth }}>
         {TEXT_TO in option ? (
           <div className={s.matchTextRange}>
             <span>
@@ -56,7 +68,7 @@ export const Option = React.memo(({ option, active }: OptionProps) => {
           </div>
         )}
       </div>
-      <div>({fieldName})</div>
+      <div>({field?.title ?? fieldName})</div>
     </div>
   );
 });

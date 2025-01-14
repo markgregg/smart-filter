@@ -13,35 +13,35 @@ interface SortItemProps {
   index: number;
 }
 
-export const SortItem = React.memo(
-  ({ sort, index }: SortItemProps) => {
-    const clonedPillRef = React.useRef<HTMLElement | null>(null);
-    const {
-      fieldMap,
-    } = useConfig((state) => state);
-    const field = React.useMemo(() => fieldMap?.get(sort.field), [fieldMap, sort]);
-    const {
-      removeSort,
-      updateSort,
-      moveTo,
-    } = useSort((state) => state);
-    const {
-      draggedItem,
-      dragOverItem,
-      setDragItem,
-      setDraggedOverItem,
-      clearItems,
-    } = useSortDrag((state) => state);
+export const SortItem = React.memo(({ sort, index }: SortItemProps) => {
+  const clonedPillRef = React.useRef<HTMLElement | null>(null);
+  const { fieldMap } = useConfig((state) => state);
+  const field = React.useMemo(
+    () => fieldMap?.get(sort.field),
+    [fieldMap, sort],
+  );
+  const { removeSort, updateSort, moveTo } = useSort((state) => state);
+  const {
+    draggedItem,
+    dragOverItem,
+    setDragItem,
+    setDraggedOverItem,
+    clearItems,
+  } = useSortDrag((state) => state);
 
-    const handleDeleteArrayItem = React.useCallback(() => {
-      removeSort(sort.field);
-    }, [removeSort, sort]);
+  const handleDeleteArrayItem = React.useCallback(() => {
+    removeSort(sort.field);
+  }, [removeSort, sort]);
 
-    const handleSelect = React.useCallback((field: string, sortDirection: SortDirection) => {
-      updateSort(field, sortDirection);
-    }, [updateSort]);
+  const handleSelect = React.useCallback(
+    (selectedField: string, sortDirection: SortDirection) => {
+      updateSort(selectedField, sortDirection);
+    },
+    [updateSort],
+  );
 
-    const handleDragStart = React.useCallback((event: React.DragEvent) => {
+  const handleDragStart = React.useCallback(
+    (event: React.DragEvent) => {
       if (!draggedItem || draggedItem.item.field !== sort.field) {
         setDragItem(sort, index);
         clonedPillRef.current = clonePill(event.currentTarget as HTMLElement);
@@ -50,36 +50,40 @@ export const SortItem = React.memo(
         event.dataTransfer.setDragImage(clonedPillRef.current, xLoc, 20);
         event.stopPropagation();
       }
-    }, [draggedItem, setDragItem, sort]);
+    },
+    [draggedItem, setDragItem, sort],
+  );
 
-    const handleDragOver = React.useCallback(
-      (event: React.DragEvent<HTMLDivElement>) => {
-        if (draggedItem && draggedItem.item.field !== sort.field) {
-          const bounds = event.currentTarget.getBoundingClientRect();
-          const position =
-            bounds.top + (bounds.height / 2) > event.clientY ? 'before' : 'after';
-          if (
-            draggedItem.item.field !== sort.field &&
-            (!dragOverItem ||
-              dragOverItem.item.field !== sort.field ||
-              dragOverItem.position !== position)
-          ) {
-            setDraggedOverItem(sort, index, position);
-          }
-          event.dataTransfer.dropEffect = 'move';
-          event.preventDefault();
+  const handleDragOver = React.useCallback(
+    (event: React.DragEvent<HTMLDivElement>) => {
+      if (draggedItem && draggedItem.item.field !== sort.field) {
+        const bounds = event.currentTarget.getBoundingClientRect();
+        const position =
+          bounds.top + bounds.height / 2 > event.clientY ? 'before' : 'after';
+        if (
+          draggedItem.item.field !== sort.field &&
+          (!dragOverItem ||
+            dragOverItem.item.field !== sort.field ||
+            dragOverItem.position !== position)
+        ) {
+          setDraggedOverItem(sort, index, position);
         }
-      },
-      [draggedItem, dragOverItem, sort, index, setDraggedOverItem]);
-
-    const clearClonedPill = React.useCallback(() => {
-      if (clonedPillRef.current) {
-        removePillFromDocument(clonedPillRef.current);
-        clonedPillRef.current = null;
+        event.dataTransfer.dropEffect = 'move';
+        event.preventDefault();
       }
-    }, [removePillFromDocument]);
+    },
+    [draggedItem, dragOverItem, sort, index, setDraggedOverItem],
+  );
 
-    const handleDrop = React.useCallback((event: React.DragEvent) => {
+  const clearClonedPill = React.useCallback(() => {
+    if (clonedPillRef.current) {
+      removePillFromDocument(clonedPillRef.current);
+      clonedPillRef.current = null;
+    }
+  }, [removePillFromDocument]);
+
+  const handleDrop = React.useCallback(
+    (event: React.DragEvent) => {
       if (dragOverItem && draggedItem) {
         moveTo(
           draggedItem.index,
@@ -90,54 +94,56 @@ export const SortItem = React.memo(
       clearItems();
       clearClonedPill();
       event.stopPropagation();
-    }, [draggedItem, dragOverItem, clearClonedPill, clearItems, moveTo]);
+    },
+    [draggedItem, dragOverItem, clearClonedPill, clearItems, moveTo],
+  );
 
-    const handleDragEnd = React.useCallback((event: React.DragEvent) => {
+  const handleDragEnd = React.useCallback(
+    (event: React.DragEvent) => {
       clearItems();
       clearClonedPill();
       event.stopPropagation();
-    }, [clearClonedPill, clearItems]);
+    },
+    [clearClonedPill, clearItems],
+  );
 
-    return (
-      <div className={s.sortItemWrapper}>
-        {dragOverItem?.item?.field === sort.field &&
-          dragOverItem?.position === 'before' && (
-            <div className={s.topInsert} />
-          )}
-        <div
-          className={s.sortItem}
-          draggable
-          onDragStart={handleDragStart}
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-          onDragEnd={handleDragEnd}
+  return (
+    <div className={s.sortItemWrapper}>
+      {dragOverItem?.item?.field === sort.field &&
+        dragOverItem?.position === 'before' && <div className={s.topInsert} />}
+      <div
+        className={s.sortItem}
+        draggable
+        onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+        onDragEnd={handleDragEnd}
+      >
+        <Button
+          onClick={handleDeleteArrayItem}
+          height={12}
+          width={12}
+          color={Colours.buttons.arrayItem}
+          hoverColor={Colours.buttons.arrayItemhover}
+          backgroundColor={Colours.buttons.arrayItembackground}
+          hoverBackgroundColor={Colours.buttons.arrayItemHoverBackground}
+          style={{
+            alignSelf: 'center',
+            marginLeft: '3px',
+            paddingBlock: 0,
+            paddingInline: 0,
+          }}
         >
-          <Button
-            onClick={handleDeleteArrayItem}
-            height={12}
-            width={12}
-            color={Colours.buttons.arrayItem}
-            hoverColor={Colours.buttons.arrayItemhover}
-            backgroundColor={Colours.buttons.arrayItembackground}
-            hoverBackgroundColor={Colours.buttons.arrayItemHoverBackground}
-            style={{
-              alignSelf: 'center',
-              marginLeft: '3px',
-              paddingBlock: 0,
-              paddingInline: 0,
-            }}
-          >
-            <IoClose />
-          </Button>
-          <div className={s.sortOption} id="pill-content">
-            {field && <SortOption field={field} onSelect={handleSelect} />}
-          </div>
+          <IoClose />
+        </Button>
+        <div className={s.sortOption} id="pill-content">
+          {field && <SortOption field={field} onSelect={handleSelect} />}
         </div>
-        {dragOverItem?.item?.field === sort.field &&
-          dragOverItem?.position === 'after' && (
-            <div className={s.bottomInsert} />
-          )}
       </div>
-    );
-  },
-);
+      {dragOverItem?.item?.field === sort.field &&
+        dragOverItem?.position === 'after' && (
+          <div className={s.bottomInsert} />
+        )}
+    </div>
+  );
+});

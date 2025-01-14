@@ -14,15 +14,8 @@ export const SortPill = React.memo(() => {
     pillHeight: height = DEFAULT_PILL_HEIGHT,
     sortPillWidth: maxWidth = DEFAULT_SORT_PILL_WIDTH,
   } = useConfig((state) => state);
-  const {
-    sort,
-    clearSort,
-    setActive,
-    active,
-  } = useSort((state) => state);
-  const {
-    clearSelections,
-  } = useMatcher((state) => state);
+  const { sort, clearSort, setActive, active } = useSort((state) => state);
+  const { clearSelections } = useMatcher((state) => state);
   const expanded = useFilterBar((state) => state.expanded);
 
   const { width: contentWidth = 0 } = useSizeWatcher(sortContentRef.current);
@@ -35,10 +28,7 @@ export const SortPill = React.memo(() => {
       return Colours.backgrounds.selected;
     }
     return Colours.backgrounds.standard;
-  }, [
-    mouseOver,
-    active
-  ]);
+  }, [mouseOver, active]);
 
   const handleMouseEnter = React.useCallback(() => {
     setMouseOver(true);
@@ -50,13 +40,12 @@ export const SortPill = React.memo(() => {
 
   const handleClearSort = React.useCallback(() => {
     clearSort();
-  }, [clearSort])
+  }, [clearSort]);
 
   const handleClick = React.useCallback(() => {
     setActive(true);
     clearSelections();
-  }, [setActive, clearSelections])
-
+  }, [setActive, clearSelections]);
 
   return (
     <div
@@ -71,18 +60,13 @@ export const SortPill = React.memo(() => {
       onClick={handleClick}
     >
       <div className={s.sortTitle}>Sort ({sort.length})</div>
-      <div
-        ref={sortContentRef}
-        className={s.sortFields}
-        style={{ maxWidth }}
-      >
-        {sort.map((s) => (<SortField key={s.field} sort={s} />))}
+      <div ref={sortContentRef} className={s.sortFields} style={{ maxWidth }}>
+        {sort.map((srt) => (
+          <SortField key={srt.field} sort={srt} />
+        ))}
       </div>
       {contentWidth >= maxWidth && <div>...</div>}
-      {mouseOver && (
-        <CloseButton onClick={handleClearSort} />
-      )}
+      {mouseOver && <CloseButton onClick={handleClearSort} />}
     </div>
   );
-
 });

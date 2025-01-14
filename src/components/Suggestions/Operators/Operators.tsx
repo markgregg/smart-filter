@@ -7,12 +7,25 @@ import { TooltipButton } from '@/components/common/TooltipButton';
 import { Brackets, LogicalOperator } from '@/types';
 import { useConfig, useMatcher } from '@/state/useState';
 import { FieldSelection } from './FieldSelection';
-import { AND, BRACKET, EMPTY, OR, VALUE, VALUE_ARRAY, VALUE_TO } from '@/util/constants';
+import {
+  AND,
+  BRACKET,
+  EMPTY,
+  OR,
+  VALUE,
+  VALUE_ARRAY,
+  VALUE_TO,
+} from '@/util/constants';
 import s from './style.module.less';
 
 const brackets: Brackets[] = ['(', ')'];
 export const Operators = React.memo(() => {
-  const { fieldMap, comparisonsMap, hints: { sortHints = false } = {} } = useConfig((state) => state);
+  const {
+    fieldMap,
+    comparisonsMap,
+    enableSort,
+    hints: { sortHints = false } = {},
+  } = useConfig((state) => state);
   const { selectedMatcher, matchers, updateMatcher, addBracket, editPosition } =
     useMatcher((state) => state);
 
@@ -83,130 +96,136 @@ export const Operators = React.memo(() => {
 
   const currentOperator = selectedMatcher?.operator === AND ? OR : AND;
 
-  const handleComparisonClick = React.useCallback((comparison: string) => {
-    if (selectedMatcher) {
-      updateMatcher({
-        ...selectedMatcher,
-        comparison,
-      });
-    }
-  }, [selectedMatcher, updateMatcher]);
+  const handleComparisonClick = React.useCallback(
+    (comparison: string) => {
+      if (selectedMatcher) {
+        updateMatcher({
+          ...selectedMatcher,
+          comparison,
+        });
+      }
+    },
+    [selectedMatcher, updateMatcher],
+  );
 
-  const handleSpecialClick = React.useCallback((func: string) => {
-    if (selectedMatcher) {
-      switch (func) {
-        case 'empty': {
-          if (
-            !(VALUE_TO in selectedMatcher) &&
-            !(VALUE_ARRAY in selectedMatcher) &&
-            !(BRACKET in selectedMatcher)
-          ) {
-            updateMatcher({
-              ...selectedMatcher,
-              value: null,
-              text: EMPTY,
-            });
+  const handleSpecialClick = React.useCallback(
+    (func: string) => {
+      if (selectedMatcher) {
+        switch (func) {
+          case 'empty': {
+            if (
+              !(VALUE_TO in selectedMatcher) &&
+              !(VALUE_ARRAY in selectedMatcher) &&
+              !(BRACKET in selectedMatcher)
+            ) {
+              updateMatcher({
+                ...selectedMatcher,
+                value: null,
+                text: EMPTY,
+              });
+            }
+            break;
           }
-          break;
-        }
-        case 'list': {
-          if (VALUE in selectedMatcher) {
-            const {
-              key,
-              field: mField,
-              operator,
-              text,
-              value,
-            } = selectedMatcher;
-            updateMatcher({
-              key,
-              field: mField,
-              operator,
-              comparison: '=',
-              textArray: [text],
-              valueArray: [value],
-            });
+          case 'list': {
+            if (VALUE in selectedMatcher) {
+              const {
+                key,
+                field: mField,
+                operator,
+                text,
+                value,
+              } = selectedMatcher;
+              updateMatcher({
+                key,
+                field: mField,
+                operator,
+                comparison: '=',
+                textArray: [text],
+                valueArray: [value],
+              });
+            }
+            break;
           }
-          break;
-        }
-        case 'range': {
-          if (
-            VALUE in selectedMatcher &&
-            !(VALUE_ARRAY in selectedMatcher)
-          ) {
-            const {
-              key,
-              field: mField,
-              operator,
-              text,
-              value,
-            } = selectedMatcher;
-            const comparison =
-              'comparison' in selectedMatcher
-                ? selectedMatcher.comparison
-                : '=';
-            updateMatcher({
-              key,
-              field: mField,
-              operator,
-              comparison,
-              text,
-              value,
-              textTo: '',
-              valueTo: null,
-            });
+          case 'range': {
+            if (VALUE in selectedMatcher && !(VALUE_ARRAY in selectedMatcher)) {
+              const {
+                key,
+                field: mField,
+                operator,
+                text,
+                value,
+              } = selectedMatcher;
+              const comparison =
+                'comparison' in selectedMatcher
+                  ? selectedMatcher.comparison
+                  : '=';
+              updateMatcher({
+                key,
+                field: mField,
+                operator,
+                comparison,
+                text,
+                value,
+                textTo: '',
+                valueTo: null,
+              });
+            }
+            break;
           }
-          break;
-        }
-        case 'value': {
-          if (VALUE_TO in selectedMatcher) {
-            const {
-              key,
-              field: mField,
-              operator,
-              text,
-              value,
-            } = selectedMatcher;
-            updateMatcher({
-              key,
-              field: mField,
-              operator,
-              comparison: '=',
-              text,
-              value,
-            });
-          } else if (VALUE_ARRAY in selectedMatcher) {
-            const {
-              key,
-              field: mField,
-              operator,
-              comparison,
-              textArray,
-              valueArray,
-            } = selectedMatcher;
-            updateMatcher({
-              key,
-              field: mField,
-              operator,
-              comparison,
-              text: textArray.length > 0 ? textArray[0] : '',
-              value: valueArray.length > 0 ? valueArray[0] : null,
-              textTo: '',
-              valueTo: null,
-            });
+          case 'value': {
+            if (VALUE_TO in selectedMatcher) {
+              const {
+                key,
+                field: mField,
+                operator,
+                text,
+                value,
+              } = selectedMatcher;
+              updateMatcher({
+                key,
+                field: mField,
+                operator,
+                comparison: '=',
+                text,
+                value,
+              });
+            } else if (VALUE_ARRAY in selectedMatcher) {
+              const {
+                key,
+                field: mField,
+                operator,
+                comparison,
+                textArray,
+                valueArray,
+              } = selectedMatcher;
+              updateMatcher({
+                key,
+                field: mField,
+                operator,
+                comparison,
+                text: textArray.length > 0 ? textArray[0] : '',
+                value: valueArray.length > 0 ? valueArray[0] : null,
+                textTo: '',
+                valueTo: null,
+              });
+            }
+            break;
           }
-          break;
-        }
-        default: {
-          // unexpected
+          default: {
+            // unexpected
+          }
         }
       }
-    }
-  }, [selectedMatcher, updateMatcher]);
+    },
+    [selectedMatcher, updateMatcher],
+  );
 
-  const handleBracketClick = React.useCallback((symbol: Brackets) => {
-    addBracket(symbol, editPosition);
-  }, [addBracket, editPosition]);
+  const handleBracketClick = React.useCallback(
+    (symbol: Brackets) => {
+      addBracket(symbol, editPosition);
+    },
+    [addBracket, editPosition],
+  );
 
   const handleLogicalOperatorClick = React.useCallback(
     (operator: LogicalOperator) => {
@@ -217,16 +236,19 @@ export const Operators = React.memo(() => {
         });
       }
     },
-    [selectedMatcher, updateMatcher]);
+    [selectedMatcher, updateMatcher],
+  );
 
   return (
     <div className={s.operators}>
       <FieldSelection />
       <div className={s.seperator} />
-      {sortHints && <>
-        <FieldSelection showSort />
-        <div className={s.seperator} />
-      </>}
+      {sortHints && enableSort && (
+        <>
+          <FieldSelection showSort />
+          <div className={s.seperator} />
+        </>
+      )}
       <div className={s.operatorSelection}>
         {selectedMatcher &&
           field?.operators.map((o) => (

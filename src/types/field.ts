@@ -25,7 +25,7 @@ export interface Field {
   /* value type, defaults to string */
   editorType?: ValueType;
   /* value edit matchers */
-  fieldMatchers: FieldMatch[];
+  fieldMatchers?: FieldMatch[];
   /* date-time format */
   dateTimeFormat?: string;
   /* minimun date or number value */

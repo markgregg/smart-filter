@@ -13,6 +13,9 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
     filterBarHeight = DEFAULT_FILTER_BAR_HEIGHT,
     allowLocking,
     showUndoIcon,
+    onClear,
+    onLock,
+    onExpand,
   } = useConfig((state) => state);
   const { enableExpand, expanded, setExpanded, locked, setlocked } =
     useFilterBar((state) => state);
@@ -22,7 +25,10 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
 
   const handleClearClick = React.useCallback(() => {
     clearMatchers();
-  }, [clearMatchers]);
+    if (onClear) {
+      onClear();
+    }
+  }, [clearMatchers, onClear]);
 
   const handleUndoClick = React.useCallback(() => { }, []);
 
@@ -32,14 +38,20 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
     } else {
       lockMatchers();
     }
-    setlocked(!locked);
-    if (locked) {
+    const newLocked = !locked;
+    setlocked(newLocked);
+    if (onLock) {
+      onLock(newLocked);
     }
-  }, [locked, setlocked, unlockMatchers, lockMatchers]);
+  }, [locked, setlocked, unlockMatchers, lockMatchers, onLock]);
 
   const handleExpandClick = React.useCallback(() => {
-    setExpanded(!expanded);
-  }, [expanded, setExpanded]);
+    const newExpanded = !expanded;
+    setExpanded(newExpanded);
+    if (onExpand) {
+      onExpand(newExpanded);
+    }
+  }, [expanded, setExpanded, onExpand]);
 
   const buttons = [
     {

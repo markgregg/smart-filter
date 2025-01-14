@@ -79,7 +79,10 @@ export const HintItems = React.memo(
       editPosition,
       matchers,
     } = useMatcher((state) => state);
-    const hints = React.useMemo(() => typeof hintSource === 'function' ? hintSource() : hintSource, [hintSource]);
+    const hints = React.useMemo(
+      () => (typeof hintSource === 'function' ? hintSource() : hintSource),
+      [hintSource],
+    );
     const targetMatcher = React.useMemo(() => {
       if (selectedMatcher) {
         return selectedMatcher;
@@ -90,73 +93,82 @@ export const HintItems = React.memo(
       return matchers.length > 0 ? matchers[matchers.length - 1] : null;
     }, [matchers, selectedMatcher]);
 
-    const handleValueClick = React.useCallback((hint: HintAndState) => {
-      if (hint.selected) {
-        if (targetMatcher) {
-          if (VALUE in targetMatcher) {
-            deleteMatcher(targetMatcher);
-            return;
-          }
-          if (VALUE_ARRAY in targetMatcher) {
-            if (typeof hint.hint === 'string' || VALUE_ARRAY in hint.hint || (VALUE in hint.hint && !(VALUE_TO in hint.hint))) {
-              let valueArray: Value[];
-              let textArray: string[];
-              if (typeof hint.hint === 'string') {
-                valueArray = targetMatcher.valueArray.filter(
-                  (v) => hint.hint !== v,
-                );
-                textArray = targetMatcher.textArray.filter(
-                  (t) => hint.hint !== t,
-                );
-              } else if (VALUE_ARRAY in hint.hint) {
-                const arrayHint = hint.hint as ArrayHint;
-                valueArray = targetMatcher.valueArray.filter(
-                  (v) => !arrayHint.valueArray.includes(v),
-                );
-                textArray = targetMatcher.textArray.filter(
-                  (t) => !arrayHint.textArray.includes(t),
-                );
-              } else {
-                const valueHint = hint.hint as SingleValueHint;
-                valueArray = targetMatcher.valueArray.filter(
-                  (v) => valueHint.value !== v,
-                );
-                textArray = targetMatcher.textArray.filter(
-                  (t) => valueHint.text !== t,
-                );
-              }
-              if (valueArray.length > 0) {
-                updateMatcher({
-                  ...targetMatcher,
-                  valueArray,
-                  textArray,
-                });
-              } else {
-                deleteMatcher(targetMatcher);
+    const handleValueClick = React.useCallback(
+      (hint: HintAndState) => {
+        if (hint.selected) {
+          if (targetMatcher) {
+            if (VALUE in targetMatcher) {
+              deleteMatcher(targetMatcher);
+              return;
+            }
+            if (VALUE_ARRAY in targetMatcher) {
+              if (
+                typeof hint.hint === 'string' ||
+                VALUE_ARRAY in hint.hint ||
+                (VALUE in hint.hint && !(VALUE_TO in hint.hint))
+              ) {
+                let valueArray: Value[];
+                let textArray: string[];
+                if (typeof hint.hint === 'string') {
+                  valueArray = targetMatcher.valueArray.filter(
+                    (v) => hint.hint !== v,
+                  );
+                  textArray = targetMatcher.textArray.filter(
+                    (t) => hint.hint !== t,
+                  );
+                } else if (VALUE_ARRAY in hint.hint) {
+                  const arrayHint = hint.hint as ArrayHint;
+                  valueArray = targetMatcher.valueArray.filter(
+                    (v) => !arrayHint.valueArray.includes(v),
+                  );
+                  textArray = targetMatcher.textArray.filter(
+                    (t) => !arrayHint.textArray.includes(t),
+                  );
+                } else {
+                  const valueHint = hint.hint as SingleValueHint;
+                  valueArray = targetMatcher.valueArray.filter(
+                    (v) => valueHint.value !== v,
+                  );
+                  textArray = targetMatcher.textArray.filter(
+                    (t) => valueHint.text !== t,
+                  );
+                }
+                if (valueArray.length > 0) {
+                  updateMatcher({
+                    ...targetMatcher,
+                    valueArray,
+                    textArray,
+                  });
+                } else {
+                  deleteMatcher(targetMatcher);
+                }
               }
             }
           }
+        } else {
+          const hintField = fieldMap.get(field);
+          if (!hintField) {
+            throw new Error(`${field} does not exist`);
+          }
+          const value =
+            typeof hint.hint === 'string'
+              ? createValue({ field, text: hint.hint, value: hint.hint })
+              : VALUE_ARRAY in hint.hint
+                ? createArrayValue({ field, ...hint.hint })
+                : VALUE_TO in hint.hint
+                  ? createRangeValue({ field, ...hint.hint })
+                  : createValue({ field, ...hint.hint });
+          const comp = typeof hint.hint === 'object' && 'comparison' in hint.hint ? hint.hint.comparison : null;
+          addValue({
+            fieldMap,
+            value,
+            position: editPosition,
+            comparison: comp ?? getDefaultComparison(hintField),
+          });
         }
-      } else {
-        const hintField = fieldMap.get(field);
-        if (!hintField) {
-          throw new Error(`${field} does not exist`);
-        }
-        const value =
-          typeof hint.hint === 'string'
-            ? createValue({ field, text: hint.hint, value: hint.hint })
-            : VALUE_ARRAY in hint.hint
-              ? createArrayValue({ field, ...hint.hint })
-              : VALUE_TO in hint.hint
-                ? createRangeValue({ field, ...hint.hint })
-                : createValue({ field, ...hint.hint });
-        addValue({
-          value,
-          position: editPosition,
-          comparison: getDefaultComparison(hintField),
-        });
-      }
-    }, [targetMatcher, editPosition]);
+      },
+      [targetMatcher, editPosition],
+    );
 
     const visibleHints: HintAndState[] = React.useMemo(
       () =>
@@ -173,7 +185,7 @@ export const HintItems = React.memo(
       <div className={s.hintItems} style={{ maxHeight }}>
         {visibleHints.map((h) => (
           // @ts-expect-error key is not exposed to the user and is automatically add in the config
-          <div key={h.hint.key}>
+          <div key={h.hint.key ?? h.hint}>
             <Button
               onClick={() => handleValueClick(h)}
               style={{ paddingBlock: 0, paddingInline: 0 }}

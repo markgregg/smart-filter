@@ -1,8 +1,16 @@
-import { ClientApi } from "@/aggrid/ClientApi";
-import { Field } from "@/types";
-import { AgField } from "@/types/agField";
-import { ScalarAdvancedFilterModelType, TextAdvancedFilterModelType } from "@/types/agGrid";
-import { AgTypes, defaultComparisons, numberComparisons, stringComparisons } from "@/util/constants";
+import { ClientApi } from '@/aggrid/ClientApi';
+import { Field } from '@/types';
+import { AgField } from '@/types/agField';
+import {
+  ScalarAdvancedFilterModelType,
+  TextAdvancedFilterModelType,
+} from '@/types/agGrid';
+import {
+  AgTypes,
+  defaultComparisons,
+  numberComparisons,
+  stringComparisons,
+} from '@/util/constants';
 
 export const textComparisonMap = new Map<string, TextAdvancedFilterModelType>([
   ['=', 'equals'],
@@ -13,7 +21,10 @@ export const textComparisonMap = new Map<string, TextAdvancedFilterModelType>([
   ['>*', 'endsWith'],
 ]);
 
-export const scalarComparisonMap = new Map<string, ScalarAdvancedFilterModelType>([
+export const scalarComparisonMap = new Map<
+  string,
+  ScalarAdvancedFilterModelType
+>([
   ['=', 'equals'],
   ['!', 'notEqual'],
   ['<', 'lessThan'],
@@ -67,8 +78,12 @@ export const useLists = (filter?: string): boolean => {
   return false;
 };
 
-export const useRanges = (type?: string | boolean, filter?: string): boolean => {
-  if (type === AgTypes.number ||
+export const useRanges = (
+  type?: string | boolean,
+  filter?: string,
+): boolean => {
+  if (
+    type === AgTypes.number ||
     type === AgTypes.date ||
     type === AgTypes.dateString ||
     filter === 'AgFilters.agNumberColumnFilter' ||
@@ -87,7 +102,6 @@ export const convertToheader = (field?: string): string => {
   return header?.replace(/^./, (str) => str.toUpperCase()) ?? 'Unknown';
 };
 
-
 export const constructFields = (
   agClientApi: ClientApi | null,
   fields: AgField[],
@@ -97,41 +111,54 @@ export const constructFields = (
   if (agClientApi) {
     const columns = agClientApi?.getAgColumns() ?? [];
     if (columns) {
-      return columns.map((col) => {
-        const { field, colId, headerName, cellDataType, filter, filterValueGetter } = col.getColDef();
-        const overrides = fields?.find((f) => f.name === (colId ?? field));
-        const { name, excludeFromFilter, ...fieldOverides } = overrides ?? {};
-        const fieldName = colId ?? field;
-        return {
-          name: fieldName ?? '',
-          title: headerName ?? convertToheader(field),
-          operators: getComparisons(cellDataType),
-          defaultComparison: getDefaultComparison(
+      return columns
+        .map((col) => {
+          const {
+            field,
+            colId,
+            headerName,
             cellDataType,
             filter,
-          ),
-          allowLists: useLists(filter),
-          allowRanges: useRanges(cellDataType),
-          allowBlanks: true,
-          textGetter: cellDataType === AgTypes.boolean ? (item: any) => item.text : undefined,
-          valueGetter: cellDataType === AgTypes.boolean ? (item: any) => item.value : undefined,
-          fieldMatchers: fieldName && !excludeFromFilter
-            ? [
-              agClientApi.getFieldMatch(
-                fieldName,
-                field,
-                cellDataType,
-                filter,
-                dateFormats,
-                displayDateFormat,
-                filterValueGetter
-              ),
-            ]
-            : [],
-          ...fieldOverides,
-        };
-      }).filter((f) => f.name !== undefined);
+            filterValueGetter,
+          } = col.getColDef();
+          const overrides = fields?.find((f) => f.name === (colId ?? field));
+          const { excludeFromFilter, ...fieldOverides } = overrides ?? {};
+          const fieldName = colId ?? field;
+          return {
+            name: fieldName ?? '',
+            title: headerName ?? convertToheader(field),
+            operators: getComparisons(cellDataType),
+            defaultComparison: getDefaultComparison(cellDataType, filter),
+            allowLists: useLists(filter),
+            allowRanges: useRanges(cellDataType),
+            allowBlanks: true,
+            textGetter:
+              cellDataType === AgTypes.boolean
+                ? (item: any) => item.text
+                : undefined,
+            valueGetter:
+              cellDataType === AgTypes.boolean
+                ? (item: any) => item.value
+                : undefined,
+            fieldMatchers:
+              fieldName && !excludeFromFilter
+                ? [
+                    agClientApi.getFieldMatch(
+                      fieldName,
+                      field,
+                      cellDataType,
+                      filter,
+                      dateFormats,
+                      displayDateFormat,
+                      filterValueGetter,
+                    ),
+                  ]
+                : [],
+            ...fieldOverides,
+          };
+        })
+        .filter((f) => f.name !== undefined);
     }
   }
   return null;
-}
+};

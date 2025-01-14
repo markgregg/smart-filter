@@ -30,7 +30,7 @@ export default defineConfig(({ mode }) => {
         ],
         exclude: [
           'src/TestApp/**',
-          'src/__tests__/**'
+          'tests'
         ]
       }
     },
@@ -47,7 +47,7 @@ export default defineConfig(({ mode }) => {
         include: ['src'],
         copyDtsFiles: true,
         tsconfigPath: 'tsconfig.build.json',
-        exclude: ['src/__tests__', 'src/TestApp'],
+        exclude: ['tests', 'src/TestApp'],
       }),
     ],
     css: {

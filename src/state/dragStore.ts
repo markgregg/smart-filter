@@ -9,11 +9,8 @@ export const createMatcherDragStore = <T>(): UseBoundStore<
     dragOverItem: null,
     setDragItem: (item: T, index: number) =>
       set({ draggedItem: { item, index } }),
-    setDraggedOverItem: (
-      item: T,
-      index: number,
-      position: DROP_POSITION,
-    ) => set({ dragOverItem: { item, index, position } }),
+    setDraggedOverItem: (item: T, index: number, position: DROP_POSITION) =>
+      set({ dragOverItem: { item, index, position } }),
     clearDragOverItem: () => set({ dragOverItem: null }),
     clearItems: () => set({ dragOverItem: null, draggedItem: null }),
   }));

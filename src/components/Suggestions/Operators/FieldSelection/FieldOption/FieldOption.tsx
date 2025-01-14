@@ -8,23 +8,19 @@ interface FieldOptionProps {
 }
 
 export const FieldOption = React.memo(
-  ({
-    field,
-    onSelect
-  }: FieldOptionProps) => {
-
-    const handleClick = React.useCallback((event: React.MouseEvent) => {
-      onSelect(field);
-      event.stopPropagation();
-    }, [onSelect, field]);
+  ({ field, onSelect }: FieldOptionProps) => {
+    const handleClick = React.useCallback(
+      (event: React.MouseEvent) => {
+        onSelect(field);
+        event.stopPropagation();
+      },
+      [onSelect, field],
+    );
 
     return (
-      (<div
-        className={s.fieldOption}
-        onClick={handleClick}
-      >
+      <div className={s.fieldOption} onClick={handleClick}>
         {field.title}
-      </div>)
+      </div>
     );
   },
 );
