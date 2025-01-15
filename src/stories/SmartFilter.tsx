@@ -84,8 +84,8 @@ export const SmartFilter: React.FC<SmartFilterProps> = ({
   hintsPerColumn,
   hintWidth,
   sortHints,
-  exampleHeight: height,
-  exampleWidth: width,
+  exampleHeight: height = 400,
+  exampleWidth: width = 600,
   size = 'normal',
   showDropdownOnMouseOver = true,
   ...props
