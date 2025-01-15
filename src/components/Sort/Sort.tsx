@@ -5,7 +5,6 @@ import s from './style.module.less';
 
 export const Sort = React.memo(() => {
   const sort = useSort((state) => state.sort);
-
   return (
     <div className={s.sort}>
       {sort.map((sortItem, index) => (

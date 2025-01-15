@@ -1,4 +1,4 @@
-import { Field, HintGrouping, LogicalOperator, Matcher, Operator, SourceItem, ValueMatcher } from '..';
+import { Field, HintGrouping, LogicalOperator, Matcher, Operator, Sort, SortDirection, SourceItem, ValueMatcher } from '..';
 import { ColDef } from 'ag-grid-community';
 import { bonds } from '../../data/bonds';
 import { BRACKET, OR, VALUE_ARRAY, VALUE_TO, defaultComparisons, numberComparisons, stringComparisons } from '@/util/constants';
@@ -28,7 +28,7 @@ export const createFields = (currentBonds: Bond[]): Field[] => {
     return new Promise((resolve) => {
       setTimeout(() => {
         const set = new Set<string>();
-        (operator === OR ? bonds : currentBonds).map(getter)
+        (bonds).map(getter)
           .filter(t => (t ?? '').toLocaleUpperCase().includes(text.toLocaleUpperCase()))
           .forEach((t) => set.add(t));
         resolve([...set.values()].slice(0, 10));
@@ -199,6 +199,11 @@ export const hintGroups: HintGrouping[] = [
       },
     ],
   },
+  {
+    title: 'Active',
+    field: 'active',
+    hints: [{ text: 'Yes', value: true }, { text: 'No', value: false }],
+  },
 ];
 
 export const columns: ColDef<Bond>[] = [
@@ -332,24 +337,34 @@ const createFilter = (
   let filterFunc: FilterFunction | null = null;
   switch (matcher.field) {
     case 'isin':
+      filterFunc = constructTextFilter(matcher, (bond: Bond) => bond.isin);
+      break;
     case 'side':
+      filterFunc = constructTextFilter(matcher, (bond: Bond) => bond.side);
+      break;
     case 'currency':
+      filterFunc = constructTextFilter(matcher, (bond: Bond) => bond ? bond.currency : '');
+      break;
     case 'issuer':
-      filterFunc = constructTextFilter(matcher, (bond: any) => bond[matcher.field]);
+      filterFunc = constructTextFilter(matcher, (bond: Bond) => bond.issuer);
       break;
     case 'sector':
       filterFunc = constructTextFilter(matcher, (bond: Bond) => bond.categories.sector);
       break;
     case 'coupon':
+      filterFunc = constructNumberFilter(matcher, (bond: Bond) => bond.coupon);
+      break;
     case 'haircut':
-      filterFunc = constructNumberFilter(matcher, (bond: any) => bond[matcher.field]);
+      filterFunc = constructNumberFilter(matcher, (bond: Bond) => bond.hairCut);
       break;
     case '':
       filterFunc = constructDateFilter(matcher, () => new Date(Date.now()));
       break;
     case 'maturityDate':
+      filterFunc = constructDateStringFilter(matcher, (bond: Bond) => bond.maturityDate);
+      break;
     case 'issueDate':
-      filterFunc = constructDateStringFilter(matcher, (bond: any) => bond[matcher.field]);
+      filterFunc = constructDateStringFilter(matcher, (bond: Bond) => bond.issueDate);
       break;
     case 'active':
       filterFunc = constructBooleanFilter(matcher, (bond: Bond) => bond.active);
@@ -772,3 +787,96 @@ const constructBooleanFilter = (
       return null;
   }
 };
+
+export type SortFunction = (x: any, y: any) => number;
+export const constructSort = (sort: Sort[]): SortFunction | null => {
+  let currentSort: SortFunction | null = null;
+
+  for (let i = 0; i < sort.length; i++) {
+    if (!currentSort) {
+      currentSort = createSortFunction(sort[i]);
+    } else {
+      const existingSort = currentSort as SortFunction;
+      const newSort = createSortFunction(sort[i]);
+      if (newSort) {
+        currentSort = (x, y) => {
+          const srt = existingSort(x, y);
+          return srt === 0
+            ? newSort(x, y)
+            : 0;
+        }
+      } else {
+        currentSort = existingSort;
+      }
+    }
+  }
+  return currentSort;
+}
+
+const createSortFunction = (
+  sortItem: Sort,
+): SortFunction | null => {
+  let sortFunc: SortFunction | null = null;
+  const createSortFunc = <T extends any>(type: string, sortDirection: SortDirection, getter: (bond: Bond) => T): SortFunction => {
+    return (x, y) => {
+      const valX = getter(x);
+      const valY = getter(y);
+      if (typeof valX !== type) {
+        return 1;
+      }
+      if (typeof valY !== type) {
+        return -1;
+      }
+      return valX === valY
+        ? 0
+        : valX > valY
+          ? sortDirection === 'asc' ? 1 : -1
+          : sortDirection === 'asc' ? -1 : 1
+    }
+  }
+
+  switch (sortItem.field) {
+    case 'isin':
+    case 'side':
+    case 'currency':
+    case 'issuer':
+      sortFunc = createSortFunc<string>('string', sortItem.sortDirection, (bond: any) => bond[sortItem.field]);
+      break;
+    case 'sector':
+      sortFunc = createSortFunc<string>('string', sortItem.sortDirection, (bond: Bond) => bond.categories.sector);
+      break;
+    case 'coupon':
+    case 'haircut':
+      sortFunc = createSortFunc<number>('number', sortItem.sortDirection, (bond: any) => bond[sortItem.field]);
+      break;
+    case 'maturityDate':
+    case 'issueDate':
+      sortFunc = (x: any, y: any) => {
+        const valX = x[sortItem.field];
+        const valY = y[sortItem.field];
+        if (typeof valX !== 'string') {
+          return 1;
+        }
+        if (typeof valY !== 'string') {
+          return -1;
+        }
+        const valXDate = moment(valX, 'YYYY-MM-DD', true);
+        const valYDate = moment(valY, 'YYYY-MM-DD', true);
+        return valXDate.isBefore(valYDate)
+          ? sortItem.sortDirection === 'asc' ? -1 : 1
+          : valXDate.isAfter(valYDate)
+            ? sortItem.sortDirection === 'asc' ? 1 : -1
+            : 0;
+      }
+      break;
+    case 'active':
+      sortFunc = createSortFunc<boolean>('boolean', sortItem.sortDirection, (bond: Bond) => bond.active);
+      break;
+    default:
+      // eslint-disable-next-line no-console
+      console.log(`Not mappibng for field: ${sortItem.field}`);
+      sortFunc = null;
+      break;
+  }
+  return sortFunc;
+}

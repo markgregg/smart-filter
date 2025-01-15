@@ -61,7 +61,7 @@ export const SortPill = React.memo(() => {
     >
       <div className={s.sortTitle}>Sort ({sort.length})</div>
       <div ref={sortContentRef} className={s.sortFields} style={{ maxWidth }}>
-        {sort.map((srt) => (
+        {sort.map((srt, idx) => (
           <SortField key={srt.field} sort={srt} />
         ))}
       </div>

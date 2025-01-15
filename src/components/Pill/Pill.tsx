@@ -60,6 +60,7 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
     dragOverItem,
     setDragItem,
     setDraggedOverItem,
+    clearDragOverItem,
     clearItems,
   } = useMatcherDrag((state) => state);
   const { unmatchedBrackets, hoverBracket, matchingHover, setHoverBracket } =
@@ -211,6 +212,7 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
             dragOverItem.position !== position)
         ) {
           setDraggedOverItem(matcher, index, position);
+          clearDragOverItem();
         }
         event.dataTransfer.dropEffect = 'move';
         event.preventDefault();

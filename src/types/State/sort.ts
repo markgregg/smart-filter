@@ -10,4 +10,6 @@ export interface SortState {
   clearSort: () => void;
   setActive: (value: boolean) => void;
   moveTo: (from: number, to: number, position: DROP_POSITION) => void;
+  moveUp: (index: number) => void;
+  moveDown: (index: number) => void;
 }

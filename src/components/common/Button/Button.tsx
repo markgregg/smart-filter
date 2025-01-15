@@ -43,6 +43,7 @@ export const Button = React.memo(
     const handleClick = React.useCallback(
       (event: React.MouseEvent) => {
         onClick();
+        setMouseOver(false);
         event.stopPropagation();
       },
       [onClick],

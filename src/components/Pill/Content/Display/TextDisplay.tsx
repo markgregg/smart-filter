@@ -13,7 +13,6 @@ export const TextDisplay = React.memo(
         onClick={onClick}
         style={{
           maxWidth,
-          padding: !html ? '0 0 2px 0' : '',
         }}
       >
         {html || text}

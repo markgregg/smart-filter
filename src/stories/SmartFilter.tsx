@@ -1,5 +1,5 @@
 import React from 'react';
-import Bond, { columns, constructFilter, createFields, hintGroups, operators } from './smartFilterFunctions';
+import Bond, { columns, constructFilter, constructSort, createFields, hintGroups, operators } from './smartFilterFunctions';
 import { Matcher, SmartFilter as SmartFilterComponent, Sort } from '../';
 import { AgGridReact } from 'ag-grid-react';
 import { ColDef } from 'ag-grid-community';
@@ -34,7 +34,7 @@ export interface SmartFilterProps {
   /* width of hints */
   hintWidth?: number;
   /* true show all fields or specify which fields */
-  sortHints?: true | string[];
+  sortHints?: string[];
 
   /* if true pills can be locked */
   allowLocking?: boolean;
@@ -76,30 +76,48 @@ export interface SmartFilterProps {
 /** Primary UI component for user interaction */
 export const SmartFilter: React.FC<SmartFilterProps> = ({
   onChange,
+  onSortChange,
   hintsPerColumn,
   hintWidth,
   sortHints,
   exampleHeight: height,
   exampleWidth: width,
+  showDropdownOnMouseOver = true,
   ...props
 }: SmartFilterProps) => {
   const [rowData, setRowData] = React.useState<Bond[]>(bonds);
   const [columnDefs] = React.useState<ColDef<Bond>[]>(columns);
   const [matchers, setMatchers] = React.useState<Matcher[]>([]);
-
+  const [sort, setSort] = React.useState<Sort[]>([]);
   const fields = React.useMemo(() => createFields(rowData), [rowData])
 
-  //move fields here and when or use rowdata
   const handleChange = React.useCallback((
     newMatchers: Matcher[],
   ) => {
     setMatchers(newMatchers);
-    const filter = constructFilter(newMatchers);
-    setRowData(bonds.filter(b => !filter || filter(b)));
     if (onChange) {
       onChange(newMatchers);
     }
-  }, [setMatchers]);
+  }, [setMatchers, setRowData]);
+
+  const handleSortChange = React.useCallback((
+    newSort: Sort[],
+  ) => {
+    setSort(newSort);
+    if (onSortChange) {
+      onSortChange(newSort);
+    }
+  }, [setSort, setRowData]);
+
+  React.useEffect(() => {
+    const filterFunc = constructFilter(matchers);
+    const newData = bonds.filter(b => !filterFunc || filterFunc(b));
+    const sortFunc = constructSort(sort);
+    if (sortFunc) {
+      newData.sort(sortFunc);
+    }
+    setRowData(newData);
+  }, [sort, matchers, setRowData]);
 
   return (
     <div
@@ -113,6 +131,8 @@ export const SmartFilter: React.FC<SmartFilterProps> = ({
         <SmartFilterComponent
           matchers={matchers}
           onChange={handleChange}
+          sort={sort}
+          onSortChange={handleSortChange}
           fields={fields}
           operators={operators}
           hints={{
@@ -121,6 +141,7 @@ export const SmartFilter: React.FC<SmartFilterProps> = ({
             sortHints,
             hintGroups: hintGroups,
           }}
+          showDropdownOnMouseOver={showDropdownOnMouseOver}
           {...props}
         />
       </div>

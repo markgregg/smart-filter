@@ -7,6 +7,6 @@ export interface Hints {
   hintWidth?: number;
   /* hint groups */
   hintGroups: HintGrouping[];
-  /* true show all fields or specify which fields */
-  sortHints?: true | string[];
+  /* specify which fields to sort and in which order */
+  sortHints?: string[];
 }

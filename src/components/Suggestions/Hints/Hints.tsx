@@ -6,7 +6,7 @@ import s from './style.module.less';
 
 export const Hints = React.memo(() => {
   const hints = useConfig((state) => state.hints);
-  const { selectedHintGroup, selectHintGroup } = useHint((state) => state);
+  const { selectedHintGroup, selectHintGroup, clearSelection } = useHint((state) => state);
   const selectedMatcher = useMatcher((state) => state.selectedMatcher);
 
   React.useEffect(() => {
@@ -16,9 +16,11 @@ export const Hints = React.memo(() => {
       );
       if (group) {
         selectHintGroup(group.title);
+        return;
       }
     }
-  }, [selectedMatcher, hints]);
+    clearSelection();
+  }, [selectedMatcher, hints, clearSelection, selectHintGroup]);
 
   const hintGroup = React.useMemo(
     () => hints?.hintGroups.find((g) => g.title === selectedHintGroup),

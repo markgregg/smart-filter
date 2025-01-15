@@ -24,12 +24,17 @@ export const createSortStore = (): UseBoundStore<StoreApi<SortState>> =>
         };
       }),
     removeSort: (field: string) =>
-      set((state) => ({
-        sort: state.sort.filter((s) => s.field !== field),
-      })),
+      set((state) => {
+        const sort = state.sort.filter((s) => s.field !== field);
+        return ({
+          sort,
+          active: state.active && sort.length > 0,
+        });
+      }),
     clearSort: () =>
       set(() => ({
         sort: [],
+        active: false,
       })),
     setActive: (active: boolean) => set({ active }),
     moveTo: (from: number, to: number, position: DROP_POSITION) =>
@@ -55,5 +60,22 @@ export const createSortStore = (): UseBoundStore<StoreApi<SortState>> =>
         }
         return {};
       }),
+    moveUp: (index: number) => {
+      if (index > 0) {
+        set((state) => {
+          const item = state.sort.splice(index, 1);
+          state.sort.splice(index - 1, 0, item[0]);
+          return { sort: [...state.sort] };
+        });
+      }
+    },
+    moveDown: (index: number) => set((state) => {
+      if (index < state.sort.length - 1) {
+        const item = state.sort.splice(index, 1);
+        state.sort.splice(index + 1, 0, item[0]);
+        return { sort: [...state.sort] };
+      }
+      return {};
+    })
   })
   );

@@ -23,7 +23,7 @@ export const FieldSelection = React.memo(
   ({ showSort }: FieldSelectionProps) => {
     const [filter, setFilter] = React.useState<string>('');
     const [showFields, setShowFields] = React.useState<boolean>(false);
-    const { fieldMap, fields, hints: { sortHints = false } = {} } = useConfig(
+    const { fieldMap, fields, enableSort, hints: { sortHints = undefined } = {} } = useConfig(
       (state) => state,
     );
     const { addValue, editPosition } = useMatcher((state) => state);
@@ -34,8 +34,8 @@ export const FieldSelection = React.memo(
         fields.filter(
           (f) =>
             (!showSort ||
-              sortHints === true ||
-              (sortHints && sortHints.includes(f.name))) &&
+              enableSort ||
+              (enableSort && sortHints && sortHints.includes(f.name))) &&
             ignoreCaseCompare(f.title, filter),
         ),
       [fields, filter],

@@ -5,7 +5,7 @@ import { CgUndo } from 'react-icons/cg';
 import { AiFillLock, AiFillUnlock } from 'react-icons/ai';
 import { Button } from '../../common/Button';
 import { DEFAULT_FILTER_BAR_HEIGHT } from '@/util/constants';
-import { useConfig, useFilterBar, useMatcher } from '@/state/useState';
+import { useConfig, useFilterBar, useMatcher, useSort } from '@/state/useState';
 import s from './style.module.less';
 
 export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
@@ -22,9 +22,11 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
   const { clearMatchers, lockMatchers, unlockMatchers } = useMatcher(
     (state) => state,
   );
+  const clearSort = useSort((state) => state.clearSort);
 
   const handleClearClick = React.useCallback(() => {
     clearMatchers();
+    clearSort();
     if (onClear) {
       onClear();
     }

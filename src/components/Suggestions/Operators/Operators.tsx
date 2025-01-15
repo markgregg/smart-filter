@@ -24,7 +24,6 @@ export const Operators = React.memo(() => {
     fieldMap,
     comparisonsMap,
     enableSort,
-    hints: { sortHints = false } = {},
   } = useConfig((state) => state);
   const { selectedMatcher, matchers, updateMatcher, addBracket, editPosition } =
     useMatcher((state) => state);
@@ -36,6 +35,7 @@ export const Operators = React.memo(() => {
         : null,
     [selectedMatcher, fieldMap],
   );
+
   const selectedIndex = React.useMemo(
     () =>
       selectedMatcher && matchers.length > 0
@@ -243,14 +243,14 @@ export const Operators = React.memo(() => {
     <div className={s.operators}>
       <FieldSelection />
       <div className={s.seperator} />
-      {sortHints && enableSort && (
+      {enableSort && (
         <>
           <FieldSelection showSort />
           <div className={s.seperator} />
         </>
       )}
       <div className={s.operatorSelection}>
-        {selectedMatcher &&
+        {selectedMatcher && !(VALUE_TO in selectedMatcher) &&
           field?.operators.map((o) => (
             <TooltipButton
               key={o}

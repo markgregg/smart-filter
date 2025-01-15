@@ -194,7 +194,7 @@ export const HintItems = React.memo(
                 className={s.hint}
                 style={{ width, fontWeight: h.selected ? 'bold' : 'normal' }}
               >
-                {typeof h.hint === 'string' ? h.hint : h.hint.display}
+                {typeof h.hint === 'string' ? h.hint : ('display' in h.hint ? h.hint.display : 'text' in h.hint ? h.hint.text : '')}
               </div>
             </Button>
           </div>

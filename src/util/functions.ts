@@ -22,9 +22,9 @@ const getMin = (field: Field): Date | undefined => {
       return moment(
         field.min,
         field.dateTimeFormat ??
-          (field.editorType === 'date'
-            ? DEFAULT_DATE_FORMAT
-            : DEFAULT_DATE_TIME_FORMAT),
+        (field.editorType === 'date'
+          ? DEFAULT_DATE_FORMAT
+          : DEFAULT_DATE_TIME_FORMAT),
         true,
       ).toDate();
     }
@@ -166,5 +166,12 @@ export const matchExact = (
     : actualItem === searchText;
 };
 
-export const isVisible = (element: HTMLElement) =>
-  element.offsetParent !== null;
+export const isVisible = (element: HTMLElement) => {
+  if (element.parentElement) {
+    const { right: pright } = element.parentElement.getBoundingClientRect();
+    const { left, right } = element.getBoundingClientRect();
+    return (left >= 0 && right <= pright);
+  }
+  return true;
+}
+

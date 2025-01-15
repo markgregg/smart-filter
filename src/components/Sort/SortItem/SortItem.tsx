@@ -6,6 +6,8 @@ import { Sort, SortDirection } from '@/types';
 import { Colours } from '@/util/colours';
 import { SortOption } from '@/components/Suggestions/Operators/FieldSelection/SortOption';
 import { clonePill, removePillFromDocument } from '@/util/dragDrop';
+import { IoCaretUpSharp, IoCaretDownSharp } from "react-icons/io5";
+import { MdDragIndicator } from 'react-icons/md';
 import s from './style.module.less';
 
 interface SortItemProps {
@@ -20,18 +22,33 @@ export const SortItem = React.memo(({ sort, index }: SortItemProps) => {
     () => fieldMap?.get(sort.field),
     [fieldMap, sort],
   );
-  const { removeSort, updateSort, moveTo } = useSort((state) => state);
+  const { removeSort, updateSort, moveTo, moveUp, moveDown, sort: sortArray } = useSort((state) => state);
   const {
     draggedItem,
     dragOverItem,
     setDragItem,
     setDraggedOverItem,
+    clearDragOverItem,
     clearItems,
   } = useSortDrag((state) => state);
 
   const handleDeleteArrayItem = React.useCallback(() => {
     removeSort(sort.field);
   }, [removeSort, sort]);
+
+  const handleMoveUp = React.useCallback(
+    () => {
+      moveUp(index);
+    },
+    [moveUp, index],
+  );
+
+  const handleMoveDown = React.useCallback(
+    () => {
+      moveDown(index);
+    },
+    [moveDown, index],
+  );
 
   const handleSelect = React.useCallback(
     (selectedField: string, sortDirection: SortDirection) => {
@@ -70,6 +87,8 @@ export const SortItem = React.memo(({ sort, index }: SortItemProps) => {
         }
         event.dataTransfer.dropEffect = 'move';
         event.preventDefault();
+      } else {
+        clearDragOverItem();
       }
     },
     [draggedItem, dragOverItem, sort, index, setDraggedOverItem],
@@ -139,6 +158,23 @@ export const SortItem = React.memo(({ sort, index }: SortItemProps) => {
         <div className={s.sortOption} id="pill-content">
           {field && <SortOption field={field} onSelect={handleSelect} />}
         </div>
+        <Button
+          onClick={handleMoveUp}
+          height={26}
+          width={26}
+          disabled={index === 0}
+        >
+          {index > 0 ? <IoCaretUpSharp /> : <div />}
+        </Button>
+        <Button
+          onClick={handleMoveDown}
+          height={26}
+          width={26}
+          disabled={index === sortArray.length - 1}
+        >
+          {index < sortArray.length - 1 ? <IoCaretDownSharp /> : <div />}
+        </Button>
+        <MdDragIndicator className={s.dragIndicator} />
       </div>
       {dragOverItem?.item?.field === sort.field &&
         dragOverItem?.position === 'after' && (

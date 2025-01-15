@@ -62,7 +62,13 @@ const splitString = (text: string): string[] | null => {
     const delimiter = DELIMITERS[index];
     const textArray = text.split(delimiter);
     if (textArray.length > 1) {
-      return textArray;
+      const uniqueItems = new Set<string>();
+      textArray.forEach((t) => {
+        if (t) {
+          uniqueItems.add(t);
+        }
+      });
+      return [...uniqueItems.values()];
     }
   }
   return null;
@@ -143,9 +149,9 @@ export const getMatchersFromText = (
     return Array.isArray(matchers)
       ? matchers.map((m) => ({ ...m, key: uuidv4() }))
       : {
-          ...matchers,
-          key: uuidv4(),
-        };
+        ...matchers,
+        key: uuidv4(),
+      };
   }
   return null;
 };

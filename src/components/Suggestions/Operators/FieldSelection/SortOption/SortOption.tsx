@@ -42,16 +42,16 @@ export const SortOption = React.memo(({ field, onSelect }: SortOptionProps) => {
       <div className={s.sortButtons}>
         <Button
           onClick={handleAscClick}
-          height={22}
-          width={22}
+          height={26}
+          width={26}
           backgroundColor={currentDirection === 'asc' ? 'darkgray' : undefined}
         >
           <RiSortAsc />
         </Button>
         <Button
           onClick={handleDescClick}
-          height={22}
-          width={22}
+          height={26}
+          width={26}
           backgroundColor={currentDirection === 'desc' ? 'darkgray' : undefined}
         >
           <RiSortDesc />

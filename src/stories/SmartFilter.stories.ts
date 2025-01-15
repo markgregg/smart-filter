@@ -35,10 +35,10 @@ const meta = {
       control: 'number',
       description: 'The width of each hint',
     },
-    sortHints: {
+    /*sortHints: {
       control: 'boolean',
       description: 'If true sort hints are shown',
-    },
+    },*/
     allowLocking: {
       control: 'boolean',
       description: 'If true allow pills to be locked',
@@ -57,11 +57,11 @@ const meta = {
     },
     showSearchIcon: {
       control: 'boolean',
-      description: 'If true sort hints are shown',
+      description: 'If true the search icon is shown',
     },
     showUndoIcon: {
       control: 'boolean',
-      description: 'If true sort hints are shown',
+      description: 'If true the undo icon is shown',
     },
     filterBarHeight: {
       control: 'number',
