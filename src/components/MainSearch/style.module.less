@@ -1,3 +1,5 @@
+@import (reference) '../../util/common.less';
+
 .searchPill {
   flex-grow: 1;
   height: 22px;
@@ -10,4 +12,16 @@
     outline: none;
     flex-grow: 1;
   }
+}
+
+.compact {
+  height: @pill-height-compact;
+}
+
+.normal {
+  height: @pill-height;
+}
+
+.large {
+  height: @pill-height-large;
 }

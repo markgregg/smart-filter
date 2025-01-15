@@ -23,6 +23,9 @@ const meta = {
       control: 'number',
       description: 'The height of the example',
     },
+    size: {
+      options: ['compact', 'normal', 'large'],
+    },
     enableSort: {
       control: 'boolean',
       description: 'If true sort options are available',
@@ -62,14 +65,6 @@ const meta = {
     showUndoIcon: {
       control: 'boolean',
       description: 'If true the undo icon is shown',
-    },
-    filterBarHeight: {
-      control: 'number',
-      description: 'The heoght of the filter bar',
-    },
-    pillHeight: {
-      control: 'number',
-      description: 'THe height of a pill',
     },
     maxValueWidth: {
       control: 'number',

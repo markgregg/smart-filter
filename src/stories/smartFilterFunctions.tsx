@@ -800,9 +800,9 @@ export const constructSort = (sort: Sort[]): SortFunction | null => {
       const newSort = createSortFunction(sort[i]);
       if (newSort) {
         currentSort = (x, y) => {
-          const srt = existingSort(x, y);
+          const srt = newSort(x, y);
           return srt === 0
-            ? newSort(x, y)
+            ? existingSort(x, y)
             : 0;
         }
       } else {

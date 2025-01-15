@@ -1,6 +1,7 @@
 import React from 'react';
 import { Colours } from '@/util/colours';
 import s from './style.module.less';
+import { useConfig } from '@/state/useState';
 
 interface ButtonProps {
   children: JSX.Element | string;
@@ -29,6 +30,7 @@ export const Button = React.memo(
     disabled,
   }: ButtonProps) => {
     const [mouseOver, setMouseOver] = React.useState<boolean>(false);
+    const size = useConfig((state) => state.size);
     const foreColor = mouseOver ? hoverColor : color;
     const backColor = mouseOver ? hoverBackgroundColor : backgroundColor;
 
@@ -52,7 +54,7 @@ export const Button = React.memo(
     return (
       <button
         type="button"
-        className={s.button}
+        className={[s.button, s[`font-${size}`]].join(' ')}
         onClick={handleClick}
         style={{
           ...style,

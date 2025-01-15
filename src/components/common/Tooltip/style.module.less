@@ -16,7 +16,6 @@
     bottom: 125%;
     left: 50%;
     transition: opacity 0.3s;
-    font-size: x-small;
 
     &::after {
       content: " ";
@@ -30,4 +29,19 @@
     }
   }
 
+}
+
+.font-compact {
+  line-height: @line-height-compact;
+  font-size: @font-size-compact;
+}
+
+.font-normal {
+  line-height: @line-height;
+  font-size: @font-size;
+}
+
+.font-large {
+  line-height: @line-height-large;
+  font-size: @font-size-large;
 }

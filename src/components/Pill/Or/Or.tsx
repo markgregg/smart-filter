@@ -12,7 +12,7 @@ interface OrProps {
 
 export const Or = React.memo(({ matcher }: OrProps) => {
   const [mouseOver, setMouseOver] = React.useState<boolean>(false);
-  const pillHeight = useConfig((state) => state.pillHeight);
+  const size = useConfig((state) => state.size) ?? 'normal';
   const { selectedMatcher, updateMatcher, copyMatchers } = useMatcher(
     (state) => state,
   );
@@ -50,9 +50,8 @@ export const Or = React.memo(({ matcher }: OrProps) => {
 
   return (
     <div
-      className={s.or}
+      className={[s.or, s[size]].join(' ')}
       style={{
-        height: pillHeight,
         backgroundColor,
       }}
       onMouseEnter={handleMouseEnter}

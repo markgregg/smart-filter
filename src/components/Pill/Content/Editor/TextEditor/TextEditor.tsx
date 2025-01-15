@@ -1,10 +1,12 @@
 import React from 'react';
 import { EditorComponentProps } from '../Editor';
 import s from './style.module.less';
+import { useConfig } from '@/state/useState';
 
 export const TextEditor = React.memo(
   ({ textValue, onChanged }: EditorComponentProps) => {
     const inputRef = React.useRef<HTMLInputElement | null>(null);
+    const size = useConfig((state) => state.size);
 
     React.useEffect(() => {
       inputRef?.current?.focus();
@@ -25,7 +27,7 @@ export const TextEditor = React.memo(
     return (
       <input
         ref={inputRef}
-        className={s.textInput}
+        className={[s.textInput, s[`font-${size}`]].join(' ')}
         type="text"
         placeholder="Enter text..."
         value={textValue.text}

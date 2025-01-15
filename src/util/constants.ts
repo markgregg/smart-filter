@@ -1,13 +1,20 @@
 export const CLIPBOARD_FORMAT = 'text/json';
 export const DELIMITERS = [',', '\t', '\n'];
 
+export const DEFAULT_LINES_TO_EXPAND = 3;
 export const DEFAULT_KEYBOARD_DROPDOWN_DISPLAY_TIME = 1500;
 export const DEFAULT_SORT_OPTION_WIDTH = 200;
 export const DEFAULT_SORT_PILL_WIDTH = 90;
-export const DEFAULT_FILTER_BAR_HEIGHT = 30;
-export const DEFAULT_PILL_HEIGHT = 22;
 export const DEFAULT_DATE_FORMAT = 'DD/MM/YYYY';
 export const DEFAULT_DATE_TIME_FORMAT = 'DD/MM/YYYY HH:mm:ss';
+
+export const COMPACT_HEIGHT = 24;
+export const NORMAL_HEIGHT = 30;
+export const LARGE_HEIGHT = 36;
+
+export const COMPACT_PILL_HEIGHT = 18;
+export const NORMAL_PILL_HEIGHT = 22;
+export const LARGE_PILL_HEIGHT = 26;
 
 export const AND = 'and';
 export const OR = 'or';

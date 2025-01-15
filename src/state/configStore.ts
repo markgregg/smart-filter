@@ -2,10 +2,6 @@ import { StoreApi, UseBoundStore, create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
 import { SmartFilterProps } from '@/types';
 import { ConfigState } from '@/types/State';
-import {
-  DEFAULT_FILTER_BAR_HEIGHT,
-  DEFAULT_PILL_HEIGHT,
-} from '@/util/constants';
 
 export const createConfigStore = ({
   matchers,
@@ -15,8 +11,7 @@ export const createConfigStore = ({
   onClear,
   onLock,
   onExpand,
-  filterBarHeight,
-  pillHeight,
+  size,
   maxDropdownHeight,
   dropdownWidth,
   maxValueWidth,
@@ -44,8 +39,7 @@ export const createConfigStore = ({
     onClear,
     onLock,
     onExpand,
-    filterBarHeight: filterBarHeight ?? DEFAULT_FILTER_BAR_HEIGHT,
-    pillHeight: pillHeight ?? DEFAULT_PILL_HEIGHT,
+    size: size ?? 'normal',
     maxValueWidth,
     maxDropdownHeight,
     dropdownWidth,

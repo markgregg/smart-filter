@@ -14,7 +14,9 @@ import { BracketContent } from './Content/BracketContent';
 import { Or } from './Or';
 import {
   BRACKET,
-  DEFAULT_PILL_HEIGHT,
+  COMPACT_PILL_HEIGHT,
+  LARGE_PILL_HEIGHT,
+  NORMAL_PILL_HEIGHT,
   OR,
   VALUE_ARRAY,
   VALUE_TO,
@@ -41,7 +43,7 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
   const {
     fieldMap,
     comparisonsMap,
-    pillHeight = DEFAULT_PILL_HEIGHT,
+    size = 'normal',
   } = useConfig((state) => state);
   const {
     deleteMatcher,
@@ -65,10 +67,18 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
   } = useMatcherDrag((state) => state);
   const { unmatchedBrackets, hoverBracket, matchingHover, setHoverBracket } =
     useBrackets((state) => state);
+
+  const pillHeight = size === 'normal'
+    ? NORMAL_PILL_HEIGHT
+    : size === 'compact'
+      ? COMPACT_PILL_HEIGHT
+      : LARGE_PILL_HEIGHT;
+
   const field = React.useMemo(
     () => ('field' in matcher ? (fieldMap.get(matcher.field) ?? null) : null),
     [fieldMap, matcher],
   );
+
   const backgroundColor = React.useMemo(() => {
     if (hasError(matcher) || unmatchedBrackets.has(matcher.key)) {
       return mouseOver
@@ -258,7 +268,7 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
 
   return (
     <div
-      className={s.pill}
+      className={[s.pill, s[size]].join(' ')}
       ref={pillRef}
       tabIndex={index}
       draggable={!matcher.locked}
@@ -266,9 +276,6 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
       onDragOver={handleDragOver}
       onDrop={handleDrop}
       onDragEnd={handleDragEnd}
-      style={{
-        height: pillHeight,
-      }}
     >
       {dragOverItem?.item?.key === matcher.key &&
         dragOverItem?.position === 'before' && (
@@ -281,11 +288,10 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
         )}
       <div
         id="pill-content"
-        className={s.pillContent}
+        className={[s.pillContent, s[size]].join(' ')}
         onClick={handleMatcherClicked}
         style={{
           backgroundColor,
-          height: pillHeight,
         }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

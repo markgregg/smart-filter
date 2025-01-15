@@ -4,17 +4,14 @@
   display: flex;
   align-items: center;
   color: @secondary;
-  font-size: small;
   padding-left: 4px;
   border-radius: 3px;
   position: relative;
-  align-self: flex-start;
 
   .sortTitle {
     user-select: none;
     white-space: nowrap;
     margin-right: 3px;
-    padding-bottom: 2px;
   }
 
   .sortFields {
@@ -22,4 +19,25 @@
     align-items: center;
     overflow: hidden;
   }
+}
+
+.compact {
+  height: @pill-height-compact;
+}
+
+.normal {
+  height: @pill-height;
+}
+
+.large {
+  height: @pill-height-large;
+}
+
+.expanded {
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
+.contracted {
+  align-self: center;
 }

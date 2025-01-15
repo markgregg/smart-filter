@@ -5,9 +5,12 @@ import { PillContainer } from '../PillContainer';
 import { FilterButtons } from './FilterButtons';
 import { Dropdown } from '../Dropdown';
 import {
-  DEFAULT_FILTER_BAR_HEIGHT,
+  COMPACT_HEIGHT,
+  DEFAULT_LINES_TO_EXPAND,
   DEFAULT_SORT_PILL_WIDTH,
   KeyBoardkeys,
+  LARGE_HEIGHT,
+  NORMAL_HEIGHT,
 } from '@/util/constants';
 import { useSizeWatcher } from '@/hooks/useSizeWatcher';
 import {
@@ -28,8 +31,8 @@ export const FilterBar = React.memo(() => {
   const filterBuittons = React.useRef<HTMLDivElement | null>(null);
   const searchBar = React.useRef<HTMLDivElement | null>(null);
   const {
-    filterBarHeight = DEFAULT_FILTER_BAR_HEIGHT,
-    expandedLines,
+    size = 'normal',
+    expandedLines = DEFAULT_LINES_TO_EXPAND,
     showSearchIcon,
     pasteOptions,
     fieldMap,
@@ -66,11 +69,11 @@ export const FilterBar = React.memo(() => {
 
   const { width = '100%' } = useSizeWatcher(searchBar.current);
 
-  const height = expanded
-    ? expandedLines
-      ? expandedLines * filterBarHeight
-      : undefined
-    : filterBarHeight;
+  const buttonHeight = size === 'normal'
+    ? NORMAL_HEIGHT - 2
+    : size === 'compact'
+      ? COMPACT_HEIGHT - 2
+      : LARGE_HEIGHT - 2;
 
   const showMovePrev =
     enableExpand && !expanded && (editPosition === null || editPosition > 0);
@@ -248,8 +251,7 @@ export const FilterBar = React.memo(() => {
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       tabIndex={0}
       ref={searchBar}
-      style={{ height: filterBarHeight }}
-      className={s.searchBar}
+      className={[s.searchBar, s[size], s[`font-${size}`]].join(' ')}
       onFocus={handleFocus}
       onBlur={handleLostFocus}
       onMouseEnter={handleMouseEnter}
@@ -260,16 +262,15 @@ export const FilterBar = React.memo(() => {
         className={[
           s.searchBarInner,
           expanded ? s.multiLineSearchBar : '',
+          s[size]
         ].join(' ')}
         style={{
-          height,
           width,
         }}
       >
         {showSearchIcon && (
           <div
-            className={s.filterIconContainer}
-            style={{ height: filterBarHeight }}
+            className={[s.filterIconContainer, s[size]].join(' ')}
           >
             <TbFilter />
           </div>
@@ -277,7 +278,7 @@ export const FilterBar = React.memo(() => {
         {showMovePrev && (
           <Button
             onClick={handleMovePrev}
-            height={filterBarHeight - 2}
+            height={buttonHeight}
             width={26}
           >
             <FaCaretLeft />
@@ -292,7 +293,7 @@ export const FilterBar = React.memo(() => {
         {showMoveNext && (
           <Button
             onClick={handleMoveNext}
-            height={filterBarHeight - 2}
+            height={buttonHeight}
             width={26}
           >
             <FaCaretRight />

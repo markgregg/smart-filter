@@ -7,12 +7,16 @@ import { bonds } from '../../data/bonds';
 import s from './SmartFilter.module.less';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import { FilterBarSize } from '@/types/uiProperties';
 
 export interface SmartFilterProps {
   /* Example width */
   exampleWidth?: number;
   /* Example height */
   exampleHeight?: number;
+
+  /* size of the filter */
+  size?: FilterBarSize;
 
   /* change notifier for matchers */
   onChange?: (matchers: Matcher[]) => void;
@@ -82,6 +86,7 @@ export const SmartFilter: React.FC<SmartFilterProps> = ({
   sortHints,
   exampleHeight: height,
   exampleWidth: width,
+  size = 'normal',
   showDropdownOnMouseOver = true,
   ...props
 }: SmartFilterProps) => {
@@ -141,6 +146,7 @@ export const SmartFilter: React.FC<SmartFilterProps> = ({
             sortHints,
             hintGroups: hintGroups,
           }}
+          size={size}
           showDropdownOnMouseOver={showDropdownOnMouseOver}
           {...props}
         />

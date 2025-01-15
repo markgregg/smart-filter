@@ -18,7 +18,10 @@ interface MainSearchProps {
 export const MainSearch = React.memo(
   ({ reducedWidth, position }: MainSearchProps) => {
     const [text, setText] = React.useState<string[]>(['']);
-    const fieldMap = useConfig((state) => state.fieldMap);
+    const {
+      fieldMap,
+      size = 'normal',
+    } = useConfig((state) => state);
     const { addValue, editPosition } = useMatcher((state) => state);
     const { comparison, operator } = useOptions((state) => state);
     const maxWidth = reducedWidth ? '130px' : undefined;
@@ -44,7 +47,7 @@ export const MainSearch = React.memo(
 
     return (
       <div
-        className={s.searchPill}
+        className={[s.searchPill, s[size]].join(' ')}
         style={{
           maxWidth,
         }}

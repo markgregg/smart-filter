@@ -4,13 +4,13 @@ import { MdOutlineClear } from 'react-icons/md';
 import { CgUndo } from 'react-icons/cg';
 import { AiFillLock, AiFillUnlock } from 'react-icons/ai';
 import { Button } from '../../common/Button';
-import { DEFAULT_FILTER_BAR_HEIGHT } from '@/util/constants';
 import { useConfig, useFilterBar, useMatcher, useSort } from '@/state/useState';
 import s from './style.module.less';
+import { COMPACT_HEIGHT, LARGE_HEIGHT, NORMAL_HEIGHT } from '@/util/constants';
 
 export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
   const {
-    filterBarHeight = DEFAULT_FILTER_BAR_HEIGHT,
+    size = 'normal',
     allowLocking,
     showUndoIcon,
     onClear,
@@ -23,6 +23,12 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
     (state) => state,
   );
   const clearSort = useSort((state) => state.clearSort);
+
+  const buttonHeight = size === 'normal'
+    ? NORMAL_HEIGHT - 2
+    : size === 'compact'
+      ? COMPACT_HEIGHT - 2
+      : LARGE_HEIGHT - 2;
 
   const handleClearClick = React.useCallback(() => {
     clearMatchers();
@@ -84,8 +90,7 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
 
   return (
     <div
-      className={s.buttons}
-      style={{ height: filterBarHeight - 2 }}
+      className={[s.buttons, s[size]].join(' ')}
       ref={ref}
     >
       {buttons
@@ -94,7 +99,7 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
           <Button
             key={b.id}
             onClick={b.onClick}
-            height={filterBarHeight - 2}
+            height={buttonHeight}
             width={26}
             disabled={b.disabled}
           >

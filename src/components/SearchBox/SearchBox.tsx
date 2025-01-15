@@ -24,7 +24,10 @@ export const SearchBox = React.memo(
   ({ matcherKey, field, text, onSelect, position }: SearchBoxProps) => {
     const inputRef = React.useRef<HTMLInputElement | null>(null);
     const [searchText, setSearchText] = React.useState<string>(text[0]);
-    const placeholder = useConfig((state) => state.placeholder);
+    const {
+      placeholder,
+      size
+    } = useConfig((state) => state);
     const {
       buildOptions,
       clearOptions,
@@ -227,7 +230,7 @@ export const SearchBox = React.memo(
     return (
       <input
         ref={inputRef}
-        className={s.searchBox}
+        className={[s.searchBox, s[`font-${size}`]].join(' ')}
         type="text"
         placeholder={placeholder ?? 'Enter text to search...'}
         value={searchText}

@@ -5,8 +5,6 @@
   position: relative;
   width: 100%;
   font-family: @font-family;
-  line-height: @line-height;
-  font-size: @font-size;
 
   .searchBarInner {
     position: relative;
@@ -32,6 +30,7 @@
     left: 0;
     width: 100%;
     padding: 2px;
+    height: fit-content;
   }
 
   .pullContainerWrapper {
@@ -52,4 +51,31 @@
       width: 14px;
     }
   }
+}
+
+.compact {
+  height: @height-compact;
+}
+
+.normal {
+  height: @height;
+}
+
+.large {
+  height: @height-large;
+}
+
+.font-compact {
+  line-height: @line-height-compact;
+  font-size: @font-size-compact;
+}
+
+.font-normal {
+  line-height: @line-height;
+  font-size: @font-size;
+}
+
+.font-large {
+  line-height: @line-height-large;
+  font-size: @font-size-large;
 }

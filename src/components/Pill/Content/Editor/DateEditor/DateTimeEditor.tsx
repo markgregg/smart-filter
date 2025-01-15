@@ -7,6 +7,7 @@ import {
   DEFAULT_DATE_TIME_FORMAT,
 } from '@/util/constants';
 import s from './style.module.less';
+import { useConfig } from '@/state/useState';
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 const DATE_TIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss';
@@ -16,9 +17,9 @@ const formatDate = (value: Value, field: Field): string => {
     return moment(
       value,
       field.dateTimeFormat ??
-        (field.editorType === 'date'
-          ? DEFAULT_DATE_FORMAT
-          : DEFAULT_DATE_TIME_FORMAT),
+      (field.editorType === 'date'
+        ? DEFAULT_DATE_FORMAT
+        : DEFAULT_DATE_TIME_FORMAT),
       true,
     ).format(field.editorType === 'date' ? DATE_FORMAT : DATE_TIME_FORMAT);
   }
@@ -35,6 +36,7 @@ const getMinMax = (
 export const DateTimeEditor = React.memo(
   ({ field, textValue, onChanged }: EditorComponentProps) => {
     const inputRef = React.useRef<HTMLInputElement | null>(null);
+    const size = useConfig((state) => state.size);
 
     React.useEffect(() => {
       inputRef?.current?.focus();
@@ -49,9 +51,9 @@ export const DateTimeEditor = React.memo(
         ).toDate();
         const label = moment(newValue, true).format(
           field.dateTimeFormat ??
-            (field.editorType === 'date'
-              ? DEFAULT_DATE_FORMAT
-              : DEFAULT_DATE_TIME_FORMAT),
+          (field.editorType === 'date'
+            ? DEFAULT_DATE_FORMAT
+            : DEFAULT_DATE_TIME_FORMAT),
         );
         onChanged({ text: label, value: newValue }, true);
       },
@@ -61,7 +63,7 @@ export const DateTimeEditor = React.memo(
     return (
       <input
         ref={inputRef}
-        className={s.textInput}
+        className={[s.textInput, s[`font-${size}`]].join(' ')}
         type={field.editorType === 'date' ? 'date' : 'datetime-local'}
         value={formatDate(textValue.value, field)}
         onChange={handleChange}

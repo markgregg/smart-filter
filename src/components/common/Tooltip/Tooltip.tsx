@@ -1,5 +1,6 @@
 import React from 'react';
 import s from './style.module.less';
+import { useConfig } from '@/state/useState';
 
 interface TooltipProps {
   caption: string;
@@ -9,6 +10,7 @@ interface TooltipProps {
 export const Tooltip = React.memo(({ caption, children }: TooltipProps) => {
   const [showTooltip, setShowTooltip] = React.useState<boolean>(false);
   const [marginLeft, setMarginLeft] = React.useState<number>(0);
+  const size = useConfig((state) => state.size);
 
   const handleSetSize = React.useCallback(
     (element: HTMLDivElement | null) => {
@@ -35,7 +37,7 @@ export const Tooltip = React.memo(({ caption, children }: TooltipProps) => {
     >
       {children}
       {showTooltip && (
-        <div className={s.tooltip} style={{ marginLeft }} ref={handleSetSize}>
+        <div className={[s.tooltip, s[`font-${size}`]].join(' ')} style={{ marginLeft }} ref={handleSetSize}>
           {caption}
         </div>
       )}

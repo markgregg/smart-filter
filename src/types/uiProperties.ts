@@ -1,17 +1,17 @@
+export type FilterBarSize = 'compact' | 'normal' | 'large';
+
 interface FilterBar {
-  /* number of lines to expand the fitler bar */
+  /* number of lines to expand the fitler bar, defaults to 4*/
   expandedLines?: number;
   /* if ture search icon is shown */
   showSearchIcon?: boolean;
   /* if true the undo icon is shown */
   showUndoIcon?: boolean;
-  /* hight of the filter bar. Defaults to 30px */
-  filterBarHeight?: number;
+  /* size of the filter bar */
+  size?: FilterBarSize;
 }
 
 interface Pills {
-  /* height of pills. Defaults to 22px */
-  pillHeight?: number;
   /* maxium pill width */
   maxValueWidth?: number;
   /* maxium width of the sort pill. Defaults to 90px */
