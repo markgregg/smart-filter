@@ -803,7 +803,7 @@ export const constructSort = (sort: Sort[]): SortFunction | null => {
           const srt = newSort(x, y);
           return srt === 0
             ? existingSort(x, y)
-            : 0;
+            : srt;
         }
       } else {
         currentSort = existingSort;
