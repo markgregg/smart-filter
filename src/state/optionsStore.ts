@@ -19,6 +19,7 @@ import {
   matchExact,
   matchItem,
   trimIfNotSpaces,
+  uniqueComparions,
 } from '@/util/functions';
 import {
   AND,
@@ -65,7 +66,8 @@ export const createOptionsStore = (
   debounce?: number,
 ): UseBoundStore<StoreApi<OptionsState>> => {
   const fieldMap = new Map(fields.map((f) => [f.name, f]));
-  const comparisonsMap = new Map((operators ?? []).map((o) => [o.symbol, o]));
+  const uniqueComparisonOps = uniqueComparions(fields, operators ?? []);
+  const comparisonsMap = new Map((uniqueComparisonOps ?? []).map((o) => [o.symbol, o]));
 
   return create<OptionsState>((set) => ({
     matcherKey: null,
@@ -280,13 +282,14 @@ const checkForField = (buildState: BuildState): BuildState => {
 const checkForComparison = (buildState: BuildState): BuildState => {
   const { text: cText, comparisonsMap } = buildState;
   const text = trimIfNotSpaces(cText);
-  if (text.length > 1) {
+  if (text.length >= 1) {
     for (let length = 1; length < 3; length += 1) {
-      const symbolPair = text.substring(0, length);
-      if (comparisonsMap.has(symbolPair)) {
+      const symbol = text.substring(0, length);
+      if (comparisonsMap.has(symbol)) {
+
         return {
           ...buildState,
-          comparison: symbolPair,
+          comparison: symbol,
           text: text.substring(length).trimStart(),
         };
       }
@@ -630,6 +633,7 @@ const addOption = (
     precedence: field.precedence ?? 0,
     expression: expression ?? false,
     option: {
+      type: 's',
       key: uuidv4(),
       field: field.name,
       value,
@@ -646,7 +650,7 @@ const addRangeOption = (
   value: Value,
   textTo: string,
   valueTo: Value,
-  displayText?: string,
+  displayText: string,
   expression?: true,
 ) => {
   const Icon = field.iconMap?.get(value);
@@ -655,6 +659,7 @@ const addRangeOption = (
     precedence: field.precedence ?? 0,
     expression: expression ?? false,
     option: {
+      type: 'r',
       key: uuidv4(),
       field: field.name,
       value,

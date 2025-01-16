@@ -6,7 +6,18 @@
   .addFieldIcon {
     align-items: center;
     display: flex;
+  }
+
+  .icon-compact {
     height: 20px;
+  }
+
+  .icon-normal {
+    height: 22px;
+  }
+
+  .icon-large {
+    height: 26px;
   }
 
   .filterSelectionPopup {
@@ -15,8 +26,8 @@
     position: absolute;
     z-index: 1;
     top: 10px;
-    left: 10px;
-    max-width: 160px;
+    left: 5px;
+
     border: 1px solid @border;
     border-radius: 3px;
     transform-origin: top center;
@@ -59,4 +70,16 @@
       overflow-y: auto;
     }
   }
+}
+
+.compact {
+  max-width: 160px;
+}
+
+.normal {
+  max-width: 180px;
+}
+
+.large {
+  max-width: 200px;
 }

@@ -10,10 +10,7 @@ import { FieldMatch, SourceItem, Matcher, ValueMatcher } from '..';
 import {
   AgFilters,
   AgTypes,
-  BRACKET,
   OR,
-  VALUE_ARRAY,
-  VALUE_TO,
 } from '@/util/constants';
 
 export const defaultDateFormat = 'YYYY-MM-DD';
@@ -316,7 +313,7 @@ export const createClientApi = (
     while (index < matchers.length) {
       let newFilter: FilterFunction | null = null;
       const currentMatcher = matchers[index];
-      if (BRACKET in currentMatcher) {
+      if (currentMatcher.type === 'b') {
         if (currentMatcher.bracket === ')') {
           if (matchBracket) {
             return { filter: currentFilter, isOr: isOr ?? false, index };
@@ -400,7 +397,7 @@ export const createClientApi = (
     matcher: ValueMatcher,
     valueGetter: ValueGetter,
   ): FilterFunction | null => {
-    if (VALUE_TO in matcher) {
+    if (matcher.type === 'r') {
       return null;
     }
     const getStringValue = (row: any) => {
@@ -413,7 +410,7 @@ export const createClientApi = (
       valueArrayPredicate: (x: string, y: string[]) => boolean,
       arrayArraypredicate: (x: string[], y: string[]) => boolean,
     ): FilterFunction => {
-      if (VALUE_ARRAY in matcher) {
+      if (matcher.type === 'a') {
         return (row) => {
           const value = getStringValue(row.data);
           if (value && Array.isArray(value)) {
@@ -543,10 +540,10 @@ export const createClientApi = (
     matcher: ValueMatcher,
     valueGetter: ValueGetter,
   ): FilterFunction | null => {
-    if (VALUE_ARRAY in matcher) {
+    if (matcher.type === 'a') {
       return null;
     }
-    if (VALUE_TO in matcher) {
+    if (matcher.type === 'r') {
       return (row) => {
         const value = valueGetter<number | undefined>(row.data);
         return (
@@ -622,10 +619,10 @@ export const createClientApi = (
     matcher: ValueMatcher,
     valueGetter: ValueGetter,
   ): FilterFunction | null => {
-    if (VALUE_ARRAY in matcher) {
+    if (matcher.type === 'a') {
       return null;
     }
-    if (VALUE_TO in matcher) {
+    if (matcher.type === 'r') {
       return (row) => {
         const value = valueGetter<Date | undefined>(row.data);
         return (
@@ -700,10 +697,10 @@ export const createClientApi = (
     matcher: ValueMatcher,
     valueGetter: ValueGetter,
   ): FilterFunction | null => {
-    if (VALUE_ARRAY in matcher) {
+    if (matcher.type === 'a') {
       return null;
     }
-    if (VALUE_TO in matcher) {
+    if (matcher.type === 'r') {
       return (row) => {
         const value = valueGetter<Date | undefined>(row.data);
         if (!value) {
@@ -785,7 +782,7 @@ export const createClientApi = (
     matcher: ValueMatcher,
     valueGetter: ValueGetter,
   ): FilterFunction | null => {
-    if (VALUE_ARRAY in matcher || VALUE_TO in matcher) {
+    if (matcher.type === 'a' || matcher.type === 'r') {
       return null;
     }
     switch (matcher.comparison) {

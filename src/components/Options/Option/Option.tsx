@@ -2,7 +2,7 @@ import React from 'react';
 import { Option as OptionType } from '@/types';
 import { useConfig, useOptions } from '@/state/useState';
 import { splitText } from './functions';
-import { DEFAULT_SORT_OPTION_WIDTH, TEXT_TO } from '@/util/constants';
+import { DEFAULT_SORT_OPTION_WIDTH } from '@/util/constants';
 import s from './style.module.less';
 
 export interface OptionProps {
@@ -43,7 +43,7 @@ export const Option = React.memo(({ option, active }: OptionProps) => {
       onClick={handleClick}
     >
       <div className={s.optionText} style={{ maxWidth }}>
-        {TEXT_TO in option ? (
+        {option.type === 'r' ? (
           <div className={s.matchTextRange}>
             <span>
               {option.text} {option.Icon && <option.Icon className={s.icon} />}

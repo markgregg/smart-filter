@@ -1,7 +1,6 @@
 export const CLIPBOARD_FORMAT = 'text/json';
 export const DELIMITERS = [',', '\t', '\n'];
 
-export const DEFAULT_LINES_TO_EXPAND = 3;
 export const DEFAULT_KEYBOARD_DROPDOWN_DISPLAY_TIME = 1500;
 export const DEFAULT_SORT_OPTION_WIDTH = 200;
 export const DEFAULT_SORT_PILL_WIDTH = 90;
@@ -66,6 +65,3 @@ export const AgFilters = {
 export const VALUE = 'value';
 export const VALUE_TO = 'valueTo';
 export const VALUE_ARRAY = 'valueArray';
-export const TEXT_TO = 'textTo';
-export const TEXT_ARRAY = 'textArray';
-export const BRACKET = 'bracket';

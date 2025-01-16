@@ -6,7 +6,6 @@ import { FilterButtons } from './FilterButtons';
 import { Dropdown } from '../Dropdown';
 import {
   COMPACT_HEIGHT,
-  DEFAULT_LINES_TO_EXPAND,
   DEFAULT_SORT_PILL_WIDTH,
   KeyBoardkeys,
   LARGE_HEIGHT,
@@ -32,7 +31,6 @@ export const FilterBar = React.memo(() => {
   const searchBar = React.useRef<HTMLDivElement | null>(null);
   const {
     size = 'normal',
-    expandedLines = DEFAULT_LINES_TO_EXPAND,
     showSearchIcon,
     pasteOptions,
     fieldMap,

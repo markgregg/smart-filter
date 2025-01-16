@@ -7,7 +7,7 @@ import {
   createValue,
   getDefaultComparison,
 } from '@/util/functions';
-import { AND, TEXT_TO, VALUE_TO } from '@/util/constants';
+import { AND } from '@/util/constants';
 import s from './style.module.less';
 
 interface MainSearchProps {
@@ -30,7 +30,7 @@ export const MainSearch = React.memo(
       (option: Option) => {
         const field = fieldMap.get(option.field);
         const value =
-          VALUE_TO in option && TEXT_TO in option
+          option.type === 'r'
             ? createRangeValue(option)
             : createValue(option);
         addValue({

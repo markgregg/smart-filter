@@ -54,10 +54,6 @@ const meta = {
       control: 'number',
       description: 'The number of items to jump when pressing page up/down',
     },
-    expandedLines: {
-      control: 'number',
-      description: 'The width of each hint',
-    },
     showSearchIcon: {
       control: 'boolean',
       description: 'If true the search icon is shown',

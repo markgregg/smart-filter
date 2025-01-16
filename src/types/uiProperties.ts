@@ -1,8 +1,6 @@
 export type FilterBarSize = 'compact' | 'normal' | 'large';
 
 interface FilterBar {
-  /* number of lines to expand the fitler bar, defaults to 4*/
-  expandedLines?: number;
   /* if ture search icon is shown */
   showSearchIcon?: boolean;
   /* if true the undo icon is shown */

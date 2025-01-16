@@ -7,12 +7,14 @@ export interface BaseOption {
 }
 
 export interface SingleOption extends BaseOption {
+  type: 's';
   value: Value;
   Icon?: IconType;
   text: string;
 }
 
 export interface RangeOption extends BaseOption {
+  type: 'r';
   value: Value;
   text: string;
   Icon?: IconType;

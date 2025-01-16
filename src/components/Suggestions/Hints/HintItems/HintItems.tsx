@@ -27,22 +27,22 @@ const containsHint = (field: string, hint: Hint, matcher: Matcher): boolean => {
     return false;
   }
   if (typeof hint === 'string') {
-    if (VALUE_ARRAY in matcher) {
+    if (matcher.type === 'a') {
       return matcher.valueArray.includes(hint);
     }
-    if (VALUE in matcher && !(VALUE_TO in matcher)) {
+    if (matcher.type === 's') {
       return matcher.value === hint;
     }
     return false;
   }
   if (VALUE_TO in hint) {
-    if (!(VALUE_TO in matcher)) {
+    if (!(matcher.type === 'r')) {
       return false;
     }
     return matcher.value === hint.value && matcher.valueTo === hint.valueTo;
   }
   if (VALUE_ARRAY in hint) {
-    if (!(VALUE_ARRAY in matcher)) {
+    if (!(matcher.type === 'a')) {
       return false;
     }
 
@@ -55,10 +55,10 @@ const containsHint = (field: string, hint: Hint, matcher: Matcher): boolean => {
     return true;
   }
   if (VALUE in hint) {
-    if (VALUE_ARRAY in matcher) {
+    if (matcher.type === 'a') {
       return matcher.valueArray.includes(hint.value);
     }
-    if (VALUE in matcher && !(VALUE_TO in matcher)) {
+    if (matcher.type === 's') {
       return matcher.value === hint.value;
     }
   }
@@ -101,7 +101,7 @@ export const HintItems = React.memo(
               deleteMatcher(targetMatcher);
               return;
             }
-            if (VALUE_ARRAY in targetMatcher) {
+            if (targetMatcher.type === 'a') {
               if (
                 typeof hint.hint === 'string' ||
                 VALUE_ARRAY in hint.hint ||

@@ -48,17 +48,10 @@ export interface SmartFilterProps {
   /* number of items to jump when page down/up pressed*/
   pageSize?: number;
 
-  /* number of lines to expand the fitler bar */
-  expandedLines?: number;
   /* if ture search icon is shown */
   showSearchIcon?: boolean;
   /* if true the undo icon is shown */
   showUndoIcon?: boolean;
-  /* hight of the filter bar. Defaults to 30px */
-  filterBarHeight?: number;
-
-  /* height of pills. Defaults to 22px */
-  pillHeight?: number;
   /* maxium pill width */
   maxValueWidth?: number;
   /* maxium width of the sort pill. Defaults to 90px */

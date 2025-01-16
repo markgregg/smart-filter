@@ -1,12 +1,9 @@
 import moment from 'moment';
-import { Field, Matcher, SourceItem, Value, ValueMatch } from '..';
+import { Field, Matcher, Operator, SourceItem, Value, ValueMatch } from '..';
 import {
   DEFAULT_DATE_FORMAT,
   DEFAULT_DATE_TIME_FORMAT,
   EQUALS,
-  VALUE,
-  VALUE_ARRAY,
-  VALUE_TO,
 } from './constants';
 import { ArrayValue, RangeValue, SingleValue } from '@/types/values';
 
@@ -77,7 +74,8 @@ export const createArrayValue = ({
   field,
   valueArray,
   textArray,
-}: ArrayValue): ArrayValue => ({
+}: { field: string, valueArray: Value[], textArray: string[] }): ArrayValue => ({
+  type: 'a',
   field,
   valueArray,
   textArray,
@@ -89,7 +87,8 @@ export const createRangeValue = ({
   text,
   valueTo,
   textTo,
-}: RangeValue): RangeValue => ({
+}: { field: string, value: Value, text: string, valueTo: Value, textTo: string }): RangeValue => ({
+  type: 'r',
   field,
   value,
   text,
@@ -101,21 +100,22 @@ export const createValue = ({
   field,
   value,
   text,
-}: SingleValue): SingleValue => ({
+}: { field: string, value: Value, text: string }): SingleValue => ({
+  type: 's',
   field,
   value,
   text,
 });
 
 export const hasError = (matcher: Matcher) => {
-  if (VALUE in matcher && matcher.value === null) {
+  if ((matcher.type === 's' || matcher.type === 'r') && matcher.value === null) {
     return true;
   }
-  if (VALUE_TO in matcher && matcher.valueTo === null) {
+  if (matcher.type === 'r' && matcher.valueTo === null) {
     return true;
   }
 
-  if (VALUE_ARRAY in matcher && matcher.valueArray.length === 0) {
+  if (matcher.type === 'a' && matcher.valueArray.length === 0) {
     return true;
   }
   return false;
@@ -173,5 +173,20 @@ export const isVisible = (element: HTMLElement) => {
     return (left >= 0 && right <= pright);
   }
   return true;
+}
+
+export const isUnique = (
+  value: string,
+  index: number,
+  array: string[],
+): boolean => array.indexOf(value) === index;
+
+export const uniqueComparions = (fields: Field[], operators: Operator[]): Operator[] => {
+  return fields.flatMap((f) => f.operators)
+    .filter(isUnique)
+    .map(symbol => {
+      const op = operators.find(o => o.symbol === symbol);
+      return op ?? { symbol };
+    });
 }
 

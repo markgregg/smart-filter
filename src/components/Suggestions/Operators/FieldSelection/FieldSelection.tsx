@@ -12,9 +12,8 @@ import {
 } from '@/util/functions';
 import { FieldOption } from './FieldOption';
 import { SortOption } from './SortOption';
-import s from './style.module.less';
 import { SortDirection } from '@/types/sort';
-
+import s from './style.module.less';
 interface FieldSelectionProps {
   showSort?: boolean;
 }
@@ -23,7 +22,7 @@ export const FieldSelection = React.memo(
   ({ showSort }: FieldSelectionProps) => {
     const [filter, setFilter] = React.useState<string>('');
     const [showFields, setShowFields] = React.useState<boolean>(false);
-    const { fieldMap, fields, enableSort, hints: { sortHints = undefined } = {} } = useConfig(
+    const { fieldMap, fields, enableSort, size = 'normal', hints: { sortHints = undefined } = {} } = useConfig(
       (state) => state,
     );
     const { addValue, editPosition } = useMatcher((state) => state);
@@ -106,14 +105,14 @@ export const FieldSelection = React.memo(
     return (
       <div className={s.fieldSelection} onMouseLeave={handleHideFields}>
         <Tooltip caption={showSort ? 'Add Sort Field' : 'Add Field'}>
-          <div className={s.addFieldIcon} onMouseEnter={handleShowFields}>
+          <div className={[s.addFieldIcon, s[`icon-${size}`]].join(' ')} onMouseEnter={handleShowFields}>
             {showSort ? <BiSort /> : <MdAddBox />}
           </div>
         </Tooltip>
         {showFields && (
-          <div className={s.filterSelectionPopup}>
+          <div className={[s.filterSelectionPopup, s[size]].join(' ')}>
             <div className={s.title}>
-              {showSort ? 'Add Sort Field' : 'Add Field'}
+              {showSort ? 'Sort Fields' : 'Fields'}
             </div>
             <div className={s.filter}>
               <label htmlFor="fields-filter">

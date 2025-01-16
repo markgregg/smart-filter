@@ -2,6 +2,7 @@ import { StoreApi, UseBoundStore, create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
 import {
   ArrayMatcher,
+  BracketMatcher,
   Brackets,
   Field,
   LogicalOperator,
@@ -16,10 +17,6 @@ import { MatcherValue } from '@/types/values';
 import {
   AND,
   OR,
-  TEXT_ARRAY,
-  VALUE,
-  VALUE_ARRAY,
-  VALUE_TO,
 } from '@/util/constants';
 
 export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
@@ -67,7 +64,8 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
       position: number | null,
       operator?: LogicalOperator,
     ) => {
-      const bracketMatcher = {
+      const bracketMatcher: BracketMatcher = {
+        type: 'b',
         key: uuidv4(),
         bracket,
         operator: operator ?? AND,
@@ -76,8 +74,8 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
         updateMatcherList(state.matchers, bracketMatcher, position),
       );
     },
-    updateMatcher: (matcher: Matcher) => {
-      if (!matcher.locked) {
+    updateMatcher: (matcher: Matcher, ignoreLockedCheck?: true) => {
+      if (ignoreLockedCheck || !matcher.locked) {
         set((state) =>
           matcher.key === state.selectedMatcher?.key
             ? {
@@ -403,7 +401,7 @@ const updateMatchers = (
 ) => {
   if (
     !dontAppend &&
-    !(VALUE_TO in value) &&
+    value.type !== 'r' &&
     (selectedMatcher || position === null || position > 0) &&
     operator !== OR
   ) {
@@ -423,7 +421,7 @@ const updateMatchers = (
       };
     }
   }
-  const matcher: Matcher = {
+  const matcher = {
     ...value,
     comparison: comparison ?? '=',
     operator: operator ?? AND,
@@ -461,14 +459,14 @@ const appendToList = (
     if (
       'field' in targetMatcher &&
       targetMatcher.field === value.field &&
-      !(VALUE_TO in targetMatcher)
+      targetMatcher.type !== 'r'
     ) {
       const mField = fieldMap.get(value.field);
       if (mField?.allowList) {
-        const newText = TEXT_ARRAY in value ? value.textArray : [value.text];
+        const newText = value.type === 'a' ? value.textArray : [value.text];
         const newValues =
-          VALUE_ARRAY in value ? value.valueArray : [value.value];
-        if (VALUE_ARRAY in targetMatcher) {
+          value.type === 'a' ? value.valueArray : [value.value];
+        if (targetMatcher.type === 'a') {
           const existing = newValues.filter((v) =>
             targetMatcher.valueArray.includes(v),
           );
@@ -476,22 +474,23 @@ const appendToList = (
             throw new Error(`${existing.join(',')} alrady exist in pill`);
           }
         }
-        if (VALUE in targetMatcher) {
+        if (targetMatcher.type === 's') {
           const existing = newValues.filter((v) => targetMatcher.value === v);
           if (existing.length > 0) {
             throw new Error(`${existing.join(',')} alrady exist in pill`);
           }
         }
         const textArray =
-          TEXT_ARRAY in targetMatcher
+          targetMatcher.type === 'a'
             ? [...targetMatcher.textArray, ...newText]
             : [targetMatcher.text, ...newText];
         const valueArray =
-          VALUE_ARRAY in targetMatcher
+          targetMatcher.type === 'a'
             ? [...targetMatcher.valueArray, ...newValues]
             : [targetMatcher.value, ...newValues];
         const { key, field, comparison, operator } = targetMatcher;
         const matcher: ArrayMatcher = {
+          type: 'a',
           key,
           field,
           comparison,

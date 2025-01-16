@@ -7,12 +7,13 @@ import {
   SingleMatcher,
   ValueMatcher,
 } from '@/types';
-import { AND, BRACKET, DELIMITERS } from '@/util/constants';
+import { AND, DELIMITERS } from '@/util/constants';
 import { getDefaultComparison } from '@/util/functions';
 
 const fromPartial = (matcher: Partial<Matcher>): Matcher => {
-  if (BRACKET in matcher) {
+  if (matcher.type === 'b') {
     return {
+      type: 'b',
       key: uuidv4(),
       operator: matcher.operator ?? AND,
       bracket: matcher.bracket ?? '(',
@@ -22,8 +23,9 @@ const fromPartial = (matcher: Partial<Matcher>): Matcher => {
   if (!valueMatcher.field) {
     throw new Error(`Field is mnadatory when pasting`);
   }
-  if ('valueArray' in valueMatcher) {
+  if (valueMatcher.type === 'a') {
     return {
+      type: 'a',
       key: uuidv4(),
       field: valueMatcher.field,
       operator: valueMatcher.operator ?? AND,
@@ -32,8 +34,9 @@ const fromPartial = (matcher: Partial<Matcher>): Matcher => {
       textArray: valueMatcher.textArray ?? [],
     };
   }
-  if ('valueTo' in valueMatcher) {
+  if (valueMatcher.type === 'r') {
     return {
+      type: 'r',
       key: uuidv4(),
       field: valueMatcher.field,
       operator: valueMatcher.operator ?? AND,
@@ -43,9 +46,10 @@ const fromPartial = (matcher: Partial<Matcher>): Matcher => {
       textTo: valueMatcher.textTo ?? '',
     };
   }
-  if ('value' in valueMatcher) {
+  if (valueMatcher.type === 's') {
     const singleMatcher = valueMatcher as SingleMatcher;
     return {
+      type: 's',
       key: uuidv4(),
       field: singleMatcher.field,
       operator: singleMatcher.operator ?? AND,
@@ -109,6 +113,7 @@ const findFieldMatch = (
 const createMatcher = (textArray: string[], field: Field): ArrayMatcher => {
   const valueArray = [...textArray];
   return {
+    type: 'a',
     key: uuidv4(),
     field: field.name,
     operator: AND,

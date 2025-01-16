@@ -1,20 +1,17 @@
 import React from 'react';
+import { AiFillLock, AiFillUnlock } from 'react-icons/ai';
 import { MdOutlinePhonelinkErase, MdOutlineListAlt } from 'react-icons/md';
 import { TbArrowBarBoth } from 'react-icons/tb';
 import { IoTextOutline } from 'react-icons/io5';
 import { Button } from '@/components/common/Button';
 import { TooltipButton } from '@/components/common/TooltipButton';
-import { Brackets, LogicalOperator } from '@/types';
+import { Brackets, LogicalOperator, Matcher } from '@/types';
 import { useConfig, useMatcher } from '@/state/useState';
 import { FieldSelection } from './FieldSelection';
 import {
   AND,
-  BRACKET,
   EMPTY,
   OR,
-  VALUE,
-  VALUE_ARRAY,
-  VALUE_TO,
 } from '@/util/constants';
 import s from './style.module.less';
 
@@ -24,9 +21,22 @@ export const Operators = React.memo(() => {
     fieldMap,
     comparisonsMap,
     enableSort,
+    allowLocking,
+    size = 'normal',
   } = useConfig((state) => state);
-  const { selectedMatcher, matchers, updateMatcher, addBracket, editPosition } =
-    useMatcher((state) => state);
+  const {
+    selectedMatcher,
+    matchers,
+    updateMatcher,
+    addBracket,
+    editPosition
+  } = useMatcher((state) => state);
+
+  const buttonSize = size === 'normal'
+    ? 22
+    : size === 'compact'
+      ? 20
+      : 26;
 
   const field = React.useMemo(
     () =>
@@ -45,11 +55,11 @@ export const Operators = React.memo(() => {
   );
 
   const specialFunctions = React.useMemo(() => {
-    if (selectedMatcher && !(BRACKET in selectedMatcher)) {
+    if (selectedMatcher && !(selectedMatcher.type === 'b')) {
       return [
         ...(field?.allowBlanks &&
-          !(VALUE_TO in selectedMatcher) &&
-          !(VALUE_ARRAY in selectedMatcher) &&
+          !(selectedMatcher.type === 'r') &&
+          !(selectedMatcher.type === 'a') &&
           selectedMatcher.value !== null
           ? [
             {
@@ -59,7 +69,7 @@ export const Operators = React.memo(() => {
             },
           ]
           : []),
-        ...(field?.allowList && !(VALUE_TO in selectedMatcher)
+        ...(field?.allowList && !(selectedMatcher.type === 'r')
           ? [
             {
               code: 'list',
@@ -69,8 +79,7 @@ export const Operators = React.memo(() => {
           ]
           : []),
         ...(field?.allowRange &&
-          VALUE in selectedMatcher &&
-          !(VALUE_ARRAY in selectedMatcher)
+          selectedMatcher.type !== 'a'
           ? [
             {
               code: 'range',
@@ -80,7 +89,7 @@ export const Operators = React.memo(() => {
           ]
           : []),
         ...(field?.allowRange &&
-          (VALUE_TO in selectedMatcher || VALUE_ARRAY in selectedMatcher)
+          (selectedMatcher.type === 'r' || selectedMatcher.type === 'a')
           ? [
             {
               code: 'value',
@@ -102,7 +111,7 @@ export const Operators = React.memo(() => {
         updateMatcher({
           ...selectedMatcher,
           comparison,
-        });
+        } as Matcher);
       }
     },
     [selectedMatcher, updateMatcher],
@@ -113,11 +122,7 @@ export const Operators = React.memo(() => {
       if (selectedMatcher) {
         switch (func) {
           case 'empty': {
-            if (
-              !(VALUE_TO in selectedMatcher) &&
-              !(VALUE_ARRAY in selectedMatcher) &&
-              !(BRACKET in selectedMatcher)
-            ) {
+            if (selectedMatcher.type === 's') {
               updateMatcher({
                 ...selectedMatcher,
                 value: null,
@@ -127,27 +132,7 @@ export const Operators = React.memo(() => {
             break;
           }
           case 'list': {
-            if (VALUE in selectedMatcher) {
-              const {
-                key,
-                field: mField,
-                operator,
-                text,
-                value,
-              } = selectedMatcher;
-              updateMatcher({
-                key,
-                field: mField,
-                operator,
-                comparison: '=',
-                textArray: [text],
-                valueArray: [value],
-              });
-            }
-            break;
-          }
-          case 'range': {
-            if (VALUE in selectedMatcher && !(VALUE_ARRAY in selectedMatcher)) {
+            if (selectedMatcher.type === 's') {
               const {
                 key,
                 field: mField,
@@ -160,10 +145,31 @@ export const Operators = React.memo(() => {
                   ? selectedMatcher.comparison
                   : '=';
               updateMatcher({
+                type: 'a',
                 key,
                 field: mField,
                 operator,
                 comparison,
+                textArray: [text],
+                valueArray: [value],
+              });
+            }
+            break;
+          }
+          case 'range': {
+            if (selectedMatcher.type === 's') {
+              const {
+                key,
+                field: mField,
+                operator,
+                text,
+                value,
+              } = selectedMatcher;
+              updateMatcher({
+                type: 'r',
+                key,
+                field: mField,
+                operator,
                 text,
                 value,
                 textTo: '',
@@ -173,7 +179,7 @@ export const Operators = React.memo(() => {
             break;
           }
           case 'value': {
-            if (VALUE_TO in selectedMatcher) {
+            if (selectedMatcher.type === 'r') {
               const {
                 key,
                 field: mField,
@@ -182,6 +188,7 @@ export const Operators = React.memo(() => {
                 value,
               } = selectedMatcher;
               updateMatcher({
+                type: 's',
                 key,
                 field: mField,
                 operator,
@@ -189,7 +196,7 @@ export const Operators = React.memo(() => {
                 text,
                 value,
               });
-            } else if (VALUE_ARRAY in selectedMatcher) {
+            } else if (selectedMatcher.type === 'a') {
               const {
                 key,
                 field: mField,
@@ -199,14 +206,13 @@ export const Operators = React.memo(() => {
                 valueArray,
               } = selectedMatcher;
               updateMatcher({
+                type: 's',
                 key,
                 field: mField,
                 operator,
                 comparison,
                 text: textArray.length > 0 ? textArray[0] : '',
                 value: valueArray.length > 0 ? valueArray[0] : null,
-                textTo: '',
-                valueTo: null,
               });
             }
             break;
@@ -239,6 +245,12 @@ export const Operators = React.memo(() => {
     [selectedMatcher, updateMatcher],
   );
 
+  const handleToggleLock = React.useCallback(() => {
+    if (selectedMatcher) {
+      updateMatcher({ ...selectedMatcher, locked: !selectedMatcher.locked }, true);
+    }
+  }, [selectedMatcher, updateMatcher])
+
   return (
     <div className={s.operators}>
       <FieldSelection />
@@ -250,26 +262,27 @@ export const Operators = React.memo(() => {
         </>
       )}
       <div className={s.operatorSelection}>
-        {selectedMatcher && !(VALUE_TO in selectedMatcher) &&
+        {selectedMatcher && !(selectedMatcher.type === 'r') &&
           field?.operators.map((o) => (
             <TooltipButton
               key={o}
               caption={comparisonsMap.get(o)?.description ?? ''}
               onClick={() => handleComparisonClick(o)}
-              height={20}
-              width={20}
+              height={buttonSize}
+              width={buttonSize}
             >
               {o}
             </TooltipButton>
           ))}
+        {selectedMatcher && !(selectedMatcher.type === 'r') && <div className={s.seperator} />}
         {specialFunctions &&
           specialFunctions.map((f) => (
             <TooltipButton
               key={f.code}
               caption={f.tooltip}
               onClick={() => handleSpecialClick(f.code)}
-              height={20}
-              width={20}
+              height={buttonSize}
+              width={buttonSize}
             >
               {f.icon}
             </TooltipButton>
@@ -278,8 +291,8 @@ export const Operators = React.memo(() => {
           <Button
             key={b}
             onClick={() => handleBracketClick(b)}
-            height={20}
-            width={20}
+            height={buttonSize}
+            width={buttonSize}
           >
             {b}
           </Button>
@@ -287,12 +300,24 @@ export const Operators = React.memo(() => {
         {selectedIndex > 0 && (
           <Button
             onClick={() => handleLogicalOperatorClick(currentOperator)}
-            height={20}
-            width={20}
+            height={buttonSize}
+            width={buttonSize}
           >
             {currentOperator}
           </Button>
         )}
+        {selectedMatcher && allowLocking &&
+          <>
+            <div className={s.seperator} />
+            <Button
+              onClick={handleToggleLock}
+              height={buttonSize}
+              width={buttonSize}
+            >
+              {selectedMatcher.locked ? <AiFillUnlock /> : <AiFillLock />}
+            </Button>
+          </>
+        }
       </div>
     </div>
   );

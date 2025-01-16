@@ -5,11 +5,13 @@ export interface BaseValue {
 }
 
 export interface SingleValue extends BaseValue {
+  type: 's';
   text: string;
   value: Value;
 }
 
 export interface RangeValue extends BaseValue {
+  type: 'r';
   text: string;
   value: Value;
   textTo: string;
@@ -17,6 +19,7 @@ export interface RangeValue extends BaseValue {
 }
 
 export interface ArrayValue extends BaseValue {
+  type: 'a';
   textArray: string[];
   valueArray: Value[];
 }

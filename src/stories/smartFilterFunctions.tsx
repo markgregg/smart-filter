@@ -1,7 +1,7 @@
 import { Field, HintGrouping, LogicalOperator, Matcher, Operator, Sort, SortDirection, SourceItem, ValueMatcher } from '..';
 import { ColDef } from 'ag-grid-community';
 import { bonds } from '../../data/bonds';
-import { BRACKET, OR, VALUE_ARRAY, VALUE_TO, defaultComparisons, numberComparisons, stringComparisons } from '@/util/constants';
+import { OR, defaultComparisons, numberComparisons, stringComparisons } from '@/util/constants';
 import moment from 'moment';
 import { FilterFunction } from '@/aggrid/agGridApi';
 
@@ -295,7 +295,7 @@ const processMatchers = (
   while (index < matchers.length) {
     let newFilter: FilterFunction | null = null;
     const currentMatcher = matchers[index];
-    if (BRACKET in currentMatcher) {
+    if (currentMatcher.type === 'b') {
       if (currentMatcher.bracket === ')') {
         if (matchBracket) {
           return { filter: currentFilter, isOr: isOr ?? false, index };
@@ -382,7 +382,7 @@ const constructTextFilter = (
   matcher: ValueMatcher,
   valueGetter: (bond: Bond) => string,
 ): FilterFunction | null => {
-  if (VALUE_TO in matcher) {
+  if (matcher.type === 'r') {
     return null;
   }
   const getStringValue = (row: Bond) => {
@@ -395,7 +395,7 @@ const constructTextFilter = (
     valueArrayPredicate: (x: string, y: string[]) => boolean,
     arrayArraypredicate: (x: string[], y: string[]) => boolean,
   ): FilterFunction => {
-    if (VALUE_ARRAY in matcher) {
+    if (matcher.type === 'a') {
       return (row) => {
         const value = getStringValue(row);
         if (value && Array.isArray(value)) {
@@ -525,10 +525,10 @@ const constructNumberFilter = (
   matcher: ValueMatcher,
   valueGetter: (bond: Bond) => number,
 ): FilterFunction | null => {
-  if (VALUE_ARRAY in matcher) {
+  if (matcher.type === 'a') {
     return null;
   }
-  if (VALUE_TO in matcher) {
+  if (matcher.type === 'r') {
     return (row) => {
       const value = valueGetter(row);
       return (
@@ -604,10 +604,10 @@ const constructDateFilter = (
   matcher: ValueMatcher,
   valueGetter: (bond: Bond) => Date,
 ): FilterFunction | null => {
-  if (VALUE_ARRAY in matcher) {
+  if (matcher.type === 'a') {
     return null;
   }
-  if (VALUE_TO in matcher) {
+  if (matcher.type === 'r') {
     return (row) => {
       const value = valueGetter(row);
       return (
@@ -682,10 +682,10 @@ const constructDateStringFilter = (
   matcher: ValueMatcher,
   valueGetter: (bond: Bond) => string,
 ): FilterFunction | null => {
-  if (VALUE_ARRAY in matcher) {
+  if (matcher.type === 'a') {
     return null;
   }
-  if (VALUE_TO in matcher) {
+  if (matcher.type === 'r') {
     return (row) => {
       const value = valueGetter(row);
       if (!value) {
@@ -767,7 +767,7 @@ const constructBooleanFilter = (
   matcher: ValueMatcher,
   valueGetter: (bond: Bond) => boolean,
 ): FilterFunction | null => {
-  if (VALUE_ARRAY in matcher || VALUE_TO in matcher) {
+  if (matcher.type === 'a' || matcher.type === 'r') {
     return null;
   }
   switch (matcher.comparison) {
@@ -800,9 +800,9 @@ export const constructSort = (sort: Sort[]): SortFunction | null => {
       const newSort = createSortFunction(sort[i]);
       if (newSort) {
         currentSort = (x, y) => {
-          const srt = newSort(x, y);
+          const srt = existingSort(x, y);
           return srt === 0
-            ? existingSort(x, y)
+            ? newSort(x, y)
             : srt;
         }
       } else {

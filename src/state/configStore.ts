@@ -2,6 +2,7 @@ import { StoreApi, UseBoundStore, create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
 import { SmartFilterProps } from '@/types';
 import { ConfigState } from '@/types/State';
+import { uniqueComparions } from '@/util/functions';
 
 export const createConfigStore = ({
   matchers,
@@ -19,7 +20,6 @@ export const createConfigStore = ({
   hints,
   operators,
   placeholder,
-  expandedLines,
   showSearchIcon,
   allowLocking,
   showUndoIcon,
@@ -30,8 +30,9 @@ export const createConfigStore = ({
   enableSort,
   optionWidth,
   showDropdownOnMouseOver
-}: SmartFilterProps): UseBoundStore<StoreApi<ConfigState>> =>
-  create<ConfigState>(() => ({
+}: SmartFilterProps): UseBoundStore<StoreApi<ConfigState>> => {
+  const uniqueComparisonOps = uniqueComparions(fields, operators ?? []);
+  return create<ConfigState>(() => ({
     matchers,
     onChange,
     sort,
@@ -59,10 +60,9 @@ export const createConfigStore = ({
         })),
       }
       : undefined,
-    comparisons: operators ?? [],
-    comparisonsMap: new Map((operators ?? []).map((o) => [o.symbol, o])),
+    comparisons: uniqueComparisonOps ?? [],
+    comparisonsMap: new Map((uniqueComparisonOps ?? []).map((o) => [o.symbol, o])),
     placeholder,
-    expandedLines,
     showSearchIcon,
     allowLocking,
     showUndoIcon,
@@ -74,3 +74,4 @@ export const createConfigStore = ({
     optionWidth,
     showDropdownOnMouseOver,
   }));
+}

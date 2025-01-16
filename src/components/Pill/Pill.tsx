@@ -13,13 +13,10 @@ import { ArrayContent, RangeContent, ValueContent } from './Content';
 import { BracketContent } from './Content/BracketContent';
 import { Or } from './Or';
 import {
-  BRACKET,
   COMPACT_PILL_HEIGHT,
   LARGE_PILL_HEIGHT,
   NORMAL_PILL_HEIGHT,
   OR,
-  VALUE_ARRAY,
-  VALUE_TO,
 } from '@/util/constants';
 import { Colours } from '@/util/colours';
 import { CloseButton } from '../CloseButton';
@@ -97,13 +94,13 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
     if (copyMatchers?.includes(matcher.key)) {
       return Colours.backgrounds.multiSelect;
     }
-    if (VALUE_ARRAY in matcher && comparisonsMap.has('list')) {
+    if (matcher.type === 'a' && comparisonsMap.has('list')) {
       return (
         comparisonsMap.get('list')?.pillBackgroundColour ??
         Colours.backgrounds.standard
       );
     }
-    if (VALUE_TO in matcher && comparisonsMap.has('range')) {
+    if (matcher.type === 'r' && comparisonsMap.has('range')) {
       return (
         comparisonsMap.get('range')?.pillBackgroundColour ??
         Colours.backgrounds.standard
@@ -144,11 +141,11 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
 
   const Content = React.useMemo(
     () =>
-      BRACKET in matcher
+      matcher.type === 'b'
         ? BracketContent
-        : VALUE_ARRAY in matcher
+        : matcher.type === 'a'
           ? ArrayContent
-          : VALUE_TO in matcher
+          : matcher.type === 'r'
             ? RangeContent
             : ValueContent,
     [matcher],
@@ -174,7 +171,7 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
 
   const handleMouseEnter = React.useCallback(() => {
     setMouseOver(true);
-    if (BRACKET in matcher && hoverBracket !== matcher.key) {
+    if (matcher.type === 'b' && hoverBracket !== matcher.key) {
       setHoverBracket(matcher.key);
     }
   }, [setMouseOver, matcher, hoverBracket]);
@@ -283,7 +280,7 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
         )}
       {matcher.operator === OR &&
         index > 0 &&
-        (!(BRACKET in matcher) || matcher.bracket === '(') && (
+        (!(matcher.type === 'b') || matcher.bracket === '(') && (
           <Or matcher={matcher} />
         )}
       <div
@@ -302,7 +299,7 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
           </div>
         )}
         {'field' in matcher && <span className={s.field}>{field?.title ?? matcher.field}</span>}
-        {VALUE_ARRAY in matcher && (
+        {matcher.type === 'a' && (
           <span className={s.arrayCount}>({matcher.valueArray.length})</span>
         )}
         {'comparison' in matcher &&

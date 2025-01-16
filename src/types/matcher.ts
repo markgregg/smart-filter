@@ -13,11 +13,13 @@ interface BaseMatcher {
 }
 
 export interface BracketMatcher extends BaseMatcher {
+  type: 'b';
   /* open or close bracket */
   bracket: Brackets;
 }
 
 export interface SingleMatcher extends BaseMatcher {
+  type: 's';
   /* field to compare against */
   field: string;
   /* comparison to perform */
@@ -29,6 +31,7 @@ export interface SingleMatcher extends BaseMatcher {
 }
 
 export interface ArrayMatcher extends BaseMatcher {
+  type: 'a';
   /* field to compare against */
   field: string;
   /* comparison to perform */
@@ -40,6 +43,7 @@ export interface ArrayMatcher extends BaseMatcher {
 }
 
 export interface RangeMatcher extends BaseMatcher {
+  type: 'r';
   /* field to compare against */
   field: string;
   /* value from */
