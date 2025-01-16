@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import { SmartFilter } from './SmartFilter';
+import { SmartFilterAgGrid } from './SmartFilterAgGrid';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Examples/SmartFilter',
-  component: SmartFilter,
+  title: 'Examples/SmartFilterAgGrid',
+  component: SmartFilterAgGrid,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: 'centered',
@@ -94,11 +94,12 @@ const meta = {
   args: {
     onChange: fn(),
     onSortChange: fn(),
+    onFiltersChange: fn(),
     onClear: fn(),
     onLock: fn(),
     onExpand: fn(),
   },
-} satisfies Meta<typeof SmartFilter>;
+} satisfies Meta<typeof SmartFilterAgGrid>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

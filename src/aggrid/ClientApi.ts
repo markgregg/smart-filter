@@ -1,17 +1,13 @@
 import moment from 'moment';
-import { Column, ColumnApi, GridAPi } from '@/types/agGrid';
-import {
-  FilterFunction,
-  FilterValueGetter,
-  getColumn,
-  getColumns,
-} from './agGridApi';
-import { FieldMatch, SourceItem, Matcher, ValueMatcher } from '..';
+import { Column, ColumnApi, GridApi } from '@/types/agGrid';
+import { FieldMatch, SourceItem, Matcher, ValueMatcher, FilterFunction } from '..';
 import {
   AgFilters,
   AgTypes,
   OR,
 } from '@/util/constants';
+
+export type FilterValueGetter = (params: any) => any | null | undefined;
 
 export const defaultDateFormat = 'YYYY-MM-DD';
 
@@ -38,7 +34,7 @@ export interface ClientApi {
 }
 
 export const createClientApi = (
-  gridApi: GridAPi | null,
+  gridApi: GridApi | null,
   columnApi: ColumnApi | null,
 ): ClientApi | null => {
   if (!gridApi) {
@@ -46,9 +42,9 @@ export const createClientApi = (
   }
 
   const getAgColumn = (column: string): Column | null =>
-    getColumn(column, gridApi, columnApi);
+    columnApi?.getColumn(column) ?? null;
 
-  const getAgColumns = (): Column[] | null => getColumns(gridApi, columnApi);
+  const getAgColumns = (): Column[] | null => columnApi?.getColumns() ?? null;
 
   const getBooleanText = (name: string): string => {
     if (name.length > 1) {

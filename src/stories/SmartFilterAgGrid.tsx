@@ -1,15 +1,15 @@
 import React from 'react';
-import Bond, { columns, constructFilter, constructSort, createFields, hintGroups, operators } from './smartFilterFunctions';
-import { Matcher, SmartFilter as SmartFilterComponent, Sort } from '../';
+import Bond, { columns, createFields, hintGroups, operators } from './smartFilterFunctions';
+import { FilterFunction, Matcher, SmartFilterAgGrid as SmartFilterAgGridComponent, Sort } from '..';
 import { AgGridReact } from 'ag-grid-react';
-import { ColDef } from 'ag-grid-community';
+import { ColDef, ColumnApi, GridApi, GridReadyEvent, IRowNode } from 'ag-grid-community';
 import { bonds } from '../../data/bonds';
 import { FilterBarSize } from '@/types/uiProperties';
 import s from './SmartFilter.module.less';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 
-export interface SmartFilterProps {
+export interface SmartFilterAgGridProps {
   /* Example width */
   exampleWidth?: number;
   /* Example height */
@@ -68,12 +68,18 @@ export interface SmartFilterProps {
 
   /* placeholder for the search input */
   placeholder?: string;
+
+  onFiltersChange: (filterFunction: FilterFunction | null) => void;
+
+  dateFormats?: string[];
+  displayDateFormat?: string;
 }
 
 /** Primary UI component for user interaction */
-export const SmartFilter: React.FC<SmartFilterProps> = ({
+export const SmartFilterAgGrid: React.FC<SmartFilterAgGridProps> = ({
   onChange,
   onSortChange,
+  onFiltersChange,
   hintsPerColumn,
   hintWidth,
   sortHints,
@@ -82,8 +88,11 @@ export const SmartFilter: React.FC<SmartFilterProps> = ({
   size = 'normal',
   showDropdownOnMouseOver = true,
   ...props
-}: SmartFilterProps) => {
-  const [rowData, setRowData] = React.useState<Bond[]>(bonds);
+}: SmartFilterAgGridProps) => {
+  const filterRef = React.useRef<FilterFunction | null>(null);
+  const [gridApi, setGridApi] = React.useState<GridApi<Bond> | null>(null);
+  const [columnApi, setColumnApi] = React.useState<ColumnApi | null>(null);
+  const [rowData] = React.useState<Bond[]>(bonds);
   const [columnDefs] = React.useState<ColDef<Bond>[]>(columns);
   const [matchers, setMatchers] = React.useState<Matcher[]>([]);
   const [sort, setSort] = React.useState<Sort[]>([]);
@@ -107,15 +116,31 @@ export const SmartFilter: React.FC<SmartFilterProps> = ({
     }
   }, [setSort, onSortChange]);
 
-  React.useEffect(() => {
-    const filterFunc = constructFilter(matchers);
-    const newData = bonds.filter(b => !filterFunc || filterFunc(b));
-    const sortFunc = constructSort(sort);
-    if (sortFunc) {
-      newData.sort(sortFunc);
+  const handleFilterChange = React.useCallback((
+    newFilter: FilterFunction | null,
+  ) => {
+    filterRef.current = newFilter;
+    gridApi?.onFilterChanged();
+    if (onFiltersChange) {
+      onFiltersChange(newFilter);
     }
-    setRowData(newData);
-  }, [sort, matchers, setRowData]);
+  }, [setSort, onFiltersChange]);
+
+  const handleGridReady = (event: GridReadyEvent<Bond>) => {
+    setGridApi(event.api);
+    setColumnApi(event.columnApi);
+  }
+
+  const isExternalFilterPresent = React.useCallback(
+    (): boolean => filterRef.current !== null,
+    [],
+  );
+
+  const doesExternalFilterPass = React.useCallback(
+    (node: IRowNode<Bond>): boolean =>
+      filterRef.current !== null && filterRef.current(node),
+    [],
+  );
 
   return (
     <div
@@ -126,11 +151,12 @@ export const SmartFilter: React.FC<SmartFilterProps> = ({
       }}
     >
       <div className={s.filterBar}>
-        <SmartFilterComponent
+        <SmartFilterAgGridComponent
           matchers={matchers}
           onChange={handleChange}
           sort={sort}
           onSortChange={handleSortChange}
+          onFiltersChange={handleFilterChange}
           fields={fields}
           operators={operators}
           hints={{
@@ -141,6 +167,8 @@ export const SmartFilter: React.FC<SmartFilterProps> = ({
           }}
           size={size}
           showDropdownOnMouseOver={showDropdownOnMouseOver}
+          gridApi={gridApi}
+          columnApi={columnApi}
           {...props}
         />
       </div>
@@ -148,6 +176,9 @@ export const SmartFilter: React.FC<SmartFilterProps> = ({
         <AgGridReact
           rowData={rowData}
           columnDefs={columnDefs}
+          onGridReady={handleGridReady}
+          isExternalFilterPresent={isExternalFilterPresent}
+          doesExternalFilterPass={doesExternalFilterPass}
         />
       </div>
     </div>

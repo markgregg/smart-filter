@@ -9,7 +9,7 @@ export const SmartFilterAgGrid = React.memo((props: SmartFilterAgGridProps) => {
   const {
     gridApi,
     columnApi,
-    onFiltersChanged,
+    onFiltersChange,
     onChange,
     matchers,
     fields,
@@ -24,9 +24,9 @@ export const SmartFilterAgGrid = React.memo((props: SmartFilterAgGridProps) => {
   );
 
   React.useEffect(() => {
-    if (agClientApi && onFiltersChanged) {
+    if (agClientApi && onFiltersChange) {
       const filter = agClientApi.constructFilter(matchers ?? []);
-      onFiltersChanged(filter);
+      onFiltersChange(filter);
     }
   }, [matchers, agClientApi]);
 
@@ -44,6 +44,7 @@ export const SmartFilterAgGrid = React.memo((props: SmartFilterAgGridProps) => {
         hintGroups:
           hints?.hintGroups?.map((hint) => {
             const column = agClientApi?.getAgColumn(hint.field);
+            const { filterValueGetter } = column?.getColDef() ?? {};
             return {
               ...hint,
               hints: hint.hints
@@ -53,7 +54,7 @@ export const SmartFilterAgGrid = React.memo((props: SmartFilterAgGridProps) => {
                     agClientApi.findUniqueHintValues(
                       column,
                       hints.hintsPerColumn,
-                      column?.getColDef().filterValueGetter,
+                      typeof filterValueGetter === 'function' ? filterValueGetter : undefined,
                     )
                   : [],
             };
@@ -71,16 +72,16 @@ export const SmartFilterAgGrid = React.memo((props: SmartFilterAgGridProps) => {
   const handleChanged = React.useCallback(
     (m: Matcher[]) => {
       if (agClientApi) {
-        if (onFiltersChanged) {
+        if (onFiltersChange) {
           const filter = agClientApi.constructFilter(m);
-          onFiltersChanged(filter);
+          onFiltersChange(filter);
         }
         if (onChange) {
           onChange(m);
         }
       }
     },
-    [agClientApi, onFiltersChanged, onChange],
+    [agClientApi, onFiltersChange, onChange],
   );
 
   return (

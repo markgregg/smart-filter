@@ -1,3 +1,5 @@
+import { FilterValueGetter } from "@/aggrid/ClientApi";
+
 export type ColumnPinnedType = 'left' | 'right' | boolean | null | undefined;
 
 export interface ColumnState {
@@ -8,10 +10,24 @@ export interface ColumnState {
   colId: string;
 }
 
+export interface ColumnStateParams {
+  hide?: boolean | null;
+  width?: number;
+  flex?: number | null;
+  sort?: 'asc' | 'desc' | null;
+  sortIndex?: number | null;
+  aggFunc?: string | (() => any) | null;
+  pivot?: boolean | null;
+  pivotIndex?: number | null;
+  pinned?: ColumnPinnedType;
+  rowGroup?: boolean | null;
+  rowGroupIndex?: number | null;
+}
+
 export interface ApplyColumnStateParams {
-  state: ColumnState[];
+  state?: ColumnState[];
   applyOrder?: boolean;
-  defaultState?: unknown;
+  defaultState?: ColumnStateParams;
 }
 
 export interface ColDef {
@@ -21,7 +37,7 @@ export interface ColDef {
   field?: string;
   filter?: any;
   cellDataType?: boolean | string;
-  filterValueGetter?: (params: any) => any | null | undefined;
+  filterValueGetter?: string | FilterValueGetter | undefined;
 }
 
 export interface Column {
@@ -30,16 +46,12 @@ export interface Column {
 
 export interface ColumnApi {
   getColumn: (column: string) => Column | null;
-  getColumns: () => Column[];
-  getColumnState: () => ColumnState | null;
+  getColumns: () => Column[] | null;
+  getColumnState: () => ColumnState[];
   applyColumnState: (updateState: ApplyColumnStateParams) => boolean;
 }
 
-export interface GridAPi {
-  getColumn: (column: string) => Column | null;
-  getColumns: () => Column[];
-  getColumnState: () => ColumnState | null;
-  applyColumnState: (updateState: ApplyColumnStateParams) => boolean;
+export interface GridApi {
   forEachNode: (
     callback: (rowNode: any, index: number) => void,
     includeFooterNodes?: boolean,
