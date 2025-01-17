@@ -61,3 +61,6 @@ export const useSort = <U>(selector: (state: SortState) => U) =>
 
 export const useSortDrag = <U>(selector: (state: DragState<Sort>) => U) =>
   useState((s) => s.sortDragStore, selector);
+
+export const useManaged = <U>(selector: (state: ManagedState) => U) =>
+  useState((s) => s.managedStore, selector);

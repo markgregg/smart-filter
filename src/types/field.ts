@@ -36,6 +36,8 @@ export interface Field {
   increments?: number;
   /* order in which two equal items will appear in the suggestions list */
   precedence?: number;
+  /* the number of times the pill can be entered */
+  instanceLimit?: number;
   /* allow lists */
   allowList?: boolean;
   /* allow ranges */

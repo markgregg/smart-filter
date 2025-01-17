@@ -160,7 +160,6 @@ export const HintItems = React.memo(
                   : createValue({ field, ...hint.hint });
           const comp = typeof hint.hint === 'object' && 'comparison' in hint.hint ? hint.hint.comparison : null;
           addValue({
-            fieldMap,
             value,
             position: editPosition,
             comparison: comp ?? getDefaultComparison(hintField),

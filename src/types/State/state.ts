@@ -11,6 +11,7 @@ import { Matcher } from '../matcher';
 import { BracketState } from './brackets';
 import { SortState } from './sort';
 import { Sort } from '../sort';
+import { ManagedState } from './managed';
 
 export interface State {
   configStore: UseBoundStore<StoreApi<ConfigState>>;
@@ -24,4 +25,5 @@ export interface State {
   bracketsStore: UseBoundStore<StoreApi<BracketState>>;
   sortStore: UseBoundStore<StoreApi<SortState>>;
   sortDragStore: UseBoundStore<StoreApi<DragState<Sort>>>;
+  managedStore: UseBoundStore<StoreApi<ManagedState>>;
 }

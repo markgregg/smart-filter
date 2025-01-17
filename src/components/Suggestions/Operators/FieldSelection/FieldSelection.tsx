@@ -59,7 +59,6 @@ export const FieldSelection = React.memo(
         });
         if (!showSort) {
           addValue({
-            fieldMap,
             value: matcher,
             position: editPosition,
             comparison: getDefaultComparison(field),

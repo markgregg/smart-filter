@@ -13,16 +13,16 @@ export interface MatcherState {
   editPosition: number | null;
   editMatcher: Matcher | null;
   copyMatchers: string[] | null;
+  fieldMap: Map<string, Field>;
+  setFieldMap: (fieldMap: Map<string, Field>) => void;
   setMatchers: (matchers: Matcher[]) => void,
   addValue: ({
-    fieldMap,
     value,
     position,
     operator,
     comparison,
     dontAppend,
   }: {
-    fieldMap: Map<string, Field>,
     value: MatcherValue;
     position: number | null;
     operator?: LogicalOperator;

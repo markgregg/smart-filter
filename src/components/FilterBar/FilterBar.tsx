@@ -17,6 +17,7 @@ import {
   useConfig,
   useFilterBar,
   useFocus,
+  useManaged,
   useMatcher,
   useOptions,
   useSort,
@@ -30,6 +31,10 @@ export const FilterBar = React.memo(() => {
   const filterBuittons = React.useRef<HTMLDivElement | null>(null);
   const searchBar = React.useRef<HTMLDivElement | null>(null);
   const {
+    matchers: initialMatchers = [],
+    sort: initialSort = [],
+  } = useManaged((state) => state);
+  const {
     size = 'normal',
     showSearchIcon,
     pasteOptions,
@@ -37,9 +42,7 @@ export const FilterBar = React.memo(() => {
     enableSort,
     sortPillWidth = DEFAULT_SORT_PILL_WIDTH,
     showDropdownOnMouseOver,
-    matchers: initialMatchers,
     onChange,
-    sort: initialSort,
     onSortChange,
   } = useConfig((state) => state);
   const { hasFocus, setHasFocus, hasMouse, setHasMouse, keyboardFocus } = useFocus(
@@ -59,6 +62,7 @@ export const FilterBar = React.memo(() => {
     insertMatchers,
     deleteMatchers,
     setMatchers,
+    setFieldMap,
   } = useMatcher((state) => state);
   const { matcherKey, clearOptions } = useOptions((state) => state);
   const { matcher, setMatcher } = useArray((state) => state);
@@ -88,6 +92,10 @@ export const FilterBar = React.memo(() => {
     (showMovePrev ? 26 : 0) -
     (showSearchIcon ? 30 : 0),
   );
+
+  React.useEffect(() => {
+    setFieldMap(fieldMap);
+  }, [fieldMap, setFieldMap]);
 
   React.useEffect(() => {
     setMatchers(initialMatchers ?? []);

@@ -29,16 +29,16 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
     editPosition: null,
     editMatcher: null,
     copyMatchers: null,
+    fieldMap: new Map(),
+    setFieldMap: (fieldMap: Map<string, Field>) => set({ fieldMap }),
     setMatchers: (matchers: Matcher[]) => set({ matchers }),
     addValue: ({
-      fieldMap,
       value,
       position,
       operator,
       comparison,
       dontAppend,
     }: {
-      fieldMap: Map<string, Field>,
       value: MatcherValue;
       position: number | null;
       operator?: LogicalOperator;
@@ -47,7 +47,7 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
     }) => set((state) =>
       updateMatchers(
         state.matchers,
-        fieldMap,
+        state.fieldMap,
         value,
         state.selectedMatcher,
         position,
@@ -58,7 +58,7 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
     insertMatchers: (
       matchers: Matcher | Matcher[],
       position: number | null,
-    ) => set((state) => updateMatcherList(state.matchers, matchers, position)),
+    ) => set((state) => updateMatcherList(state.matchers, matchers, position, state.fieldMap)),
     addBracket: (
       bracket: Brackets,
       position: number | null,
@@ -71,7 +71,7 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
         operator: operator ?? AND,
       };
       set((state) =>
-        updateMatcherList(state.matchers, bracketMatcher, position),
+        updateMatcherList(state.matchers, bracketMatcher, position, state.fieldMap),
       );
     },
     updateMatcher: (matcher: Matcher, ignoreLockedCheck?: true) => {
@@ -167,6 +167,7 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
     clearCopyMatcher: () => set({ copyMatchers: null }),
     addCopyMatcher: (key: string) =>
       set((state) => {
+
         const { copyMatchers, selectedMatcher, selectMatcher } = state;
         if (!selectedMatcher) {
           selectMatcher(key);
@@ -353,11 +354,31 @@ const selectMatcherUpdate = (
   focus: true,
 });
 
+const checkFieldLimits = (
+  matchers: Matcher[],
+  matcher: Matcher | Matcher[],
+  fieldMap: Map<String, Field>,
+) => {
+  (Array.isArray(matcher) ? matcher : [matcher]).find((m) => {
+    if ('field' in m) {
+      const fieldName = m.field;
+      const field = fieldMap.get(fieldName);
+      if (field?.instanceLimit) {
+        if (matchers.filter((mf) => 'field' in mf && mf.field === fieldName && mf.key !== m.key).length > field.instanceLimit) {
+          throw Error(`Instance limt of (${field.instanceLimit}) has been exceed for ${field.title}`);
+        }
+      }
+    }
+  })
+}
+
 const updateMatcherList = (
   matchers: Matcher[],
   matcher: Matcher | Matcher[],
   position: number | null,
+  fieldMap: Map<string, Field>,
 ): Partial<MatcherState> => {
+  checkFieldLimits(matchers, matcher, fieldMap);
   const newMatchers =
     position !== null
       ? [
@@ -428,7 +449,7 @@ const updateMatchers = (
     key: uuidv4(),
   };
 
-  return updateMatcherList(matchers, matcher, position);
+  return updateMatcherList(matchers, matcher, position, fieldMap);
 };
 
 const getTagetMatcher = (
