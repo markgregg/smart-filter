@@ -68,7 +68,6 @@ export const createOptionsStore = (
   const fieldMap = new Map(fields.map((f) => [f.name, f]));
   const uniqueComparisonOps = uniqueComparions(fields, operators ?? []);
   const comparisonsMap = new Map((uniqueComparisonOps ?? []).map((o) => [o.symbol, o]));
-
   return create<OptionsState>((set) => ({
     matcherKey: null,
     options: [],

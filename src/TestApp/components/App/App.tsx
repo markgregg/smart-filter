@@ -4,11 +4,15 @@ import { ColDef, ColumnApi, GridApi, GridReadyEvent, IRowNode } from 'ag-grid-co
 import { FilterFunction, Matcher, Sort } from '@/types';
 import Bond from '@/TestApp/types/Bond';
 import { bonds } from '../../../../data/bonds';
-import { columns, fields, hintGroups, operators } from './functions';
+import { columns, hintGroups, operators } from './functions';
 import { SmartFilterAgGrid } from '@/components';
 import s from './style.module.less';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+
+const hints = {
+  hintGroups: hintGroups,
+}
 
 export const App = () => {
   const filterRef = React.useRef<FilterFunction | null>(null);
@@ -68,12 +72,9 @@ export const App = () => {
           sort={sort}
           onSortChange={handleSortChange}
           onFiltersChange={handleFilterChange}
-          fields={fields}
           operators={operators}
-          hints={{
-            hintGroups: hintGroups,
-          }}
-          size={'normal'}
+          hints={hints}
+          size="normal"
           gridApi={gridApi}
           columnApi={columnApi}
         />

@@ -83,8 +83,8 @@ export const SmartFilterAgGrid: React.FC<SmartFilterAgGridProps> = ({
   hintsPerColumn,
   hintWidth,
   sortHints,
-  exampleHeight: height = 400,
-  exampleWidth: width = 600,
+  exampleHeight: height = 800,
+  exampleWidth: width = 1000,
   size = 'normal',
   showDropdownOnMouseOver = true,
   ...props
@@ -96,6 +96,13 @@ export const SmartFilterAgGrid: React.FC<SmartFilterAgGridProps> = ({
   const [columnDefs] = React.useState<ColDef<Bond>[]>(columns);
   const [matchers, setMatchers] = React.useState<Matcher[]>([]);
   const [sort, setSort] = React.useState<Sort[]>([]);
+
+  const hints = React.useMemo(() => ({
+    hintsPerColumn,
+    hintWidth,
+    sortHints,
+    hintGroups: hintGroups,
+  }), [hintsPerColumn, hintWidth, sortHints]);
 
   const handleChange = React.useCallback((
     newMatchers: Matcher[],
@@ -158,12 +165,7 @@ export const SmartFilterAgGrid: React.FC<SmartFilterAgGridProps> = ({
           onSortChange={handleSortChange}
           onFiltersChange={handleFilterChange}
           operators={operators}
-          hints={{
-            hintsPerColumn,
-            hintWidth,
-            sortHints,
-            hintGroups: hintGroups,
-          }}
+          hints={hints}
           size={size}
           showDropdownOnMouseOver={showDropdownOnMouseOver}
           gridApi={gridApi}

@@ -9,6 +9,7 @@ import {
   FilterBarState,
   FocusState,
   HintState,
+  ManagedState,
   MatcherState,
   OptionsState,
   State,

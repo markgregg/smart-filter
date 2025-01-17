@@ -7,9 +7,7 @@ import { Sort } from '../sort';
 import { UIProperties } from '../uiProperties';
 
 export interface ConfigState extends UIProperties {
-  matchers?: Matcher[];
   onChange?: (matchers: Matcher[]) => void;
-  sort?: Sort[];
   onSortChange?: (sort: Sort[]) => void;
   onClear?: () => void;
   onLock?: (locked: boolean) => void;

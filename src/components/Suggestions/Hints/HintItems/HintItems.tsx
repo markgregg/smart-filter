@@ -167,7 +167,7 @@ export const HintItems = React.memo(
           });
         }
       },
-      [targetMatcher, editPosition],
+      [targetMatcher, editPosition, fieldMap],
     );
 
     const visibleHints: HintAndState[] = React.useMemo(

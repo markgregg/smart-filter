@@ -12,6 +12,7 @@ import { createMatcherDragStore } from './dragStore';
 import { createBracketsStore } from './bracketStore';
 import { createSortStore } from './SortStore';
 import { DEFAULT_PAGE_SIZE } from '@/util/constants';
+import { createManagedStore } from './managedStore';
 
 export interface ProviderProps {
   props: SmartFilterProps;
@@ -20,16 +21,69 @@ export interface ProviderProps {
 
 export const StateProvider = React.memo(
   ({ props, children }: ProviderProps) => {
-    const configStore = React.useMemo(() => createConfigStore(props), [props]);
-    const focusStore = React.useMemo(() => createFocusStore(props.showDropdownOnMouseOver, props.dropDownDispalyWhenKeyPressed), [props.showDropdownOnMouseOver, props.dropDownDispalyWhenKeyPressed]);
+    const {
+      matchers,
+      sort,
+      allowLocking,
+      debounce,
+      dropDownDispalyWhenKeyPressed,
+      dropdownWidth,
+      enableSort,
+      fields,
+      hints,
+      maxDropdownHeight,
+      maxValueWidth,
+      onChange,
+      onClear,
+      onExpand,
+      onLock,
+      onSortChange,
+      operators,
+      optionWidth,
+      pageSize,
+      pasteOptions,
+      placeholder,
+      showDropdownOnMouseOver,
+      showSearchIcon,
+      showUndoIcon,
+      size,
+      sortPillWidth
+    } = props;
+    const configStore = React.useMemo(() => createConfigStore(props), [
+      allowLocking,
+      debounce,
+      dropDownDispalyWhenKeyPressed,
+      dropdownWidth,
+      enableSort,
+      fields,
+      hints,
+      maxDropdownHeight,
+      maxValueWidth,
+      onChange,
+      onClear,
+      onExpand,
+      onLock,
+      onSortChange,
+      operators,
+      optionWidth,
+      pageSize,
+      pasteOptions,
+      placeholder,
+      showDropdownOnMouseOver,
+      showSearchIcon,
+      showUndoIcon,
+      size,
+      sortPillWidth
+    ]);
+    const focusStore = React.useMemo(() => createFocusStore(showDropdownOnMouseOver, dropDownDispalyWhenKeyPressed), [showDropdownOnMouseOver, dropDownDispalyWhenKeyPressed]);
     const filterBarStore = React.useMemo(createFilterBarStore, []);
     const hintStore = React.useMemo(createHintStore, []);
     const matcherStore = React.useMemo(createMatcherStore, []);
     const optionsStore = React.useMemo(
-      () => createOptionsStore(props.fields, props.operators ?? [], props.pageSize ?? DEFAULT_PAGE_SIZE, props.debounce),
-      [props.fields, props.operators, props.pageSize, props.debounce],
+      () => createOptionsStore(fields, operators ?? [], pageSize ?? DEFAULT_PAGE_SIZE, debounce),
+      [fields, operators, pageSize, debounce],
     );
-    const arrayStore = React.useMemo(() => createArrayStore(props.pageSize ?? DEFAULT_PAGE_SIZE), [props.pageSize]);
+    const arrayStore = React.useMemo(() => createArrayStore(pageSize ?? DEFAULT_PAGE_SIZE), [pageSize]);
     const matcherDragStore = React.useMemo(
       () => createMatcherDragStore<Matcher>(),
       [],
@@ -40,6 +94,8 @@ export const StateProvider = React.memo(
       () => createMatcherDragStore<Sort>(),
       [],
     );
+    const managedStore = React.useMemo(() => createManagedStore(matchers ?? [], sort ?? []), [matchers, sort]);
+    managedStore
 
     const stateValue = React.useMemo(
       () => ({
@@ -54,6 +110,7 @@ export const StateProvider = React.memo(
         bracketsStore,
         sortStore,
         sortDragStore,
+        managedStore,
       }),
       [
         configStore,
@@ -67,6 +124,7 @@ export const StateProvider = React.memo(
         bracketsStore,
         sortStore,
         sortDragStore,
+        managedStore,
       ],
     );
 

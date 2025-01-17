@@ -5,9 +5,7 @@ import { ConfigState } from '@/types/State';
 import { uniqueComparions } from '@/util/functions';
 
 export const createConfigStore = ({
-  matchers,
   onChange,
-  sort,
   onSortChange,
   onClear,
   onLock,
@@ -33,9 +31,7 @@ export const createConfigStore = ({
 }: SmartFilterProps): UseBoundStore<StoreApi<ConfigState>> => {
   const uniqueComparisonOps = uniqueComparions(fields, operators ?? []);
   return create<ConfigState>(() => ({
-    matchers,
     onChange,
-    sort,
     onSortChange,
     onClear,
     onLock,

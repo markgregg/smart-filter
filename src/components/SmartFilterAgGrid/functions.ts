@@ -1,12 +1,14 @@
 import { ClientApi } from '@/aggrid/ClientApi';
-import { Field } from '@/types';
+import { Field, ValueType } from '@/types';
 import { AgField } from '@/types/agField';
 import {
   ScalarAdvancedFilterModelType,
   TextAdvancedFilterModelType,
 } from '@/types/agGrid';
 import {
+  AgFilters,
   AgTypes,
+  DEFAULT_DATE_FORMAT,
   defaultComparisons,
   numberComparisons,
   stringComparisons,
@@ -39,8 +41,8 @@ export const getComparisons = (
 ): string[] => {
   if (
     type === AgTypes.boolean ||
-    filter === 'AgFilters.agBooleanColumnFilter' ||
-    filter === 'AgFilters.agSetColumnFilter'
+    filter === AgFilters.agBooleanColumnFilter ||
+    filter === AgFilters.agSetColumnFilter
   ) {
     return defaultComparisons;
   }
@@ -48,14 +50,31 @@ export const getComparisons = (
     type === AgTypes.number ||
     type === AgTypes.date ||
     type === AgTypes.dateString ||
-    filter === 'AgFilters.agNumberColumnFilter' ||
-    filter === 'AgFilters.agDateColumnFilter' ||
-    filter === 'AgFilters.agDateStringColumnFilter'
+    filter === AgFilters.agNumberColumnFilter ||
+    filter === AgFilters.agDateColumnFilter ||
+    filter === AgFilters.agDateStringColumnFilter
   ) {
     return numberComparisons;
   }
   return stringComparisons;
 };
+
+const getEditorType = (type?: string | boolean): ValueType | undefined => {
+  switch (type) {
+    case AgTypes.text:
+      return 'text';
+    case AgTypes.boolean:
+      return 'bool';
+    case AgTypes.number:
+      return 'float';
+    case AgTypes.date:
+      return 'date';
+    case AgTypes.dateString:
+      return 'date'
+    default:
+      return undefined;
+  }
+}
 
 export const getDefaultComparison = (
   type?: string | boolean,
@@ -63,8 +82,8 @@ export const getDefaultComparison = (
 ): string => {
   if (
     type === AgTypes.text &&
-    filter !== 'AgFilters.agSetColumnFilter' &&
-    filter !== 'AgFilters.agDateStringColumnFilter'
+    filter !== AgFilters.agSetColumnFilter &&
+    filter !== AgFilters.agDateStringColumnFilter
   ) {
     return '*';
   }
@@ -72,7 +91,7 @@ export const getDefaultComparison = (
 };
 
 export const useLists = (filter?: string): boolean => {
-  if (filter === 'AgFilters.agSetColumnFilter') {
+  if (filter === AgFilters.agSetColumnFilter) {
     return true;
   }
   return false;
@@ -86,9 +105,9 @@ export const useRanges = (
     type === AgTypes.number ||
     type === AgTypes.date ||
     type === AgTypes.dateString ||
-    filter === 'AgFilters.agNumberColumnFilter' ||
-    filter === 'AgFilters.agDateColumnFilter' ||
-    filter === 'AgFilters.agDateStringColumnFilter'
+    filter === AgFilters.agNumberColumnFilter ||
+    filter === AgFilters.agDateColumnFilter ||
+    filter === AgFilters.agDateStringColumnFilter
   ) {
     return true;
   }
@@ -122,16 +141,18 @@ export const constructFields = (
             filterValueGetter,
           } = col.getColDef();
           const overrides = fields?.find((f) => f.name === (colId ?? field));
-          const { excludeFromFilter, excludeFromSorting, ...fieldOverides } = overrides ?? {};
+          const { excludeFromFilter, excludeFromSorting, dateTimeFormat, editorType, ...fieldOverides } = overrides ?? {};
           const fieldName = colId ?? field;
-          return {
+          const overriddenField: Field = {
             name: fieldName ?? '',
             title: headerName ?? convertToheader(field),
             operators: getComparisons(cellDataType),
             defaultComparison: getDefaultComparison(cellDataType, filter),
-            allowLists: useLists(filter),
-            allowRanges: useRanges(cellDataType),
+            allowList: useLists(filter),
+            allowRange: useRanges(cellDataType),
             allowBlanks: true,
+            editorType: editorType ?? getEditorType(cellDataType),
+            dateTimeFormat: dateTimeFormat ?? displayDateFormat ?? DEFAULT_DATE_FORMAT,
             textGetter:
               cellDataType === AgTypes.boolean
                 ? (item: any) => item.text
@@ -156,6 +177,7 @@ export const constructFields = (
                 : [],
             ...fieldOverides,
           };
+          return overriddenField;
         })
         .filter((f) => f.name !== undefined);
     }

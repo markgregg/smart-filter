@@ -4,12 +4,11 @@ import { FieldMatch, SourceItem, Matcher, ValueMatcher, FilterFunction, Sort } f
 import {
   AgFilters,
   AgTypes,
+  DEFAULT_DATE_FORMAT,
   OR,
 } from '@/util/constants';
 
 export type FilterValueGetter = (params: any) => any | null | undefined;
-
-export const defaultDateFormat = 'YYYY-MM-DD';
 
 type ValueGetter = <T>(data: RowNode) => T | undefined;
 
@@ -69,7 +68,7 @@ export const createClientApi = (
         source: [{ text: getBooleanText(fieldName), value: true }],
       };
     }
-    if (field && filter === 'AgFilters.agSetColumnFilter') {
+    if (field && filter === AgFilters.agSetColumnFilter) {
       return {
         ignoreCase: true,
         lookup: async (text, op) =>
@@ -91,7 +90,7 @@ export const createClientApi = (
     }
     if (
       type === AgTypes.number ||
-      filter === 'AgFilters.agNumberColumnFilter'
+      filter === AgFilters.agNumberColumnFilter
     ) {
       return {
         match: (text: string) => !Number.isNaN(Number(text)),
@@ -99,7 +98,7 @@ export const createClientApi = (
         matchOnPaste: true,
       };
     }
-    if (type === AgTypes.date || filter === 'AgFilters.agDateColumnFilter') {
+    if (type === AgTypes.date || filter === AgFilters.agDateColumnFilter) {
       return {
         match: (text: string) =>
           Number.isNaN(Number(text)) &&
@@ -114,7 +113,7 @@ export const createClientApi = (
         label: (value: any) => {
           const date = moment(value);
           return date.isValid()
-            ? date.format(displayFormat ?? defaultDateFormat)
+            ? date.format(displayFormat ?? DEFAULT_DATE_FORMAT)
             : value;
         },
         matchOnPaste: true,
@@ -122,17 +121,17 @@ export const createClientApi = (
     }
     if (
       type === AgTypes.dateString ||
-      filter === 'AgFilters.agDateStringColumnFilter'
+      filter === AgFilters.agDateStringColumnFilter
     ) {
       return {
         match: (text: string) =>
           Number.isNaN(Number(text)) && moment(text).isValid(),
         value: (text: string) =>
-          moment(text).format(displayFormat ?? defaultDateFormat),
+          moment(text).format(displayFormat ?? DEFAULT_DATE_FORMAT),
         label: (value: any) => {
           const date = moment(value);
           return date.isValid()
-            ? date.format(displayFormat ?? defaultDateFormat)
+            ? date.format(displayFormat ?? DEFAULT_DATE_FORMAT)
             : value;
         },
         matchOnPaste: true,

@@ -4,8 +4,8 @@ export const DELIMITERS = [',', '\t', '\n'];
 export const DEFAULT_KEYBOARD_DROPDOWN_DISPLAY_TIME = 1500;
 export const DEFAULT_SORT_OPTION_WIDTH = 200;
 export const DEFAULT_SORT_PILL_WIDTH = 90;
-export const DEFAULT_DATE_FORMAT = 'DD/MM/YYYY';
-export const DEFAULT_DATE_TIME_FORMAT = 'DD/MM/YYYY HH:mm:ss';
+export const DEFAULT_DATE_FORMAT = 'YYYY-MM-DD';
+export const DEFAULT_DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
 export const COMPACT_HEIGHT = 24;
 export const NORMAL_HEIGHT = 30;

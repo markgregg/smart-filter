@@ -9,3 +9,4 @@ export * from './options';
 export * from './array';
 export * from './drag';
 export * from './brackets';
+export * from './managed';
