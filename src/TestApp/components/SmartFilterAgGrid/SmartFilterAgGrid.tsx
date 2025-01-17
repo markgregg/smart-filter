@@ -4,8 +4,8 @@ import { ColDef, ColumnApi, GridApi, GridReadyEvent, IRowNode } from 'ag-grid-co
 import { FilterFunction, Matcher, Sort } from '@/types';
 import Bond from '@/TestApp/types/Bond';
 import { bonds } from '../../../../data/bonds';
-import { columns, hintGroups, operators } from './functions';
-import { SmartFilterAgGrid } from '@/components';
+import { columns, hintGroups, operators } from '@/stories/smartFilterFunctions';
+import { SmartFilterAgGrid as SmartFilterAgGridCompoent } from '@/components';
 import s from './style.module.less';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -14,7 +14,7 @@ const hints = {
   hintGroups: hintGroups,
 }
 
-export const App = () => {
+export const SmartFilterAgGrid = () => {
   const filterRef = React.useRef<FilterFunction | null>(null);
   const [gridApi, setGridApi] = React.useState<GridApi<Bond> | null>(null);
   const [columnApi, setColumnApi] = React.useState<ColumnApi | null>(null);
@@ -23,6 +23,16 @@ export const App = () => {
   const [matchers, setMatchers] = React.useState<Matcher[]>([]);
   const [sort, setSort] = React.useState<Sort[]>([]);
 
+  const queryParams = React.useMemo(() => {
+    const query = window.location.search.substring(1);
+    const params = query.split("&");
+    return params.reduce((p: any, v) => {
+      const pv = v.split('=');
+      return pv.length < 2
+        ? { ...p, [pv[0]]: true }
+        : { ...p, [pv[0]]: pv[1] }
+    }, {});
+  }, []);
 
   const handleChange = React.useCallback((
     newMatchers: Matcher[],
@@ -62,10 +72,11 @@ export const App = () => {
 
   return (
     <div
-      className={s.storybookSmartFilterPage}
+      className={s.smartFilterAgGridPage}
     >
+      <h4>Smart Filter AgGrid</h4>
       <div className={s.filterBar}>
-        <SmartFilterAgGrid
+        <SmartFilterAgGridCompoent
           matchers={matchers}
           onChange={handleChange}
           enableSort
@@ -75,6 +86,9 @@ export const App = () => {
           operators={operators}
           hints={hints}
           size="normal"
+          allowLocking={!queryParams.noIcons}
+          showSearchIcon={!queryParams.noIcons}
+          showUndoIcon={!queryParams.noIcons}
           gridApi={gridApi}
           columnApi={columnApi}
         />

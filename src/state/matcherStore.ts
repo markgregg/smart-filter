@@ -364,7 +364,7 @@ const checkFieldLimits = (
       const fieldName = m.field;
       const field = fieldMap.get(fieldName);
       if (field?.instanceLimit) {
-        if (matchers.filter((mf) => 'field' in mf && mf.field === fieldName && mf.key !== m.key).length > field.instanceLimit) {
+        if (matchers.filter((mf) => 'field' in mf && mf.field === fieldName && mf.key !== m.key).length + 1 > field.instanceLimit) {
           throw Error(`Instance limt of (${field.instanceLimit}) has been exceed for ${field.title}`);
         }
       }

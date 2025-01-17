@@ -1,0 +1,77 @@
+<testsuites id="" name="" tests="2" failures="1" skipped="0" errors="0" time="28.696908999999998">
+<testsuite name="smartFilter\basic.spec.ts" timestamp="2025-01-17T20:51:54.543Z" hostname="chromium" tests="2" failures="1" skipped="0" time="15.276" errors="0">
+<testcase name="All icons are shown when enabled" classname="smartFilter\basic.spec.ts" time="7.091">
+</testcase>
+<testcase name="All icons are hidden when not enabled" classname="smartFilter\basic.spec.ts" time="8.185">
+<failure message="basic.spec.ts:23:1 All icons are hidden when not enabled" type="FAILURE">
+<![CDATA[  [chromium] › smartFilter\basic.spec.ts:23:1 › All icons are hidden when not enabled › Then the Smart Filter mathces valid screenshot 
+
+    Error: expect(locator).toHaveScreenshot(expected)
+
+      394 pixels (ratio 0.02 of all image pixels) are different.
+
+    Expected: C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\basic.spec.ts-snapshots\smart-filter-basic-chromium-win32.png
+    Received: C:\Users\gregg\development\smart-filter\test-results\smartFilter-basic-All-icons-are-hidden-when-not-enabled-chromium\smart-filter-basic-actual.png
+        Diff: C:\Users\gregg\development\smart-filter\test-results\smartFilter-basic-All-icons-are-hidden-when-not-enabled-chromium\smart-filter-basic-diff.png
+
+    Call log:
+      - expect.toHaveScreenshot(smart-filter-basic.png) with timeout 5000ms
+        - verifying given screenshot expectation
+      - waiting for locator('#filter-bar')
+        - locator resolved to <div tabindex="0" id="filter-bar" class="_searchBar_kp0r0_1 _normal_kp0r0_48 _font-normal_kp0r0_58">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - 394 pixels (ratio 0.02 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - waiting for locator('#filter-bar')
+        - locator resolved to <div tabindex="0" id="filter-bar" class="_searchBar_kp0r0_1 _normal_kp0r0_48 _font-normal_kp0r0_58">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - captured a stable screenshot
+      - 394 pixels (ratio 0.02 of all image pixels) are different.
+
+
+      34 |
+      35 |     await Then('the Smart Filter mathces valid screenshot', async () => {
+    > 36 |       await expect(filterBar).toHaveScreenshot('smart-filter-basic.png');
+         |                               ^
+      37 |     })
+      38 |   }
+      39 | )
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\basic.spec.ts:36:31
+        at Then (C:\Users\gregg\development\smart-filter\tests\visual\common\ghkerkin.ts:23:8)
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\basic.spec.ts:35:11
+
+    attachment #1: smart-filter-basic-expected.png (image/png) ─────────────────────────────────────
+    tests\visual\smartFilter\basic.spec.ts-snapshots\smart-filter-basic-chromium-win32.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: smart-filter-basic-actual.png (image/png) ───────────────────────────────────────
+    test-results\smartFilter-basic-All-icons-are-hidden-when-not-enabled-chromium\smart-filter-basic-actual.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: smart-filter-basic-diff.png (image/png) ─────────────────────────────────────────
+    test-results\smartFilter-basic-All-icons-are-hidden-when-not-enabled-chromium\smart-filter-basic-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\tests\visual\smartFilter\basic.spec.ts-snapshots\smart-filter-basic-chromium-win32.png]]
+
+[[ATTACHMENT|..\test-results\smartFilter-basic-All-icons-are-hidden-when-not-enabled-chromium\smart-filter-basic-actual.png]]
+
+[[ATTACHMENT|..\test-results\smartFilter-basic-All-icons-are-hidden-when-not-enabled-chromium\smart-filter-basic-diff.png]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+</testsuites>

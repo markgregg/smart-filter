@@ -5,7 +5,7 @@ import { AgGridReact } from 'ag-grid-react';
 import { ColDef } from 'ag-grid-community';
 import { bonds } from '../../data/bonds';
 import { FilterBarSize } from '@/types/uiProperties';
-import s from './SmartFilter.module.less';
+import s from './style.module.less';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 

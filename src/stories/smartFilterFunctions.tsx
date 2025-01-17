@@ -47,6 +47,7 @@ export const fields: Field[] = [
     ],
     allowList: true,
     allowBlanks: true,
+
   },
   {
     name: 'side',
@@ -54,10 +55,12 @@ export const fields: Field[] = [
     operators: ['=', '!'],
     fieldMatchers: [
       {
+        ignoreCase: true,
         source: ['BUY', 'SELL']
       },
     ],
     allowBlanks: true,
+    instanceLimit: 1,
   },
   {
     name: 'currency',

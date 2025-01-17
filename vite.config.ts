@@ -28,10 +28,7 @@ export default defineConfig(({ mode }) => {
           ['cobertura', { file: 'cobertura.xml' }],
           'lcov',
         ],
-        exclude: [
-          'src/TestApp/**',
-          'tests'
-        ]
+        include: ['./tests/functional/**/*.{test,spec}.{ts,tsx}'],
       }
     },
     resolve: {
