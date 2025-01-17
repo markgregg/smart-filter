@@ -32,10 +32,10 @@ export const FieldSelection = React.memo(
       () =>
         fields.filter(
           (f) =>
-            (!showSort ||
-              enableSort ||
-              (enableSort && sortHints && sortHints.includes(f.name))) &&
-            ignoreCaseCompare(f.title, filter),
+          (!showSort ||
+            (enableSort && (!sortHints || sortHints.includes(f.name)) &&
+              !f.excludeFromSorting) &&
+            ignoreCaseCompare(f.title, filter))
         ),
       [fields, filter],
     );

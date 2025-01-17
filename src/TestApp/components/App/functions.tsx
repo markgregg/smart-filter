@@ -1,8 +1,8 @@
-import { Field, FilterFunction, HintGrouping, Matcher, Operator, Sort, SortDirection, SourceItem, ValueMatcher } from '..';
 import { ColDef } from 'ag-grid-community';
-import { bonds } from '../../data/bonds';
 import { OR, defaultComparisons, numberComparisons, stringComparisons } from '@/util/constants';
 import moment from 'moment';
+import { Field, FilterFunction, HintGrouping, Matcher, Operator, Sort, SortDirection, SourceItem, ValueMatcher } from '@/types';
+import { bonds } from '../../../../data/bonds';
 
 export type SortFunction = (x: any, y: any) => number;
 
@@ -28,7 +28,7 @@ const findMatching = (text: string, getter: ((bond: Bond) => string)): Promise<S
   return new Promise((resolve) => {
     setTimeout(() => {
       const set = new Set<string>();
-      (bonds).map(getter)
+      bonds.map(getter)
         .filter(t => (t ?? '').toLocaleUpperCase().includes(text.toLocaleUpperCase()))
         .forEach((t) => set.add(t));
       resolve([...set.values()].slice(0, 10));
@@ -321,8 +321,8 @@ const processMatchers = (
       const filterLeft: FilterFunction = currentFilter;
       const filterRight: FilterFunction = newFilter;
       currentFilter = isOr
-        ? (row: any) => filterLeft(row) || filterRight(row)
-        : (row: any) => filterLeft(row) && filterRight(row);
+        ? (row) => filterLeft(row) || filterRight(row)
+        : (row) => filterLeft(row) && filterRight(row);
     }
     index += 1;
   }
@@ -395,7 +395,7 @@ const constructTextFilter = (
     arrayArraypredicate: (x: string[], y: string[]) => boolean,
   ): FilterFunction => {
     if (matcher.type === 'a') {
-      return (row: any) => {
+      return (row) => {
         const value = getStringValue(row);
         if (value && Array.isArray(value)) {
           return arrayArraypredicate(value, matcher.valueArray);
@@ -406,7 +406,7 @@ const constructTextFilter = (
         );
       };
     }
-    return (row: any) => {
+    return (row) => {
       const value = getStringValue(row);
       if (Array.isArray(value)) {
         return arrayValuePredicate(value, matcher.value.toLocaleUpperCase());
@@ -528,7 +528,7 @@ const constructNumberFilter = (
     return null;
   }
   if (matcher.type === 'r') {
-    return (row: any) => {
+    return (row) => {
       const value = valueGetter(row);
       return (
         value !== undefined &&
@@ -543,7 +543,7 @@ const constructNumberFilter = (
       valueValuePredicate: (x: number, y: number) => boolean,
       arrayValuePredicate: (x: number[], y: number) => boolean,
     ): FilterFunction =>
-      (row: any) => {
+      (row) => {
         const value = valueGetter(row);
         if (Array.isArray(value)) {
           return arrayValuePredicate(value, matcher.value);
@@ -607,7 +607,7 @@ const constructDateFilter = (
     return null;
   }
   if (matcher.type === 'r') {
-    return (row: any) => {
+    return (row) => {
       const value = valueGetter(row);
       return (
         value !== undefined &&
@@ -621,7 +621,7 @@ const constructDateFilter = (
       valueValuePredicate: (x: Date, y: Date) => boolean,
       arrayValuePredicate: (x: Date[], y: Date) => boolean,
     ): FilterFunction =>
-      (row: any) => {
+      (row) => {
         const value = valueGetter(row);
         if (Array.isArray(value)) {
           return arrayValuePredicate(value, matcher.value);
@@ -685,7 +685,7 @@ const constructDateStringFilter = (
     return null;
   }
   if (matcher.type === 'r') {
-    return (row: any) => {
+    return (row) => {
       const value = valueGetter(row);
       if (!value) {
         return false;
@@ -702,7 +702,7 @@ const constructDateStringFilter = (
       valueValuePredicate: (x: moment.Moment, y: moment.Moment) => boolean,
       arrayValuePredicate: (x: string[], y: moment.Moment) => boolean,
     ): FilterFunction =>
-      (row: any) => {
+      (row) => {
         if (!matcher.value || typeof matcher.value !== 'string') {
           return false;
         }
@@ -771,12 +771,12 @@ const constructBooleanFilter = (
   }
   switch (matcher.comparison) {
     case '=':
-      return (row: any) => {
+      return (row) => {
         const value = valueGetter(row);
         return value !== undefined && value === matcher.value;
       };
     case '!':
-      return (row: any) => {
+      return (row) => {
         const value = valueGetter(row);
         return value === undefined || value !== matcher.value;
       };

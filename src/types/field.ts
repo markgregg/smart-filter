@@ -42,6 +42,8 @@ export interface Field {
   allowRange?: boolean;
   /* allow blank values */
   allowBlanks?: boolean;
+  /* do not show the field in the sort list */
+  excludeFromSorting?: boolean;
   /* to map values to icons */
   iconMap?: Map<Value, IconType>;
   /* to config showing icons or text, defaults to both */

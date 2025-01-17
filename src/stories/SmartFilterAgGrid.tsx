@@ -1,5 +1,5 @@
 import React from 'react';
-import Bond, { columns, createFields, hintGroups, operators } from './smartFilterFunctions';
+import Bond, { columns, hintGroups, operators } from './smartFilterFunctions';
 import { FilterFunction, Matcher, SmartFilterAgGrid as SmartFilterAgGridComponent, Sort } from '..';
 import { AgGridReact } from 'ag-grid-react';
 import { ColDef, ColumnApi, GridApi, GridReadyEvent, IRowNode } from 'ag-grid-community';
@@ -96,7 +96,6 @@ export const SmartFilterAgGrid: React.FC<SmartFilterAgGridProps> = ({
   const [columnDefs] = React.useState<ColDef<Bond>[]>(columns);
   const [matchers, setMatchers] = React.useState<Matcher[]>([]);
   const [sort, setSort] = React.useState<Sort[]>([]);
-  const fields = React.useMemo(() => createFields(rowData), [rowData])
 
   const handleChange = React.useCallback((
     newMatchers: Matcher[],
@@ -124,7 +123,7 @@ export const SmartFilterAgGrid: React.FC<SmartFilterAgGridProps> = ({
     if (onFiltersChange) {
       onFiltersChange(newFilter);
     }
-  }, [setSort, onFiltersChange]);
+  }, [gridApi, setSort, onFiltersChange]);
 
   const handleGridReady = (event: GridReadyEvent<Bond>) => {
     setGridApi(event.api);
@@ -137,9 +136,10 @@ export const SmartFilterAgGrid: React.FC<SmartFilterAgGridProps> = ({
   );
 
   const doesExternalFilterPass = React.useCallback(
-    (node: IRowNode<Bond>): boolean =>
-      filterRef.current !== null && filterRef.current(node),
-    [],
+    (node: IRowNode<Bond>): boolean => {
+      return filterRef.current !== null && filterRef.current(node);
+    },
+    []
   );
 
   return (
@@ -157,7 +157,6 @@ export const SmartFilterAgGrid: React.FC<SmartFilterAgGridProps> = ({
           sort={sort}
           onSortChange={handleSortChange}
           onFiltersChange={handleFilterChange}
-          fields={fields}
           operators={operators}
           hints={{
             hintsPerColumn,

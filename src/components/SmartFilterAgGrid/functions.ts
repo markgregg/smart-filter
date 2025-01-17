@@ -104,7 +104,7 @@ export const convertToheader = (field?: string): string => {
 
 export const constructFields = (
   agClientApi: ClientApi | null,
-  fields: AgField[],
+  fields?: AgField[],
   dateFormats?: string[],
   displayDateFormat?: string,
 ): Field[] | null => {
@@ -122,7 +122,7 @@ export const constructFields = (
             filterValueGetter,
           } = col.getColDef();
           const overrides = fields?.find((f) => f.name === (colId ?? field));
-          const { excludeFromFilter, ...fieldOverides } = overrides ?? {};
+          const { excludeFromFilter, excludeFromSorting, ...fieldOverides } = overrides ?? {};
           const fieldName = colId ?? field;
           return {
             name: fieldName ?? '',
@@ -143,16 +143,16 @@ export const constructFields = (
             fieldMatchers:
               fieldName && !excludeFromFilter
                 ? [
-                    agClientApi.getFieldMatch(
-                      fieldName,
-                      field,
-                      cellDataType,
-                      filter,
-                      dateFormats,
-                      displayDateFormat,
-                      filterValueGetter,
-                    ),
-                  ]
+                  agClientApi.getFieldMatch(
+                    fieldName,
+                    field,
+                    cellDataType,
+                    filter,
+                    dateFormats,
+                    displayDateFormat,
+                    typeof filterValueGetter === 'function' ? filterValueGetter : undefined,
+                  ),
+                ]
                 : [],
             ...fieldOverides,
           };

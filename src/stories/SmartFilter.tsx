@@ -1,5 +1,5 @@
 import React from 'react';
-import Bond, { columns, constructFilter, constructSort, createFields, hintGroups, operators } from './smartFilterFunctions';
+import Bond, { columns, constructFilter, constructSort, fields, hintGroups, operators } from './smartFilterFunctions';
 import { Matcher, SmartFilter as SmartFilterComponent, Sort } from '../';
 import { AgGridReact } from 'ag-grid-react';
 import { ColDef } from 'ag-grid-community';
@@ -87,7 +87,6 @@ export const SmartFilter: React.FC<SmartFilterProps> = ({
   const [columnDefs] = React.useState<ColDef<Bond>[]>(columns);
   const [matchers, setMatchers] = React.useState<Matcher[]>([]);
   const [sort, setSort] = React.useState<Sort[]>([]);
-  const fields = React.useMemo(() => createFields(rowData), [rowData])
 
   const handleChange = React.useCallback((
     newMatchers: Matcher[],

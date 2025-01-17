@@ -1,5 +1,8 @@
 import { FilterValueGetter } from "@/aggrid/ClientApi";
 
+export interface RowNode {
+  data: any | undefined;
+}
 export type ColumnPinnedType = 'left' | 'right' | boolean | null | undefined;
 
 export interface ColumnState {
@@ -53,11 +56,11 @@ export interface ColumnApi {
 
 export interface GridApi {
   forEachNode: (
-    callback: (rowNode: any, index: number) => void,
+    callback: (rowNode: RowNode, index: number) => void,
     includeFooterNodes?: boolean,
   ) => void;
   forEachNodeAfterFilter: (
-    callback: (rowNode: any, index: number) => void,
+    callback: (rowNode: RowNode, index: number) => void,
   ) => void;
   setAdvancedFilterModel: (
     advancedFilterModel: AdvancedFilterModel | null,

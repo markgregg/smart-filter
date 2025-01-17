@@ -5,7 +5,7 @@ import { ColumnApi, GridApi } from './agGrid';
 export type FilterFunction = (row: any) => boolean;
 
 export type SmartFilterAgGridProps = Omit<SmartFilterProps, 'fields'> & {
-  fields: AgField[];
+  fields?: AgField[];
   dateFormats?: string[]; // date formats to use when entering dates in the search
   displayDateFormat?: string;
   useExternalFilter?: boolean;

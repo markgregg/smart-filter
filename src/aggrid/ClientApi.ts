@@ -1,6 +1,6 @@
 import moment from 'moment';
-import { Column, ColumnApi, GridApi } from '@/types/agGrid';
-import { FieldMatch, SourceItem, Matcher, ValueMatcher, FilterFunction } from '..';
+import { Column, ColumnApi, GridApi, RowNode } from '@/types/agGrid';
+import { FieldMatch, SourceItem, Matcher, ValueMatcher, FilterFunction, Sort } from '..';
 import {
   AgFilters,
   AgTypes,
@@ -11,7 +11,7 @@ export type FilterValueGetter = (params: any) => any | null | undefined;
 
 export const defaultDateFormat = 'YYYY-MM-DD';
 
-type ValueGetter = <T>(data: any) => T | undefined;
+type ValueGetter = <T>(data: RowNode) => T | undefined;
 
 export interface ClientApi {
   getAgColumn: (column: string) => Column | null;
@@ -31,6 +31,7 @@ export interface ClientApi {
     maxUniqueValues?: number,
     filterValueGetter?: FilterValueGetter,
   ) => string[];
+  applySort: (sort: Sort[]) => void;
 }
 
 export const createClientApi = (
@@ -181,7 +182,7 @@ export const createClientApi = (
     if (!field) {
       return [];
     }
-    const uniqueValueCallback = (row: any) => {
+    const uniqueValueCallback = (row: RowNode) => {
       if (row.data) {
         const value = filterValueGetter
           ? filterValueGetter(row.data)
@@ -209,7 +210,7 @@ export const createClientApi = (
     filterValueGetter?: FilterValueGetter,
   ): SourceItem[] => {
     const uniqueItems = new Set<string>();
-    const uniqueValueCallback = (row: any) => {
+    const uniqueValueCallback = (row: RowNode) => {
       if (row.data) {
         const value = filterValueGetter
           ? filterValueGetter(row.data)
@@ -254,7 +255,7 @@ export const createClientApi = (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let found: any | null = null;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const callback = (row: any) => {
+    const callback = (row: RowNode) => {
       if (row.data) {
         const value = filterValueGetter
           ? filterValueGetter(row.data)
@@ -396,8 +397,8 @@ export const createClientApi = (
     if (matcher.type === 'r') {
       return null;
     }
-    const getStringValue = (row: any) => {
-      const temp = valueGetter<string | undefined>(row.data);
+    const getStringValue = (data: any) => {
+      const temp = valueGetter<string | undefined>(data);
       return typeof temp === 'string' ? temp.toLocaleUpperCase() : temp;
     };
     const compareString = (
@@ -799,11 +800,29 @@ export const createClientApi = (
     }
   };
 
+  const applySort = (sort: Sort[]) => {
+    const columnState = columnApi?.getColumnState();
+    if (columnState) {
+      const fieldState = sort.map((sortField, index) => ({ sortField, index }))
+      const newColumnState = columnState.map((cs) => {
+        const entry = fieldState.find(f => f.sortField.field === cs.colId)
+        return {
+          ...cs,
+          sort: entry?.sortField.sortDirection ?? null,
+          sortIndex: entry?.index ?? 0,
+        };
+      });
+
+      columnApi?.applyColumnState({ state: newColumnState });
+    }
+  }
+
   return {
     constructFilter,
     getAgColumn,
     getAgColumns,
     getFieldMatch,
     findUniqueHintValues,
+    applySort,
   };
 };
