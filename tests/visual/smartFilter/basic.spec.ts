@@ -97,6 +97,7 @@ Scenario(
 
     await When('the pills take more space than the filterbar', async () => {
       await enterAndSelectItemInSearchBox('XS1');
+      await enterAndSelectItemInSearchBox('GBP');
     });
 
     await And('the mouse is over the filterbar', async () => {
@@ -104,7 +105,37 @@ Scenario(
     });
 
     await Then('the focus border is shown in the screenshot', async () => {
-      await expect(expandIcon).toHaveScreenshot('expand-icon-hhighlighted.png');
+      await expect(expandIcon).toHaveScreenshot('expand-icon-highlighted.png');
+    })
+  }
+)
+
+Scenario(
+  'Clicking the expand extends the filter bar',
+  async ({
+    smartFilterPage: {
+      expandIcon,
+      filterBar,
+      enterAndSelectItemInSearchBox,
+      use,
+    },
+  }) => {
+    await Given('the SmartFilter test page is shown', async () => {
+      await use('smartfilteraggrid?width=400');
+    });
+
+    await When('the pills take more space than the filterbar', async () => {
+      await enterAndSelectItemInSearchBox('XS1');
+      await enterAndSelectItemInSearchBox('GBP');
+      await enterAndSelectItemInSearchBox('XS1');
+    });
+
+    await And('the expand icon is clicked', async () => {
+      await expandIcon.click();
+    });
+
+    await Then('the fitlerbar gows to show all content', async () => {
+      await expect(filterBar).toHaveScreenshot('expanded-filter-bar.png');
     })
   }
 )
@@ -116,12 +147,12 @@ Scenario(
       clearIcon,
       filterBar,
       enterAndSelectItemInSearchBox,
-      selectSortItem,
+      selectSortSuggestion,
       use,
     },
   }) => {
     await Given('the SmartFilter test page is shown', async () => {
-      await use('smartfilteraggrid?width=400');
+      await use('smartfilteraggrid?width');
     });
 
     await When('pills are entered', async () => {
@@ -129,11 +160,11 @@ Scenario(
     });
 
     await And('and sort pills entered', async () => {
-      await selectSortItem('currency', 'asc');
+      await selectSortSuggestion('maturityDate', 'asc');
     });
 
     await And('the clear button is clicked', async () => {
-      await clearIcon.hover();
+      await clearIcon.click();
     });
 
     await Then('the filterbar content is cleared', async () => {

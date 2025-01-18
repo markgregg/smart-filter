@@ -16,7 +16,8 @@ export interface SmartFilterPage {
 
   use: (example: string) => void;
   enterAndSelectItemInSearchBox: (text: string) => void;
-  selectSortItem: (field: string, direction: SortDirection) => void;
+  selectSortSuggestion: (field: string, direction: SortDirection) => void;
+  selectFieldSuggestion: (field: string) => void;
 }
 
 export const createSmartFilterPage = (page: Page): SmartFilterPage => {
@@ -49,9 +50,16 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
       await searchBox.press('Enter');
     },
 
-    selectSortItem: async (field: string, direction: SortDirection) => {
-      sortSelectionbutton.hover();
-      page.locator(`#sf-${field}-${direction}-opt`).click();
+    selectSortSuggestion: async (field: string, direction: SortDirection) => {
+      await sortSelectionbutton.hover();
+      await page.locator(`#sf-${field}-${direction}-opt`).click();
+    },
+
+    selectFieldSuggestion: async (field: string) => {
+      await fieldSelectionButton.hover();
+      await page.locator(`#sf-${field}-opt`).click();
     }
+
+
   }
 }

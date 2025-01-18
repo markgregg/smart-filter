@@ -33,6 +33,7 @@ export const SmartFilterAgGrid = () => {
         : { ...p, [pv[0]]: pv[1] }
     }, {});
   }, []);
+  console.log(queryParams);
 
   const handleChange = React.useCallback((
     newMatchers: Matcher[],
@@ -71,7 +72,7 @@ export const SmartFilterAgGrid = () => {
   );
 
   const style = queryParams.width
-    ? { width: queryParams.width }
+    ? { width: `${queryParams.width}px` }
     : undefined;
 
   return (
