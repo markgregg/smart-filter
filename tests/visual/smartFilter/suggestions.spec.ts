@@ -173,7 +173,7 @@ Scenario(
   async ({
     smartFilterPage: {
       searchBox,
-      innerFilterBar,
+      filterBar,
       use,
       pause,
       enterAndSelectItemInSearchBox,
@@ -195,7 +195,7 @@ Scenario(
     });
 
     await Then('the pills value is removed', async () => {
-      await expect(innerFilterBar).toHaveScreenshot('pill-has-no-value.png');
+      await expect(filterBar).toHaveScreenshot('pill-has-no-value.png');
     });
   }
 );

@@ -418,6 +418,12 @@ export const createClientApi = (
           );
         };
       }
+      if (matcher.value === null) {
+        return (row) => {
+          const value = getStringValue(row.data);
+          return !value;
+        }
+      }
       return (row) => {
         const value = getStringValue(row.data);
         if (Array.isArray(value)) {
@@ -540,6 +546,9 @@ export const createClientApi = (
       return null;
     }
     if (matcher.type === 'r') {
+      if (matcher.value === null || matcher.valueTo === null) {
+        return () => false;
+      }
       return (row) => {
         const value = valueGetter<number | undefined>(row.data);
         return (
@@ -549,7 +558,12 @@ export const createClientApi = (
         );
       };
     }
-
+    if (matcher.value === null) {
+      return (row: any) => {
+        const value = valueGetter<number | undefined>(row.data);
+        return !value;
+      }
+    }
     const compareNumber =
       (
         valueValuePredicate: (x: number, y: number) => boolean,
@@ -619,6 +633,9 @@ export const createClientApi = (
       return null;
     }
     if (matcher.type === 'r') {
+      if (matcher.value === null || matcher.valueTo === null) {
+        return () => false;
+      }
       return (row) => {
         const value = valueGetter<Date | undefined>(row.data);
         return (
@@ -627,6 +644,12 @@ export const createClientApi = (
           value.getTime() < matcher.valueTo.getTime()
         );
       };
+    }
+    if (matcher.value === null) {
+      return (row: any) => {
+        const value = valueGetter<Date | undefined>(row.data);
+        return !value;
+      }
     }
     const compareDate =
       (
@@ -697,8 +720,11 @@ export const createClientApi = (
       return null;
     }
     if (matcher.type === 'r') {
+      if (matcher.value === null || matcher.valueTo === null) {
+        return () => false;
+      }
       return (row) => {
-        const value = valueGetter<Date | undefined>(row.data);
+        const value = valueGetter<string | undefined>(row.data);
         if (!value) {
           return false;
         }
@@ -708,6 +734,12 @@ export const createClientApi = (
           dateV.isBefore(moment(matcher.valueTo))
         );
       };
+    }
+    if (matcher.value === null) {
+      return (row: any) => {
+        const value = valueGetter<string | undefined>(row.data);
+        return !value;
+      }
     }
     const compareDateString =
       (
@@ -780,6 +812,12 @@ export const createClientApi = (
   ): FilterFunction | null => {
     if (matcher.type === 'a' || matcher.type === 'r') {
       return null;
+    }
+    if (matcher.value === null) {
+      return (row: any) => {
+        const value = <boolean | undefined>valueGetter(row.data);
+        return !value;
+      }
     }
     switch (matcher.comparison) {
       case '=':

@@ -413,9 +413,18 @@ const constructTextFilter = (
         );
       };
     }
+    if (matcher.value === null) {
+      return (row: any) => {
+        const value = getStringValue(row);
+        return !value;
+      }
+    }
     return (row: any) => {
       const value = getStringValue(row);
       if (Array.isArray(value)) {
+        if (!matcher.value) {
+          return false;
+        }
         return arrayValuePredicate(value, matcher.value.toLocaleUpperCase());
       }
       return (
@@ -535,6 +544,9 @@ const constructNumberFilter = (
     return null;
   }
   if (matcher.type === 'r') {
+    if (matcher.value === null || matcher.valueTo === null) {
+      return () => false;
+    }
     return (row: any) => {
       const value = valueGetter(row);
       return (
@@ -545,6 +557,12 @@ const constructNumberFilter = (
     };
   }
 
+  if (matcher.value === null) {
+    return (row: any) => {
+      const value = valueGetter(row);
+      return !value;
+    }
+  }
   const compareNumber =
     (
       valueValuePredicate: (x: number, y: number) => boolean,
@@ -614,6 +632,9 @@ const constructDateFilter = (
     return null;
   }
   if (matcher.type === 'r') {
+    if (matcher.value === null || matcher.valueTo === null) {
+      return () => false;
+    }
     return (row: any) => {
       const value = valueGetter(row);
       return (
@@ -622,6 +643,12 @@ const constructDateFilter = (
         value.getTime() < matcher.valueTo.getTime()
       );
     };
+  }
+  if (matcher.value === null) {
+    return (row: any) => {
+      const value = valueGetter(row);
+      return !value;
+    }
   }
   const compareDate =
     (
@@ -692,6 +719,9 @@ const constructDateStringFilter = (
     return null;
   }
   if (matcher.type === 'r') {
+    if (matcher.value === null || matcher.valueTo === null) {
+      return () => false;
+    }
     return (row: any) => {
       const value = valueGetter(row);
       if (!value) {
@@ -703,6 +733,12 @@ const constructDateStringFilter = (
         dateV.isBefore(moment(matcher.valueTo, 'YYYY-MM-DD', true))
       );
     };
+  }
+  if (matcher.value === null) {
+    return (row: any) => {
+      const value = valueGetter(row);
+      return !value;
+    }
   }
   const compareDateString =
     (
@@ -775,6 +811,12 @@ const constructBooleanFilter = (
 ): FilterFunction | null => {
   if (matcher.type === 'a' || matcher.type === 'r') {
     return null;
+  }
+  if (matcher.value === null) {
+    return (row: any) => {
+      const value = valueGetter(row);
+      return !value;
+    }
   }
   switch (matcher.comparison) {
     case '=':
