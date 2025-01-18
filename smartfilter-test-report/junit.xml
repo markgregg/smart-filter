@@ -1,30 +1,30 @@
-<testsuites id="" name="" tests="8" failures="1" skipped="0" errors="0" time="102.04370399999999">
-<testsuite name="smartFilter\basic.spec.ts" timestamp="2025-01-18T08:28:24.323Z" hostname="chromium" tests="7" failures="1" skipped="0" time="72.383" errors="0">
-<testcase name="All icons are shown when enabled" classname="smartFilter\basic.spec.ts" time="11.643">
+<testsuites id="" name="" tests="8" failures="1" skipped="0" errors="0" time="83.382662">
+<testsuite name="smartFilter\basic.spec.ts" timestamp="2025-01-18T08:40:02.706Z" hostname="chromium" tests="7" failures="1" skipped="0" time="80.775" errors="0">
+<testcase name="All icons are shown when enabled" classname="smartFilter\basic.spec.ts" time="15.206">
 </testcase>
-<testcase name="All icons are hidden when not enabled" classname="smartFilter\basic.spec.ts" time="10.131">
+<testcase name="All icons are hidden when not enabled" classname="smartFilter\basic.spec.ts" time="18.44">
 </testcase>
-<testcase name="Filterbar has blue border when inner element has focus" classname="smartFilter\basic.spec.ts" time="8.098">
+<testcase name="Filterbar has blue border when inner element has focus" classname="smartFilter\basic.spec.ts" time="8.118">
 </testcase>
-<testcase name="The expand icon is disabled when content too small" classname="smartFilter\basic.spec.ts" time="6.783">
+<testcase name="The expand icon is disabled when content too small" classname="smartFilter\basic.spec.ts" time="7.246">
 </testcase>
-<testcase name="The expand icon highlights when content is bigger than control area " classname="smartFilter\basic.spec.ts" time="13.138">
+<testcase name="The expand icon highlights when content is bigger than control area " classname="smartFilter\basic.spec.ts" time="11.944">
 </testcase>
-<testcase name="Clicking the expand extends the filter bar" classname="smartFilter\basic.spec.ts" time="13.454">
-<failure message="basic.spec.ts:112:1 Clicking the expand extends the filter bar" type="FAILURE">
-<![CDATA[  [chromium] › smartFilter\basic.spec.ts:112:1 › Clicking the expand extends the filter bar ─────
+<testcase name="Clicking the expand extends the filter bar" classname="smartFilter\basic.spec.ts" time="12.985">
+<failure message="basic.spec.ts:113:1 Clicking the expand extends the filter bar" type="FAILURE">
+<![CDATA[  [chromium] › smartFilter\basic.spec.ts:113:1 › Clicking the expand extends the filter bar ─────
 
     Error: A snapshot doesn't exist at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\basic.spec.ts-snapshots\expanded-filter-bar-chromium-win32.png, writing actual.
 
-      134 |
-      135 |     await Then('the fitlerbar gows to show all content', async () => {
-    > 136 |       await expect(expandIcon).toHaveScreenshot('expanded-filter-bar.png');
+      138 |
+      139 |     await Then('the fitlerbar gows to show all content', async () => {
+    > 140 |       await expect(innerFilterBar).toHaveScreenshot('expanded-filter-bar.png');
           |       ^
-      137 |     })
-      138 |   }
-      139 | )
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\basic.spec.ts:136:7
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\basic.spec.ts:135:5
+      141 |     })
+      142 |   }
+      143 | )
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\basic.spec.ts:140:7
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\basic.spec.ts:139:5
 
     attachment #1: expanded-filter-bar-expected.png (image/png) ─────────────────────────────────
     tests\visual\smartFilter\basic.spec.ts-snapshots\expanded-filter-bar-chromium-win32.png
@@ -43,11 +43,11 @@
 ]]>
 </system-out>
 </testcase>
-<testcase name="The clear button clears all content" classname="smartFilter\basic.spec.ts" time="9.136">
+<testcase name="The clear button clears all content" classname="smartFilter\basic.spec.ts" time="6.836">
 </testcase>
 </testsuite>
-<testsuite name="smartFilter\suggestions.spec.ts" timestamp="2025-01-18T08:28:24.323Z" hostname="chromium" tests="1" failures="0" skipped="0" time="7.693" errors="0">
-<testcase name="Dropdown suggestions are shown when mouse over" classname="smartFilter\suggestions.spec.ts" time="7.693">
+<testsuite name="smartFilter\suggestions.spec.ts" timestamp="2025-01-18T08:40:02.706Z" hostname="chromium" tests="1" failures="0" skipped="0" time="7.229" errors="0">
+<testcase name="Dropdown suggestions are shown when mouse over" classname="smartFilter\suggestions.spec.ts" time="7.229">
 </testcase>
 </testsuite>
 </testsuites>

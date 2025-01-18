@@ -3,6 +3,7 @@ import { Locator, Page } from "@playwright/test"
 
 export interface SmartFilterPage {
   readonly filterBar: Locator,
+  readonly innerFilterBar: Locator,
 
   readonly suggestions: Locator,
 
@@ -22,6 +23,7 @@ export interface SmartFilterPage {
 
 export const createSmartFilterPage = (page: Page): SmartFilterPage => {
   const filterBar = page.locator('#sf-filter-bar');
+  const innerFilterBar = page.locator('#sf-inner-filter-bar');
 
   const suggestions = page.locator('#sf-suggestions');
 
@@ -35,6 +37,7 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
 
   return {
     filterBar,
+    innerFilterBar,
     suggestions,
     expandIcon,
     clearIcon,

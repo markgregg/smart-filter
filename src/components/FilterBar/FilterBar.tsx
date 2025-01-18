@@ -266,6 +266,7 @@ export const FilterBar = React.memo(() => {
       onKeyDown={handleKeyDown}
     >
       <div
+        id="sf-inner-filter-bar"
         className={[
           s.searchBarInner,
           expanded ? s.multiLineSearchBar : '',

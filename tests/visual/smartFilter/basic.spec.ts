@@ -115,7 +115,7 @@ Scenario(
   async ({
     smartFilterPage: {
       expandIcon,
-      filterBar,
+      innerFilterBar,
       enterAndSelectItemInSearchBox,
       use,
     },
@@ -127,7 +127,9 @@ Scenario(
     await When('the pills take more space than the filterbar', async () => {
       await enterAndSelectItemInSearchBox('XS1');
       await enterAndSelectItemInSearchBox('GBP');
+      await enterAndSelectItemInSearchBox('*bank');
       await enterAndSelectItemInSearchBox('XS1');
+      await enterAndSelectItemInSearchBox('EUR');
     });
 
     await And('the expand icon is clicked', async () => {
@@ -135,7 +137,7 @@ Scenario(
     });
 
     await Then('the fitlerbar gows to show all content', async () => {
-      await expect(filterBar).toHaveScreenshot('expanded-filter-bar.png');
+      await expect(innerFilterBar).toHaveScreenshot('expanded-filter-bar.png');
     })
   }
 )
