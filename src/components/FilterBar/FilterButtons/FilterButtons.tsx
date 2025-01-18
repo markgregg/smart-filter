@@ -63,25 +63,25 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
 
   const buttons = [
     {
-      id: 'clear',
+      id: 'sf-clear-icon',
       Icon: MdOutlineClear,
       onClick: handleClearClick,
       hide: false,
     },
     {
-      id: 'undo',
+      id: 'sf-undo-icon',
       Icon: CgUndo,
       onClick: handleUndoClick,
       hide: !showUndoIcon,
     },
     {
-      id: 'lock',
+      id: 'sf-lock-icon',
       Icon: locked ? AiFillLock : AiFillUnlock,
       onClick: handleLockClick,
       hide: !allowLocking,
     },
     {
-      id: 'expand',
+      id: 'sf-expand-icon',
       Icon: expanded ? FaCaretUp : FaCaretDown,
       onClick: handleExpandClick,
       disabled: !enableExpand,
@@ -97,6 +97,7 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
         .filter((b) => !b.hide)
         .map((b) => (
           <Button
+            id={b.id}
             key={b.id}
             onClick={b.onClick}
             height={buttonHeight}

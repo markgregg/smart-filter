@@ -104,7 +104,10 @@ export const FieldSelection = React.memo(
     return (
       <div className={s.fieldSelection} onMouseLeave={handleHideFields}>
         <Tooltip caption={showSort ? 'Add Sort Field' : 'Add Field'}>
-          <div className={[s.addFieldIcon, s[`icon-${size}`]].join(' ')} onMouseEnter={handleShowFields}>
+          <div
+            id={showSort ? 'sf-sort-selection-button' : 'sf-filter-selection-button'}
+            className={[s.addFieldIcon, s[`icon-${size}`]].join(' ')}
+            onMouseEnter={handleShowFields}>
             {showSort ? <BiSort /> : <MdAddBox />}
           </div>
         </Tooltip>

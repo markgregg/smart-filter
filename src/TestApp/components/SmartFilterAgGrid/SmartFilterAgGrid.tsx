@@ -70,12 +70,19 @@ export const SmartFilterAgGrid = () => {
     []
   );
 
+  const style = queryParams.width
+    ? { width: queryParams.width }
+    : undefined;
+
   return (
     <div
       className={s.smartFilterAgGridPage}
     >
       <h4>Smart Filter AgGrid</h4>
-      <div className={s.filterBar}>
+      <div
+        className={s.filterBar}
+        style={style}
+      >
         <SmartFilterAgGridCompoent
           matchers={matchers}
           onChange={handleChange}

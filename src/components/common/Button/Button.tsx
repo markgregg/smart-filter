@@ -5,6 +5,7 @@ import { useConfig } from '@/state/useState';
 
 interface ButtonProps {
   children: JSX.Element | string;
+  id?: string;
   onClick: () => void;
   height?: string | number;
   width?: string | number;
@@ -19,6 +20,7 @@ interface ButtonProps {
 export const Button = React.memo(
   ({
     children,
+    id,
     onClick,
     height,
     width,
@@ -53,6 +55,7 @@ export const Button = React.memo(
 
     return (
       <button
+        id={id}
         type="button"
         className={[s.button, s[`font-${size}`]].join(' ')}
         onClick={handleClick}

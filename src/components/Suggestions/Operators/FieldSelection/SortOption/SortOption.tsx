@@ -13,6 +13,9 @@ interface SortOptionProps {
 }
 
 export const SortOption = React.memo(({ field, onSelect }: SortOptionProps) => {
+  const sortAscId = React.useMemo(() => `sf-${field.name}-asc-opt`, [field]);
+  const sortDescId = React.useMemo(() => `sf-${field.name}-desc-opt`, [field]);
+
   const maxWidth =
     useConfig((state) => state.optionWidth) ?? DEFAULT_SORT_OPTION_WIDTH;
   const sort = useSort((state) => state.sort);
@@ -41,6 +44,7 @@ export const SortOption = React.memo(({ field, onSelect }: SortOptionProps) => {
       </div>
       <div className={s.sortButtons}>
         <Button
+          id={sortAscId}
           onClick={handleAscClick}
           height={26}
           width={26}
@@ -49,6 +53,7 @@ export const SortOption = React.memo(({ field, onSelect }: SortOptionProps) => {
           <RiSortAsc />
         </Button>
         <Button
+          id={sortDescId}
           onClick={handleDescClick}
           height={26}
           width={26}

@@ -51,12 +51,19 @@ export const SmartFilter = () => {
     setRowData(newData);
   }, [sort, matchers, setRowData]);
 
+  const style = queryParams.width
+    ? { width: queryParams.width }
+    : undefined;
+
   return (
     <div
       className={s.smartFilterPage}
     >
       <h4>Smart Filter</h4>
-      <div className={s.filterBar}>
+      <div
+        className={s.filterBar}
+        style={style}
+      >
         <SmartFilterComponent
           matchers={matchers}
           onChange={handleChange}

@@ -229,6 +229,7 @@ export const SearchBox = React.memo(
 
     return (
       <input
+        id="sf-search-box"
         ref={inputRef}
         className={[s.searchBox, s[`font-${size}`]].join(' ')}
         type="text"
