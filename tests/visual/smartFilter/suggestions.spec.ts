@@ -11,7 +11,7 @@ Scenario(
     },
   }) => {
     await Given('the SmartFilter test page is shown', async () => {
-      await use('smartfilteraggrid?noIcons');
+      await use('smartfilter?noIcons');
     });
 
     await When('the mouse is over the filterbar', async () => {
@@ -20,9 +20,9 @@ Scenario(
 
     await Then('the suggestions are shown as in the screenshot', async () => {
       await expect(suggestions).toHaveScreenshot('suggestions-shown-on-hover.png');
-    })
+    });
   }
-)
+);
 
 Scenario(
   'A pill is created when a field option is clicked',
@@ -32,23 +32,25 @@ Scenario(
       filterBar,
       selectFieldSuggestion,
       use,
+      pause,
     },
   }) => {
     await Given('the SmartFilter test page is shown andthe suggestion panel is visible', async () => {
-      await use('smartfilteraggrid');
+      await use('smartfilter');
       await searchBox.click();
 
     });
 
     await When('a field option is selected', async () => {
       await selectFieldSuggestion('maturityDate');
+      await pause(50);
     });
 
     await Then('the field pill is shown in the filterbar', async () => {
       await expect(filterBar).toHaveScreenshot('filter-bar-has-field-option.png');
-    })
+    });
   }
-)
+);
 
 Scenario(
   'A pill is created when a sort option is clicked',
@@ -58,23 +60,25 @@ Scenario(
       filterBar,
       selectSortSuggestion,
       use,
+      pause,
     },
   }) => {
     await Given('the SmartFilter test page is shown andthe suggestion panel is visible', async () => {
-      await use('smartfilteraggrid');
+      await use('smartfilter');
       await searchBox.click();
 
     });
 
     await When('a field option is selected', async () => {
       await selectSortSuggestion('maturityDate', 'desc');
+      await pause(50);
     });
 
     await Then('the sort pill is shown in the filterbar', async () => {
       await expect(filterBar).toHaveScreenshot('filter-bar-has-sort-option.png');
-    })
+    });
   }
-)
+);
 
 Scenario(
   'Brackets pills are created when brackets are selected',
@@ -84,24 +88,26 @@ Scenario(
       filterBar,
       selectOperatorBarItemSuggestion,
       use,
+      pause,
     },
   }) => {
     await Given('the SmartFilter test page is shown andthe suggestion panel is visible', async () => {
-      await use('smartfilteraggrid');
+      await use('smartfilter');
       await searchBox.click();
 
     });
 
     await When('brackets are selected', async () => {
       await selectOperatorBarItemSuggestion('open');
+      await pause(50);
       await selectOperatorBarItemSuggestion('close');
     });
 
     await Then('the brackets appear as pills', async () => {
       await expect(filterBar).toHaveScreenshot('brackets-as-pills.png');
-    })
+    });
   }
-)
+);
 
 Scenario(
   'Suggestions change when a pill is selected',
@@ -111,24 +117,24 @@ Scenario(
       suggestions,
       use,
       enterAndSelectItemInSearchBox,
-      selectPill,
+      pause,
     },
   }) => {
-    await Given('the SmartFilter test page is shown andthe suggestion panel is visible', async () => {
-      await use('smartfilteraggrid');
+    await Given('the SmartFilter test page is shown and the suggestion panel is visible', async () => {
+      await use('smartfilter');
       await searchBox.click();
     });
 
     await When('a pill is selected', async () => {
       await enterAndSelectItemInSearchBox('XS1');
-      await selectPill(0);
+      await pause(50);
     });
 
     await Then('the suggestions dropdown shows only field options', async () => {
       await expect(suggestions).toHaveScreenshot('field-options.png');
-    })
+    });
   }
-)
+);
 
 Scenario(
   'Selecting an operator applies the operator to the pill',
@@ -138,82 +144,82 @@ Scenario(
       filterBar,
       use,
       enterAndSelectItemInSearchBox,
-      selectPill,
       selectOperatorBarItemSuggestion,
+      pause,
     },
   }) => {
     await Given('the SmartFilter test page is shown and the suggestion panel is visible', async () => {
-      await use('smartfilteraggrid');
+      await use('smartfilter');
       await searchBox.click();
     });
 
     await When('a pill is selected', async () => {
       await enterAndSelectItemInSearchBox('XS1');
-      await selectPill(0);
     });
 
     await And('the not comparison is selected', async () => {
       await selectOperatorBarItemSuggestion('ne')
+      await pause(50);
     });
 
     await Then('the comparison operator is applied to the pill', async () => {
       await expect(filterBar).toHaveScreenshot('not-applied-to-field.png');
-    })
+    });
   }
-)
+);
 
 Scenario(
   'Selecting empty removes the pills value',
   async ({
     smartFilterPage: {
       searchBox,
-      filterBar,
+      innerFilterBar,
       use,
+      pause,
       enterAndSelectItemInSearchBox,
-      selectPill,
       selectOperatorBarItemSuggestion,
     },
   }) => {
     await Given('the SmartFilter test page is shown and the suggestion panel is visible', async () => {
-      await use('smartfilteraggrid');
+      await use('smartfilter');
       await searchBox.click();
     });
 
     await When('a pill is selected', async () => {
       await enterAndSelectItemInSearchBox('XS1');
-      await selectPill(0);
     });
 
     await And('the empty option is selected', async () => {
-      await selectOperatorBarItemSuggestion('ne')
+      await selectOperatorBarItemSuggestion('empty');
+      await pause(50);
     });
 
     await Then('the pills value is removed', async () => {
-      await expect(filterBar).toHaveScreenshot('pill-has-no-value.png');
-    })
+      await expect(innerFilterBar).toHaveScreenshot('pill-has-no-value.png');
+    });
   }
-)
+);
 
 Scenario(
-  'Selecting list removes turns the pills into a list',
+  'Selecting list turns the pills into a list',
   async ({
     smartFilterPage: {
       searchBox,
       filterBar,
       use,
+      pause,
       enterAndSelectItemInSearchBox,
-      selectPill,
       selectOperatorBarItemSuggestion,
     },
   }) => {
     await Given('the SmartFilter test page is shown and the suggestion panel is visible', async () => {
-      await use('smartfilteraggrid');
+      await use('smartfilter');
       await searchBox.click();
     });
 
     await When('a pill is selected', async () => {
       await enterAndSelectItemInSearchBox('XS1');
-      await selectPill(0);
+      await pause(50);
     });
 
     await And('the list option is selected', async () => {
@@ -222,31 +228,31 @@ Scenario(
 
     await Then('the pills is transformed into a list', async () => {
       await expect(filterBar).toHaveScreenshot('pill-is-a-list.png');
-    })
+    });
   }
-)
+);
 
 
 Scenario(
-  'Selecting range removes turns the pills into a range',
+  'Selecting range turns the pills into a range',
   async ({
     smartFilterPage: {
       searchBox,
       filterBar,
       use,
+      pause,
       enterAndSelectItemInSearchBox,
-      selectPill,
       selectOperatorBarItemSuggestion,
     },
   }) => {
     await Given('the SmartFilter test page is shown and the suggestion panel is visible', async () => {
-      await use('smartfilteraggrid');
+      await use('smartfilter');
       await searchBox.click();
     });
 
     await When('a pill is selected', async () => {
       await enterAndSelectItemInSearchBox('0.5');
-      await selectPill(0);
+      await pause(50);
     });
 
     await And('the range option is selected', async () => {
@@ -257,28 +263,31 @@ Scenario(
       await expect(filterBar).toHaveScreenshot('pill-is-a-range.png');
     })
   }
-)
+);
 
 Scenario(
-  'Selecting or removes adds the or operator',
+  "Selecting 'or' adds the or operator",
   async ({
     smartFilterPage: {
       searchBox,
       filterBar,
       use,
+      pause,
       enterAndSelectItemInSearchBox,
       selectPill,
       selectOperatorBarItemSuggestion,
     },
   }) => {
     await Given('the SmartFilter test page is shown and the suggestion panel is visible', async () => {
-      await use('smartfilteraggrid');
+      await use('smartfilter');
       await searchBox.click();
     });
 
     await When('a pill is selected', async () => {
       await enterAndSelectItemInSearchBox('5');
+      await pause(50);
       await enterAndSelectItemInSearchBox('GBP');
+      await pause(50);
       await selectPill(1);
     });
 
@@ -290,25 +299,27 @@ Scenario(
       await expect(filterBar).toHaveScreenshot('pill-has-or-operator.png');
     })
   }
-)
+);
 
 Scenario(
   'Selecting group shows all group hints',
   async ({
     smartFilterPage: {
       searchBox,
-      suggestions,
       use,
+      pause,
       selectHintGroup,
+      suggestions,
     },
   }) => {
     await Given('the SmartFilter test page is shown and the suggestion panel is visible', async () => {
-      await use('smartfilteraggrid');
+      await use('smartfilter');
       await searchBox.click();
     });
 
     await When('a hint group is selected', async () => {
       await selectHintGroup('Maturity');
+      await pause(50);
     });
 
     await Then('the all items for group are shown', async () => {
@@ -324,16 +335,18 @@ Scenario(
       searchBox,
       filterBar,
       use,
+      pause,
       selectHintItem,
     },
   }) => {
     await Given('the SmartFilter test page is shown and the suggestion panel is visible', async () => {
-      await use('smartfilteraggrid');
+      await use('smartfilter');
       await searchBox.click();
     });
 
     await When('a hint group is selected', async () => {
-      await selectHintItem('Maturity', 1);
+      await selectHintItem('maturityDate', 1);
+      await pause(50);
     });
 
     await Then('the all items for group are shown', async () => {

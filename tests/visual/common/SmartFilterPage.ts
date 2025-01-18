@@ -16,6 +16,7 @@ export interface SmartFilterPage {
   readonly searchBox: Locator;
 
   use: (example: string) => void;
+  pause: (milliseconds: number) => void;
   enterAndSelectItemInSearchBox: (text: string) => void;
   selectSortSuggestion: (field: string, direction: SortDirection) => void;
   selectFieldSuggestion: (field: string) => void;
@@ -51,6 +52,8 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
 
     use: async (example: string) => await page.goto(`/${example}`),
 
+    pause: async (milliseconds: number) => await page.waitForTimeout(milliseconds),
+
     enterAndSelectItemInSearchBox: async (text: string) => {
       await searchBox.click();
       await searchBox.fill(text);
@@ -60,28 +63,52 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
     /* sugestions start */
     selectSortSuggestion: async (field: string, direction: SortDirection) => {
       await sortSelectionbutton.hover();
-      await page.locator(`#sf-${field}-${direction}-opt`).click();
+      const sortOpt = await page.locator(`#sf-${field}-${direction}-opt`);
+      if (!sortOpt) {
+        throw Error(`${sortOpt} cannot be found`);
+      }
+      await sortOpt.click();
     },
 
     selectFieldSuggestion: async (field: string) => {
       await fieldSelectionButton.hover();
-      await page.locator(`#sf-${field}-opt`).click();
+      const fieldOpt = page.locator(`#sf-${field}-opt`);
+      if (!fieldOpt) {
+        throw Error(`${fieldOpt} cannot be found`);
+      }
+      await fieldOpt.click();
     },
 
     selectOperatorBarItemSuggestion: async (option: string) => {
-      await page.locator(`#sf-${option}-operator`).click();
+      const operator = await page.locator(`#sf-${option}-operator`);
+      if (!operator) {
+        throw Error(`${operator} cannot be found`);
+      }
+      operator.click();
     },
 
     selectPill: async (index: number) => {
-      await page.locator(`#sf-${index}-pill`).click();
+      const pills = await page.$$('#sf-pill-content');
+      if (index > pills.length) {
+        throw Error(`${index} higher than number of pills (${pills.length})`);
+      }
+      pills[index].click();
     },
 
     selectHintGroup: async (group: string) => {
-      await page.locator(`#sf-${group}-group`).click();
+      const hintGroup = await page.locator(`#sf-${group}-group`);
+      if (!hintGroup) {
+        throw Error(`${hintGroup} cannot be found`);
+      }
+      hintGroup.click();
     },
 
     selectHintItem: async (group: string, index: number) => {
-      (await page.$$(`#sf-${group}-item[${index}]`)).at(index)?.click();
+      const hints = await page.$$(`#sf-${group}-item`);
+      if (index > hints.length) {
+        throw Error(`${index} higher than number of hints (${hints.length})`);
+      }
+      hints[index].click();
     },
     /* sugestions end */
   }

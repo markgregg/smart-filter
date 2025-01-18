@@ -34,7 +34,7 @@ export interface Field {
   max?: number | string | Date;
   /* increments when clicking up or down */
   increments?: number;
-  /* order in which two equal items will appear in the suggestions list */
+  /* order in which two equal items will appear in the suggestions list, the higher the value greater is precedence */
   precedence?: number;
   /* the number of times the pill can be entered */
   instanceLimit?: number;

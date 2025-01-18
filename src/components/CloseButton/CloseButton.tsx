@@ -9,7 +9,7 @@ interface CloseButtonProps {
 }
 
 export const CloseButton = React.memo(({ onClick }: CloseButtonProps) => (
-  <div id="pill-close" className={s.closeButton}>
+  <div id="sf-pill-close" className={s.closeButton}>
     <Button
       onClick={onClick}
       height={12}

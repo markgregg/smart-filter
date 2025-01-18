@@ -265,7 +265,6 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
 
   return (
     <div
-      id={`sf-${index}-pill`}
       className={[s.pill, s[size]].join(' ')}
       ref={pillRef}
       tabIndex={index}
@@ -285,7 +284,7 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
           <Or matcher={matcher} />
         )}
       <div
-        id="pill-content"
+        id="sf-pill-content"
         className={[s.pillContent, s[size]].join(' ')}
         onClick={handleMatcherClicked}
         style={{

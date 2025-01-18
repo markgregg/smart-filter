@@ -12,7 +12,6 @@ import s from './style.module.less';
 import { VALUE, VALUE_ARRAY, VALUE_TO } from '@/util/constants';
 
 export interface HintItemsProps {
-  group: string;
   field: string;
   hintSource: Hint[] | (() => Hint[]);
   showAll?: boolean;
@@ -67,7 +66,7 @@ const containsHint = (field: string, hint: Hint, matcher: Matcher): boolean => {
 };
 
 export const HintItems = React.memo(
-  ({ group, field, hintSource, showAll }: HintItemsProps) => {
+  ({ field, hintSource, showAll }: HintItemsProps) => {
     const {
       hints: { hintsPerColumn = 3, hintWidth: width = 90 } = {},
       fieldMap,
@@ -189,7 +188,7 @@ export const HintItems = React.memo(
             // @ts-expect-error key is not exposed to the user and is automatically add in the config
             <div key={key}>
               <Button
-                id={`sf-${group}-item`}
+                id={`sf-${field}-item`}
                 onClick={() => handleValueClick(h)}
                 style={{ paddingBlock: 0, paddingInline: 0 }}
               >

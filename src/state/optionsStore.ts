@@ -412,7 +412,7 @@ const optionSort = (
     ('displayText' in y.option ? y.option.displayText : y.option.text).length -
     (matchedText?.length ?? 0),
   );
-  return xdiff === ydiff ? x.precedence - y.precedence : xdiff - ydiff;
+  return xdiff === ydiff ? (x.precedence - y.precedence) * -1 : xdiff - ydiff;
 };
 
 const matchType = (buildState: BuildState, field: Field) => {

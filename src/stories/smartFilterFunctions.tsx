@@ -60,7 +60,6 @@ export const fields: Field[] = [
       },
     ],
     allowBlanks: true,
-    instanceLimit: 1,
   },
   {
     name: 'currency',
@@ -82,6 +81,7 @@ export const fields: Field[] = [
     dateTimeFormat: 'YYYY-MM-DD',
     allowRange: true,
     allowBlanks: true,
+    precedence: 8,
   },
   {
     name: 'maturityDate',
@@ -91,6 +91,7 @@ export const fields: Field[] = [
     dateTimeFormat: 'YYYY-MM-DD',
     allowRange: true,
     allowBlanks: true,
+    precedence: 9,
   },
   {
     name: 'coupon',
@@ -99,6 +100,7 @@ export const fields: Field[] = [
     editorType: 'float',
     allowRange: true,
     allowBlanks: true,
+    precedence: 7,
   },
   {
     name: 'issuer',
@@ -115,6 +117,7 @@ export const fields: Field[] = [
     editorType: 'float',
     allowRange: true,
     allowBlanks: true,
+    precedence: 6,
   },
   {
     name: 'active',
@@ -122,6 +125,7 @@ export const fields: Field[] = [
     operators: defaultComparisons,
     editorType: 'bool',
     allowBlanks: true,
+    precedence: 10,
   },
   {
     name: 'sector',

@@ -29,7 +29,7 @@ Scenario(
     },
   }) => {
     await Given('the SmartFilter test page is shown', async () => {
-      await use('smartfilteraggrid?noIcons');
+      await use('smartfilter?noIcons');
     });
 
     await Then('the Smart Filter mathces valid screenshot', async () => {
@@ -47,7 +47,7 @@ Scenario(
     },
   }) => {
     await Given('the SmartFilter test page is shown', async () => {
-      await use('smartfilteraggrid');
+      await use('smartfilter');
     });
 
     await When('the mouse is over the filterbar', async () => {
@@ -69,7 +69,7 @@ Scenario(
     },
   }) => {
     await Given('the SmartFilter test page is shown', async () => {
-      await use('smartfilteraggrid');
+      await use('smartfilter');
     });
 
     await When('the mouse is over the filterbar', async () => {
@@ -92,7 +92,7 @@ Scenario(
     },
   }) => {
     await Given('the SmartFilter test page is shown', async () => {
-      await use('smartfilteraggrid?width=400');
+      await use('smartfilter?width=400');
     });
 
     await When('the pills take more space than the filterbar', async () => {
@@ -121,7 +121,7 @@ Scenario(
     },
   }) => {
     await Given('the SmartFilter test page is shown', async () => {
-      await use('smartfilteraggrid?width=400');
+      await use('smartfilter?width=400');
     });
 
     await When('the pills take more space than the filterbar', async () => {
@@ -138,9 +138,9 @@ Scenario(
 
     await Then('the fitlerbar gows to show all content', async () => {
       await expect(innerFilterBar).toHaveScreenshot('expanded-filter-bar.png');
-    })
+    });
   }
-)
+);
 
 Scenario(
   'The clear button clears all content',
@@ -154,7 +154,7 @@ Scenario(
     },
   }) => {
     await Given('the SmartFilter test page is shown', async () => {
-      await use('smartfilteraggrid?width');
+      await use('smartfilter?width');
     });
 
     await When('pills are entered', async () => {
@@ -171,9 +171,9 @@ Scenario(
 
     await Then('the filterbar content is cleared', async () => {
       await expect(filterBar).toHaveScreenshot('filterbar-is-clear.png');
-    })
+    });
   }
-)
+);
 
 Scenario(
   'Filter bar is expanded when alarge size',
@@ -184,7 +184,7 @@ Scenario(
     },
   }) => {
     await Given('the SmartFilter test page is shown', async () => {
-      await use('smartfilteraggrid?size=large');
+      await use('smartfilter?size=large');
     });
 
     await When('the filterbar is clicked', async () => {
@@ -193,9 +193,9 @@ Scenario(
 
     await Then('the fitlerbar is shown at the correct size', async () => {
       await expect(innerFilterBar).toHaveScreenshot('large-filter-bar.png');
-    })
+    });
   }
-)
+);
 
 Scenario(
   'Filter bar is smaller when a compact size',
@@ -206,7 +206,7 @@ Scenario(
     },
   }) => {
     await Given('the SmartFilter test page is shown', async () => {
-      await use('smartfilteraggrid?size=compact');
+      await use('smartfilter?size=compact');
     });
 
     await When('the filterbar is clicked', async () => {
@@ -215,6 +215,6 @@ Scenario(
 
     await Then('the fitlerbar is shown at the correct size', async () => {
       await expect(innerFilterBar).toHaveScreenshot('compact-filter-bar.png');
-    })
+    });
   }
-)
+);

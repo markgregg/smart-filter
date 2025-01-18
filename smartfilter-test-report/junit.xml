@@ -1,75 +1,57 @@
-<testsuites id="" name="" tests="19" failures="1" skipped="0" errors="0" time="127.97966699999999">
-<testsuite name="smartFilter\basic.spec.ts" timestamp="2025-01-18T12:03:01.163Z" hostname="chromium" tests="9" failures="0" skipped="0" time="70.483" errors="0">
-<testcase name="All icons are shown when enabled" classname="smartFilter\basic.spec.ts" time="8.602">
+<testsuites id="" name="" tests="12" failures="1" skipped="0" errors="0" time="94.12687600000001">
+<testsuite name="smartFilter\suggestions.spec.ts" timestamp="2025-01-18T21:37:24.694Z" hostname="chromium" tests="12" failures="1" skipped="0" time="115.441" errors="0">
+<testcase name="Dropdown suggestions are shown when mouse over" classname="smartFilter\suggestions.spec.ts" time="8.466">
 </testcase>
-<testcase name="All icons are hidden when not enabled" classname="smartFilter\basic.spec.ts" time="7.538">
+<testcase name="A pill is created when a field option is clicked" classname="smartFilter\suggestions.spec.ts" time="13.202">
 </testcase>
-<testcase name="Filterbar has blue border when inner element has focus" classname="smartFilter\basic.spec.ts" time="6.787">
+<testcase name="A pill is created when a sort option is clicked" classname="smartFilter\suggestions.spec.ts" time="9.091">
 </testcase>
-<testcase name="The expand icon is disabled when content too small" classname="smartFilter\basic.spec.ts" time="7.996">
+<testcase name="Brackets pills are created when brackets are selected" classname="smartFilter\suggestions.spec.ts" time="8.172">
 </testcase>
-<testcase name="The expand icon highlights when content is bigger than control area " classname="smartFilter\basic.spec.ts" time="4.833">
+<testcase name="Suggestions change when a pill is selected" classname="smartFilter\suggestions.spec.ts" time="7.864">
 </testcase>
-<testcase name="Clicking the expand extends the filter bar" classname="smartFilter\basic.spec.ts" time="10.012">
+<testcase name="Selecting an operator applies the operator to the pill" classname="smartFilter\suggestions.spec.ts" time="7.224">
 </testcase>
-<testcase name="The clear button clears all content" classname="smartFilter\basic.spec.ts" time="9.628">
-</testcase>
-<testcase name="Filter bar is expanded when alarge size" classname="smartFilter\basic.spec.ts" time="7.96">
-</testcase>
-<testcase name="Filter bar is smaller when a compact size" classname="smartFilter\basic.spec.ts" time="7.127">
-</testcase>
-</testsuite>
-<testsuite name="smartFilter\suggestions.spec.ts" timestamp="2025-01-18T12:03:01.163Z" hostname="chromium" tests="10" failures="1" skipped="0" time="79.551" errors="0">
-<testcase name="Dropdown suggestions are shown when mouse over" classname="smartFilter\suggestions.spec.ts" time="6.553">
-</testcase>
-<testcase name="A pill is created when a field option is clicked" classname="smartFilter\suggestions.spec.ts" time="5.359">
-</testcase>
-<testcase name="A pill is created when a sort option is clicked" classname="smartFilter\suggestions.spec.ts" time="6.313">
-</testcase>
-<testcase name="Brackets pills are created when brackets are selected" classname="smartFilter\suggestions.spec.ts" time="6.583">
-</testcase>
-<testcase name="Suggestions change when a pill is selected" classname="smartFilter\suggestions.spec.ts" time="7.283">
-</testcase>
-<testcase name="Selecting an operator applies the operator to the pill" classname="smartFilter\suggestions.spec.ts" time="10.751">
-</testcase>
-<testcase name="Selecting empty removes the pills value" classname="smartFilter\suggestions.spec.ts" time="6.94">
-</testcase>
-<testcase name="Selecting list removes turns the pills into a list" classname="smartFilter\suggestions.spec.ts" time="9.923">
-</testcase>
-<testcase name="Selecting range removes turns the pills into a range" classname="smartFilter\suggestions.spec.ts" time="12.995">
-<failure message="suggestions.spec.ts:230:1 Selecting range removes turns the pills into a range" type="FAILURE">
-<![CDATA[  [chromium] › smartFilter\suggestions.spec.ts:230:1 › Selecting range removes turns the pills into a range 
+<testcase name="Selecting empty removes the pills value" classname="smartFilter\suggestions.spec.ts" time="30.31">
+<failure message="suggestions.spec.ts:171:1 Selecting empty removes the pills value" type="FAILURE">
+<![CDATA[  [chromium] › smartFilter\suggestions.spec.ts:171:1 › Selecting empty removes the pills value › Then the pills value is removed 
 
-    Error: A snapshot doesn't exist at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-is-a-range-chromium-win32.png, writing actual.
+    Test timeout of 30000ms exceeded.
 
-      255 |
-      256 |     await Then('the pills is transformed into a range', async () => {
-    > 257 |       await expect(filterBar).toHaveScreenshot('pill-is-a-range.png');
-          |       ^
-      258 |     })
-      259 |   }
-      260 | )
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:257:7
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:256:5
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for locator('#sf-search-box')
+        - locator resolved to <input value="" type="text" id="sf-search-box" placeholder="Enter text to search..." class="_searchBox_1rg62_1 _font-normal_1rg62_10"/>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+        - element is not stable
+      - retrying click action
+        - waiting for element to be visible, enabled and stable
+      - element was detached from the DOM, retrying
 
-    attachment #1: pill-is-a-range-expected.png (image/png) ──────────────
-    tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-is-a-range-chromium-win32.png
-    ──────────────────────────────────────────────────────────────────────
 
-    attachment #2: pill-is-a-range-actual.png (image/png) ────────────────
-    test-results\smartFilter-suggestions-Se-aa3d5-urns-the-pills-into-a-range-chromium\pill-is-a-range-actual.png
-    ──────────────────────────────────────────────────────────────────────
+      196 |
+      197 |     await Then('the pills value is removed', async () => {
+    > 198 |       await searchBox.click();
+          |                       ^
+      199 |       await expect(innerFilterBar).toHaveScreenshot('pill-has-no-value.png');
+      200 |     });
+      201 |   }
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:198:23
+        at Then (C:\Users\gregg\development\smart-filter\tests\visual\common\ghkerkin.ts:23:8)
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:197:11
 ]]>
 </failure>
-<system-out>
-<![CDATA[
-[[ATTACHMENT|..\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-is-a-range-chromium-win32.png]]
-
-[[ATTACHMENT|..\test-results\smartFilter-suggestions-Se-aa3d5-urns-the-pills-into-a-range-chromium\pill-is-a-range-actual.png]]
-]]>
-</system-out>
 </testcase>
-<testcase name="Selecting or removes adds the or operator" classname="smartFilter\suggestions.spec.ts" time="6.851">
+<testcase name="Selecting list turns the pills into a list" classname="smartFilter\suggestions.spec.ts" time="7.45">
+</testcase>
+<testcase name="Selecting range turns the pills into a range" classname="smartFilter\suggestions.spec.ts" time="6.127">
+</testcase>
+<testcase name="Selecting &apos;or&apos; adds the or operator" classname="smartFilter\suggestions.spec.ts" time="6.567">
+</testcase>
+<testcase name="Selecting group shows all group hints" classname="smartFilter\suggestions.spec.ts" time="5.266">
+</testcase>
+<testcase name="Selecting a hint creates a pill" classname="smartFilter\suggestions.spec.ts" time="5.702">
 </testcase>
 </testsuite>
 </testsuites>

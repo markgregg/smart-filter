@@ -8,7 +8,7 @@ export const clonePill = (pill: HTMLElement): HTMLElement => {
 
   const childrenToRemove: ChildNode[] = [];
   clonedPill.childNodes.forEach((child) => {
-    if (!('id' in child) || child.id !== 'pill-content') {
+    if (!('id' in child) || child.id !== 'sf-pill-content') {
       childrenToRemove.push(child);
     }
   });
@@ -16,7 +16,7 @@ export const clonePill = (pill: HTMLElement): HTMLElement => {
 
   const childrenToRemove2: ChildNode[] = [];
   clonedPill.firstChild?.childNodes.forEach((child) => {
-    if (!('id' in child) || child.id === 'pill-close') {
+    if (!('id' in child) || child.id === 'sf-pill-close') {
       childrenToRemove2.push(child);
     }
   });
