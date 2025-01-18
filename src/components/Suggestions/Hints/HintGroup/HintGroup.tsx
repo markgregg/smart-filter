@@ -38,8 +38,9 @@ export const HintGroup = React.memo(
       </div>
     );
 
-    const renderTooltipButton = (caption: string, Icon?: IconType) => (
+    const renderTooltipButton = (caption: string, title: string, Icon?: IconType) => (
       <TooltipButton
+        id={`sf-${title}-group`}
         caption={caption}
         style={{ paddingBlock: 0, paddingInline: 0 }}
         onClick={handleTitleClick}
@@ -50,10 +51,10 @@ export const HintGroup = React.memo(
 
     const render = () => {
       if (selected) {
-        return <>{renderTooltipButton(`Close ${title}`, TiArrowBack)}</>;
+        return <>{renderTooltipButton(`Close ${title}`, title, TiArrowBack)}</>;
       }
       if (hasMore) {
-        return <>{renderTooltipButton(`Open ${title}`, AiFillCaretRight)}</>;
+        return <>{renderTooltipButton(`Open ${title}`, title, AiFillCaretRight)}</>;
       }
       return <div className={s.nobutton}>{renderTitle()}</div>;
     };

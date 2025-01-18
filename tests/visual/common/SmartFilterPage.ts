@@ -21,6 +21,8 @@ export interface SmartFilterPage {
   selectFieldSuggestion: (field: string) => void;
   selectOperatorBarItemSuggestion: (option: string) => void;
   selectPill: (index: number) => void;
+  selectHintGroup: (group: string) => void;
+  selectHintItem: (item: string, index: number) => void;
 }
 
 export const createSmartFilterPage = (page: Page): SmartFilterPage => {
@@ -55,6 +57,7 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
       await searchBox.press('Enter');
     },
 
+    /* sugestions start */
     selectSortSuggestion: async (field: string, direction: SortDirection) => {
       await sortSelectionbutton.hover();
       await page.locator(`#sf-${field}-${direction}-opt`).click();
@@ -73,5 +76,13 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
       await page.locator(`#sf-${index}-pill`).click();
     },
 
+    selectHintGroup: async (group: string) => {
+      await page.locator(`#sf-${group}-group`).click();
+    },
+
+    selectHintItem: async (group: string, index: number) => {
+      (await page.$$(`#sf-${group}-item[${index}]`)).at(index)?.click();
+    },
+    /* sugestions end */
   }
 }

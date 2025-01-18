@@ -12,6 +12,7 @@ import s from './style.module.less';
 import { VALUE, VALUE_ARRAY, VALUE_TO } from '@/util/constants';
 
 export interface HintItemsProps {
+  group: string;
   field: string;
   hintSource: Hint[] | (() => Hint[]);
   showAll?: boolean;
@@ -66,7 +67,7 @@ const containsHint = (field: string, hint: Hint, matcher: Matcher): boolean => {
 };
 
 export const HintItems = React.memo(
-  ({ field, hintSource, showAll }: HintItemsProps) => {
+  ({ group, field, hintSource, showAll }: HintItemsProps) => {
     const {
       hints: { hintsPerColumn = 3, hintWidth: width = 90 } = {},
       fieldMap,
@@ -182,22 +183,25 @@ export const HintItems = React.memo(
 
     return (
       <div className={s.hintItems} style={{ maxHeight }}>
-        {visibleHints.map((h) => (
-          // @ts-expect-error key is not exposed to the user and is automatically add in the config
-          <div key={h.hint.key ?? h.hint}>
-            <Button
-              onClick={() => handleValueClick(h)}
-              style={{ paddingBlock: 0, paddingInline: 0 }}
-            >
-              <div
-                className={s.hint}
-                style={{ width, fontWeight: h.selected ? 'bold' : 'normal' }}
+        {visibleHints.map((h) => {
+          const key = typeof h.hint !== 'string' && 'key' in h.hint ? h.hint.key : h.hint;
+          return (
+            // @ts-expect-error key is not exposed to the user and is automatically add in the config
+            <div key={key}>
+              <Button
+                id={`sf-${group}-item`}
+                onClick={() => handleValueClick(h)}
+                style={{ paddingBlock: 0, paddingInline: 0 }}
               >
-                {typeof h.hint === 'string' ? h.hint : ('display' in h.hint ? h.hint.display : 'text' in h.hint ? h.hint.text : '')}
-              </div>
-            </Button>
-          </div>
-        ))}
+                <div
+                  className={s.hint}
+                  style={{ width, fontWeight: h.selected ? 'bold' : 'normal' }}
+                >
+                  {typeof h.hint === 'string' ? h.hint : ('display' in h.hint ? h.hint.display : 'text' in h.hint ? h.hint.text : '')}
+                </div>
+              </Button>
+            </div>)
+        })}
       </div>
     );
   },

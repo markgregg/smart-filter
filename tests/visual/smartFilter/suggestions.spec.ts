@@ -225,3 +225,119 @@ Scenario(
     })
   }
 )
+
+
+Scenario(
+  'Selecting range removes turns the pills into a range',
+  async ({
+    smartFilterPage: {
+      searchBox,
+      filterBar,
+      use,
+      enterAndSelectItemInSearchBox,
+      selectPill,
+      selectOperatorBarItemSuggestion,
+    },
+  }) => {
+    await Given('the SmartFilter test page is shown and the suggestion panel is visible', async () => {
+      await use('smartfilteraggrid');
+      await searchBox.click();
+    });
+
+    await When('a pill is selected', async () => {
+      await enterAndSelectItemInSearchBox('0.5');
+      await selectPill(0);
+    });
+
+    await And('the range option is selected', async () => {
+      await selectOperatorBarItemSuggestion('range')
+    });
+
+    await Then('the pills is transformed into a range', async () => {
+      await expect(filterBar).toHaveScreenshot('pill-is-a-range.png');
+    })
+  }
+)
+
+Scenario(
+  'Selecting or removes adds the or operator',
+  async ({
+    smartFilterPage: {
+      searchBox,
+      filterBar,
+      use,
+      enterAndSelectItemInSearchBox,
+      selectPill,
+      selectOperatorBarItemSuggestion,
+    },
+  }) => {
+    await Given('the SmartFilter test page is shown and the suggestion panel is visible', async () => {
+      await use('smartfilteraggrid');
+      await searchBox.click();
+    });
+
+    await When('a pill is selected', async () => {
+      await enterAndSelectItemInSearchBox('5');
+      await enterAndSelectItemInSearchBox('GBP');
+      await selectPill(1);
+    });
+
+    await And('the or option is selected', async () => {
+      await selectOperatorBarItemSuggestion('or')
+    });
+
+    await Then('the pills is transformed into a range', async () => {
+      await expect(filterBar).toHaveScreenshot('pill-has-or-operator.png');
+    })
+  }
+)
+
+Scenario(
+  'Selecting group shows all group hints',
+  async ({
+    smartFilterPage: {
+      searchBox,
+      suggestions,
+      use,
+      selectHintGroup,
+    },
+  }) => {
+    await Given('the SmartFilter test page is shown and the suggestion panel is visible', async () => {
+      await use('smartfilteraggrid');
+      await searchBox.click();
+    });
+
+    await When('a hint group is selected', async () => {
+      await selectHintGroup('Maturity');
+    });
+
+    await Then('the all items for group are shown', async () => {
+      await expect(suggestions).toHaveScreenshot('all-group-hints.png');
+    })
+  }
+);
+
+Scenario(
+  'Selecting a hint creates a pill',
+  async ({
+    smartFilterPage: {
+      searchBox,
+      filterBar,
+      use,
+      selectHintItem,
+    },
+  }) => {
+    await Given('the SmartFilter test page is shown and the suggestion panel is visible', async () => {
+      await use('smartfilteraggrid');
+      await searchBox.click();
+    });
+
+    await When('a hint group is selected', async () => {
+      await selectHintItem('Maturity', 1);
+    });
+
+    await Then('the all items for group are shown', async () => {
+      await expect(filterBar).toHaveScreenshot('pill-created-from-hint.png');
+    })
+  }
+);

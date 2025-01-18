@@ -212,5 +212,7 @@ export const toText = (symbol: string) => {
       return 'le';
     case '>=':
       return 'ge';
+    default:
+      return '';
   }
 }
