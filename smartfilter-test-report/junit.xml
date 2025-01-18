@@ -1,53 +1,152 @@
-<testsuites id="" name="" tests="8" failures="1" skipped="0" errors="0" time="83.382662">
-<testsuite name="smartFilter\basic.spec.ts" timestamp="2025-01-18T08:40:02.706Z" hostname="chromium" tests="7" failures="1" skipped="0" time="80.775" errors="0">
-<testcase name="All icons are shown when enabled" classname="smartFilter\basic.spec.ts" time="15.206">
-</testcase>
-<testcase name="All icons are hidden when not enabled" classname="smartFilter\basic.spec.ts" time="18.44">
-</testcase>
-<testcase name="Filterbar has blue border when inner element has focus" classname="smartFilter\basic.spec.ts" time="8.118">
-</testcase>
-<testcase name="The expand icon is disabled when content too small" classname="smartFilter\basic.spec.ts" time="7.246">
-</testcase>
-<testcase name="The expand icon highlights when content is bigger than control area " classname="smartFilter\basic.spec.ts" time="11.944">
-</testcase>
-<testcase name="Clicking the expand extends the filter bar" classname="smartFilter\basic.spec.ts" time="12.985">
-<failure message="basic.spec.ts:113:1 Clicking the expand extends the filter bar" type="FAILURE">
-<![CDATA[  [chromium] › smartFilter\basic.spec.ts:113:1 › Clicking the expand extends the filter bar ─────
+<testsuites id="" name="" tests="17" failures="4" skipped="0" errors="0" time="194.472644">
+<testsuite name="smartFilter\basic.spec.ts" timestamp="2025-01-18T11:44:14.032Z" hostname="chromium" tests="9" failures="2" skipped="0" time="118.132" errors="0">
+<testcase name="All icons are shown when enabled" classname="smartFilter\basic.spec.ts" time="31.02">
+<failure message="basic.spec.ts:5:1 All icons are shown when enabled" type="FAILURE">
+<![CDATA[  [chromium] › smartFilter\basic.spec.ts:5:1 › All icons are shown when enabled › Given the SmartFilter test page is shown 
 
-    Error: A snapshot doesn't exist at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\basic.spec.ts-snapshots\expanded-filter-bar-chromium-win32.png, writing actual.
+    Test timeout of 30000ms exceeded.
 
-      138 |
-      139 |     await Then('the fitlerbar gows to show all content', async () => {
-    > 140 |       await expect(innerFilterBar).toHaveScreenshot('expanded-filter-bar.png');
+    Error: page.goto: Test timeout of 30000ms exceeded.
+    Call log:
+      - navigating to "http://localhost:5173/smartfilter", waiting until "load"
+
+
+       at common\SmartFilterPage.ts:50
+
+      48 |     searchBox,
+      49 |
+    > 50 |     use: async (example: string) => await page.goto(`/${example}`),
+         |                                                ^
+      51 |
+      52 |     enterAndSelectItemInSearchBox: async (text: string) => {
+      53 |       await searchBox.click();
+        at use (C:\Users\gregg\development\smart-filter\tests\visual\common\SmartFilterPage.ts:50:48)
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\basic.spec.ts:14:13
+        at Given (C:\Users\gregg\development\smart-filter\tests\visual\common\ghkerkin.ts:17:8)
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\basic.spec.ts:13:11
+]]>
+</failure>
+</testcase>
+<testcase name="All icons are hidden when not enabled" classname="smartFilter\basic.spec.ts" time="31.186">
+<failure message="basic.spec.ts:23:1 All icons are hidden when not enabled" type="FAILURE">
+<![CDATA[  [chromium] › smartFilter\basic.spec.ts:23:1 › All icons are hidden when not enabled › Given the SmartFilter test page is shown 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.goto: Test timeout of 30000ms exceeded.
+    Call log:
+      - navigating to "http://localhost:5173/smartfilteraggrid?noIcons", waiting until "load"
+
+
+       at common\SmartFilterPage.ts:50
+
+      48 |     searchBox,
+      49 |
+    > 50 |     use: async (example: string) => await page.goto(`/${example}`),
+         |                                                ^
+      51 |
+      52 |     enterAndSelectItemInSearchBox: async (text: string) => {
+      53 |       await searchBox.click();
+        at use (C:\Users\gregg\development\smart-filter\tests\visual\common\SmartFilterPage.ts:50:48)
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\basic.spec.ts:32:13
+        at Given (C:\Users\gregg\development\smart-filter\tests\visual\common\ghkerkin.ts:17:8)
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\basic.spec.ts:31:11
+]]>
+</failure>
+</testcase>
+<testcase name="Filterbar has blue border when inner element has focus" classname="smartFilter\basic.spec.ts" time="9.259">
+</testcase>
+<testcase name="The expand icon is disabled when content too small" classname="smartFilter\basic.spec.ts" time="8.004">
+</testcase>
+<testcase name="The expand icon highlights when content is bigger than control area " classname="smartFilter\basic.spec.ts" time="4.712">
+</testcase>
+<testcase name="Clicking the expand extends the filter bar" classname="smartFilter\basic.spec.ts" time="7.997">
+</testcase>
+<testcase name="The clear button clears all content" classname="smartFilter\basic.spec.ts" time="10.476">
+</testcase>
+<testcase name="Filter bar is expanded when alarge size" classname="smartFilter\basic.spec.ts" time="6.699">
+</testcase>
+<testcase name="Filter bar is smaller when a compact size" classname="smartFilter\basic.spec.ts" time="8.779">
+</testcase>
+</testsuite>
+<testsuite name="smartFilter\suggestions.spec.ts" timestamp="2025-01-18T11:44:14.032Z" hostname="chromium" tests="8" failures="2" skipped="0" time="67.648" errors="0">
+<testcase name="Dropdown suggestions are shown when mouse over" classname="smartFilter\suggestions.spec.ts" time="6.105">
+</testcase>
+<testcase name="A pill is created when a field option is clicked" classname="smartFilter\suggestions.spec.ts" time="9.507">
+</testcase>
+<testcase name="A pill is created when a sort option is clicked" classname="smartFilter\suggestions.spec.ts" time="7.737">
+</testcase>
+<testcase name="Brackets pills are created when brackets are selected" classname="smartFilter\suggestions.spec.ts" time="6.839">
+</testcase>
+<testcase name="Suggestions change when a pill is selected" classname="smartFilter\suggestions.spec.ts" time="9.209">
+</testcase>
+<testcase name="Selecting an operator applies the operator to the pill" classname="smartFilter\suggestions.spec.ts" time="10.663">
+</testcase>
+<testcase name="Selecting empty removes the pills value" classname="smartFilter\suggestions.spec.ts" time="10.559">
+<failure message="suggestions.spec.ts:165:1 Selecting empty removes the pills value" type="FAILURE">
+<![CDATA[  [chromium] › smartFilter\suggestions.spec.ts:165:1 › Selecting empty removes the pills value 
+
+    Error: A snapshot doesn't exist at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-has-no-value-chromium-win32.png, writing actual.
+
+      190 |
+      191 |     await Then('the pills value is removed', async () => {
+    > 192 |       await expect(filterBar).toHaveScreenshot('pill-has-no-value.png');
           |       ^
-      141 |     })
-      142 |   }
-      143 | )
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\basic.spec.ts:140:7
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\basic.spec.ts:139:5
+      193 |     })
+      194 |   }
+      195 | )
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:192:7
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:191:5
 
-    attachment #1: expanded-filter-bar-expected.png (image/png) ─────────────────────────────────
-    tests\visual\smartFilter\basic.spec.ts-snapshots\expanded-filter-bar-chromium-win32.png
-    ─────────────────────────────────────────────────────────────────────────────────────────────
+    attachment #1: pill-has-no-value-expected.png (image/png) ────────────
+    tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-has-no-value-chromium-win32.png
+    ──────────────────────────────────────────────────────────────────────
 
-    attachment #2: expanded-filter-bar-actual.png (image/png) ───────────────────────────────────
-    test-results\smartFilter-basic-Clicking-the-expand-extends-the-filter-bar-chromium\expanded-filter-bar-actual.png
-    ─────────────────────────────────────────────────────────────────────────────────────────────
+    attachment #2: pill-has-no-value-actual.png (image/png) ──────────────
+    test-results\smartFilter-suggestions-Se-a3669-pty-removes-the-pills-value-chromium\pill-has-no-value-actual.png
+    ──────────────────────────────────────────────────────────────────────
 ]]>
 </failure>
 <system-out>
 <![CDATA[
-[[ATTACHMENT|..\tests\visual\smartFilter\basic.spec.ts-snapshots\expanded-filter-bar-chromium-win32.png]]
+[[ATTACHMENT|..\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-has-no-value-chromium-win32.png]]
 
-[[ATTACHMENT|..\test-results\smartFilter-basic-Clicking-the-expand-extends-the-filter-bar-chromium\expanded-filter-bar-actual.png]]
+[[ATTACHMENT|..\test-results\smartFilter-suggestions-Se-a3669-pty-removes-the-pills-value-chromium\pill-has-no-value-actual.png]]
 ]]>
 </system-out>
 </testcase>
-<testcase name="The clear button clears all content" classname="smartFilter\basic.spec.ts" time="6.836">
-</testcase>
-</testsuite>
-<testsuite name="smartFilter\suggestions.spec.ts" timestamp="2025-01-18T08:40:02.706Z" hostname="chromium" tests="1" failures="0" skipped="0" time="7.229" errors="0">
-<testcase name="Dropdown suggestions are shown when mouse over" classname="smartFilter\suggestions.spec.ts" time="7.229">
+<testcase name="Selecting list removes turns the pills into a list" classname="smartFilter\suggestions.spec.ts" time="7.029">
+<failure message="suggestions.spec.ts:197:1 Selecting list removes turns the pills into a list" type="FAILURE">
+<![CDATA[  [chromium] › smartFilter\suggestions.spec.ts:197:1 › Selecting list removes turns the pills into a list 
+
+    Error: A snapshot doesn't exist at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-is-a-list-chromium-win32.png, writing actual.
+
+      222 |
+      223 |     await Then('the pills is transformed into a list', async () => {
+    > 224 |       await expect(filterBar).toHaveScreenshot('pill-is-a-list.png');
+          |       ^
+      225 |     })
+      226 |   }
+      227 | )
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:224:7
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:223:5
+
+    attachment #1: pill-is-a-list-expected.png (image/png) ───────────────
+    tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-is-a-list-chromium-win32.png
+    ──────────────────────────────────────────────────────────────────────
+
+    attachment #2: pill-is-a-list-actual.png (image/png) ─────────────────
+    test-results\smartFilter-suggestions-Se-11cee-turns-the-pills-into-a-list-chromium\pill-is-a-list-actual.png
+    ──────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-is-a-list-chromium-win32.png]]
+
+[[ATTACHMENT|..\test-results\smartFilter-suggestions-Se-11cee-turns-the-pills-into-a-list-chromium\pill-is-a-list-actual.png]]
+]]>
+</system-out>
 </testcase>
 </testsuite>
 </testsuites>

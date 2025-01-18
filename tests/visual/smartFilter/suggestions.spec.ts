@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { Given, Scenario, Then, When } from "../common/ghkerkin";
+import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
 
 Scenario(
   'Dropdown suggestions are shown when mouse over',
@@ -72,6 +72,156 @@ Scenario(
 
     await Then('the sort pill is shown in the filterbar', async () => {
       await expect(filterBar).toHaveScreenshot('filter-bar-has-sort-option.png');
+    })
+  }
+)
+
+Scenario(
+  'Brackets pills are created when brackets are selected',
+  async ({
+    smartFilterPage: {
+      searchBox,
+      filterBar,
+      selectOperatorBarItemSuggestion,
+      use,
+    },
+  }) => {
+    await Given('the SmartFilter test page is shown andthe suggestion panel is visible', async () => {
+      await use('smartfilteraggrid');
+      await searchBox.click();
+
+    });
+
+    await When('brackets are selected', async () => {
+      await selectOperatorBarItemSuggestion('open');
+      await selectOperatorBarItemSuggestion('close');
+    });
+
+    await Then('the brackets appear as pills', async () => {
+      await expect(filterBar).toHaveScreenshot('brackets-as-pills.png');
+    })
+  }
+)
+
+Scenario(
+  'Suggestions change when a pill is selected',
+  async ({
+    smartFilterPage: {
+      searchBox,
+      suggestions,
+      use,
+      enterAndSelectItemInSearchBox,
+      selectPill,
+    },
+  }) => {
+    await Given('the SmartFilter test page is shown andthe suggestion panel is visible', async () => {
+      await use('smartfilteraggrid');
+      await searchBox.click();
+    });
+
+    await When('a pill is selected', async () => {
+      await enterAndSelectItemInSearchBox('XS1');
+      await selectPill(0);
+    });
+
+    await Then('the suggestions dropdown shows only field options', async () => {
+      await expect(suggestions).toHaveScreenshot('field-options.png');
+    })
+  }
+)
+
+Scenario(
+  'Selecting an operator applies the operator to the pill',
+  async ({
+    smartFilterPage: {
+      searchBox,
+      filterBar,
+      use,
+      enterAndSelectItemInSearchBox,
+      selectPill,
+      selectOperatorBarItemSuggestion,
+    },
+  }) => {
+    await Given('the SmartFilter test page is shown and the suggestion panel is visible', async () => {
+      await use('smartfilteraggrid');
+      await searchBox.click();
+    });
+
+    await When('a pill is selected', async () => {
+      await enterAndSelectItemInSearchBox('XS1');
+      await selectPill(0);
+    });
+
+    await And('the not comparison is selected', async () => {
+      await selectOperatorBarItemSuggestion('ne')
+    });
+
+    await Then('the comparison operator is applied to the pill', async () => {
+      await expect(filterBar).toHaveScreenshot('not-applied-to-field.png');
+    })
+  }
+)
+
+Scenario(
+  'Selecting empty removes the pills value',
+  async ({
+    smartFilterPage: {
+      searchBox,
+      filterBar,
+      use,
+      enterAndSelectItemInSearchBox,
+      selectPill,
+      selectOperatorBarItemSuggestion,
+    },
+  }) => {
+    await Given('the SmartFilter test page is shown and the suggestion panel is visible', async () => {
+      await use('smartfilteraggrid');
+      await searchBox.click();
+    });
+
+    await When('a pill is selected', async () => {
+      await enterAndSelectItemInSearchBox('XS1');
+      await selectPill(0);
+    });
+
+    await And('the empty option is selected', async () => {
+      await selectOperatorBarItemSuggestion('ne')
+    });
+
+    await Then('the pills value is removed', async () => {
+      await expect(filterBar).toHaveScreenshot('pill-has-no-value.png');
+    })
+  }
+)
+
+Scenario(
+  'Selecting list removes turns the pills into a list',
+  async ({
+    smartFilterPage: {
+      searchBox,
+      filterBar,
+      use,
+      enterAndSelectItemInSearchBox,
+      selectPill,
+      selectOperatorBarItemSuggestion,
+    },
+  }) => {
+    await Given('the SmartFilter test page is shown and the suggestion panel is visible', async () => {
+      await use('smartfilteraggrid');
+      await searchBox.click();
+    });
+
+    await When('a pill is selected', async () => {
+      await enterAndSelectItemInSearchBox('XS1');
+      await selectPill(0);
+    });
+
+    await And('the list option is selected', async () => {
+      await selectOperatorBarItemSuggestion('list')
+    });
+
+    await Then('the pills is transformed into a list', async () => {
+      await expect(filterBar).toHaveScreenshot('pill-is-a-list.png');
     })
   }
 )

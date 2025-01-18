@@ -25,7 +25,7 @@ export const SmartFilterAgGrid = () => {
 
   const queryParams = React.useMemo(() => {
     const query = window.location.search.substring(1);
-    const params = query.split("&");
+    const params = query.split("&").filter(t => t.trim() !== '');
     return params.reduce((p: any, v) => {
       const pv = v.split('=');
       return pv.length < 2
@@ -75,6 +75,8 @@ export const SmartFilterAgGrid = () => {
     ? { width: `${queryParams.width}px` }
     : undefined;
 
+  const size = queryParams.size ?? 'normal';
+
   return (
     <div
       className={s.smartFilterAgGridPage}
@@ -93,7 +95,7 @@ export const SmartFilterAgGrid = () => {
           onFiltersChange={handleFilterChange}
           operators={operators}
           hints={hints}
-          size="normal"
+          size={size}
           allowLocking={!queryParams.noIcons}
           showSearchIcon={!queryParams.noIcons}
           showUndoIcon={!queryParams.noIcons}

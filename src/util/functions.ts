@@ -190,3 +190,27 @@ export const uniqueComparions = (fields: Field[], operators: Operator[]): Operat
     });
 }
 
+export const toText = (symbol: string) => {
+  switch (symbol) {
+    case '=':
+      return 'eq';
+    case '!':
+      return 'ne';
+    case '*':
+      return 'lk';
+    case '!*':
+      return 'nl';
+    case '<*':
+      return 'st';
+    case '>*':
+      return 'en';
+    case '<':
+      return 'lt';
+    case '>':
+      return 'gt';
+    case '<=':
+      return 'le';
+    case '>=':
+      return 'ge';
+  }
+}

@@ -174,3 +174,47 @@ Scenario(
     })
   }
 )
+
+Scenario(
+  'Filter bar is expanded when alarge size',
+  async ({
+    smartFilterPage: {
+      innerFilterBar,
+      use,
+    },
+  }) => {
+    await Given('the SmartFilter test page is shown', async () => {
+      await use('smartfilteraggrid?size=large');
+    });
+
+    await When('the filterbar is clicked', async () => {
+      await innerFilterBar.click();
+    });
+
+    await Then('the fitlerbar is shown at the correct size', async () => {
+      await expect(innerFilterBar).toHaveScreenshot('large-filter-bar.png');
+    })
+  }
+)
+
+Scenario(
+  'Filter bar is smaller when a compact size',
+  async ({
+    smartFilterPage: {
+      innerFilterBar,
+      use,
+    },
+  }) => {
+    await Given('the SmartFilter test page is shown', async () => {
+      await use('smartfilteraggrid?size=compact');
+    });
+
+    await When('the filterbar is clicked', async () => {
+      await innerFilterBar.click();
+    });
+
+    await Then('the fitlerbar is shown at the correct size', async () => {
+      await expect(innerFilterBar).toHaveScreenshot('compact-filter-bar.png');
+    })
+  }
+)

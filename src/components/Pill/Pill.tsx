@@ -265,6 +265,7 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
 
   return (
     <div
+      id={`sf-${index}-pill`}
       className={[s.pill, s[size]].join(' ')}
       ref={pillRef}
       tabIndex={index}

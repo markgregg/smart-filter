@@ -5,6 +5,7 @@ import { Button } from '../Button';
 interface TooltipButtonProps {
   children: JSX.Element | string;
   onClick: () => void;
+  id?: string;
   caption: string;
   height?: string | number;
   width?: string | number;

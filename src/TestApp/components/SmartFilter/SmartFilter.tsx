@@ -20,7 +20,7 @@ export const SmartFilter = () => {
 
   const queryParams = React.useMemo(() => {
     const query = window.location.search.substring(1);
-    const params = query.split("&");
+    const params = query.split("&").filter(t => t.trim() !== '');
     return params.reduce((p: any, v) => {
       const pv = v.split('=');
       return pv.length < 2
@@ -56,6 +56,8 @@ export const SmartFilter = () => {
     ? { width: `${queryParams.width}px` }
     : undefined;
 
+  const size = queryParams.size ?? 'normal';
+
   return (
     <div
       className={s.smartFilterPage}
@@ -73,7 +75,7 @@ export const SmartFilter = () => {
           fields={fields}
           operators={operators}
           hints={hints}
-          size="normal"
+          size={size}
           enableSort
           allowLocking={!queryParams.noIcons}
           showSearchIcon={!queryParams.noIcons}

@@ -49,6 +49,7 @@ export const SortPill = React.memo(() => {
 
   return (
     <div
+      id="sf-sort-pill"
       className={[s.sortPill, s[size], s[expanded ? 'expanded' : 'contracted']].join(' ')}
       style={{
         backgroundColor,

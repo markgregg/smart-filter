@@ -8,12 +8,14 @@ import { TooltipButton } from '@/components/common/TooltipButton';
 import { Brackets, LogicalOperator, Matcher } from '@/types';
 import { useConfig, useMatcher } from '@/state/useState';
 import { FieldSelection } from './FieldSelection';
+import { toText } from '@/util/functions';
 import {
   AND,
   EMPTY,
   OR,
 } from '@/util/constants';
 import s from './style.module.less';
+
 
 const brackets: Brackets[] = ['(', ')'];
 export const Operators = React.memo(() => {
@@ -45,6 +47,8 @@ export const Operators = React.memo(() => {
         : null,
     [selectedMatcher, fieldMap],
   );
+
+  const fieldOperators = React.useMemo(() => field?.operators.filter(o => !selectedMatcher || !('comparison' in selectedMatcher) || selectedMatcher.comparison !== o), [field, selectedMatcher]);
 
   const selectedIndex = React.useMemo(
     () =>
@@ -263,8 +267,9 @@ export const Operators = React.memo(() => {
       )}
       <div className={s.operatorSelection}>
         {selectedMatcher && !(selectedMatcher.type === 'r') &&
-          field?.operators.map((o) => (
+          fieldOperators?.map((o) => (
             <TooltipButton
+              id={`sf-${toText(o)}-operator`}
               key={o}
               caption={comparisonsMap.get(o)?.description ?? ''}
               onClick={() => handleComparisonClick(o)}
@@ -278,6 +283,7 @@ export const Operators = React.memo(() => {
         {specialFunctions &&
           specialFunctions.map((f) => (
             <TooltipButton
+              id={`sf-${f.code}-operator`}
               key={f.code}
               caption={f.tooltip}
               onClick={() => handleSpecialClick(f.code)}
@@ -289,6 +295,7 @@ export const Operators = React.memo(() => {
           ))}
         {brackets.map((b) => (
           <Button
+            id={`sf-${b === '(' ? 'open' : 'close'}-operator`}
             key={b}
             onClick={() => handleBracketClick(b)}
             height={buttonSize}
@@ -299,6 +306,7 @@ export const Operators = React.memo(() => {
         ))}
         {selectedIndex > 0 && (
           <Button
+            id={`sf-${currentOperator}-operator`}
             onClick={() => handleLogicalOperatorClick(currentOperator)}
             height={buttonSize}
             width={buttonSize}
@@ -310,6 +318,7 @@ export const Operators = React.memo(() => {
           <>
             <div className={s.seperator} />
             <Button
+              id="sf-lock-operator"
               onClick={handleToggleLock}
               height={buttonSize}
               width={buttonSize}

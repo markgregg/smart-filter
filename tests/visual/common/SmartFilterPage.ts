@@ -19,6 +19,8 @@ export interface SmartFilterPage {
   enterAndSelectItemInSearchBox: (text: string) => void;
   selectSortSuggestion: (field: string, direction: SortDirection) => void;
   selectFieldSuggestion: (field: string) => void;
+  selectOperatorBarItemSuggestion: (option: string) => void;
+  selectPill: (index: number) => void;
 }
 
 export const createSmartFilterPage = (page: Page): SmartFilterPage => {
@@ -61,8 +63,15 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
     selectFieldSuggestion: async (field: string) => {
       await fieldSelectionButton.hover();
       await page.locator(`#sf-${field}-opt`).click();
-    }
+    },
 
+    selectOperatorBarItemSuggestion: async (option: string) => {
+      await page.locator(`#sf-${option}-operator`).click();
+    },
+
+    selectPill: async (index: number) => {
+      await page.locator(`#sf-${index}-pill`).click();
+    },
 
   }
 }
