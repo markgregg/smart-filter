@@ -21,6 +21,7 @@ export interface SmartFilterPage {
   use: (example: string) => void;
   pause: (milliseconds: number) => void;
 
+  enterAnItemInSearchBox: (text: string) => void;
   enterAndSelectItemInSearchBox: (text: string) => void;
   hoverOverPill: (index: number) => void;
   clickPill: (index: number) => void;
@@ -39,6 +40,9 @@ export interface SmartFilterPage {
   updateLookupValue: (pillIndex: number, text: string) => void;
   clickClose: () => void;
   clickAccept: () => void;
+
+  clickSort: () => void;
+  sortOptions: () => Promise<Locator>;
 }
 
 export const createSmartFilterPage = (page: Page): SmartFilterPage => {
@@ -69,9 +73,16 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
     searchBox,
     agGrid,
 
-    use: async (example: string) => await page.goto(`/${example}`),
+    use: async (testPage: string) => await page.goto(`/${testPage}`),
 
     pause: async (milliseconds: number) => await page.waitForTimeout(milliseconds),
+
+    enterAnItemInSearchBox: async (text: string) => {
+      await searchBox.scrollIntoViewIfNeeded();
+      await searchBox.click();
+      await searchBox.fill(text);
+      await page.waitForTimeout(50);
+    },
 
     enterAndSelectItemInSearchBox: async (text: string) => {
       await searchBox.scrollIntoViewIfNeeded();
@@ -142,7 +153,6 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
     /* sugestions end */
 
     /* editing */
-
     clickTextDisplay: async () => {
       const textDisplay = await page.locator('#sf-text-display');
       if (!textDisplay) {
@@ -215,10 +225,29 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
     clickAccept: async () => {
       const accept = await page.locator(`#sf-editor-accept`);
       if (!accept) {
-        throw Error('close cannot be found');
+        throw Error('accept cannot be found');
       }
       await accept.click();
     },
+    /* editing end */
+
+    /* sorting */
+    clickSort: async () => {
+      const sortPill = await page.locator(`#sf-sort-pill`);
+      if (!sortPill) {
+        throw Error('sort cannot be found');
+      }
+      await sortPill.click();
+    },
+
+    sortOptions: async (): Promise<Locator> => {
+      const sortOptions = await page.locator(`#sf-drop-down`);
+      if (!sortOptions) {
+        throw Error('sort options cannot be found');
+      }
+      return sortOptions;
+    },
+    /* sorting */
 
   }
 }

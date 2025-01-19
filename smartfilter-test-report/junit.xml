@@ -1,65 +1,53 @@
-<testsuites id="" name="" tests="3" failures="1" skipped="0" errors="0" time="109.639854">
-<testsuite name="smartFilter\aggrid.spec.ts" timestamp="2025-01-19T20:26:14.870Z" hostname="chromium" tests="3" failures="1" skipped="0" time="32.991" errors="0">
-<testcase name="Enetering filter values in smart filter automatically filters ag-grid-smartfilteraggrid" classname="smartFilter\aggrid.spec.ts" time="13.509">
-</testcase>
-<testcase name="Enetering sort fields in smart filter automatically sorts ag-grid-smartfilteraggrid" classname="smartFilter\aggrid.spec.ts" time="7.906">
-</testcase>
-<testcase name="Sorting and filtering ag-grid-smartfilteraggrid" classname="smartFilter\aggrid.spec.ts" time="11.576">
-<failure message="aggrid.spec.ts:55:3 Sorting and filtering ag-grid-smartfilteraggrid" type="FAILURE">
-<![CDATA[  [chromium] › smartFilter\aggrid.spec.ts:55:3 › Sorting and filtering ag-grid-smartfilteraggrid ───
+<testsuites id="" name="" tests="1" failures="1" skipped="0" errors="0" time="40.621125">
+<testsuite name="smartFilter\sort.spec.ts" timestamp="2025-01-19T21:25:27.962Z" hostname="chromium" tests="1" failures="1" skipped="0" time="30.167" errors="0">
+<testcase name="Sort items are shown in the dropdown-smartfilter" classname="smartFilter\sort.spec.ts" time="30.167">
+<failure message="sort.spec.ts:5:3 Sort items are shown in the dropdown-smartfilter" type="FAILURE">
+<![CDATA[  [chromium] › smartFilter\sort.spec.ts:5:3 › Sort items are shown in the dropdown-smartfilter › When enter sort items 
 
-    Error: A snapshot doesn't exist at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\aggrid.spec.ts-snapshots\filter-bar-has-options-smartfilteraggrid-chromium-win32.png, writing actual.
+    Test timeout of 30000ms exceeded.
 
-      77 |
-      78 |       await Then('ag-grid is updated', async () => {
-    > 79 |         await expect(filterBar).toHaveScreenshot(`filter-bar-has-options-${view}.png`);
-         |         ^
-      80 |         await expect(agGrid).toHaveScreenshot(`ag-grid-sorted-and-filtered-${view}.png`);
-      81 |       });
-      82 |     }
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\aggrid.spec.ts:79:9
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\aggrid.spec.ts:78:7
+    Error: locator.hover: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for locator('#sf-sort-selection-button')
+        - locator resolved to <div id="sf-sort-selection-button" class="_addFieldIcon_p1ieh_4 _icon-normal_p1ieh_11">…</div>
+      - attempting hover action
+        2 × waiting for element to be visible and stable
+          - element is visible and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div class="_title_p1ieh_30">Sort Fields</div> from <div class="_filterSelectionPopup_p1ieh_17 _normal_p1ieh_64">…</div> subtree intercepts pointer events
+        - retrying hover action
+        - waiting 20ms
+        2 × waiting for element to be visible and stable
+          - element is visible and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <div class="_title_p1ieh_30">Sort Fields</div> from <div class="_filterSelectionPopup_p1ieh_17 _normal_p1ieh_64">…</div> subtree intercepts pointer events
+        - retrying hover action
+          - waiting 100ms
+        39 × waiting for element to be visible and stable
+           - element is visible and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <div class="_title_p1ieh_30">Sort Fields</div> from <div class="_filterSelectionPopup_p1ieh_17 _normal_p1ieh_64">…</div> subtree intercepts pointer events
+         - retrying hover action
+           - waiting 500ms
 
-    Error: A snapshot doesn't exist at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\aggrid.spec.ts-snapshots\ag-grid-sorted-and-filtered-smartfilteraggrid-chromium-win32.png, writing actual.
 
-      78 |       await Then('ag-grid is updated', async () => {
-      79 |         await expect(filterBar).toHaveScreenshot(`filter-bar-has-options-${view}.png`);
-    > 80 |         await expect(agGrid).toHaveScreenshot(`ag-grid-sorted-and-filtered-${view}.png`);
-         |         ^
-      81 |       });
-      82 |     }
-      83 |   );
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\aggrid.spec.ts:80:9
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\aggrid.spec.ts:78:7
+       at common\SmartFilterPage.ts:105
 
-    attachment #1: filter-bar-has-options-smartfilteraggrid-expected.png (image/png) ───────────────
-    tests\visual\smartFilter\aggrid.spec.ts-snapshots\filter-bar-has-options-smartfilteraggrid-chromium-win32.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    attachment #2: filter-bar-has-options-smartfilteraggrid-actual.png (image/png) ─────────────────
-    test-results\smartFilter-aggrid-Sorting-9e4f4-g-ag-grid-smartfilteraggrid-chromium\filter-bar-has-options-smartfilteraggrid-actual.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    attachment #3: ag-grid-sorted-and-filtered-smartfilteraggrid-expected.png (image/png) ──────────
-    tests\visual\smartFilter\aggrid.spec.ts-snapshots\ag-grid-sorted-and-filtered-smartfilteraggrid-chromium-win32.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    attachment #4: ag-grid-sorted-and-filtered-smartfilteraggrid-actual.png (image/png) ────────────
-    test-results\smartFilter-aggrid-Sorting-9e4f4-g-ag-grid-smartfilteraggrid-chromium\ag-grid-sorted-and-filtered-smartfilteraggrid-actual.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
+      103 |     /* sugestions start */
+      104 |     selectSortSuggestion: async (field: string, direction: SortDirection) => {
+    > 105 |       await sortSelectionbutton.hover();
+          |                                 ^
+      106 |       const sortOpt = await page.locator(`#sf-${field}-${direction}-opt`);
+      107 |       if (!sortOpt) {
+      108 |         throw Error(`sort for ${field} cannot be found`);
+        at selectSortSuggestion (C:\Users\gregg\development\smart-filter\tests\visual\common\SmartFilterPage.ts:105:33)
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\sort.spec.ts:23:15
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\sort.spec.ts:21:7
 ]]>
 </failure>
-<system-out>
-<![CDATA[
-[[ATTACHMENT|..\tests\visual\smartFilter\aggrid.spec.ts-snapshots\filter-bar-has-options-smartfilteraggrid-chromium-win32.png]]
-
-[[ATTACHMENT|..\test-results\smartFilter-aggrid-Sorting-9e4f4-g-ag-grid-smartfilteraggrid-chromium\filter-bar-has-options-smartfilteraggrid-actual.png]]
-
-[[ATTACHMENT|..\tests\visual\smartFilter\aggrid.spec.ts-snapshots\ag-grid-sorted-and-filtered-smartfilteraggrid-chromium-win32.png]]
-
-[[ATTACHMENT|..\test-results\smartFilter-aggrid-Sorting-9e4f4-g-ag-grid-smartfilteraggrid-chromium\ag-grid-sorted-and-filtered-smartfilteraggrid-actual.png]]
-]]>
-</system-out>
 </testcase>
 </testsuite>
 </testsuites>

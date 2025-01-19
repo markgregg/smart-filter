@@ -16,6 +16,8 @@ interface SortItemProps {
 }
 
 export const SortItem = React.memo(({ sort, index }: SortItemProps) => {
+  const moveUpId = React.useMemo(() => `sf-${sort.field}-move-up`, [sort]);
+  const moveDownId = React.useMemo(() => `sf-${sort.field}-move-down`, [sort]);
   const clonedPillRef = React.useRef<HTMLElement | null>(null);
   const { fieldMap } = useConfig((state) => state);
   const field = React.useMemo(
@@ -159,6 +161,7 @@ export const SortItem = React.memo(({ sort, index }: SortItemProps) => {
           {field && <SortOption field={field} onSelect={handleSelect} />}
         </div>
         <Button
+          id={moveUpId}
           onClick={handleMoveUp}
           height={26}
           width={26}
@@ -167,6 +170,7 @@ export const SortItem = React.memo(({ sort, index }: SortItemProps) => {
           {index > 0 ? <IoCaretUpSharp /> : <div />}
         </Button>
         <Button
+          id={moveDownId}
           onClick={handleMoveDown}
           height={26}
           width={26}
