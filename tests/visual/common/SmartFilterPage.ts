@@ -16,6 +16,8 @@ export interface SmartFilterPage {
 
   readonly searchBox: Locator;
 
+  readonly agGrid: Locator;
+
   use: (example: string) => void;
   pause: (milliseconds: number) => void;
 
@@ -34,6 +36,7 @@ export interface SmartFilterPage {
   updateTextValue: (text: string) => void;
   updateNumericValue: (value: number) => void;
   updateDateValue: (text: string) => void;
+  updateLookupValue: (pillIndex: number, text: string) => void;
   clickClose: () => void;
   clickAccept: () => void;
 }
@@ -46,11 +49,13 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
 
   const expandIcon = page.locator('#sf-expand-icon');
   const clearIcon = page.locator('#sf-clear-icon');
-  const lockIcon = page.locator('#sf-lock-icon')
+  const lockIcon = page.locator('#sf-lock-icon');
   const sortSelectionbutton = page.locator('#sf-sort-selection-button');
   const fieldSelectionButton = page.locator('#sf-filter-selection-button');
 
   const searchBox = page.locator('#sf-search-box');
+
+  const agGrid = page.locator('#sf-ag-grid');
 
   return {
     filterBar,
@@ -62,6 +67,7 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
     sortSelectionbutton,
     fieldSelectionButton,
     searchBox,
+    agGrid,
 
     use: async (example: string) => await page.goto(`/${example}`),
 
@@ -138,7 +144,7 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
     /* editing */
 
     clickTextDisplay: async () => {
-      const textDisplay = await page.locator(`#sf-text-display`);
+      const textDisplay = await page.locator('#sf-text-display');
       if (!textDisplay) {
         throw Error('textDisplay cannot be found');
       }
@@ -146,7 +152,7 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
     },
 
     clickBooleanToggle: async () => {
-      const booleanToggle = await page.locator(`#sf-boolean-toggle`);
+      const booleanToggle = await page.locator('#sf-boolean-toggle');
       if (!booleanToggle) {
         throw Error('booleanToggle cannot be found');
       }
@@ -154,7 +160,7 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
     },
 
     updateTextValue: async (text: string) => {
-      const texteditor = await page.locator(`#sf-text-editor`);
+      const texteditor = await page.locator('#sf-text-editor');
       if (!texteditor) {
         throw Error('text editor cannot be found');
       }
@@ -164,7 +170,7 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
     },
 
     updateNumericValue: async (value: number) => {
-      const numberEditor = await page.locator(`#sf-number-editor`);
+      const numberEditor = await page.locator('#sf-number-editor');
       if (!numberEditor) {
         throw Error('number editor cannot be found');
       }
@@ -174,12 +180,27 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
     },
 
     updateDateValue: async (date: string) => {
-      const dateEditor = await page.locator(`#sf-date-editor`);
+      const dateEditor = await page.locator('#sf-date-editor');
       if (!dateEditor) {
         throw Error('date editor cannot be found');
       }
       await dateEditor.fill(date);
       await dateEditor.press('Enter');
+      await page.waitForTimeout(50);
+    },
+
+    updateLookupValue: async (pillIndex: number, text: string) => {
+      const pill = await page.locator(`#sf-pill-content-${pillIndex}`);
+      if (!pill) {
+        throw Error(`pill @ ${pillIndex} cannot be found`);
+      }
+      const lookupEditor = await pill.locator('#sf-search-box');
+
+      if (!lookupEditor) {
+        throw Error('lookup editor cannot be found');
+      }
+      await lookupEditor.fill(text);
+      await lookupEditor.press('Enter');
       await page.waitForTimeout(50);
     },
 
@@ -192,11 +213,11 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
     },
 
     clickAccept: async () => {
-      const close = await page.locator(`#sf-editor-accept`);
-      if (!close) {
+      const accept = await page.locator(`#sf-editor-accept`);
+      if (!accept) {
         throw Error('close cannot be found');
       }
-      await close.click();
+      await accept.click();
     },
 
   }

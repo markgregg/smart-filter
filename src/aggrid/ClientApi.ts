@@ -17,7 +17,6 @@ export interface ClientApi {
   getAgColumns: () => Column[] | null;
   constructFilter: (matchers: Matcher[]) => FilterFunction | null;
   getFieldMatch: (
-    fieldName: string,
     field?: string,
     type?: string | boolean,
     filter?: string,
@@ -46,15 +45,7 @@ export const createClientApi = (
 
   const getAgColumns = (): Column[] | null => columnApi?.getColumns() ?? null;
 
-  const getBooleanText = (name: string): string => {
-    if (name.length > 1) {
-      return name[0].toLocaleUpperCase() + name.substring(1);
-    }
-    return name;
-  };
-
   const getFieldMatch = (
-    fieldName: string,
     field?: string,
     type?: string | boolean,
     filter?: string,
@@ -64,8 +55,9 @@ export const createClientApi = (
   ): FieldMatch => {
     if (type === AgTypes.boolean) {
       return {
-        ignoreCase: true,
-        source: [{ text: getBooleanText(fieldName), value: true }],
+        match: (text: string) => text.toLocaleUpperCase() === 'TRUE' || text.toLocaleUpperCase() === 'FALSE',
+        value: (text: string) => text.toLocaleUpperCase() === 'TRUE',
+        matchOnPaste: true,
       };
     }
     if (field && filter === AgFilters.agSetColumnFilter) {

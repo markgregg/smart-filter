@@ -57,7 +57,7 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
         await clickClose();
       });
 
-      await Then('a text editor is dispalyed', async () => {
+      await Then('a text editor is hidden', async () => {
         await expect(filterBar).toHaveScreenshot(`text-editor-is-hidden-${view}.png`);
       });
     }
@@ -154,7 +154,7 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
         await clickClose();
       });
 
-      await Then('a numeric editor is dispalyed', async () => {
+      await Then('a numeric editor is hidden', async () => {
         await expect(filterBar).toHaveScreenshot(`numeric-editor-is-hidden-${view}.png`);
       });
     }
@@ -250,7 +250,7 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
         await clickClose();
       });
 
-      await Then('a numeric editor is dispalyed', async () => {
+      await Then('a numeric editor is hidden', async () => {
         await expect(filterBar).toHaveScreenshot(`date-editor-is-hidden-${view}.png`);
       });
     }
@@ -306,7 +306,7 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await When('a boolean value is entered', async () => {
-        await enterAndSelectItemInSearchBox('active true');
+        await enterAndSelectItemInSearchBox('true');
       });
 
       await And('a text value is clicked', async () => {
@@ -314,7 +314,103 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await Then('a text editor is dispalyed', async () => {
-        await expect(filterBar).toHaveScreenshot(`boolean-value-is-true-${view}.png`);
+        await expect(filterBar).toHaveScreenshot(`boolean-value-is-false-${view}.png`);
+      });
+    }
+  );
+
+  Scenario(
+    `Clicking on a lookup text value opens a text editor-${view}`,
+    async ({
+      smartFilterPage: {
+        filterBar,
+        use,
+        enterAndSelectItemInSearchBox,
+        clickTextDisplay,
+      },
+    }) => {
+      await Given('the SmartFilter test page is shown', async () => {
+        await use(view);
+      });
+
+      await When('a lookup text value is entered', async () => {
+        await enterAndSelectItemInSearchBox('XS1');
+      });
+
+      await And('a lookup text value is clicked', async () => {
+        await clickTextDisplay();
+      });
+
+      await Then('a lookup editor is dispalyed', async () => {
+        await expect(filterBar).toHaveScreenshot(`lookup-text-editor-shown-${view}.png`);
+      });
+    }
+  );
+
+  Scenario(
+    `Clicking close shuts the lookup editor-${view}`,
+    async ({
+      smartFilterPage: {
+        filterBar,
+        use,
+        enterAndSelectItemInSearchBox,
+        clickTextDisplay,
+        clickClose,
+      },
+    }) => {
+      await Given('the SmartFilter test page is shown', async () => {
+        await use(view);
+      });
+
+      await When('a lookup text value is entered', async () => {
+        await enterAndSelectItemInSearchBox('XS1');
+      });
+
+      await And('a lookup text value is clicked', async () => {
+        await clickTextDisplay();
+      });
+
+      await And('the close button is clicked', async () => {
+        await clickClose();
+      });
+
+      await Then('the lookup editor is hidden', async () => {
+        await expect(filterBar).toHaveScreenshot(`lookup-editor-is-hidden-${view}.png`);
+      });
+    }
+  );
+
+  Scenario(
+    `Clicking accept updates the lookup value-${view}`,
+    async ({
+      smartFilterPage: {
+        filterBar,
+        use,
+        enterAndSelectItemInSearchBox,
+        clickTextDisplay,
+        updateLookupValue,
+        clickAccept,
+      },
+    }) => {
+      await Given('the SmartFilter test page is shown', async () => {
+        await use(view);
+      });
+
+      await When('a  text value is entered', async () => {
+        await enterAndSelectItemInSearchBox('XS1');
+      });
+
+      await And('a lookup text value is clicked', async () => {
+        await clickTextDisplay();
+      });
+
+      await And('the lookup value is changed and accept clicked', async () => {
+        await updateLookupValue(0, 'XS2');
+        await clickAccept();
+      });
+
+      await Then('the lookup value updated and the editor hidden', async () => {
+        await expect(filterBar).toHaveScreenshot(`the-lookup-is-updated-${view}.png`);
       });
     }
   );

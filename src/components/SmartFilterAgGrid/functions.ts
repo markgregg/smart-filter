@@ -59,7 +59,10 @@ export const getComparisons = (
   return stringComparisons;
 };
 
-const getEditorType = (type?: string | boolean): ValueType | undefined => {
+const getEditorType = (type?: string | boolean, filter?: string): ValueType | undefined => {
+  if (filter === AgFilters.agSetColumnFilter) {
+    return undefined;
+  }
   switch (type) {
     case AgTypes.text:
       return 'text';
@@ -74,6 +77,23 @@ const getEditorType = (type?: string | boolean): ValueType | undefined => {
     default:
       return undefined;
   }
+}
+
+export const getPrecedence = (
+  filter?: string,
+): number => {
+  if (
+    filter === AgFilters.agTextColumnFilter
+  ) {
+    return 0;
+  }
+
+  if (
+    filter === AgFilters.agSetColumnFilter
+  ) {
+    return 10;
+  }
+  return 5;
 }
 
 export const getDefaultComparison = (
@@ -151,21 +171,13 @@ export const constructFields = (
             allowList: useLists(filter),
             allowRange: useRanges(cellDataType),
             allowBlanks: true,
-            editorType: editorType ?? getEditorType(cellDataType),
+            editorType: editorType ?? getEditorType(cellDataType, filter),
             dateTimeFormat: dateTimeFormat ?? displayDateFormat ?? DEFAULT_DATE_FORMAT,
-            textGetter:
-              cellDataType === AgTypes.boolean
-                ? (item: any) => item.text
-                : undefined,
-            valueGetter:
-              cellDataType === AgTypes.boolean
-                ? (item: any) => item.value
-                : undefined,
+            precedence: getPrecedence(filter),
             fieldMatchers:
               fieldName && !excludeFromFilter
                 ? [
                   agClientApi.getFieldMatch(
-                    fieldName,
                     field,
                     cellDataType,
                     filter,

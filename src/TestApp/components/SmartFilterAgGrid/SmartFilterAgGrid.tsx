@@ -102,7 +102,7 @@ export const SmartFilterAgGrid = () => {
           columnApi={columnApi}
         />
       </div>
-      <div className={[s.grid, 'ag-theme-alpine'].join(' ')}>
+      <div id="sf-ag-grid" className={[s.grid, 'ag-theme-alpine'].join(' ')}>
         <AgGridReact
           rowData={rowData}
           columnDefs={columnDefs}

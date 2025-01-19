@@ -50,6 +50,7 @@ interface BuildState {
     to: string;
   };
   matchText: string;
+  matcherKey?: string;
   currentValues?: Value[];
   set: (
     update: (
@@ -98,6 +99,7 @@ export const createOptionsStore = (
           ? new Map((field.operators ?? []).map((o) => [o, { symbol: o }]))
           : comparisonsMap,
         matchText: '',
+        matcherKey,
         currentValues,
         set,
       };
@@ -493,8 +495,8 @@ const matchPromiseOptions = (
   field: Field,
   match: PromiseMatch,
 ) => {
-  const { text, operator, currentValues } = buildState;
-  match.lookup(text, operator, currentValues).then((promiseItems) => {
+  const { text, operator, currentValues, matcherKey } = buildState;
+  match.lookup(text, matcherKey ? OR : operator, currentValues).then((promiseItems) => {
     if (!checkDebounced(buildState)) {
       return;
     }

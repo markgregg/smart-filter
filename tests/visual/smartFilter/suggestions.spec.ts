@@ -118,7 +118,6 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
         suggestions,
         use,
         enterAndSelectItemInSearchBox,
-        pause,
       },
     }) => {
       await Given('the SmartFilter test page is shown and the suggestion panel is visible', async () => {
@@ -271,9 +270,7 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
         searchBox,
         filterBar,
         use,
-        pause,
         enterAndSelectItemInSearchBox,
-        selectPill,
         selectOperatorBarItemSuggestion,
       },
     }) => {
@@ -285,7 +282,6 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       await When('a pill is selected', async () => {
         await enterAndSelectItemInSearchBox('5');
         await enterAndSelectItemInSearchBox('GBP');
-        await selectPill(1);
       });
 
       await And('the or option is selected', async () => {
