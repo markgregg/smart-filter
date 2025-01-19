@@ -66,7 +66,7 @@ export const ValueContent = React.memo(({ matcher, field }: ContentProps) => {
     (text: string, value: Value) => {
       setInEdit(false);
       updateMatcher({
-        ...matcher,
+        ...valueMatcher,
         text,
         value,
       });
@@ -84,24 +84,24 @@ export const ValueContent = React.memo(({ matcher, field }: ContentProps) => {
           <>
             {inEdit
               ? field && (
-                  <Editor
-                    matcherKey={matcher.key}
-                    field={field}
-                    textValue={itemValue}
-                    onChanged={handleChange}
-                    onCancel={handleCancel}
-                  />
-                )
+                <Editor
+                  matcherKey={matcher.key}
+                  field={field}
+                  textValue={itemValue}
+                  onChanged={handleChange}
+                  onCancel={handleCancel}
+                />
+              )
               : field && (
-                  <Display
-                    field={field}
-                    text={valueMatcher.text}
-                    value={valueMatcher.value}
-                    html={html}
-                    onClick={handleClick}
-                    onChanged={handleChange}
-                  />
-                )}
+                <Display
+                  field={field}
+                  text={valueMatcher.text}
+                  value={valueMatcher.value}
+                  html={html}
+                  onClick={handleClick}
+                  onChanged={handleChange}
+                />
+              )}
           </>
         ) : (
           <div />

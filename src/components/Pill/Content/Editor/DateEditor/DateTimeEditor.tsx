@@ -62,6 +62,7 @@ export const DateTimeEditor = React.memo(
 
     return (
       <input
+        id="sf-date-editor"
         ref={inputRef}
         className={[s.textInput, s[`font-${size}`]].join(' ')}
         type={field.editorType === 'date' ? 'date' : 'datetime-local'}

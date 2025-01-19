@@ -1,2 +1,99 @@
-<testsuites id="" name="" tests="0" failures="0" skipped="0" errors="0" time="3.000012">
+<testsuites id="" name="" tests="20" failures="2" skipped="0" errors="0" time="194.608546">
+<testsuite name="smartFilter\editing.spec.ts" timestamp="2025-01-19T16:02:43.236Z" hostname="chromium" tests="20" failures="2" skipped="0" time="140.175" errors="0">
+<testcase name="Clicking on a text value opens a text editor-smartfilter" classname="smartFilter\editing.spec.ts" time="9.818">
+</testcase>
+<testcase name="Clicking close shuts the editor-smartfilter" classname="smartFilter\editing.spec.ts" time="6.49">
+</testcase>
+<testcase name="Clicking accept updates the value-smartfilter" classname="smartFilter\editing.spec.ts" time="4.982">
+</testcase>
+<testcase name="Clicking on a numeric value opens a text editor-smartfilter" classname="smartFilter\editing.spec.ts" time="4.693">
+</testcase>
+<testcase name="Clicking close shuts the numeric editor-smartfilter" classname="smartFilter\editing.spec.ts" time="5.293">
+</testcase>
+<testcase name="Clicking accept updates the numeric value-smartfilter" classname="smartFilter\editing.spec.ts" time="7.153">
+</testcase>
+<testcase name="Clicking on a date value opens a date editor-smartfilter" classname="smartFilter\editing.spec.ts" time="5.026">
+</testcase>
+<testcase name="Clicking close shuts the date editor-smartfilter" classname="smartFilter\editing.spec.ts" time="4.802">
+</testcase>
+<testcase name="Clicking accept updates the date value-smartfilter" classname="smartFilter\editing.spec.ts" time="5.169">
+</testcase>
+<testcase name="Clicking on a boolean value toggles between true and false-smartfilter" classname="smartFilter\editing.spec.ts" time="5.232">
+<failure message="editing.spec.ts:294:3 Clicking on a boolean value toggles between true and false-smartfilter" type="FAILURE">
+<![CDATA[  [chromium] › smartFilter\editing.spec.ts:294:3 › Clicking on a boolean value toggles between true and false-smartfilter 
+
+    Error: A snapshot doesn't exist at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\editing.spec.ts-snapshots\boolean-value-is-true-smartfilter-chromium-win32.png, writing actual.
+
+      315 |
+      316 |       await Then('a text editor is dispalyed', async () => {
+    > 317 |         await expect(filterBar).toHaveScreenshot(`boolean-value-is-true-${view}.png`);
+          |         ^
+      318 |       });
+      319 |     }
+      320 |   );
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\editing.spec.ts:317:9
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\editing.spec.ts:316:7
+
+    attachment #1: boolean-value-is-true-smartfilter-expected.png (image/png) ──────────────────────
+    tests\visual\smartFilter\editing.spec.ts-snapshots\boolean-value-is-true-smartfilter-chromium-win32.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: boolean-value-is-true-smartfilter-actual.png (image/png) ────────────────────────
+    test-results\smartFilter-editing-Clicki-b8198--true-and-false-smartfilter-chromium\boolean-value-is-true-smartfilter-actual.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\tests\visual\smartFilter\editing.spec.ts-snapshots\boolean-value-is-true-smartfilter-chromium-win32.png]]
+
+[[ATTACHMENT|..\test-results\smartFilter-editing-Clicki-b8198--true-and-false-smartfilter-chromium\boolean-value-is-true-smartfilter-actual.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Clicking on a text value opens a text editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="5.044">
+</testcase>
+<testcase name="Clicking close shuts the editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="6.289">
+</testcase>
+<testcase name="Clicking accept updates the value-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="4.719">
+</testcase>
+<testcase name="Clicking on a numeric value opens a text editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="5.359">
+</testcase>
+<testcase name="Clicking close shuts the numeric editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="4.687">
+</testcase>
+<testcase name="Clicking accept updates the numeric value-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="5.114">
+</testcase>
+<testcase name="Clicking on a date value opens a date editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="7.899">
+</testcase>
+<testcase name="Clicking close shuts the date editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="6.023">
+</testcase>
+<testcase name="Clicking accept updates the date value-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="6.282">
+</testcase>
+<testcase name="Clicking on a boolean value toggles between true and false-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="30.101">
+<failure message="editing.spec.ts:294:3 Clicking on a boolean value toggles between true and false-smartfilteraggrid" type="FAILURE">
+<![CDATA[  [chromium] › smartFilter\editing.spec.ts:294:3 › Clicking on a boolean value toggles between true and false-smartfilteraggrid › And a text value is clicked 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for locator('#sf-boolean-toggle')
+
+
+       at common\SmartFilterPage.ts:153
+
+      151 |         throw Error('booleanToggle cannot be found');
+      152 |       }
+    > 153 |       await booleanToggle.click();
+          |                           ^
+      154 |     },
+      155 |
+      156 |     updateTextValue: async (text: string) => {
+        at clickBooleanToggle (C:\Users\gregg\development\smart-filter\tests\visual\common\SmartFilterPage.ts:153:27)
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\editing.spec.ts:313:9
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\editing.spec.ts:312:7
+]]>
+</failure>
+</testcase>
+</testsuite>
 </testsuites>

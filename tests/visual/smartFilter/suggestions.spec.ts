@@ -128,7 +128,6 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
 
       await When('a pill is selected', async () => {
         await enterAndSelectItemInSearchBox('XS1');
-        await pause(50);
       });
 
       await Then('the suggestions dropdown shows only field options', async () => {
@@ -220,7 +219,6 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
 
       await When('a pill is selected', async () => {
         await enterAndSelectItemInSearchBox('XS1');
-        await pause(50);
       });
 
       await And('the list option is selected', async () => {
@@ -286,9 +284,7 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
 
       await When('a pill is selected', async () => {
         await enterAndSelectItemInSearchBox('5');
-        await pause(50);
         await enterAndSelectItemInSearchBox('GBP');
-        await pause(50);
         await selectPill(1);
       });
 

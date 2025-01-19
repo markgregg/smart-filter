@@ -9,6 +9,7 @@ export const TextDisplay = React.memo(
 
     return (
       <div
+        id="sf-text-display"
         className={s.display}
         onClick={onClick}
         style={{

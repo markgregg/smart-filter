@@ -18,7 +18,7 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
         await expect(filterBar).toHaveScreenshot(`icons-shown-${view}.png`);
       });
     }
-  )
+  );
 
   Scenario(
     `All icons are hidden when not enabled-${view}`,
@@ -106,12 +106,12 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
 
       await Then('the focus border is shown in the screenshot', async () => {
         await expect(expandIcon).toHaveScreenshot(`expand-icon-highlighted-${view}.png`);
-      })
+      });
     }
-  )
+  );
 
   Scenario(
-    `Clicking the expand extends the filter bar-${view}`,
+    `Clicking the expand icon extends the filter bar-${view}`,
     async ({
       smartFilterPage: {
         expandIcon,
@@ -121,7 +121,7 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       },
     }) => {
       await Given('the SmartFilter test page is shown', async () => {
-        await use(`${view} ? width = 400`);
+        await use(`${view}?width=400`);
       });
 
       await When('the pills take more space than the filterbar', async () => {

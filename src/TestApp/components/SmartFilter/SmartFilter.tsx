@@ -28,7 +28,6 @@ export const SmartFilter = () => {
         : { ...p, [pv[0]]: pv[1] }
     }, {});
   }, []);
-  console.log(queryParams);
 
   const handleChange = React.useCallback((
     newMatchers: Matcher[],

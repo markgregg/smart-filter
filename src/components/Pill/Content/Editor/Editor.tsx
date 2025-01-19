@@ -92,6 +92,7 @@ export const Editor = React.memo(
           onChanged={handleChanged}
         />
         <Button
+          id="sf-editor-close"
           onClick={handleCancel}
           height={12}
           width={12}
@@ -110,6 +111,7 @@ export const Editor = React.memo(
         </Button>
         {valid && (!unset || tempTextValue.value !== null) && (
           <Button
+            id="sf-editor-accept"
             onClick={handleValueChoosen}
             height={12}
             width={12}

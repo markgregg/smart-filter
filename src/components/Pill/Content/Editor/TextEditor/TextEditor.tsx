@@ -26,6 +26,7 @@ export const TextEditor = React.memo(
 
     return (
       <input
+        id="sf-text-editor"
         ref={inputRef}
         className={[s.textInput, s[`font-${size}`]].join(' ')}
         type="text"

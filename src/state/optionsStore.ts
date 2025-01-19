@@ -333,7 +333,7 @@ const contructOptions = (buildState: BuildState) => {
   fields
     .filter((f) => !field || field.name === f.name)
     .forEach((f) => {
-      if (text.trim() === '' || text.trim() === EMPTY) {
+      if (text.trim() === '' || text.trim().toLocaleUpperCase().includes(EMPTY.toLocaleUpperCase())) {
         if (f.allowBlanks) {
           addOption(buildState, f, EMPTY, null, true);
         }
@@ -587,8 +587,9 @@ const matchValueOptions = (
   field: Field,
   match: ValueMatch,
 ) => {
-  if (field.allowRange && buildState.range) {
+  if (buildState.range) {
     if (
+      field.allowRange &&
       expressionMatches(match.match, buildState.range.from) &&
       expressionMatches(match.match, buildState.range.to)
     ) {
@@ -604,14 +605,14 @@ const matchValueOptions = (
         field,
         fromText,
         fromValue,
-        displayText,
         toText,
         toValue,
+        displayText,
         true,
       );
       buildState.matchText = displayText;
-      return;
     }
+    return;
   }
   if (expressionMatches(match.match, buildState.text)) {
     const value = match.value(buildState.text);

@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
+import { Given, Scenario, Then, When } from "../common/ghkerkin";
 
 ['smartfilter', 'smartfilteraggrid'].forEach(view => {
   Scenario(
@@ -23,9 +23,9 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
 
       await Then('a matching text pill is created', async () => {
         await expect(filterBar).toHaveScreenshot(`text-pill-created-${view}.png`);
-      })
+      });
     }
-  )
+  );
 
   Scenario(
     `Strings are match to lookup matchers-${view}`,
@@ -48,9 +48,9 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
 
       await Then('a matching lookup pill is created', async () => {
         await expect(filterBar).toHaveScreenshot(`lookup-pill-created-${view}.png`);
-      })
+      });
     }
-  )
+  );
 
   Scenario(
     `Strings are match to list matchers-${view}`,
@@ -73,9 +73,9 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
 
       await Then('a matching list pill is created', async () => {
         await expect(filterBar).toHaveScreenshot(`matched-list-pill-created-${view}.png`);
-      })
+      });
     }
-  )
+  );
 
   Scenario(
     `Numbers are match to expressions matchers-${view}`,
@@ -224,9 +224,9 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
 
       await Then('a list pill is created', async () => {
         await expect(filterBar).toHaveScreenshot(`list-pill-created-${view}.png`);
-      })
+      });
     }
-  )
+  );
 
   /* operators/comaprisons and values */
 
@@ -251,9 +251,9 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
 
       await Then('a matching pill with a value and comaprison is created', async () => {
         await expect(filterBar).toHaveScreenshot(`value-comparison-pill-created-${view}.png`);
-      })
+      });
     }
-  )
+  );
 
   Scenario(
     `Operators and comparisons can be entered alongside values-${view}`,
@@ -277,9 +277,9 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
 
       await Then('a matching pill with a value and comaprison is created', async () => {
         await expect(filterBar).toHaveScreenshot(`operator-value-comparison-pill-created-${view}.png`);
-      })
+      });
     }
-  )
+  );
 
   Scenario(
     `Operators, fields and comparisons can be entered alongside values-${view}`,
@@ -303,7 +303,64 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
 
       await Then('a matching pill with a value and comaprison is created', async () => {
         await expect(filterBar).toHaveScreenshot(`operator-field-value-comparison-pill-created-${view}.png`);
-      })
+      });
+    }
+  );
+
+  Scenario(
+    `Selecting empty for a value sets the value to null-${view}`,
+    async ({
+      smartFilterPage: {
+        searchBox,
+        filterBar,
+        use,
+        enterAndSelectItemInSearchBox,
+      },
+    }) => {
+      await Given('the SmartFilter test page is shown and the suggestion panel is visible', async () => {
+        await use(view);
+        await searchBox.click();
+      });
+
+      await When('text is entered into the search box', async () => {
+        await enterAndSelectItemInSearchBox('isin empty');
+      });
+
+      await Then('a matching text pill is created', async () => {
+        await expect(filterBar).toHaveScreenshot(`empty-pill-created-${view}.png`);
+      });
+    }
+  );
+
+  Scenario(
+    `Smart filter can hadnle complex filter statements-${view}`,
+    async ({
+      smartFilterPage: {
+        searchBox,
+        filterBar,
+        use,
+        enterAndSelectItemInSearchBox,
+        selectOperatorBarItemSuggestion,
+        pause,
+      },
+    }) => {
+      await Given('the SmartFilter test page is shown and the suggestion panel is visible', async () => {
+        await use(view);
+        await searchBox.click();
+      });
+
+      await When('text is entered into the search box', async () => {
+        await enterAndSelectItemInSearchBox('GBP');
+        await selectOperatorBarItemSuggestion('open');
+        await pause(50);
+        await enterAndSelectItemInSearchBox('> 0.5');
+        await enterAndSelectItemInSearchBox('or < 0.8');
+        await selectOperatorBarItemSuggestion('close');
+      });
+
+      await Then('a matching text pill is created', async () => {
+        await expect(filterBar).toHaveScreenshot(`complex-pill-created-${view}.png`);
+      });
     }
   );
 });

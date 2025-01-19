@@ -25,7 +25,7 @@ export const Option = React.memo(({ option, active }: OptionProps) => {
 
   const [left, match, right] = React.useMemo(
     () =>
-      splitText('displayText' in option ? option.displayText : text, matchText),
+      splitText(('displayText' in option ? option.displayText : text) ?? '', matchText ?? ''),
     [text, matchText],
   );
 

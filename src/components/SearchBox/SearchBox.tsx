@@ -87,7 +87,7 @@ export const SearchBox = React.memo(
       ) {
         if (inputRef.current) {
           if (enableExpand && !isVisible(inputRef.current)) {
-            inputRef.current.scrollIntoView({ behavior: 'smooth' });
+            inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
           }
           inputRef.current.focus();
         }

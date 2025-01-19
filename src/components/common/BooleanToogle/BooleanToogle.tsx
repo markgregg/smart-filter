@@ -21,6 +21,7 @@ export const BooleanToogle = React.memo(
 
     return (
       <div
+        id="sf-boolean-toggle"
         className={[s.booleanToggle, value ? s.true : s.false].join(' ')}
         onClick={handleClick}
       >

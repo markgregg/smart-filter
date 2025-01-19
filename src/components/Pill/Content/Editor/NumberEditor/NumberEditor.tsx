@@ -25,6 +25,7 @@ export const NumberEditor = React.memo(
 
     return (
       <input
+        id="sf-number-editor"
         ref={inputRef}
         className={[s.textInput, s[`font-${size}`]].join(' ')}
         type={field.editorType === 'integer' ? 'number' : 'number'}

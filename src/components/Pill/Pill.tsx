@@ -206,23 +206,24 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
   const handleDragOver = React.useCallback(
     (event: React.DragEvent<HTMLDivElement>) => {
       if (matcher.locked) {
+        clearDragOverItem();
         return;
       }
       if (draggedItem) {
         const bounds = event.currentTarget.getBoundingClientRect();
         const position =
           bounds.left + bounds.width / 2 > event.clientX ? 'before' : 'after';
-        if (
-          draggedItem.item.key !== matcher.key &&
-          (!dragOverItem ||
+        if (draggedItem.item.key !== matcher.key) {
+          if (!dragOverItem ||
             dragOverItem.item.key !== matcher.key ||
-            dragOverItem.position !== position)
-        ) {
-          setDraggedOverItem(matcher, index, position);
+            dragOverItem.position !== position) {
+            setDraggedOverItem(matcher, index, position);
+          }
+          event.dataTransfer.dropEffect = 'move';
+          event.preventDefault();
+        } else {
           clearDragOverItem();
         }
-        event.dataTransfer.dropEffect = 'move';
-        event.preventDefault();
       }
     },
     [draggedItem, dragOverItem, matcher, index, setDraggedOverItem],
@@ -284,7 +285,7 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
           <Or matcher={matcher} />
         )}
       <div
-        id="sf-pill-content"
+        id={`sf-pill-content-${index}`}
         className={[s.pillContent, s[size]].join(' ')}
         onClick={handleMatcherClicked}
         style={{
