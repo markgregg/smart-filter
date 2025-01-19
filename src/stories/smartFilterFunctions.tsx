@@ -75,9 +75,9 @@ export const fields: Field[] = [
   },
   {
     name: 'issueDate',
-    title: 'Issue Date',
+    title: 'IssueDate',
     operators: numberComparisons,
-    editorType: 'date',
+    editorType: 'dateString',
     dateTimeFormat: 'YYYY-MM-DD',
     allowRange: true,
     allowBlanks: true,
@@ -85,9 +85,9 @@ export const fields: Field[] = [
   },
   {
     name: 'maturityDate',
-    title: 'Maturity Date',
+    title: 'MaturityDate',
     operators: numberComparisons,
-    editorType: 'date',
+    editorType: 'dateString',
     dateTimeFormat: 'YYYY-MM-DD',
     allowRange: true,
     allowBlanks: true,

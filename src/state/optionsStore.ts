@@ -467,7 +467,9 @@ const getValueIfValid = (text: string, field: Field) => {
       break;
     }
     case 'date':
-    case 'datetime': {
+    case 'datetime':
+    case 'dateString':
+    case 'datetimeString': {
       const date = moment(
         text,
         field.dateTimeFormat ??
@@ -481,11 +483,14 @@ const getValueIfValid = (text: string, field: Field) => {
       }
       break;
     }
-    default: {
+    case 'text': {
       if (text.length > 0) {
         return text;
       }
+      break;
     }
+    default:
+      return null;
   }
   return null;
 };

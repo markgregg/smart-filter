@@ -34,7 +34,6 @@ export const MainSearch = React.memo(
             ? createRangeValue(option)
             : createValue(option);
         addValue({
-          fieldMap,
           value,
           position: editPosition,
           operator: operator ?? AND,

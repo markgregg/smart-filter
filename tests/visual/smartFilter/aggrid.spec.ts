@@ -57,6 +57,7 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
     async ({
       smartFilterPage: {
         agGrid,
+        filterBar,
         use,
         enterAndSelectItemInSearchBox,
         selectSortSuggestion,
@@ -68,13 +69,14 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await When('a value is entered into smart filter', async () => {
-        await enterAndSelectItemInSearchBox('maturity date > 2050-01-01');
+        await enterAndSelectItemInSearchBox('maturitydate > 2050-01-01');
         await enterAndSelectItemInSearchBox('active true');
         await selectSortSuggestion('isin', 'asc');
         await pause(250);
       });
 
       await Then('ag-grid is updated', async () => {
+        await expect(filterBar).toHaveScreenshot(`filter-bar-has-options-${view}.png`);
         await expect(agGrid).toHaveScreenshot(`ag-grid-sorted-and-filtered-${view}.png`);
       });
     }

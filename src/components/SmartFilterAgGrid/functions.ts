@@ -73,7 +73,7 @@ const getEditorType = (type?: string | boolean, filter?: string): ValueType | un
     case AgTypes.date:
       return 'date';
     case AgTypes.dateString:
-      return 'date'
+      return 'dateString'
     default:
       return undefined;
   }

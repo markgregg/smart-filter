@@ -10,7 +10,9 @@ export type ValueType =
   | 'float'
   | 'text'
   | 'date'
-  | 'datetime';
+  | 'datetime'
+  | 'dateString'
+  | 'datetimeString';
 
 export type FieldDisplay = 'icon' | 'text' | 'both';
 
