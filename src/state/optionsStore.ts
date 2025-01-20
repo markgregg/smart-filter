@@ -335,9 +335,9 @@ const checkForRange = (buildState: BuildState): BuildState => {
 };
 
 const contructOptions = (buildState: BuildState) => {
-  const { text, field, fields } = buildState;
+  const { text, field, fields, comparison } = buildState;
   fields
-    .filter((f) => !field || field.name === f.name)
+    .filter((f) => (!field || field.name === f.name) && (!comparison || f.operators.includes(comparison)))
     .forEach((f) => {
       if (text.trim() === '' || text.trim().toLocaleUpperCase().includes(EMPTY.toLocaleUpperCase())) {
         if (f.allowBlanks) {

@@ -1,53 +1,390 @@
-<testsuites id="" name="" tests="1" failures="1" skipped="0" errors="0" time="40.621125">
-<testsuite name="smartFilter\sort.spec.ts" timestamp="2025-01-19T21:25:27.962Z" hostname="chromium" tests="1" failures="1" skipped="0" time="30.167" errors="0">
-<testcase name="Sort items are shown in the dropdown-smartfilter" classname="smartFilter\sort.spec.ts" time="30.167">
-<failure message="sort.spec.ts:5:3 Sort items are shown in the dropdown-smartfilter" type="FAILURE">
-<![CDATA[  [chromium] › smartFilter\sort.spec.ts:5:3 › Sort items are shown in the dropdown-smartfilter › When enter sort items 
+<testsuites id="" name="" tests="24" failures="6" skipped="0" errors="0" time="324.08487700000006">
+<testsuite name="smartFilter\suggestions.spec.ts" timestamp="2025-01-20T21:10:59.675Z" hostname="chromium" tests="24" failures="6" skipped="0" time="164.205" errors="0">
+<testcase name="Dropdown suggestions are shown when mouse over-smartfilter" classname="smartFilter\suggestions.spec.ts" time="8.535">
+</testcase>
+<testcase name="A pill is created when a field option is clicked-smartfilter" classname="smartFilter\suggestions.spec.ts" time="12.562">
+<failure message="suggestions.spec.ts:28:3 A pill is created when a field option is clicked-smartfilter" type="FAILURE">
+<![CDATA[  [chromium] › smartFilter\suggestions.spec.ts:28:3 › A pill is created when a field option is clicked-smartfilter › Then the field pill is shown in the filterbar 
 
-    Test timeout of 30000ms exceeded.
+    Error: expect(locator).toHaveScreenshot(expected)
 
-    Error: locator.hover: Test timeout of 30000ms exceeded.
+      3397 pixels (ratio 0.14 of all image pixels) are different.
+
+    Expected: C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts-snapshots\filter-bar-has-field-option-smartfilter-chromium-win32.png
+    Received: C:\Users\gregg\development\smart-filter\test-results\smartFilter-suggestions-A--a01ce-tion-is-clicked-smartfilter-chromium\filter-bar-has-field-option-smartfilter-actual.png
+        Diff: C:\Users\gregg\development\smart-filter\test-results\smartFilter-suggestions-A--a01ce-tion-is-clicked-smartfilter-chromium\filter-bar-has-field-option-smartfilter-diff.png
+
     Call log:
-      - waiting for locator('#sf-sort-selection-button')
-        - locator resolved to <div id="sf-sort-selection-button" class="_addFieldIcon_p1ieh_4 _icon-normal_p1ieh_11">…</div>
-      - attempting hover action
-        2 × waiting for element to be visible and stable
-          - element is visible and stable
-          - scrolling into view if needed
-          - done scrolling
-          - <div class="_title_p1ieh_30">Sort Fields</div> from <div class="_filterSelectionPopup_p1ieh_17 _normal_p1ieh_64">…</div> subtree intercepts pointer events
-        - retrying hover action
-        - waiting 20ms
-        2 × waiting for element to be visible and stable
-          - element is visible and stable
-          - scrolling into view if needed
-          - done scrolling
-          - <div class="_title_p1ieh_30">Sort Fields</div> from <div class="_filterSelectionPopup_p1ieh_17 _normal_p1ieh_64">…</div> subtree intercepts pointer events
-        - retrying hover action
-          - waiting 100ms
-        39 × waiting for element to be visible and stable
-           - element is visible and stable
-           - scrolling into view if needed
-           - done scrolling
-           - <div class="_title_p1ieh_30">Sort Fields</div> from <div class="_filterSelectionPopup_p1ieh_17 _normal_p1ieh_64">…</div> subtree intercepts pointer events
-         - retrying hover action
-           - waiting 500ms
+      - expect.toHaveScreenshot(filter-bar-has-field-option-smartfilter.png) with timeout 5000ms
+        - verifying given screenshot expectation
+      - waiting for locator('#sf-filter-bar')
+        - locator resolved to <div tabindex="0" id="sf-filter-bar" class="_searchBar_kp0r0_1 _normal_kp0r0_48 _font-normal_kp0r0_58">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - 3397 pixels (ratio 0.14 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - waiting for locator('#sf-filter-bar')
+        - locator resolved to <div tabindex="0" id="sf-filter-bar" class="_searchBar_kp0r0_1 _normal_kp0r0_48 _font-normal_kp0r0_58">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - captured a stable screenshot
+      - 3397 pixels (ratio 0.14 of all image pixels) are different.
 
 
-       at common\SmartFilterPage.ts:105
+      49 |
+      50 |       await Then('the field pill is shown in the filterbar', async () => {
+    > 51 |         await expect(filterBar).toHaveScreenshot(`filter-bar-has-field-option-${view}.png`);
+         |                                 ^
+      52 |       });
+      53 |     }
+      54 |   );
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:51:33
+        at Then (C:\Users\gregg\development\smart-filter\tests\visual\common\ghkerkin.ts:23:8)
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:50:13
 
-      103 |     /* sugestions start */
-      104 |     selectSortSuggestion: async (field: string, direction: SortDirection) => {
-    > 105 |       await sortSelectionbutton.hover();
-          |                                 ^
-      106 |       const sortOpt = await page.locator(`#sf-${field}-${direction}-opt`);
-      107 |       if (!sortOpt) {
-      108 |         throw Error(`sort for ${field} cannot be found`);
-        at selectSortSuggestion (C:\Users\gregg\development\smart-filter\tests\visual\common\SmartFilterPage.ts:105:33)
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\sort.spec.ts:23:15
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\sort.spec.ts:21:7
+    attachment #1: filter-bar-has-field-option-smartfilter-expected.png (image/png) ────────────────
+    tests\visual\smartFilter\suggestions.spec.ts-snapshots\filter-bar-has-field-option-smartfilter-chromium-win32.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: filter-bar-has-field-option-smartfilter-actual.png (image/png) ──────────────────
+    test-results\smartFilter-suggestions-A--a01ce-tion-is-clicked-smartfilter-chromium\filter-bar-has-field-option-smartfilter-actual.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: filter-bar-has-field-option-smartfilter-diff.png (image/png) ────────────────────
+    test-results\smartFilter-suggestions-A--a01ce-tion-is-clicked-smartfilter-chromium\filter-bar-has-field-option-smartfilter-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
 ]]>
 </failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\tests\visual\smartFilter\suggestions.spec.ts-snapshots\filter-bar-has-field-option-smartfilter-chromium-win32.png]]
+
+[[ATTACHMENT|..\test-results\smartFilter-suggestions-A--a01ce-tion-is-clicked-smartfilter-chromium\filter-bar-has-field-option-smartfilter-actual.png]]
+
+[[ATTACHMENT|..\test-results\smartFilter-suggestions-A--a01ce-tion-is-clicked-smartfilter-chromium\filter-bar-has-field-option-smartfilter-diff.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="A pill is created when a sort option is clicked-smartfilter" classname="smartFilter\suggestions.spec.ts" time="5.64">
+</testcase>
+<testcase name="Brackets pills are created when brackets are selected-smartfilter" classname="smartFilter\suggestions.spec.ts" time="6.248">
+</testcase>
+<testcase name="Suggestions change when a pill is selected-smartfilter" classname="smartFilter\suggestions.spec.ts" time="5.855">
+</testcase>
+<testcase name="Selecting an operator applies the operator to the pill-smartfilter" classname="smartFilter\suggestions.spec.ts" time="6.393">
+</testcase>
+<testcase name="Selecting empty removes the pills value-smartfilter" classname="smartFilter\suggestions.spec.ts" time="9.533">
+</testcase>
+<testcase name="Selecting list turns the pills into a list-smartfilter" classname="smartFilter\suggestions.spec.ts" time="4.881">
+</testcase>
+<testcase name="Selecting range turns the pills into a range-smartfilter" classname="smartFilter\suggestions.spec.ts" time="7.054">
+<failure message="suggestions.spec.ts:234:3 Selecting range turns the pills into a range-smartfilter" type="FAILURE">
+<![CDATA[  [chromium] › smartFilter\suggestions.spec.ts:234:3 › Selecting range turns the pills into a range-smartfilter › Then the pills is transformed into a range 
+
+    Error: expect(locator).toHaveScreenshot(expected)
+
+      455 pixels (ratio 0.02 of all image pixels) are different.
+
+    Expected: C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-is-a-range-smartfilter-chromium-win32.png
+    Received: C:\Users\gregg\development\smart-filter\test-results\smartFilter-suggestions-Se-46084-ls-into-a-range-smartfilter-chromium\pill-is-a-range-smartfilter-actual.png
+        Diff: C:\Users\gregg\development\smart-filter\test-results\smartFilter-suggestions-Se-46084-ls-into-a-range-smartfilter-chromium\pill-is-a-range-smartfilter-diff.png
+
+    Call log:
+      - expect.toHaveScreenshot(pill-is-a-range-smartfilter.png) with timeout 5000ms
+        - verifying given screenshot expectation
+      - waiting for locator('#sf-filter-bar')
+        - locator resolved to <div tabindex="0" id="sf-filter-bar" class="_searchBar_kp0r0_1 _normal_kp0r0_48 _font-normal_kp0r0_58">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - 455 pixels (ratio 0.02 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - waiting for locator('#sf-filter-bar')
+        - locator resolved to <div tabindex="0" id="sf-filter-bar" class="_searchBar_kp0r0_1 _normal_kp0r0_48 _font-normal_kp0r0_58">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - captured a stable screenshot
+      - 455 pixels (ratio 0.02 of all image pixels) are different.
+
+
+      259 |
+      260 |       await Then('the pills is transformed into a range', async () => {
+    > 261 |         await expect(filterBar).toHaveScreenshot(`pill-is-a-range-${view}.png`);
+          |                                 ^
+      262 |       });
+      263 |     }
+      264 |   );
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:261:33
+        at Then (C:\Users\gregg\development\smart-filter\tests\visual\common\ghkerkin.ts:23:8)
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:260:13
+
+    attachment #1: pill-is-a-range-smartfilter-expected.png (image/png) ────────────────────────────
+    tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-is-a-range-smartfilter-chromium-win32.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: pill-is-a-range-smartfilter-actual.png (image/png) ──────────────────────────────
+    test-results\smartFilter-suggestions-Se-46084-ls-into-a-range-smartfilter-chromium\pill-is-a-range-smartfilter-actual.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: pill-is-a-range-smartfilter-diff.png (image/png) ────────────────────────────────
+    test-results\smartFilter-suggestions-Se-46084-ls-into-a-range-smartfilter-chromium\pill-is-a-range-smartfilter-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-is-a-range-smartfilter-chromium-win32.png]]
+
+[[ATTACHMENT|..\test-results\smartFilter-suggestions-Se-46084-ls-into-a-range-smartfilter-chromium\pill-is-a-range-smartfilter-actual.png]]
+
+[[ATTACHMENT|..\test-results\smartFilter-suggestions-Se-46084-ls-into-a-range-smartfilter-chromium\pill-is-a-range-smartfilter-diff.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Selecting &apos;or&apos; adds the or operator-smartfilter" classname="smartFilter\suggestions.spec.ts" time="7.316">
+</testcase>
+<testcase name="Selecting group shows all group hints-smartfilter" classname="smartFilter\suggestions.spec.ts" time="4.895">
+</testcase>
+<testcase name="Selecting a hint creates a pill-smartfilter" classname="smartFilter\suggestions.spec.ts" time="7.33">
+</testcase>
+<testcase name="Dropdown suggestions are shown when mouse over-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="7.654">
+</testcase>
+<testcase name="A pill is created when a field option is clicked-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="6.87">
+<failure message="suggestions.spec.ts:28:3 A pill is created when a field option is clicked-smartfilteraggrid" type="FAILURE">
+<![CDATA[  [chromium] › smartFilter\suggestions.spec.ts:28:3 › A pill is created when a field option is clicked-smartfilteraggrid › Then the field pill is shown in the filterbar 
+
+    Error: expect(locator).toHaveScreenshot(expected)
+
+      3397 pixels (ratio 0.14 of all image pixels) are different.
+
+    Expected: C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts-snapshots\filter-bar-has-field-option-smartfilteraggrid-chromium-win32.png
+    Received: C:\Users\gregg\development\smart-filter\test-results\smartFilter-suggestions-A--a94e1-s-clicked-smartfilteraggrid-chromium\filter-bar-has-field-option-smartfilteraggrid-actual.png
+        Diff: C:\Users\gregg\development\smart-filter\test-results\smartFilter-suggestions-A--a94e1-s-clicked-smartfilteraggrid-chromium\filter-bar-has-field-option-smartfilteraggrid-diff.png
+
+    Call log:
+      - expect.toHaveScreenshot(filter-bar-has-field-option-smartfilteraggrid.png) with timeout 5000ms
+        - verifying given screenshot expectation
+      - waiting for locator('#sf-filter-bar')
+        - locator resolved to <div tabindex="0" id="sf-filter-bar" class="_searchBar_kp0r0_1 _normal_kp0r0_48 _font-normal_kp0r0_58">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - 3397 pixels (ratio 0.14 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - waiting for locator('#sf-filter-bar')
+        - locator resolved to <div tabindex="0" id="sf-filter-bar" class="_searchBar_kp0r0_1 _normal_kp0r0_48 _font-normal_kp0r0_58">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - captured a stable screenshot
+      - 3397 pixels (ratio 0.14 of all image pixels) are different.
+
+
+      49 |
+      50 |       await Then('the field pill is shown in the filterbar', async () => {
+    > 51 |         await expect(filterBar).toHaveScreenshot(`filter-bar-has-field-option-${view}.png`);
+         |                                 ^
+      52 |       });
+      53 |     }
+      54 |   );
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:51:33
+        at Then (C:\Users\gregg\development\smart-filter\tests\visual\common\ghkerkin.ts:23:8)
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:50:13
+
+    attachment #1: filter-bar-has-field-option-smartfilteraggrid-expected.png (image/png) ──────────
+    tests\visual\smartFilter\suggestions.spec.ts-snapshots\filter-bar-has-field-option-smartfilteraggrid-chromium-win32.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: filter-bar-has-field-option-smartfilteraggrid-actual.png (image/png) ────────────
+    test-results\smartFilter-suggestions-A--a94e1-s-clicked-smartfilteraggrid-chromium\filter-bar-has-field-option-smartfilteraggrid-actual.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: filter-bar-has-field-option-smartfilteraggrid-diff.png (image/png) ──────────────
+    test-results\smartFilter-suggestions-A--a94e1-s-clicked-smartfilteraggrid-chromium\filter-bar-has-field-option-smartfilteraggrid-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\tests\visual\smartFilter\suggestions.spec.ts-snapshots\filter-bar-has-field-option-smartfilteraggrid-chromium-win32.png]]
+
+[[ATTACHMENT|..\test-results\smartFilter-suggestions-A--a94e1-s-clicked-smartfilteraggrid-chromium\filter-bar-has-field-option-smartfilteraggrid-actual.png]]
+
+[[ATTACHMENT|..\test-results\smartFilter-suggestions-A--a94e1-s-clicked-smartfilteraggrid-chromium\filter-bar-has-field-option-smartfilteraggrid-diff.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="A pill is created when a sort option is clicked-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="6.197">
+</testcase>
+<testcase name="Brackets pills are created when brackets are selected-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="4.645">
+</testcase>
+<testcase name="Suggestions change when a pill is selected-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="5.795">
+</testcase>
+<testcase name="Selecting an operator applies the operator to the pill-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="4.984">
+</testcase>
+<testcase name="Selecting empty removes the pills value-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="5.75">
+</testcase>
+<testcase name="Selecting list turns the pills into a list-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="5.42">
+</testcase>
+<testcase name="Selecting range turns the pills into a range-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="7.7">
+<failure message="suggestions.spec.ts:234:3 Selecting range turns the pills into a range-smartfilteraggrid" type="FAILURE">
+<![CDATA[  [chromium] › smartFilter\suggestions.spec.ts:234:3 › Selecting range turns the pills into a range-smartfilteraggrid › Then the pills is transformed into a range 
+
+    Error: expect(locator).toHaveScreenshot(expected)
+
+      504 pixels (ratio 0.03 of all image pixels) are different.
+
+    Expected: C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-is-a-range-smartfilteraggrid-chromium-win32.png
+    Received: C:\Users\gregg\development\smart-filter\test-results\smartFilter-suggestions-Se-6aca4-o-a-range-smartfilteraggrid-chromium\pill-is-a-range-smartfilteraggrid-actual.png
+        Diff: C:\Users\gregg\development\smart-filter\test-results\smartFilter-suggestions-Se-6aca4-o-a-range-smartfilteraggrid-chromium\pill-is-a-range-smartfilteraggrid-diff.png
+
+    Call log:
+      - expect.toHaveScreenshot(pill-is-a-range-smartfilteraggrid.png) with timeout 5000ms
+        - verifying given screenshot expectation
+      - waiting for locator('#sf-filter-bar')
+        - locator resolved to <div tabindex="0" id="sf-filter-bar" class="_searchBar_kp0r0_1 _normal_kp0r0_48 _font-normal_kp0r0_58">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - 504 pixels (ratio 0.03 of all image pixels) are different.
+      - waiting 100ms before taking screenshot
+      - waiting for locator('#sf-filter-bar')
+        - locator resolved to <div tabindex="0" id="sf-filter-bar" class="_searchBar_kp0r0_1 _normal_kp0r0_48 _font-normal_kp0r0_58">…</div>
+      - taking element screenshot
+        - disabled all CSS animations
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+      - captured a stable screenshot
+      - 504 pixels (ratio 0.03 of all image pixels) are different.
+
+
+      259 |
+      260 |       await Then('the pills is transformed into a range', async () => {
+    > 261 |         await expect(filterBar).toHaveScreenshot(`pill-is-a-range-${view}.png`);
+          |                                 ^
+      262 |       });
+      263 |     }
+      264 |   );
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:261:33
+        at Then (C:\Users\gregg\development\smart-filter\tests\visual\common\ghkerkin.ts:23:8)
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:260:13
+
+    attachment #1: pill-is-a-range-smartfilteraggrid-expected.png (image/png) ──────────────────────
+    tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-is-a-range-smartfilteraggrid-chromium-win32.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: pill-is-a-range-smartfilteraggrid-actual.png (image/png) ────────────────────────
+    test-results\smartFilter-suggestions-Se-6aca4-o-a-range-smartfilteraggrid-chromium\pill-is-a-range-smartfilteraggrid-actual.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: pill-is-a-range-smartfilteraggrid-diff.png (image/png) ──────────────────────────
+    test-results\smartFilter-suggestions-Se-6aca4-o-a-range-smartfilteraggrid-chromium\pill-is-a-range-smartfilteraggrid-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-is-a-range-smartfilteraggrid-chromium-win32.png]]
+
+[[ATTACHMENT|..\test-results\smartFilter-suggestions-Se-6aca4-o-a-range-smartfilteraggrid-chromium\pill-is-a-range-smartfilteraggrid-actual.png]]
+
+[[ATTACHMENT|..\test-results\smartFilter-suggestions-Se-6aca4-o-a-range-smartfilteraggrid-chromium\pill-is-a-range-smartfilteraggrid-diff.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Selecting &apos;or&apos; adds the or operator-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="7.1">
+</testcase>
+<testcase name="Selecting group shows all group hints-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="7.106">
+<failure message="suggestions.spec.ts:297:3 Selecting group shows all group hints-smartfilteraggrid" type="FAILURE">
+<![CDATA[  [chromium] › smartFilter\suggestions.spec.ts:297:3 › Selecting group shows all group hints-smartfilteraggrid 
+
+    Error: A snapshot doesn't exist at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts-snapshots\all-group-hints-smartfilteraggrid-chromium-win32.png, writing actual.
+
+      317 |
+      318 |       await Then('the all items for group are shown', async () => {
+    > 319 |         await expect(suggestions).toHaveScreenshot(`all-group-hints-${view}.png`);
+          |         ^
+      320 |       });
+      321 |     }
+      322 |   );
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:319:9
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:318:7
+
+    attachment #1: all-group-hints-smartfilteraggrid-expected.png (image/png) ──────────────────────
+    tests\visual\smartFilter\suggestions.spec.ts-snapshots\all-group-hints-smartfilteraggrid-chromium-win32.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: all-group-hints-smartfilteraggrid-actual.png (image/png) ────────────────────────
+    test-results\smartFilter-suggestions-Se-c84eb-oup-hints-smartfilteraggrid-chromium\all-group-hints-smartfilteraggrid-actual.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\tests\visual\smartFilter\suggestions.spec.ts-snapshots\all-group-hints-smartfilteraggrid-chromium-win32.png]]
+
+[[ATTACHMENT|..\test-results\smartFilter-suggestions-Se-c84eb-oup-hints-smartfilteraggrid-chromium\all-group-hints-smartfilteraggrid-actual.png]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Selecting a hint creates a pill-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="8.742">
+<failure message="suggestions.spec.ts:324:3 Selecting a hint creates a pill-smartfilteraggrid" type="FAILURE">
+<![CDATA[  [chromium] › smartFilter\suggestions.spec.ts:324:3 › Selecting a hint creates a pill-smartfilteraggrid 
+
+    Error: A snapshot doesn't exist at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-created-from-hint-smartfilteraggrid-chromium-win32.png, writing actual.
+
+      344 |
+      345 |       await Then('the all items for group are shown', async () => {
+    > 346 |         await expect(filterBar).toHaveScreenshot(`pill-created-from-hint-${view}.png`);
+          |         ^
+      347 |       });
+      348 |     }
+      349 |   );
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:346:9
+        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:345:7
+
+    attachment #1: pill-created-from-hint-smartfilteraggrid-expected.png (image/png) ───────────────
+    tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-created-from-hint-smartfilteraggrid-chromium-win32.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: pill-created-from-hint-smartfilteraggrid-actual.png (image/png) ─────────────────
+    test-results\smartFilter-suggestions-Se-8d83b-es-a-pill-smartfilteraggrid-chromium\pill-created-from-hint-smartfilteraggrid-actual.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-created-from-hint-smartfilteraggrid-chromium-win32.png]]
+
+[[ATTACHMENT|..\test-results\smartFilter-suggestions-Se-8d83b-es-a-pill-smartfilteraggrid-chromium\pill-created-from-hint-smartfilteraggrid-actual.png]]
+]]>
+</system-out>
 </testcase>
 </testsuite>
 </testsuites>
