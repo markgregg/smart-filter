@@ -19,8 +19,6 @@ export const FieldOption = React.memo(
       [onSelect, field],
     );
 
-
-
     return (
       <div
         id={fieldId}

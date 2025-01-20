@@ -6,6 +6,12 @@ export interface BaseOption {
   field: string;
 }
 
+export interface FieldOption {
+  type: 'f';
+  key: string;
+  field: string;
+}
+
 export interface SingleOption extends BaseOption {
   type: 's';
   value: Value;
@@ -24,4 +30,4 @@ export interface RangeOption extends BaseOption {
   displayText: string;
 }
 
-export type Option = SingleOption | RangeOption;
+export type Option = FieldOption | SingleOption | RangeOption;

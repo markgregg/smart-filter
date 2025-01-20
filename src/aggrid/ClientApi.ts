@@ -63,6 +63,7 @@ export const createClientApi = (
     if (field && filter === AgFilters.agSetColumnFilter) {
       return {
         ignoreCase: true,
+        minimumSearchLength: 2,
         lookup: async (text, op) =>
           new Promise((resolve) => {
             resolve(

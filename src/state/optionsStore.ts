@@ -197,12 +197,17 @@ const startBuild = async (buildState: BuildState) => {
       matchText: buildState.text,
     });
   } else {
-    set(() => ({
-      options: [],
-      matchText: '',
-      activeIndex: null,
-      active: null,
-    }));
+    if (!buildState.matcherKey && buildState.field && !buildState.comparison) {
+      addFieldOption(buildState, buildState.field);
+      updateOptions(buildState);
+    } else {
+      set(() => ({
+        options: [],
+        matchText: '',
+        activeIndex: null,
+        active: null,
+      }));
+    }
   }
 };
 
@@ -398,6 +403,12 @@ const optionSort = (
   x: CategoryOption,
   y: CategoryOption,
 ) => {
+  if (x.option.type === 'f') {
+    return -1;
+  }
+  if (y.option.type === 'f') {
+    return 1;
+  }
   if (y.expression !== x.expression) {
     if (x.expression) {
       return 1;
@@ -626,6 +637,21 @@ const matchValueOptions = (
     const text = match.label ? match.label(value) : buildState.text;
     addOption(buildState, field, text, value, true);
   }
+};
+
+const addFieldOption = (
+  buildState: BuildState,
+  field: Field,
+) => {
+  buildState.options.push({
+    precedence: 10,
+    expression: false,
+    option: {
+      type: 'f',
+      key: uuidv4(),
+      field: field.name,
+    },
+  });
 };
 
 const addOption = (

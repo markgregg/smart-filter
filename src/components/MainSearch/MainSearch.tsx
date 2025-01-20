@@ -3,6 +3,7 @@ import { SearchBox } from '../SearchBox';
 import { Option } from '@/types';
 import { useConfig, useMatcher, useOptions } from '../../state/useState';
 import {
+  createField,
   createRangeValue,
   createValue,
   getDefaultComparison,
@@ -30,15 +31,19 @@ export const MainSearch = React.memo(
       (option: Option) => {
         const field = fieldMap.get(option.field);
         const value =
-          option.type === 'r'
-            ? createRangeValue(option)
-            : createValue(option);
-        addValue({
-          value,
-          position: editPosition,
-          operator: operator ?? AND,
-          comparison: comparison ?? getDefaultComparison(field),
-        });
+          option.type === 'f'
+            ? createField(field)
+            : option.type === 'r'
+              ? createRangeValue(option)
+              : createValue(option);
+        if (value) {
+          addValue({
+            value,
+            position: editPosition,
+            operator: operator ?? AND,
+            comparison: comparison ?? getDefaultComparison(field),
+          });
+        }
         setText(['']);
       },
       [addValue, fieldMap, editPosition, operator, comparison],

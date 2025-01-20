@@ -11,8 +11,11 @@ export interface OptionProps {
 }
 
 export const Option = React.memo(({ option, active }: OptionProps) => {
-  const { text, field: fieldName } = option;
+  const { field: fieldName } = option;
   const { matchText, selectOption } = useOptions((state) => state);
+
+  const text = option.type !== 'f' ? option.text : '';
+  const Icon = option.type !== 'f' ? option.Icon : null;
 
   const {
     optionWidth: maxWidth = DEFAULT_SORT_OPTION_WIDTH,
@@ -54,10 +57,10 @@ export const Option = React.memo(({ option, active }: OptionProps) => {
               {option.IconTo && <option.IconTo className={s.icon} />}
             </span>
           </div>
-        ) : option.Icon ? (
+        ) : Icon ? (
           <div className={s.matchTextRange}>
             <div>
-              {option.text} {option.Icon && <option.Icon className={s.icon} />}
+              {text} {Icon && <Icon className={s.icon} />}
             </div>
           </div>
         ) : (

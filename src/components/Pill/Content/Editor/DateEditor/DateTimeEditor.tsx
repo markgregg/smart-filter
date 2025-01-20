@@ -17,14 +17,14 @@ const formatDate = (value: Value, field: Field): string => {
     return moment(
       value,
       field.dateTimeFormat ??
-      (field.editorType === 'date'
+      (field.editorType === 'date' || field.editorType === 'dateString'
         ? DEFAULT_DATE_FORMAT
         : DEFAULT_DATE_TIME_FORMAT),
       true,
-    ).format(field.editorType === 'date' ? DATE_FORMAT : DATE_TIME_FORMAT);
+    ).format(field.editorType === 'date' || field.editorType === 'dateString' ? DATE_FORMAT : DATE_TIME_FORMAT);
   }
   return moment(value, true).format(
-    field.editorType === 'date' ? DATE_FORMAT : DATE_TIME_FORMAT,
+    field.editorType === 'date' || field.editorType === 'dateString' ? DATE_FORMAT : DATE_TIME_FORMAT,
   );
 };
 const getMinMax = (
@@ -46,12 +46,12 @@ export const DateTimeEditor = React.memo(
       (event: React.ChangeEvent<HTMLInputElement>) => {
         const tempValue = moment(
           event.currentTarget.value,
-          field.editorType === 'date' ? DATE_FORMAT : DATE_TIME_FORMAT,
+          field.editorType === 'date' || field.editorType === 'dateString' ? DATE_FORMAT : DATE_TIME_FORMAT,
           true,
         );
         const label = moment(tempValue, true).format(
           field.dateTimeFormat ??
-          (field.editorType === 'date'
+          (field.editorType === 'date' || field.editorType === 'dateString'
             ? DEFAULT_DATE_FORMAT
             : DEFAULT_DATE_TIME_FORMAT),
         );

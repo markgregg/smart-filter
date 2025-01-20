@@ -280,7 +280,7 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await When('a pill is selected', async () => {
-        await enterAndSelectItemInSearchBox('5');
+        await enterAndSelectItemInSearchBox('> 5');
         await enterAndSelectItemInSearchBox('GBP');
       });
 
