@@ -271,8 +271,7 @@ const checkForField = (buildState: BuildState): BuildState => {
       .trim()
       .toLocaleLowerCase()
       .includes(`${foundField.title.toLocaleLowerCase()}`) &&
-    text.length > foundField.title.length &&
-    !text[foundField.title.length].match(/[a-z]/i) &&
+    (text.length === foundField.title.length || !text[foundField.title.length].match(/[a-z]/i)) &&
     !text
       .trim()
       .toLocaleLowerCase()

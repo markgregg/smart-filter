@@ -401,11 +401,16 @@ const updateMatcherList = (
       ? position + matcher.length
       : position
     : newMatchers.length - 1;
+  const editMatcher = !editPosition && !Array.isArray(matcher) && matcher.key === selectedMatcher.key &&
+    ((matcher.type === 's' || matcher.type === 'r') && matcher.value === null && matcher.text === '')
+    ? selectedMatcher
+    : null;
   return {
     matchers: newMatchers,
     selectedMatcher,
     selectedIndex,
     editPosition,
+    editMatcher,
     focus: false,
   };
 };
