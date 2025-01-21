@@ -146,6 +146,7 @@ export const constructFields = (
   fields?: AgField[],
   dateFormats?: string[],
   displayDateFormat?: string,
+  returnAllOptions?: boolean,
 ): Field[] | null => {
   if (agClientApi) {
     const columns = agClientApi?.getAgColumns() ?? [];
@@ -184,6 +185,7 @@ export const constructFields = (
                     dateFormats,
                     displayDateFormat,
                     typeof filterValueGetter === 'function' ? filterValueGetter : undefined,
+                    returnAllOptions,
                   ),
                 ]
                 : [],

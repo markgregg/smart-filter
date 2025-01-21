@@ -206,7 +206,6 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
         searchBox,
         filterBar,
         use,
-        pause,
         enterAndSelectItemInSearchBox,
         selectOperatorBarItemSuggestion,
       },

@@ -246,7 +246,7 @@ import { Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await When('a comparison and text is entered into the search box', async () => {
-        await enterAndSelectItemInSearchBox('* Bank');
+        await enterAndSelectItemInSearchBox('!* Bank');
       });
 
       await Then('a matching pill with a value and comaprison is created', async () => {

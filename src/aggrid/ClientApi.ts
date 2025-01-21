@@ -23,6 +23,7 @@ export interface ClientApi {
     dateFormats?: string[],
     displayFormat?: string,
     filterValueGetter?: FilterValueGetter,
+    returnAllOptions?: boolean,
   ) => FieldMatch;
   findUniqueHintValues: (
     column: Column | null,
@@ -52,6 +53,7 @@ export const createClientApi = (
     dateFormats?: string[],
     displayFormat?: string,
     filterValueGetter?: FilterValueGetter,
+    returnAllOptions?: boolean,
   ): FieldMatch => {
     if (type === AgTypes.boolean) {
       return {
@@ -70,7 +72,7 @@ export const createClientApi = (
               findUniqueSourceItems(
                 text,
                 field,
-                op === 'or',
+                op === 'or' && !returnAllOptions,
                 filterValueGetter,
               ),
             );

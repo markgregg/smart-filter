@@ -428,24 +428,27 @@ const optionSort = (
 };
 
 const matchType = (buildState: BuildState, field: Field) => {
-  if (field.allowRange && buildState.range) {
-    const { from, to } = buildState.range;
-    const value = getValueIfValid(from, field);
-    const valueTo = getValueIfValid(to, field);
-    if (value && valueTo) {
-      const displayText = `${from} to ${to}`;
-      addRangeOption(
-        buildState,
-        field,
-        from,
-        value,
-        to,
-        valueTo,
-        displayText,
-        true,
-      );
-      return;
+  if (buildState.range) {
+    if (field.allowRange) {
+      const { from, to } = buildState.range;
+      const value = getValueIfValid(from, field);
+      const valueTo = getValueIfValid(to, field);
+      if (value && valueTo) {
+        const displayText = `${from} to ${to}`;
+        addRangeOption(
+          buildState,
+          field,
+          from,
+          value,
+          to,
+          valueTo,
+          displayText,
+          true,
+        );
+        return;
+      }
     }
+    return;
   }
   const value = getValueIfValid(buildState.text, field);
   if (value) {

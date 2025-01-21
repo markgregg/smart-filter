@@ -98,6 +98,7 @@ export const SmartFilterAgGrid = () => {
           allowLocking={!queryParams.noIcons}
           showSearchIcon={!queryParams.noIcons}
           showUndoIcon={!queryParams.noIcons}
+          returnAllOptions
           gridApi={gridApi}
           columnApi={columnApi}
         />
