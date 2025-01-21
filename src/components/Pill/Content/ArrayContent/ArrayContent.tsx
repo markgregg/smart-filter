@@ -14,7 +14,7 @@ export const ArrayContent = React.memo(({ matcher, field }: ContentProps) => {
     value: null,
   });
   const [inEdit, setInEdit] = React.useState<boolean>(false);
-  const { editMatcher, selectMatcherForEdit, updateMatcher } = useMatcher(
+  const { editMatcher, selectMatcherForEdit, updateMatcher, clearEditMatcher } = useMatcher(
     (state) => state,
   );
   const { clearOptions, options } = useOptions((state) => state);
@@ -94,6 +94,7 @@ export const ArrayContent = React.memo(({ matcher, field }: ContentProps) => {
     } else {
       setInEdit(false);
       setMatcher(null);
+      clearEditMatcher();
     }
   }, [
     selectedIndex,
@@ -102,6 +103,7 @@ export const ArrayContent = React.memo(({ matcher, field }: ContentProps) => {
     clearOptions,
     setTextValue,
     setInEdit,
+    clearEditMatcher,
   ]);
 
   const handleChange = React.useCallback(

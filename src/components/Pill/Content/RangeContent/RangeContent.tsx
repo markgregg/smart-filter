@@ -11,7 +11,7 @@ type EditField = 'none' | 'value' | 'valueto';
 export const RangeContent = React.memo(({ matcher, field }: ContentProps) => {
   const rangeMatcher = matcher as RangeMatcher;
   const [editField, setEditField] = React.useState<EditField>('none');
-  const { editMatcher, selectMatcherForEdit, updateMatcher } = useMatcher(
+  const { editMatcher, selectMatcherForEdit, updateMatcher, clearEditMatcher } = useMatcher(
     (state) => state,
   );
   const clearOptions = useOptions((state) => state.clearOptions);
@@ -83,7 +83,8 @@ export const RangeContent = React.memo(({ matcher, field }: ContentProps) => {
   const handleCancel = React.useCallback(() => {
     setEditField('none');
     clearOptions();
-  }, [setEditField, clearOptions]);
+    clearEditMatcher();
+  }, [setEditField, clearOptions, clearEditMatcher]);
 
   const handleChange = React.useCallback(
     (text: string, value: Value) => {
@@ -94,8 +95,9 @@ export const RangeContent = React.memo(({ matcher, field }: ContentProps) => {
         value,
       });
       clearOptions();
+      clearEditMatcher();
     },
-    [setEditField, matcher, updateMatcher, clearOptions],
+    [setEditField, matcher, updateMatcher, clearOptions, clearEditMatcher],
   );
 
   const handleChangeTo = React.useCallback(

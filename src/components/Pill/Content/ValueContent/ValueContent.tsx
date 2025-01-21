@@ -10,7 +10,7 @@ import s from './style.module.less';
 export const ValueContent = React.memo(({ matcher, field }: ContentProps) => {
   const valueMatcher = matcher as SingleMatcher;
   const [inEdit, setInEdit] = React.useState<boolean>(false);
-  const { editMatcher, selectMatcherForEdit, updateMatcher } = useMatcher(
+  const { editMatcher, selectMatcherForEdit, updateMatcher, clearEditMatcher } = useMatcher(
     (state) => state,
   );
   const clearOptions = useOptions((state) => state.clearOptions);
@@ -60,7 +60,8 @@ export const ValueContent = React.memo(({ matcher, field }: ContentProps) => {
   const handleCancel = React.useCallback(() => {
     setInEdit(false);
     clearOptions();
-  }, [setInEdit, clearOptions]);
+    clearEditMatcher();
+  }, [setInEdit, clearOptions, clearEditMatcher]);
 
   const handleChange = React.useCallback(
     (text: string, value: Value) => {
@@ -71,8 +72,9 @@ export const ValueContent = React.memo(({ matcher, field }: ContentProps) => {
         value,
       });
       clearOptions();
+      clearEditMatcher();
     },
-    [setInEdit, matcher, updateMatcher, clearOptions],
+    [setInEdit, matcher, updateMatcher, clearOptions, clearEditMatcher],
   );
 
   return (

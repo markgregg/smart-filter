@@ -338,7 +338,7 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await When('a hint group is selected', async () => {
-        await selectHintItem('maturityDate', 1);
+        await selectHintItem('currency', 1);
         await pause(50);
       });
 
