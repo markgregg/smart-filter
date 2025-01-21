@@ -72,7 +72,7 @@ export const createClientApi = (
               findUniqueSourceItems(
                 text,
                 field,
-                op === 'or' && !returnAllOptions,
+                op === 'or' || returnAllOptions === true,
                 filterValueGetter,
               ),
             );
