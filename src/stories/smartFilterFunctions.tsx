@@ -597,17 +597,17 @@ const constructNumberFilter = (
       valueValuePredicate: (x: number, y: number) => boolean,
       arrayValuePredicate: (x: number[], y: number) => boolean,
     ): FilterFunction =>
-      (row: any) => {
-        const value = valueGetter(row);
-        if (Array.isArray(value)) {
-          return arrayValuePredicate(value, matcher.value);
-        }
-        return (
-          value !== undefined &&
-          typeof value === 'number' &&
-          valueValuePredicate(value, matcher.value)
-        );
-      };
+    (row: any) => {
+      const value = valueGetter(row);
+      if (Array.isArray(value)) {
+        return arrayValuePredicate(value, matcher.value);
+      }
+      return (
+        value !== undefined &&
+        typeof value === 'number' &&
+        valueValuePredicate(value, matcher.value)
+      );
+    };
 
   switch (matcher.comparison) {
     case '=':
@@ -684,17 +684,17 @@ const constructDateFilter = (
       valueValuePredicate: (x: Date, y: Date) => boolean,
       arrayValuePredicate: (x: Date[], y: Date) => boolean,
     ): FilterFunction =>
-      (row: any) => {
-        const value = valueGetter(row);
-        if (Array.isArray(value)) {
-          return arrayValuePredicate(value, matcher.value);
-        }
-        return (
-          value !== undefined &&
-          value instanceof Date &&
-          valueValuePredicate(value, matcher.value)
-        );
-      };
+    (row: any) => {
+      const value = valueGetter(row);
+      if (Array.isArray(value)) {
+        return arrayValuePredicate(value, matcher.value);
+      }
+      return (
+        value !== undefined &&
+        value instanceof Date &&
+        valueValuePredicate(value, matcher.value)
+      );
+    };
 
   switch (matcher.comparison) {
     case '=':
@@ -774,21 +774,21 @@ const constructDateStringFilter = (
       valueValuePredicate: (x: moment.Moment, y: moment.Moment) => boolean,
       arrayValuePredicate: (x: string[], y: moment.Moment) => boolean,
     ): FilterFunction =>
-      (row: any) => {
-        if (!matcher.value || typeof matcher.value !== 'string') {
-          return false;
-        }
-        const dateM = moment(matcher.value, 'YYYY-MM-DD', true);
-        const value = valueGetter(row);
-        if (Array.isArray(value)) {
-          return arrayValuePredicate(value, dateM);
-        }
-        if (!value || typeof value !== 'string') {
-          return false;
-        }
-        const dateV = moment(value, 'YYYY-MM-DD', true);
-        return dateV.isValid() && valueValuePredicate(dateV, dateM);
-      };
+    (row: any) => {
+      if (!matcher.value || typeof matcher.value !== 'string') {
+        return false;
+      }
+      const dateM = moment(matcher.value, 'YYYY-MM-DD', true);
+      const value = valueGetter(row);
+      if (Array.isArray(value)) {
+        return arrayValuePredicate(value, dateM);
+      }
+      if (!value || typeof value !== 'string') {
+        return false;
+      }
+      const dateV = moment(value, 'YYYY-MM-DD', true);
+      return dateV.isValid() && valueValuePredicate(dateV, dateM);
+    };
 
   switch (matcher.comparison) {
     case '=':
@@ -897,27 +897,27 @@ const createSortFunction = (sortItem: Sort): SortFunction | null => {
       sortDirection: SortDirection,
       getter: (bond: Bond) => any,
     ): SortFunction =>
-      (x, y) => {
-        const valX = getter(x);
-        const valY = getter(y);
-        // eslint-disable-next-line valid-typeof
-        if (typeof valX !== type) {
-          return 1;
-        }
-        // eslint-disable-next-line valid-typeof
-        if (typeof valY !== type) {
-          return -1;
-        }
-        return valX === valY
-          ? 0
-          : valX > valY
-            ? sortDirection === 'asc'
-              ? 1
-              : -1
-            : sortDirection === 'asc'
-              ? -1
-              : 1;
-      };
+    (x, y) => {
+      const valX = getter(x);
+      const valY = getter(y);
+      // eslint-disable-next-line valid-typeof
+      if (typeof valX !== type) {
+        return 1;
+      }
+      // eslint-disable-next-line valid-typeof
+      if (typeof valY !== type) {
+        return -1;
+      }
+      return valX === valY
+        ? 0
+        : valX > valY
+          ? sortDirection === 'asc'
+            ? 1
+            : -1
+          : sortDirection === 'asc'
+            ? -1
+            : 1;
+    };
 
   switch (sortItem.field) {
     case 'isin':

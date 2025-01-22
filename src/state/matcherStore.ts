@@ -83,17 +83,17 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
         set((state) =>
           matcher.key === state.selectedMatcher?.key
             ? {
-              matchers: state.matchers.map((m) =>
-                m.key === matcher.key ? matcher : m,
-              ),
-              selectedMatcher: matcher,
-              focus: false,
-            }
+                matchers: state.matchers.map((m) =>
+                  m.key === matcher.key ? matcher : m,
+                ),
+                selectedMatcher: matcher,
+                focus: false,
+              }
             : {
-              matchers: state.matchers.map((m) =>
-                m.key === matcher.key ? matcher : m,
-              ),
-            },
+                matchers: state.matchers.map((m) =>
+                  m.key === matcher.key ? matcher : m,
+                ),
+              },
         );
       }
     },
@@ -156,7 +156,7 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
         const selectedMatcher = index !== -1 ? state.matchers[index] : null;
         const editMatcher =
           selectedMatcher !== null &&
-            selectedMatcher.key !== state.editMatcher?.key
+          selectedMatcher.key !== state.editMatcher?.key
             ? null
             : state.editMatcher;
         return {
@@ -370,7 +370,7 @@ const checkFieldLimits = (
           matchers.filter(
             (mf) => 'field' in mf && mf.field === fieldName && mf.key !== m.key,
           ).length +
-          1 >
+            1 >
           field.instanceLimit
         ) {
           throw Error(
@@ -392,12 +392,12 @@ const updateMatcherList = (
   const newMatchers =
     position !== null
       ? [
-        ...(position > 0 ? matchers.slice(0, position) : []),
-        ...(Array.isArray(matcher) ? matcher : [matcher]),
-        ...(position < matchers.length
-          ? matchers.slice(position, matchers.length)
-          : []),
-      ]
+          ...(position > 0 ? matchers.slice(0, position) : []),
+          ...(Array.isArray(matcher) ? matcher : [matcher]),
+          ...(position < matchers.length
+            ? matchers.slice(position, matchers.length)
+            : []),
+        ]
       : [...matchers, ...(Array.isArray(matcher) ? matcher : [matcher])];
   const editPosition =
     position !== null
@@ -413,11 +413,11 @@ const updateMatcherList = (
     : newMatchers.length - 1;
   const editMatcher =
     !editPosition &&
-      !Array.isArray(matcher) &&
-      matcher.key === selectedMatcher.key &&
-      (matcher.type === 's' || matcher.type === 'r') &&
-      matcher.value === null &&
-      matcher.text === ''
+    !Array.isArray(matcher) &&
+    matcher.key === selectedMatcher.key &&
+    (matcher.type === 's' || matcher.type === 'r') &&
+    matcher.value === null &&
+    matcher.text === ''
       ? selectedMatcher
       : null;
   return {
