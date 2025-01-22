@@ -37,7 +37,11 @@ export const Tooltip = React.memo(({ caption, children }: TooltipProps) => {
     >
       {children}
       {showTooltip && (
-        <div className={[s.tooltip, s[`font-${size}`]].join(' ')} style={{ marginLeft }} ref={handleSetSize}>
+        <div
+          className={[s.tooltip, s[`font-${size}`]].join(' ')}
+          style={{ marginLeft }}
+          ref={handleSetSize}
+        >
           {caption}
         </div>
       )}

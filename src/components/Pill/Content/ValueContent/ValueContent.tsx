@@ -10,9 +10,8 @@ import s from './style.module.less';
 export const ValueContent = React.memo(({ matcher, field }: ContentProps) => {
   const valueMatcher = matcher as SingleMatcher;
   const [inEdit, setInEdit] = React.useState<boolean>(false);
-  const { editMatcher, selectMatcherForEdit, updateMatcher, clearEditMatcher } = useMatcher(
-    (state) => state,
-  );
+  const { editMatcher, selectMatcherForEdit, updateMatcher, clearEditMatcher } =
+    useMatcher((state) => state);
   const clearOptions = useOptions((state) => state.clearOptions);
   const itemValue = React.useMemo(
     () => ({ text: valueMatcher.text ?? '', value: valueMatcher.value }),
@@ -86,24 +85,24 @@ export const ValueContent = React.memo(({ matcher, field }: ContentProps) => {
           <>
             {inEdit
               ? field && (
-                <Editor
-                  matcherKey={matcher.key}
-                  field={field}
-                  textValue={itemValue}
-                  onChanged={handleChange}
-                  onCancel={handleCancel}
-                />
-              )
+                  <Editor
+                    matcherKey={matcher.key}
+                    field={field}
+                    textValue={itemValue}
+                    onChanged={handleChange}
+                    onCancel={handleCancel}
+                  />
+                )
               : field && (
-                <Display
-                  field={field}
-                  text={valueMatcher.text}
-                  value={valueMatcher.value}
-                  html={html}
-                  onClick={handleClick}
-                  onChanged={handleChange}
-                />
-              )}
+                  <Display
+                    field={field}
+                    text={valueMatcher.text}
+                    value={valueMatcher.value}
+                    html={html}
+                    onClick={handleClick}
+                    onChanged={handleChange}
+                  />
+                )}
           </>
         ) : (
           <div />

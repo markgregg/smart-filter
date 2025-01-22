@@ -1,16 +1,23 @@
 import React from 'react';
-import Bond, { columns, constructFilter, constructSort, fields, hintGroups, operators } from '@/stories/smartFilterFunctions';
-import { Matcher, SmartFilter as SmartFilterComponent, Sort } from '../../../';
 import { AgGridReact } from 'ag-grid-react';
 import { ColDef } from 'ag-grid-community';
+import Bond, {
+  columns,
+  constructFilter,
+  constructSort,
+  fields,
+  hintGroups,
+  operators,
+} from '@/stories/smartFilterFunctions';
+import { Matcher, SmartFilter as SmartFilterComponent, Sort } from '../../..';
 import { bonds } from '../../../../data/bonds';
 import s from './style.module.less';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 const hints = {
-  hintGroups: hintGroups,
-}
+  hintGroups,
+};
 
 export const SmartFilter = () => {
   const [rowData, setRowData] = React.useState<Bond[]>(bonds);
@@ -20,30 +27,30 @@ export const SmartFilter = () => {
 
   const queryParams = React.useMemo(() => {
     const query = window.location.search.substring(1);
-    const params = query.split("&").filter(t => t.trim() !== '');
+    const params = query.split('&').filter((t) => t.trim() !== '');
     return params.reduce((p: any, v) => {
       const pv = v.split('=');
-      return pv.length < 2
-        ? { ...p, [pv[0]]: true }
-        : { ...p, [pv[0]]: pv[1] }
+      return pv.length < 2 ? { ...p, [pv[0]]: true } : { ...p, [pv[0]]: pv[1] };
     }, {});
   }, []);
 
-  const handleChange = React.useCallback((
-    newMatchers: Matcher[],
-  ) => {
-    setMatchers(newMatchers);
-  }, [setMatchers]);
+  const handleChange = React.useCallback(
+    (newMatchers: Matcher[]) => {
+      setMatchers(newMatchers);
+    },
+    [setMatchers],
+  );
 
-  const handleSortChange = React.useCallback((
-    newSort: Sort[],
-  ) => {
-    setSort(newSort);
-  }, [setSort]);
+  const handleSortChange = React.useCallback(
+    (newSort: Sort[]) => {
+      setSort(newSort);
+    },
+    [setSort],
+  );
 
   React.useEffect(() => {
     const filterFunc = constructFilter(matchers);
-    const newData = bonds.filter(b => !filterFunc || filterFunc(b));
+    const newData = bonds.filter((b) => !filterFunc || filterFunc(b));
     const sortFunc = constructSort(sort);
     if (sortFunc) {
       newData.sort(sortFunc);
@@ -58,14 +65,9 @@ export const SmartFilter = () => {
   const size = queryParams.size ?? 'normal';
 
   return (
-    <div
-      className={s.smartFilterPage}
-    >
+    <div className={s.smartFilterPage}>
       <h4>Smart Filter</h4>
-      <div
-        className={s.filterBar}
-        style={style}
-      >
+      <div className={s.filterBar} style={style}>
         <SmartFilterComponent
           matchers={matchers}
           onChange={handleChange}
@@ -82,11 +84,8 @@ export const SmartFilter = () => {
         />
       </div>
       <div className={[s.grid, 'ag-theme-alpine'].join(' ')}>
-        <AgGridReact
-          rowData={rowData}
-          columnDefs={columnDefs}
-        />
+        <AgGridReact rowData={rowData} columnDefs={columnDefs} />
       </div>
     </div>
   );
-}
+};

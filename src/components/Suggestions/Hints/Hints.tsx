@@ -6,7 +6,9 @@ import s from './style.module.less';
 
 export const Hints = React.memo(() => {
   const hints = useConfig((state) => state.hints);
-  const { selectedHintGroup, selectHintGroup, clearSelection } = useHint((state) => state);
+  const { selectedHintGroup, selectHintGroup, clearSelection } = useHint(
+    (state) => state,
+  );
   const selectedMatcher = useMatcher((state) => state.selectedMatcher);
 
   React.useEffect(() => {

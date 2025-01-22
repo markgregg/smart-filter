@@ -24,11 +24,12 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
   );
   const clearSort = useSort((state) => state.clearSort);
 
-  const buttonHeight = size === 'normal'
-    ? NORMAL_HEIGHT - 2
-    : size === 'compact'
-      ? COMPACT_HEIGHT - 2
-      : LARGE_HEIGHT - 2;
+  const buttonHeight =
+    size === 'normal'
+      ? NORMAL_HEIGHT - 2
+      : size === 'compact'
+        ? COMPACT_HEIGHT - 2
+        : LARGE_HEIGHT - 2;
 
   const handleClearClick = React.useCallback(() => {
     clearMatchers();
@@ -38,7 +39,7 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
     }
   }, [clearMatchers, onClear]);
 
-  const handleUndoClick = React.useCallback(() => { }, []);
+  const handleUndoClick = React.useCallback(() => {}, []);
 
   const handleLockClick = React.useCallback(() => {
     if (locked) {
@@ -89,10 +90,7 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
   ];
 
   return (
-    <div
-      className={[s.buttons, s[size]].join(' ')}
-      ref={ref}
-    >
+    <div className={[s.buttons, s[size]].join(' ')} ref={ref}>
       {buttons
         .filter((b) => !b.hide)
         .map((b) => (

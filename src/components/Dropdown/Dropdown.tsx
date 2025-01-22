@@ -15,11 +15,7 @@ export const Dropdown = React.memo(() => {
   const active = useSort((state) => state.active);
 
   return (
-    <div
-      id="sf-drop-down"
-      className={s.dropdown}
-      style={{ maxHeight, width }}
-    >
+    <div id="sf-drop-down" className={s.dropdown} style={{ maxHeight, width }}>
       {active ? (
         <Sort />
       ) : options.length > 0 ? (

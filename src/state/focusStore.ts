@@ -4,7 +4,7 @@ import { DEFAULT_KEYBOARD_DROPDOWN_DISPLAY_TIME } from '@/util/constants';
 
 export const createFocusStore = (
   showDropdownOnMouseOver?: boolean,
-  dropDownDispalyWhenKeyPressed?: number
+  dropDownDispalyWhenKeyPressed?: number,
 ): UseBoundStore<StoreApi<FocusState>> =>
   create<FocusState>((set) => ({
     hasFocus: false,
@@ -23,8 +23,12 @@ export const createFocusStore = (
         if (currentHandle) {
           clearTimeout(currentHandle);
         }
-        const keyboardTimeoutReset = setTimeout(() => set({ keyboardFocus: false, keyboardTimeoutReset: null }), dropDownDispalyWhenKeyPressed ?? DEFAULT_KEYBOARD_DROPDOWN_DISPLAY_TIME);
+        const keyboardTimeoutReset = setTimeout(
+          () => set({ keyboardFocus: false, keyboardTimeoutReset: null }),
+          dropDownDispalyWhenKeyPressed ??
+            DEFAULT_KEYBOARD_DROPDOWN_DISPLAY_TIME,
+        );
         return { keyboardTimeoutReset };
       });
-    }
+    },
   }));

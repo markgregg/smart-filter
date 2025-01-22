@@ -44,8 +44,13 @@ export const SmartFilterAgGrid = React.memo((props: SmartFilterAgGridProps) => {
     overriddenHints: Hints;
   }>(() => {
     const autoFields =
-      constructFields(agClientApi, fields, dateFormats, displayDateFormat, returnAllOptions) ??
-      [];
+      constructFields(
+        agClientApi,
+        fields,
+        dateFormats,
+        displayDateFormat,
+        returnAllOptions,
+      ) ?? [];
     return {
       overriddenHints: {
         hintsPerColumn: hints?.hintsPerColumn,
@@ -60,11 +65,13 @@ export const SmartFilterAgGrid = React.memo((props: SmartFilterAgGridProps) => {
                 ? hint.hints
                 : agClientApi && column
                   ? () =>
-                    agClientApi.findUniqueHintValues(
-                      column,
-                      hints.hintsPerColumn,
-                      typeof filterValueGetter === 'function' ? filterValueGetter : undefined,
-                    )
+                      agClientApi.findUniqueHintValues(
+                        column,
+                        hints.hintsPerColumn,
+                        typeof filterValueGetter === 'function'
+                          ? filterValueGetter
+                          : undefined,
+                      )
                   : [],
             };
           }) ?? [],

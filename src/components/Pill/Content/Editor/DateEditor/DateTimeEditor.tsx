@@ -17,14 +17,20 @@ const formatDate = (value: Value, field: Field): string => {
     return moment(
       value,
       field.dateTimeFormat ??
-      (field.editorType === 'date' || field.editorType === 'dateString'
-        ? DEFAULT_DATE_FORMAT
-        : DEFAULT_DATE_TIME_FORMAT),
+        (field.editorType === 'date' || field.editorType === 'dateString'
+          ? DEFAULT_DATE_FORMAT
+          : DEFAULT_DATE_TIME_FORMAT),
       true,
-    ).format(field.editorType === 'date' || field.editorType === 'dateString' ? DATE_FORMAT : DATE_TIME_FORMAT);
+    ).format(
+      field.editorType === 'date' || field.editorType === 'dateString'
+        ? DATE_FORMAT
+        : DATE_TIME_FORMAT,
+    );
   }
   return moment(value, true).format(
-    field.editorType === 'date' || field.editorType === 'dateString' ? DATE_FORMAT : DATE_TIME_FORMAT,
+    field.editorType === 'date' || field.editorType === 'dateString'
+      ? DATE_FORMAT
+      : DATE_TIME_FORMAT,
   );
 };
 const getMinMax = (
@@ -46,23 +52,26 @@ export const DateTimeEditor = React.memo(
       (event: React.ChangeEvent<HTMLInputElement>) => {
         const tempValue = moment(
           event.currentTarget.value,
-          field.editorType === 'date' || field.editorType === 'dateString' ? DATE_FORMAT : DATE_TIME_FORMAT,
+          field.editorType === 'date' || field.editorType === 'dateString'
+            ? DATE_FORMAT
+            : DATE_TIME_FORMAT,
           true,
         );
         const label = moment(tempValue, true).format(
           field.dateTimeFormat ??
-          (field.editorType === 'date' || field.editorType === 'dateString'
-            ? DEFAULT_DATE_FORMAT
-            : DEFAULT_DATE_TIME_FORMAT),
-        );
-        const newValue = field.editorType === 'date' || field.editorType === 'datetime'
-          ? tempValue.toDate()
-          : tempValue.format(
-            field.dateTimeFormat ??
-            (field.editorType === 'dateString'
+            (field.editorType === 'date' || field.editorType === 'dateString'
               ? DEFAULT_DATE_FORMAT
               : DEFAULT_DATE_TIME_FORMAT),
-          );
+        );
+        const newValue =
+          field.editorType === 'date' || field.editorType === 'datetime'
+            ? tempValue.toDate()
+            : tempValue.format(
+                field.dateTimeFormat ??
+                  (field.editorType === 'dateString'
+                    ? DEFAULT_DATE_FORMAT
+                    : DEFAULT_DATE_TIME_FORMAT),
+              );
         onChanged({ text: label, value: newValue }, true);
       },
       [field],
@@ -73,7 +82,11 @@ export const DateTimeEditor = React.memo(
         id="sf-date-editor"
         ref={inputRef}
         className={[s.textInput, s[`font-${size}`]].join(' ')}
-        type={field.editorType === 'date' || field.editorType === 'dateString' ? 'date' : 'datetime-local'}
+        type={
+          field.editorType === 'date' || field.editorType === 'dateString'
+            ? 'date'
+            : 'datetime-local'
+        }
         value={formatDate(textValue.value, field)}
         onChange={handleChange}
         min={getMinMax(field, (f) => f.min)}

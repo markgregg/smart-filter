@@ -9,13 +9,8 @@ import { Brackets, LogicalOperator, Matcher } from '@/types';
 import { useConfig, useMatcher } from '@/state/useState';
 import { FieldSelection } from './FieldSelection';
 import { toText } from '@/util/functions';
-import {
-  AND,
-  EMPTY,
-  OR,
-} from '@/util/constants';
+import { AND, EMPTY, OR } from '@/util/constants';
 import s from './style.module.less';
-
 
 const brackets: Brackets[] = ['(', ')'];
 export const Operators = React.memo(() => {
@@ -26,19 +21,10 @@ export const Operators = React.memo(() => {
     allowLocking,
     size = 'normal',
   } = useConfig((state) => state);
-  const {
-    selectedMatcher,
-    matchers,
-    updateMatcher,
-    addBracket,
-    editPosition
-  } = useMatcher((state) => state);
+  const { selectedMatcher, matchers, updateMatcher, addBracket, editPosition } =
+    useMatcher((state) => state);
 
-  const buttonSize = size === 'normal'
-    ? 22
-    : size === 'compact'
-      ? 20
-      : 26;
+  const buttonSize = size === 'normal' ? 22 : size === 'compact' ? 20 : 26;
 
   const field = React.useMemo(
     () =>
@@ -48,7 +34,16 @@ export const Operators = React.memo(() => {
     [selectedMatcher, fieldMap],
   );
 
-  const fieldOperators = React.useMemo(() => field?.operators.filter(o => !selectedMatcher || !('comparison' in selectedMatcher) || selectedMatcher.comparison !== o), [field, selectedMatcher]);
+  const fieldOperators = React.useMemo(
+    () =>
+      field?.operators.filter(
+        (o) =>
+          !selectedMatcher ||
+          !('comparison' in selectedMatcher) ||
+          selectedMatcher.comparison !== o,
+      ),
+    [field, selectedMatcher],
+  );
 
   const selectedIndex = React.useMemo(
     () =>
@@ -62,45 +57,44 @@ export const Operators = React.memo(() => {
     if (selectedMatcher && !(selectedMatcher.type === 'b')) {
       return [
         ...(field?.allowBlanks &&
-          !(selectedMatcher.type === 'r') &&
-          !(selectedMatcher.type === 'a') &&
-          selectedMatcher.value !== null
+        !(selectedMatcher.type === 'r') &&
+        !(selectedMatcher.type === 'a') &&
+        selectedMatcher.value !== null
           ? [
-            {
-              code: 'empty',
-              icon: <MdOutlinePhonelinkErase />,
-              tooltip: 'Set value as empty',
-            },
-          ]
+              {
+                code: 'empty',
+                icon: <MdOutlinePhonelinkErase />,
+                tooltip: 'Set value as empty',
+              },
+            ]
           : []),
         ...(field?.allowList && !(selectedMatcher.type === 'r')
           ? [
-            {
-              code: 'list',
-              icon: <MdOutlineListAlt />,
-              tooltip: 'Make pill a list',
-            },
-          ]
+              {
+                code: 'list',
+                icon: <MdOutlineListAlt />,
+                tooltip: 'Make pill a list',
+              },
+            ]
+          : []),
+        ...(field?.allowRange && selectedMatcher.type !== 'a'
+          ? [
+              {
+                code: 'range',
+                icon: <TbArrowBarBoth />,
+                tooltip: 'Make pill a range',
+              },
+            ]
           : []),
         ...(field?.allowRange &&
-          selectedMatcher.type !== 'a'
+        (selectedMatcher.type === 'r' || selectedMatcher.type === 'a')
           ? [
-            {
-              code: 'range',
-              icon: <TbArrowBarBoth />,
-              tooltip: 'Make pill a range',
-            },
-          ]
-          : []),
-        ...(field?.allowRange &&
-          (selectedMatcher.type === 'r' || selectedMatcher.type === 'a')
-          ? [
-            {
-              code: 'value',
-              icon: <IoTextOutline />,
-              tooltip: 'Make pill a single value',
-            },
-          ]
+              {
+                code: 'value',
+                icon: <IoTextOutline />,
+                tooltip: 'Make pill a single value',
+              },
+            ]
           : []),
       ];
     }
@@ -251,9 +245,12 @@ export const Operators = React.memo(() => {
 
   const handleToggleLock = React.useCallback(() => {
     if (selectedMatcher) {
-      updateMatcher({ ...selectedMatcher, locked: !selectedMatcher.locked }, true);
+      updateMatcher(
+        { ...selectedMatcher, locked: !selectedMatcher.locked },
+        true,
+      );
     }
-  }, [selectedMatcher, updateMatcher])
+  }, [selectedMatcher, updateMatcher]);
 
   return (
     <div className={s.operators}>
@@ -266,7 +263,8 @@ export const Operators = React.memo(() => {
         </>
       )}
       <div className={s.operatorSelection}>
-        {selectedMatcher && !(selectedMatcher.type === 'r') &&
+        {selectedMatcher &&
+          !(selectedMatcher.type === 'r') &&
           fieldOperators?.map((o) => (
             <TooltipButton
               id={`sf-${toText(o)}-operator`}
@@ -279,7 +277,9 @@ export const Operators = React.memo(() => {
               {o}
             </TooltipButton>
           ))}
-        {selectedMatcher && !(selectedMatcher.type === 'r') && <div className={s.seperator} />}
+        {selectedMatcher && !(selectedMatcher.type === 'r') && (
+          <div className={s.seperator} />
+        )}
         {specialFunctions &&
           specialFunctions.map((f) => (
             <TooltipButton
@@ -314,7 +314,7 @@ export const Operators = React.memo(() => {
             {currentOperator}
           </Button>
         )}
-        {selectedMatcher && allowLocking &&
+        {selectedMatcher && allowLocking && (
           <>
             <div className={s.seperator} />
             <Button
@@ -326,7 +326,7 @@ export const Operators = React.memo(() => {
               {selectedMatcher.locked ? <AiFillUnlock /> : <AiFillLock />}
             </Button>
           </>
-        }
+        )}
       </div>
     </div>
   );

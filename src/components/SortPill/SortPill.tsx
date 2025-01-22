@@ -10,10 +10,8 @@ import s from './style.module.less';
 export const SortPill = React.memo(() => {
   const sortContentRef = React.useRef<HTMLDivElement | null>(null);
   const [mouseOver, setMouseOver] = React.useState<boolean>(false);
-  const {
-    size = 'normal',
-    sortPillWidth: maxWidth = DEFAULT_SORT_PILL_WIDTH,
-  } = useConfig((state) => state);
+  const { size = 'normal', sortPillWidth: maxWidth = DEFAULT_SORT_PILL_WIDTH } =
+    useConfig((state) => state);
   const { sort, clearSort, setActive, active } = useSort((state) => state);
   const { clearSelections } = useMatcher((state) => state);
   const expanded = useFilterBar((state) => state.expanded);
@@ -50,7 +48,11 @@ export const SortPill = React.memo(() => {
   return (
     <div
       id="sf-sort-pill"
-      className={[s.sortPill, s[size], s[expanded ? 'expanded' : 'contracted']].join(' ')}
+      className={[
+        s.sortPill,
+        s[size],
+        s[expanded ? 'expanded' : 'contracted'],
+      ].join(' ')}
       style={{
         backgroundColor,
       }}

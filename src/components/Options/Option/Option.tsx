@@ -17,10 +17,8 @@ export const Option = React.memo(({ option, active }: OptionProps) => {
   const text = option.type !== 'f' ? option.text : '';
   const Icon = option.type !== 'f' ? option.Icon : null;
 
-  const {
-    optionWidth: maxWidth = DEFAULT_SORT_OPTION_WIDTH,
-    fieldMap,
-  } = useConfig((state) => state);
+  const { optionWidth: maxWidth = DEFAULT_SORT_OPTION_WIDTH, fieldMap } =
+    useConfig((state) => state);
   const field = React.useMemo(
     () => fieldMap.get(fieldName) ?? null,
     [fieldName, fieldMap],
@@ -28,7 +26,10 @@ export const Option = React.memo(({ option, active }: OptionProps) => {
 
   const [left, match, right] = React.useMemo(
     () =>
-      splitText(('displayText' in option ? option.displayText : text) ?? '', matchText ?? ''),
+      splitText(
+        ('displayText' in option ? option.displayText : text) ?? '',
+        matchText ?? '',
+      ),
     [text, matchText],
   );
 

@@ -4,7 +4,7 @@ import { DROP_POSITION } from './drag';
 export interface SortState {
   sort: Sort[];
   active: boolean;
-  setSort: (sort: Sort[]) => void,
+  setSort: (sort: Sort[]) => void;
   updateSort: (field: string, sortDirection: SortDirection) => void;
   removeSort: (field: string) => void;
   clearSort: () => void;

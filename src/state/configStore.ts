@@ -27,7 +27,7 @@ export const createConfigStore = ({
   sortPillWidth,
   enableSort,
   optionWidth,
-  showDropdownOnMouseOver
+  showDropdownOnMouseOver,
 }: SmartFilterProps): UseBoundStore<StoreApi<ConfigState>> => {
   const uniqueComparisonOps = uniqueComparions(fields, operators ?? []);
   return create<ConfigState>(() => ({
@@ -44,20 +44,22 @@ export const createConfigStore = ({
     fieldMap: new Map(fields.map((f) => [f.name, f])),
     hints: hints
       ? {
-        ...hints,
-        hintGroups: hints.hintGroups.map((g) => ({
-          ...g,
-          hints:
-            typeof g.hints === 'function'
-              ? g.hints
-              : g.hints.map((h) =>
-                typeof h === 'string' ? h : { ...h, key: uuidv4() },
-              ),
-        })),
-      }
+          ...hints,
+          hintGroups: hints.hintGroups.map((g) => ({
+            ...g,
+            hints:
+              typeof g.hints === 'function'
+                ? g.hints
+                : g.hints.map((h) =>
+                    typeof h === 'string' ? h : { ...h, key: uuidv4() },
+                  ),
+          })),
+        }
       : undefined,
     comparisons: uniqueComparisonOps ?? [],
-    comparisonsMap: new Map((uniqueComparisonOps ?? []).map((o) => [o.symbol, o])),
+    comparisonsMap: new Map(
+      (uniqueComparisonOps ?? []).map((o) => [o.symbol, o]),
+    ),
     placeholder,
     showSearchIcon,
     allowLocking,
@@ -70,4 +72,4 @@ export const createConfigStore = ({
     optionWidth,
     showDropdownOnMouseOver,
   }));
-}
+};

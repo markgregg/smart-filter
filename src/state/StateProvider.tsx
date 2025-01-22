@@ -47,43 +47,62 @@ export const StateProvider = React.memo(
       showSearchIcon,
       showUndoIcon,
       size,
-      sortPillWidth
+      sortPillWidth,
     } = props;
-    const configStore = React.useMemo(() => createConfigStore(props), [
-      allowLocking,
-      debounce,
-      dropDownDispalyWhenKeyPressed,
-      dropdownWidth,
-      enableSort,
-      fields,
-      hints,
-      maxDropdownHeight,
-      maxValueWidth,
-      onChange,
-      onClear,
-      onExpand,
-      onLock,
-      onSortChange,
-      operators,
-      optionWidth,
-      pageSize,
-      pasteOptions,
-      placeholder,
-      showDropdownOnMouseOver,
-      showSearchIcon,
-      showUndoIcon,
-      size,
-      sortPillWidth
-    ]);
-    const focusStore = React.useMemo(() => createFocusStore(showDropdownOnMouseOver, dropDownDispalyWhenKeyPressed), [showDropdownOnMouseOver, dropDownDispalyWhenKeyPressed]);
+    const configStore = React.useMemo(
+      () => createConfigStore(props),
+      [
+        allowLocking,
+        debounce,
+        dropDownDispalyWhenKeyPressed,
+        dropdownWidth,
+        enableSort,
+        fields,
+        hints,
+        maxDropdownHeight,
+        maxValueWidth,
+        onChange,
+        onClear,
+        onExpand,
+        onLock,
+        onSortChange,
+        operators,
+        optionWidth,
+        pageSize,
+        pasteOptions,
+        placeholder,
+        showDropdownOnMouseOver,
+        showSearchIcon,
+        showUndoIcon,
+        size,
+        sortPillWidth,
+      ],
+    );
+    const focusStore = React.useMemo(
+      () =>
+        createFocusStore(
+          showDropdownOnMouseOver,
+          dropDownDispalyWhenKeyPressed,
+        ),
+      [showDropdownOnMouseOver, dropDownDispalyWhenKeyPressed],
+    );
     const filterBarStore = React.useMemo(createFilterBarStore, []);
     const hintStore = React.useMemo(createHintStore, []);
     const matcherStore = React.useMemo(createMatcherStore, []);
     const optionsStore = React.useMemo(
-      () => createOptionsStore(fields, operators ?? [], pageSize ?? DEFAULT_PAGE_SIZE, debounce),
+      () =>
+        createOptionsStore(
+          fields,
+          operators ?? [],
+          pageSize ?? DEFAULT_PAGE_SIZE,
+          debounce,
+        ),
       [fields, operators, pageSize, debounce],
     );
-    const arrayStore = React.useMemo(() => createArrayStore(pageSize ?? DEFAULT_PAGE_SIZE), [pageSize]);
+    const arrayStore = React.useMemo(
+      () => createArrayStore(pageSize ?? DEFAULT_PAGE_SIZE),
+      [pageSize],
+    );
     const matcherDragStore = React.useMemo(
       () => createMatcherDragStore<Matcher>(),
       [],
@@ -94,8 +113,10 @@ export const StateProvider = React.memo(
       () => createMatcherDragStore<Sort>(),
       [],
     );
-    const managedStore = React.useMemo(() => createManagedStore(matchers ?? [], sort ?? []), [matchers, sort]);
-    managedStore
+    const managedStore = React.useMemo(
+      () => createManagedStore(matchers ?? [], sort ?? []),
+      [matchers, sort],
+    );
 
     const stateValue = React.useMemo(
       () => ({

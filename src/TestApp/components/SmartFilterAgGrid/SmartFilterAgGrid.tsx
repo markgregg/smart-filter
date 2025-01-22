@@ -1,6 +1,12 @@
 import React from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import { ColDef, ColumnApi, GridApi, GridReadyEvent, IRowNode } from 'ag-grid-community';
+import {
+  ColDef,
+  ColumnApi,
+  GridApi,
+  GridReadyEvent,
+  IRowNode,
+} from 'ag-grid-community';
 import { FilterFunction, Matcher, Sort } from '@/types';
 import Bond from '@/TestApp/types/Bond';
 import { bonds } from '../../../../data/bonds';
@@ -11,8 +17,8 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 const hints = {
-  hintGroups: hintGroups,
-}
+  hintGroups,
+};
 
 export const SmartFilterAgGrid = () => {
   const filterRef = React.useRef<FilterFunction | null>(null);
@@ -25,38 +31,39 @@ export const SmartFilterAgGrid = () => {
 
   const queryParams = React.useMemo(() => {
     const query = window.location.search.substring(1);
-    const params = query.split("&").filter(t => t.trim() !== '');
+    const params = query.split('&').filter((t) => t.trim() !== '');
     return params.reduce((p: any, v) => {
       const pv = v.split('=');
-      return pv.length < 2
-        ? { ...p, [pv[0]]: true }
-        : { ...p, [pv[0]]: pv[1] }
+      return pv.length < 2 ? { ...p, [pv[0]]: true } : { ...p, [pv[0]]: pv[1] };
     }, {});
   }, []);
 
-  const handleChange = React.useCallback((
-    newMatchers: Matcher[],
-  ) => {
-    setMatchers(newMatchers);
-  }, [setMatchers]);
+  const handleChange = React.useCallback(
+    (newMatchers: Matcher[]) => {
+      setMatchers(newMatchers);
+    },
+    [setMatchers],
+  );
 
-  const handleSortChange = React.useCallback((
-    newSort: Sort[],
-  ) => {
-    setSort(newSort);
-  }, [setSort, columnApi]);
+  const handleSortChange = React.useCallback(
+    (newSort: Sort[]) => {
+      setSort(newSort);
+    },
+    [setSort, columnApi],
+  );
 
-  const handleFilterChange = React.useCallback((
-    newFilter: FilterFunction | null,
-  ) => {
-    filterRef.current = newFilter;
-    gridApi?.onFilterChanged();
-  }, [setSort, gridApi]);
+  const handleFilterChange = React.useCallback(
+    (newFilter: FilterFunction | null) => {
+      filterRef.current = newFilter;
+      gridApi?.onFilterChanged();
+    },
+    [setSort, gridApi],
+  );
 
   const handleGridReady = (event: GridReadyEvent<Bond>) => {
     setGridApi(event.api);
     setColumnApi(event.columnApi);
-  }
+  };
 
   const isExternalFilterPresent = React.useCallback(
     (): boolean => filterRef.current !== null,
@@ -64,10 +71,9 @@ export const SmartFilterAgGrid = () => {
   );
 
   const doesExternalFilterPass = React.useCallback(
-    (node: IRowNode<Bond>): boolean => {
-      return filterRef.current !== null && filterRef.current(node);
-    },
-    []
+    (node: IRowNode<Bond>): boolean =>
+      filterRef.current !== null && filterRef.current(node),
+    [],
   );
 
   const style = queryParams.width
@@ -77,14 +83,9 @@ export const SmartFilterAgGrid = () => {
   const size = queryParams.size ?? 'normal';
 
   return (
-    <div
-      className={s.smartFilterAgGridPage}
-    >
+    <div className={s.smartFilterAgGridPage}>
       <h4>Smart Filter AgGrid</h4>
-      <div
-        className={s.filterBar}
-        style={style}
-      >
+      <div className={s.filterBar} style={style}>
         <SmartFilterAgGridCompoent
           matchers={matchers}
           onChange={handleChange}
@@ -114,4 +115,4 @@ export const SmartFilterAgGrid = () => {
       </div>
     </div>
   );
-}
+};

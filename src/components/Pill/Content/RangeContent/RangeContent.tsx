@@ -11,9 +11,8 @@ type EditField = 'none' | 'value' | 'valueto';
 export const RangeContent = React.memo(({ matcher, field }: ContentProps) => {
   const rangeMatcher = matcher as RangeMatcher;
   const [editField, setEditField] = React.useState<EditField>('none');
-  const { editMatcher, selectMatcherForEdit, updateMatcher, clearEditMatcher } = useMatcher(
-    (state) => state,
-  );
+  const { editMatcher, selectMatcherForEdit, updateMatcher, clearEditMatcher } =
+    useMatcher((state) => state);
   const clearOptions = useOptions((state) => state.clearOptions);
   const itemValue = React.useMemo(
     () => ({ text: rangeMatcher.text ?? '', value: rangeMatcher.value }),
@@ -120,45 +119,45 @@ export const RangeContent = React.memo(({ matcher, field }: ContentProps) => {
           <>
             {editField === 'value'
               ? field && (
-                <Editor
-                  matcherKey={matcher.key}
-                  field={field}
-                  textValue={itemValue}
-                  onChanged={handleChange}
-                  onCancel={handleCancel}
-                />
-              )
+                  <Editor
+                    matcherKey={matcher.key}
+                    field={field}
+                    textValue={itemValue}
+                    onChanged={handleChange}
+                    onCancel={handleCancel}
+                  />
+                )
               : field && (
-                <Display
-                  field={field}
-                  text={rangeMatcher.text}
-                  value={rangeMatcher.value}
-                  html={html}
-                  onClick={handleClick}
-                  onChanged={handleChange}
-                />
-              )}
+                  <Display
+                    field={field}
+                    text={rangeMatcher.text}
+                    value={rangeMatcher.value}
+                    html={html}
+                    onClick={handleClick}
+                    onChanged={handleChange}
+                  />
+                )}
             <div className={s.toText}>to</div>
             {editField === 'valueto'
               ? field && (
-                <Editor
-                  matcherKey={matcher.key}
-                  field={field}
-                  textValue={itemValueTo}
-                  onChanged={handleChangeTo}
-                  onCancel={handleCancel}
-                />
-              )
+                  <Editor
+                    matcherKey={matcher.key}
+                    field={field}
+                    textValue={itemValueTo}
+                    onChanged={handleChangeTo}
+                    onCancel={handleCancel}
+                  />
+                )
               : field && (
-                <Display
-                  field={field}
-                  text={rangeMatcher.textTo ?? ''}
-                  value={rangeMatcher.valueTo}
-                  html={htmlTo}
-                  onClick={handleClickTo}
-                  onChanged={handleChangeTo}
-                />
-              )}
+                  <Display
+                    field={field}
+                    text={rangeMatcher.textTo ?? ''}
+                    value={rangeMatcher.valueTo}
+                    html={htmlTo}
+                    onClick={handleClickTo}
+                    onChanged={handleChangeTo}
+                  />
+                )}
           </>
         ) : (
           <div />

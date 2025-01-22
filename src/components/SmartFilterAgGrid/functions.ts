@@ -59,7 +59,10 @@ export const getComparisons = (
   return stringComparisons;
 };
 
-const getEditorType = (type?: string | boolean, filter?: string): ValueType | undefined => {
+const getEditorType = (
+  type?: string | boolean,
+  filter?: string,
+): ValueType | undefined => {
   if (filter === AgFilters.agSetColumnFilter) {
     return undefined;
   }
@@ -73,28 +76,22 @@ const getEditorType = (type?: string | boolean, filter?: string): ValueType | un
     case AgTypes.date:
       return 'date';
     case AgTypes.dateString:
-      return 'dateString'
+      return 'dateString';
     default:
       return undefined;
   }
-}
+};
 
-export const getPrecedence = (
-  filter?: string,
-): number => {
-  if (
-    filter === AgFilters.agTextColumnFilter
-  ) {
+export const getPrecedence = (filter?: string): number => {
+  if (filter === AgFilters.agTextColumnFilter) {
     return 0;
   }
 
-  if (
-    filter === AgFilters.agSetColumnFilter
-  ) {
+  if (filter === AgFilters.agSetColumnFilter) {
     return 10;
   }
   return 5;
-}
+};
 
 export const getDefaultComparison = (
   type?: string | boolean,
@@ -162,7 +159,12 @@ export const constructFields = (
             filterValueGetter,
           } = col.getColDef();
           const overrides = fields?.find((f) => f.name === (colId ?? field));
-          const { excludeFromFilter, excludeFromSorting, dateTimeFormat, editorType, ...fieldOverides } = overrides ?? {};
+          const {
+            excludeFromFilter,
+            dateTimeFormat,
+            editorType,
+            ...fieldOverides
+          } = overrides ?? {};
           const fieldName = colId ?? field;
           const overriddenField: Field = {
             name: fieldName ?? '',
@@ -173,21 +175,24 @@ export const constructFields = (
             allowRange: useRanges(cellDataType),
             allowBlanks: true,
             editorType: editorType ?? getEditorType(cellDataType, filter),
-            dateTimeFormat: dateTimeFormat ?? displayDateFormat ?? DEFAULT_DATE_FORMAT,
+            dateTimeFormat:
+              dateTimeFormat ?? displayDateFormat ?? DEFAULT_DATE_FORMAT,
             precedence: getPrecedence(filter),
             fieldMatchers:
               fieldName && !excludeFromFilter
                 ? [
-                  agClientApi.getFieldMatch(
-                    field,
-                    cellDataType,
-                    filter,
-                    dateFormats,
-                    displayDateFormat,
-                    typeof filterValueGetter === 'function' ? filterValueGetter : undefined,
-                    returnAllOptions,
-                  ),
-                ]
+                    agClientApi.getFieldMatch(
+                      field,
+                      cellDataType,
+                      filter,
+                      dateFormats,
+                      displayDateFormat,
+                      typeof filterValueGetter === 'function'
+                        ? filterValueGetter
+                        : undefined,
+                      returnAllOptions,
+                    ),
+                  ]
                 : [],
             ...fieldOverides,
           };

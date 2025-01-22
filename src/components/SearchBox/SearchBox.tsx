@@ -24,10 +24,7 @@ export const SearchBox = React.memo(
   ({ matcherKey, field, text, onSelect, position }: SearchBoxProps) => {
     const inputRef = React.useRef<HTMLInputElement | null>(null);
     const [searchText, setSearchText] = React.useState<string>(text[0]);
-    const {
-      placeholder,
-      size
-    } = useConfig((state) => state);
+    const { placeholder, size } = useConfig((state) => state);
     const {
       buildOptions,
       clearOptions,
@@ -38,7 +35,7 @@ export const SearchBox = React.memo(
       first,
       last,
       active,
-      options
+      options,
     } = useOptions((state) => state);
     const clearSelections = useMatcher((state) => state.clearSelections);
     const {
@@ -50,7 +47,7 @@ export const SearchBox = React.memo(
     } = useMatcher((state) => state);
     const { active: sortActive, setActive } = useSort((state) => state);
     const enableExpand = useFilterBar((state) => state.enableExpand);
-    const setKeyboardFocus = useFocus((state) => state.setKeyboardFocus)
+    const setKeyboardFocus = useFocus((state) => state.setKeyboardFocus);
 
     React.useEffect(() => {
       if (!matcherKey) {
@@ -87,12 +84,22 @@ export const SearchBox = React.memo(
       ) {
         if (inputRef.current) {
           if (enableExpand && !isVisible(inputRef.current)) {
-            inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            inputRef.current.scrollIntoView({
+              behavior: 'smooth',
+              block: 'end',
+            });
           }
           inputRef.current.focus();
         }
       }
-    }, [editMatcher, selectedMatcher, editPosition, sortActive, position, enableExpand]);
+    }, [
+      editMatcher,
+      selectedMatcher,
+      editPosition,
+      sortActive,
+      position,
+      enableExpand,
+    ]);
 
     React.useEffect(() => {
       buildOptions(

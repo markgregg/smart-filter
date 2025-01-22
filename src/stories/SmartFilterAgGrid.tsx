@@ -1,8 +1,19 @@
 import React from 'react';
-import Bond, { columns, hintGroups, operators } from './smartFilterFunctions';
-import { FilterFunction, Matcher, SmartFilterAgGrid as SmartFilterAgGridComponent, Sort } from '..';
 import { AgGridReact } from 'ag-grid-react';
-import { ColDef, ColumnApi, GridApi, GridReadyEvent, IRowNode } from 'ag-grid-community';
+import {
+  ColDef,
+  ColumnApi,
+  GridApi,
+  GridReadyEvent,
+  IRowNode,
+} from 'ag-grid-community';
+import Bond, { columns, hintGroups, operators } from './smartFilterFunctions';
+import {
+  FilterFunction,
+  Matcher,
+  SmartFilterAgGrid as SmartFilterAgGridComponent,
+  Sort,
+} from '..';
 import { bonds } from '../../data/bonds';
 import { FilterBarSize } from '@/types/uiProperties';
 import s from './style.module.less';
@@ -45,7 +56,7 @@ export interface SmartFilterAgGridProps {
 
   /* used only in options state */
   debounce?: number;
-  /* number of items to jump when page down/up pressed*/
+  /* number of items to jump when page down/up pressed */
   pageSize?: number;
 
   /* if ture search icon is shown */
@@ -97,45 +108,51 @@ export const SmartFilterAgGrid: React.FC<SmartFilterAgGridProps> = ({
   const [matchers, setMatchers] = React.useState<Matcher[]>([]);
   const [sort, setSort] = React.useState<Sort[]>([]);
 
-  const hints = React.useMemo(() => ({
-    hintsPerColumn,
-    hintWidth,
-    sortHints,
-    hintGroups: hintGroups,
-  }), [hintsPerColumn, hintWidth, sortHints]);
+  const hints = React.useMemo(
+    () => ({
+      hintsPerColumn,
+      hintWidth,
+      sortHints,
+      hintGroups,
+    }),
+    [hintsPerColumn, hintWidth, sortHints],
+  );
 
-  const handleChange = React.useCallback((
-    newMatchers: Matcher[],
-  ) => {
-    setMatchers(newMatchers);
-    if (onChange) {
-      onChange(newMatchers);
-    }
-  }, [setMatchers, onChange]);
+  const handleChange = React.useCallback(
+    (newMatchers: Matcher[]) => {
+      setMatchers(newMatchers);
+      if (onChange) {
+        onChange(newMatchers);
+      }
+    },
+    [setMatchers, onChange],
+  );
 
-  const handleSortChange = React.useCallback((
-    newSort: Sort[],
-  ) => {
-    setSort(newSort);
-    if (onSortChange) {
-      onSortChange(newSort);
-    }
-  }, [setSort, onSortChange]);
+  const handleSortChange = React.useCallback(
+    (newSort: Sort[]) => {
+      setSort(newSort);
+      if (onSortChange) {
+        onSortChange(newSort);
+      }
+    },
+    [setSort, onSortChange],
+  );
 
-  const handleFilterChange = React.useCallback((
-    newFilter: FilterFunction | null,
-  ) => {
-    filterRef.current = newFilter;
-    gridApi?.onFilterChanged();
-    if (onFiltersChange) {
-      onFiltersChange(newFilter);
-    }
-  }, [gridApi, setSort, onFiltersChange]);
+  const handleFilterChange = React.useCallback(
+    (newFilter: FilterFunction | null) => {
+      filterRef.current = newFilter;
+      gridApi?.onFilterChanged();
+      if (onFiltersChange) {
+        onFiltersChange(newFilter);
+      }
+    },
+    [gridApi, setSort, onFiltersChange],
+  );
 
   const handleGridReady = (event: GridReadyEvent<Bond>) => {
     setGridApi(event.api);
     setColumnApi(event.columnApi);
-  }
+  };
 
   const isExternalFilterPresent = React.useCallback(
     (): boolean => filterRef.current !== null,
@@ -143,10 +160,9 @@ export const SmartFilterAgGrid: React.FC<SmartFilterAgGridProps> = ({
   );
 
   const doesExternalFilterPass = React.useCallback(
-    (node: IRowNode<Bond>): boolean => {
-      return filterRef.current !== null && filterRef.current(node);
-    },
-    []
+    (node: IRowNode<Bond>): boolean =>
+      filterRef.current !== null && filterRef.current(node),
+    [],
   );
 
   return (
@@ -154,7 +170,7 @@ export const SmartFilterAgGrid: React.FC<SmartFilterAgGridProps> = ({
       className={s.storybookSmartFilterPage}
       style={{
         width,
-        height
+        height,
       }}
     >
       <div className={s.filterBar}>
@@ -170,6 +186,7 @@ export const SmartFilterAgGrid: React.FC<SmartFilterAgGridProps> = ({
           showDropdownOnMouseOver={showDropdownOnMouseOver}
           gridApi={gridApi}
           columnApi={columnApi}
+          // eslint-disable-next-line react/jsx-props-no-spreading
           {...props}
         />
       </div>
@@ -184,4 +201,4 @@ export const SmartFilterAgGrid: React.FC<SmartFilterAgGridProps> = ({
       </div>
     </div>
   );
-}
+};

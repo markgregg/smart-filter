@@ -1,12 +1,14 @@
 import moment from 'moment';
 import { Column, ColumnApi, GridApi, RowNode } from '@/types/agGrid';
-import { FieldMatch, SourceItem, Matcher, ValueMatcher, FilterFunction, Sort } from '..';
 import {
-  AgFilters,
-  AgTypes,
-  DEFAULT_DATE_FORMAT,
-  OR,
-} from '@/util/constants';
+  FieldMatch,
+  SourceItem,
+  Matcher,
+  ValueMatcher,
+  FilterFunction,
+  Sort,
+} from '..';
+import { AgFilters, AgTypes, DEFAULT_DATE_FORMAT, OR } from '@/util/constants';
 
 export type FilterValueGetter = (params: any) => any | null | undefined;
 
@@ -57,7 +59,9 @@ export const createClientApi = (
   ): FieldMatch => {
     if (type === AgTypes.boolean) {
       return {
-        match: (text: string) => text.toLocaleUpperCase() === 'TRUE' || text.toLocaleUpperCase() === 'FALSE',
+        match: (text: string) =>
+          text.toLocaleUpperCase() === 'TRUE' ||
+          text.toLocaleUpperCase() === 'FALSE',
         value: (text: string) => text.toLocaleUpperCase() === 'TRUE',
         matchOnPaste: true,
       };
@@ -83,10 +87,7 @@ export const createClientApi = (
           }),
       };
     }
-    if (
-      type === AgTypes.number ||
-      filter === AgFilters.agNumberColumnFilter
-    ) {
+    if (type === AgTypes.number || filter === AgFilters.agNumberColumnFilter) {
       return {
         match: (text: string) => !Number.isNaN(Number(text)),
         value: (text: string) => Number.parseFloat(text),
@@ -417,7 +418,7 @@ export const createClientApi = (
         return (row) => {
           const value = getStringValue(row.data);
           return !value;
-        }
+        };
       }
       return (row) => {
         const value = getStringValue(row.data);
@@ -557,24 +558,24 @@ export const createClientApi = (
       return (row: any) => {
         const value = valueGetter<number | undefined>(row.data);
         return !value;
-      }
+      };
     }
     const compareNumber =
       (
         valueValuePredicate: (x: number, y: number) => boolean,
         arrayValuePredicate: (x: number[], y: number) => boolean,
       ): FilterFunction =>
-        (row) => {
-          const value = valueGetter<number | undefined>(row.data);
-          if (Array.isArray(value)) {
-            return arrayValuePredicate(value, matcher.value);
-          }
-          return (
-            value !== undefined &&
-            typeof value === 'number' &&
-            valueValuePredicate(value, matcher.value)
-          );
-        };
+      (row) => {
+        const value = valueGetter<number | undefined>(row.data);
+        if (Array.isArray(value)) {
+          return arrayValuePredicate(value, matcher.value);
+        }
+        return (
+          value !== undefined &&
+          typeof value === 'number' &&
+          valueValuePredicate(value, matcher.value)
+        );
+      };
 
     switch (matcher.comparison) {
       case '=':
@@ -644,24 +645,24 @@ export const createClientApi = (
       return (row: any) => {
         const value = valueGetter<Date | undefined>(row.data);
         return !value;
-      }
+      };
     }
     const compareDate =
       (
         valueValuePredicate: (x: Date, y: Date) => boolean,
         arrayValuePredicate: (x: Date[], y: Date) => boolean,
       ): FilterFunction =>
-        (row) => {
-          const value = valueGetter<Date | undefined>(row.data);
-          if (Array.isArray(value)) {
-            return arrayValuePredicate(value, matcher.value);
-          }
-          return (
-            value !== undefined &&
-            value instanceof Date &&
-            valueValuePredicate(value, matcher.value)
-          );
-        };
+      (row) => {
+        const value = valueGetter<Date | undefined>(row.data);
+        if (Array.isArray(value)) {
+          return arrayValuePredicate(value, matcher.value);
+        }
+        return (
+          value !== undefined &&
+          value instanceof Date &&
+          valueValuePredicate(value, matcher.value)
+        );
+      };
 
     switch (matcher.comparison) {
       case '=':
@@ -734,28 +735,28 @@ export const createClientApi = (
       return (row: any) => {
         const value = valueGetter<string | undefined>(row.data);
         return !value;
-      }
+      };
     }
     const compareDateString =
       (
         valueValuePredicate: (x: moment.Moment, y: moment.Moment) => boolean,
         arrayValuePredicate: (x: string[], y: moment.Moment) => boolean,
       ): FilterFunction =>
-        (row) => {
-          if (!matcher.value || typeof matcher.value !== 'string') {
-            return false;
-          }
-          const dateM = moment(matcher.value);
-          const value = valueGetter<string | undefined>(row.data);
-          if (Array.isArray(value)) {
-            return arrayValuePredicate(value, dateM);
-          }
-          if (!value || typeof value !== 'string') {
-            return false;
-          }
-          const dateV = moment(value);
-          return dateV.isValid() && valueValuePredicate(dateV, dateM);
-        };
+      (row) => {
+        if (!matcher.value || typeof matcher.value !== 'string') {
+          return false;
+        }
+        const dateM = moment(matcher.value);
+        const value = valueGetter<string | undefined>(row.data);
+        if (Array.isArray(value)) {
+          return arrayValuePredicate(value, dateM);
+        }
+        if (!value || typeof value !== 'string') {
+          return false;
+        }
+        const dateV = moment(value);
+        return dateV.isValid() && valueValuePredicate(dateV, dateM);
+      };
 
     switch (matcher.comparison) {
       case '=':
@@ -812,7 +813,7 @@ export const createClientApi = (
       return (row: any) => {
         const value = <boolean | undefined>valueGetter(row.data);
         return !value;
-      }
+      };
     }
     switch (matcher.comparison) {
       case '=':
@@ -835,9 +836,9 @@ export const createClientApi = (
   const applySort = (sort: Sort[]) => {
     const columnState = columnApi?.getColumnState();
     if (columnState) {
-      const fieldState = sort.map((sortField, index) => ({ sortField, index }))
+      const fieldState = sort.map((sortField, index) => ({ sortField, index }));
       const newColumnState = columnState.map((cs) => {
-        const entry = fieldState.find(f => f.sortField.field === cs.colId)
+        const entry = fieldState.find((f) => f.sortField.field === cs.colId);
         return {
           ...cs,
           sort: entry?.sortField.sortDirection ?? null,
@@ -847,7 +848,7 @@ export const createClientApi = (
 
       columnApi?.applyColumnState({ state: newColumnState });
     }
-  }
+  };
 
   return {
     constructFilter,

@@ -37,7 +37,7 @@ export interface SmartFilterProps extends UIProperties {
 
   /* used only in options state */
   debounce?: number;
-  /* number of items to jump when page down/up pressed*/
+  /* number of items to jump when page down/up pressed */
   pageSize?: number;
 
   /* how to handle pasting of arrays and pills */

@@ -1,8 +1,23 @@
-import { Field, FilterFunction, HintGrouping, Matcher, Operator, Sort, SortDirection, SourceItem, ValueMatcher } from '..';
 import { ColDef } from 'ag-grid-community';
-import { bonds } from '../../data/bonds';
-import { OR, defaultComparisons, numberComparisons, stringComparisons } from '@/util/constants';
 import moment from 'moment';
+import {
+  Field,
+  FilterFunction,
+  HintGrouping,
+  Matcher,
+  Operator,
+  Sort,
+  SortDirection,
+  SourceItem,
+  ValueMatcher,
+} from '..';
+import { bonds } from '../../data/bonds';
+import {
+  OR,
+  defaultComparisons,
+  numberComparisons,
+  stringComparisons,
+} from '@/util/constants';
 
 export type SortFunction = (x: any, y: any) => number;
 
@@ -24,17 +39,22 @@ export default interface Bond {
   };
 }
 
-const findMatching = (text: string, getter: ((bond: Bond) => string)): Promise<SourceItem[]> => {
-  return new Promise((resolve) => {
+const findMatching = (
+  text: string,
+  getter: (bond: Bond) => string,
+): Promise<SourceItem[]> =>
+  new Promise((resolve) => {
     setTimeout(() => {
       const set = new Set<string>();
-      (bonds).map(getter)
-        .filter(t => (t ?? '').toLocaleUpperCase().includes(text.toLocaleUpperCase()))
+      bonds
+        .map(getter)
+        .filter((t) =>
+          (t ?? '').toLocaleUpperCase().includes(text.toLocaleUpperCase()),
+        )
         .forEach((t) => set.add(t));
       resolve([...set.values()].slice(0, 10));
     }, 10);
   });
-}
 export const fields: Field[] = [
   {
     name: 'isin',
@@ -47,7 +67,6 @@ export const fields: Field[] = [
     ],
     allowList: true,
     allowBlanks: true,
-
   },
   {
     name: 'side',
@@ -56,7 +75,7 @@ export const fields: Field[] = [
     fieldMatchers: [
       {
         ignoreCase: true,
-        source: ['BUY', 'SELL']
+        source: ['BUY', 'SELL'],
       },
     ],
     allowBlanks: true,
@@ -133,7 +152,8 @@ export const fields: Field[] = [
     operators: ['=', '!'],
     fieldMatchers: [
       {
-        lookup: (text: string) => findMatching(text, (bond) => bond.categories.sector),
+        lookup: (text: string) =>
+          findMatching(text, (bond) => bond.categories.sector),
       },
     ],
     allowList: true,
@@ -208,7 +228,10 @@ export const hintGroups: HintGrouping[] = [
   {
     title: 'Active',
     field: 'active',
-    hints: [{ text: 'Yes', value: true }, { text: 'No', value: false }],
+    hints: [
+      { text: 'Yes', value: true },
+      { text: 'No', value: false },
+    ],
   },
 ];
 
@@ -349,13 +372,18 @@ const createFilter = (
       filterFunc = constructTextFilter(matcher, (bond: Bond) => bond.side);
       break;
     case 'currency':
-      filterFunc = constructTextFilter(matcher, (bond: Bond) => bond ? bond.currency : '');
+      filterFunc = constructTextFilter(matcher, (bond: Bond) =>
+        bond ? bond.currency : '',
+      );
       break;
     case 'issuer':
       filterFunc = constructTextFilter(matcher, (bond: Bond) => bond.issuer);
       break;
     case 'sector':
-      filterFunc = constructTextFilter(matcher, (bond: Bond) => bond.categories.sector);
+      filterFunc = constructTextFilter(
+        matcher,
+        (bond: Bond) => bond.categories.sector,
+      );
       break;
     case 'coupon':
       filterFunc = constructNumberFilter(matcher, (bond: Bond) => bond.coupon);
@@ -367,10 +395,16 @@ const createFilter = (
       filterFunc = constructDateFilter(matcher, () => new Date(Date.now()));
       break;
     case 'maturityDate':
-      filterFunc = constructDateStringFilter(matcher, (bond: Bond) => bond.maturityDate);
+      filterFunc = constructDateStringFilter(
+        matcher,
+        (bond: Bond) => bond.maturityDate,
+      );
       break;
     case 'issueDate':
-      filterFunc = constructDateStringFilter(matcher, (bond: Bond) => bond.issueDate);
+      filterFunc = constructDateStringFilter(
+        matcher,
+        (bond: Bond) => bond.issueDate,
+      );
       break;
     case 'active':
       filterFunc = constructBooleanFilter(matcher, (bond: Bond) => bond.active);
@@ -408,8 +442,7 @@ const constructTextFilter = (
           return arrayArraypredicate(value, matcher.valueArray);
         }
         return (
-          value !== undefined &&
-          valueArrayPredicate(value, matcher.valueArray)
+          value !== undefined && valueArrayPredicate(value, matcher.valueArray)
         );
       };
     }
@@ -417,7 +450,7 @@ const constructTextFilter = (
       return (row: any) => {
         const value = getStringValue(row);
         return !value;
-      }
+      };
     }
     return (row: any) => {
       const value = getStringValue(row);
@@ -455,9 +488,7 @@ const constructTextFilter = (
         (v, m) => !m.find((mv) => v.toLocaleUpperCase() === mv),
         (v, m) =>
           m.every((mv) =>
-            v.every(
-              (vi) => vi.toLocaleUpperCase() !== mv.toLocaleUpperCase(),
-            ),
+            v.every((vi) => vi.toLocaleUpperCase() !== mv.toLocaleUpperCase()),
           ),
       );
 
@@ -550,9 +581,7 @@ const constructNumberFilter = (
     return (row: any) => {
       const value = valueGetter(row);
       return (
-        value !== undefined &&
-        value >= matcher.value &&
-        value < matcher.valueTo
+        value !== undefined && value >= matcher.value && value < matcher.valueTo
       );
     };
   }
@@ -561,7 +590,7 @@ const constructNumberFilter = (
     return (row: any) => {
       const value = valueGetter(row);
       return !value;
-    }
+    };
   }
   const compareNumber =
     (
@@ -648,7 +677,7 @@ const constructDateFilter = (
     return (row: any) => {
       const value = valueGetter(row);
       return !value;
-    }
+    };
   }
   const compareDate =
     (
@@ -738,7 +767,7 @@ const constructDateStringFilter = (
     return (row: any) => {
       const value = valueGetter(row);
       return !value;
-    }
+    };
   }
   const compareDateString =
     (
@@ -783,13 +812,15 @@ const constructDateStringFilter = (
     case '>=':
       return compareDateString(
         (v, m) => v.isSameOrAfter(m),
-        (v, m) => v.every((vi) => moment(vi, 'YYYY-MM-DD', true).isSameOrAfter(m)),
+        (v, m) =>
+          v.every((vi) => moment(vi, 'YYYY-MM-DD', true).isSameOrAfter(m)),
       );
 
     case '<=':
       return compareDateString(
         (v, m) => v.isSameOrBefore(m),
-        (v, m) => v.every((vi) => moment(vi, 'YYYY-MM-DD', true).isSameOrBefore(m)),
+        (v, m) =>
+          v.every((vi) => moment(vi, 'YYYY-MM-DD', true).isSameOrBefore(m)),
       );
 
     case '!':
@@ -816,7 +847,7 @@ const constructBooleanFilter = (
     return (row: any) => {
       const value = valueGetter(row);
       return !value;
-    }
+    };
   }
   switch (matcher.comparison) {
     case '=':
@@ -839,7 +870,7 @@ const constructBooleanFilter = (
 export const constructSort = (sort: Sort[]): SortFunction | null => {
   let currentSort: SortFunction | null = null;
 
-  for (let i = 0; i < sort.length; i++) {
+  for (let i = 0; i < sort.length; i += 1) {
     if (!currentSort) {
       currentSort = createSortFunction(sort[i]);
     } else {
@@ -848,53 +879,71 @@ export const constructSort = (sort: Sort[]): SortFunction | null => {
       if (newSort) {
         currentSort = (x, y) => {
           const srt = existingSort(x, y);
-          return srt === 0
-            ? newSort(x, y)
-            : srt;
-        }
+          return srt === 0 ? newSort(x, y) : srt;
+        };
       } else {
         currentSort = existingSort;
       }
     }
   }
   return currentSort;
-}
+};
 
-const createSortFunction = (
-  sortItem: Sort,
-): SortFunction | null => {
+const createSortFunction = (sortItem: Sort): SortFunction | null => {
   let sortFunc: SortFunction | null = null;
-  const createSortFunc = <T extends any>(type: string, sortDirection: SortDirection, getter: (bond: Bond) => T): SortFunction => {
-    return (x, y) => {
-      const valX = getter(x);
-      const valY = getter(y);
-      if (typeof valX !== type) {
-        return 1;
-      }
-      if (typeof valY !== type) {
-        return -1;
-      }
-      return valX === valY
-        ? 0
-        : valX > valY
-          ? sortDirection === 'asc' ? 1 : -1
-          : sortDirection === 'asc' ? -1 : 1
-    }
-  }
+  const createSortFunc =
+    (
+      type: string,
+      sortDirection: SortDirection,
+      getter: (bond: Bond) => any,
+    ): SortFunction =>
+      (x, y) => {
+        const valX = getter(x);
+        const valY = getter(y);
+        // eslint-disable-next-line valid-typeof
+        if (typeof valX !== type) {
+          return 1;
+        }
+        // eslint-disable-next-line valid-typeof
+        if (typeof valY !== type) {
+          return -1;
+        }
+        return valX === valY
+          ? 0
+          : valX > valY
+            ? sortDirection === 'asc'
+              ? 1
+              : -1
+            : sortDirection === 'asc'
+              ? -1
+              : 1;
+      };
 
   switch (sortItem.field) {
     case 'isin':
     case 'side':
     case 'currency':
     case 'issuer':
-      sortFunc = createSortFunc<string>('string', sortItem.sortDirection, (bond: any) => bond[sortItem.field]);
+      sortFunc = createSortFunc(
+        'string',
+        sortItem.sortDirection,
+        (bond: any) => bond[sortItem.field],
+      );
       break;
     case 'sector':
-      sortFunc = createSortFunc<string>('string', sortItem.sortDirection, (bond: Bond) => bond.categories.sector);
+      sortFunc = createSortFunc(
+        'string',
+        sortItem.sortDirection,
+        (bond: Bond) => bond.categories.sector,
+      );
       break;
     case 'coupon':
     case 'haircut':
-      sortFunc = createSortFunc<number>('number', sortItem.sortDirection, (bond: any) => bond[sortItem.field]);
+      sortFunc = createSortFunc(
+        'number',
+        sortItem.sortDirection,
+        (bond: any) => bond[sortItem.field],
+      );
       break;
     case 'maturityDate':
     case 'issueDate':
@@ -910,14 +959,22 @@ const createSortFunction = (
         const valXDate = moment(valX, 'YYYY-MM-DD', true);
         const valYDate = moment(valY, 'YYYY-MM-DD', true);
         return valXDate.isBefore(valYDate)
-          ? sortItem.sortDirection === 'asc' ? -1 : 1
+          ? sortItem.sortDirection === 'asc'
+            ? -1
+            : 1
           : valXDate.isAfter(valYDate)
-            ? sortItem.sortDirection === 'asc' ? 1 : -1
+            ? sortItem.sortDirection === 'asc'
+              ? 1
+              : -1
             : 0;
-      }
+      };
       break;
     case 'active':
-      sortFunc = createSortFunc<boolean>('boolean', sortItem.sortDirection, (bond: Bond) => bond.active);
+      sortFunc = createSortFunc(
+        'boolean',
+        sortItem.sortDirection,
+        (bond: Bond) => bond.active,
+      );
       break;
     default:
       // eslint-disable-next-line no-console
@@ -926,4 +983,4 @@ const createSortFunction = (
       break;
   }
   return sortFunc;
-}
+};

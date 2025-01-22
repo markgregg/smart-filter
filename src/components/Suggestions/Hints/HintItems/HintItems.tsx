@@ -158,7 +158,10 @@ export const HintItems = React.memo(
                 : VALUE_TO in hint.hint
                   ? createRangeValue({ field, ...hint.hint })
                   : createValue({ field, ...hint.hint });
-          const comp = typeof hint.hint === 'object' && 'comparison' in hint.hint ? hint.hint.comparison : null;
+          const comp =
+            typeof hint.hint === 'object' && 'comparison' in hint.hint
+              ? hint.hint.comparison
+              : null;
           addValue({
             value,
             position: editPosition,
@@ -183,7 +186,8 @@ export const HintItems = React.memo(
     return (
       <div className={s.hintItems} style={{ maxHeight }}>
         {visibleHints.map((h) => {
-          const key = typeof h.hint !== 'string' && 'key' in h.hint ? h.hint.key : h.hint;
+          const key =
+            typeof h.hint !== 'string' && 'key' in h.hint ? h.hint.key : h.hint;
           return (
             // @ts-expect-error key is not exposed to the user and is automatically add in the config
             <div key={key}>
@@ -196,10 +200,17 @@ export const HintItems = React.memo(
                   className={s.hint}
                   style={{ width, fontWeight: h.selected ? 'bold' : 'normal' }}
                 >
-                  {typeof h.hint === 'string' ? h.hint : ('display' in h.hint ? h.hint.display : 'text' in h.hint ? h.hint.text : '')}
+                  {typeof h.hint === 'string'
+                    ? h.hint
+                    : 'display' in h.hint
+                      ? h.hint.display
+                      : 'text' in h.hint
+                        ? h.hint.text
+                        : ''}
                 </div>
               </Button>
-            </div>)
+            </div>
+          );
         })}
       </div>
     );

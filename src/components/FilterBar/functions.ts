@@ -154,9 +154,9 @@ export const getMatchersFromText = (
     return Array.isArray(matchers)
       ? matchers.map((m) => ({ ...m, key: uuidv4() }))
       : {
-        ...matchers,
-        key: uuidv4(),
-      };
+          ...matchers,
+          key: uuidv4(),
+        };
   }
   return null;
 };

@@ -51,8 +51,12 @@ export const Editor = React.memo(
       if (field.editComponent) {
         return field.editComponent;
       }
-      if (field.editorType === 'date' || field.editorType === 'datetime' ||
-        field.editorType === 'dateString' || field.editorType === 'datetimeString') {
+      if (
+        field.editorType === 'date' ||
+        field.editorType === 'datetime' ||
+        field.editorType === 'dateString' ||
+        field.editorType === 'datetimeString'
+      ) {
         return DateTimeEditor;
       }
       if (field.editorType === 'integer' || field.editorType === 'float') {

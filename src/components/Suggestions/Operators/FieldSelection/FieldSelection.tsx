@@ -14,6 +14,7 @@ import { FieldOption } from './FieldOption';
 import { SortOption } from './SortOption';
 import { SortDirection } from '@/types/sort';
 import s from './style.module.less';
+
 interface FieldSelectionProps {
   showSort?: boolean;
 }
@@ -22,9 +23,12 @@ export const FieldSelection = React.memo(
   ({ showSort }: FieldSelectionProps) => {
     const [filter, setFilter] = React.useState<string>('');
     const [showFields, setShowFields] = React.useState<boolean>(false);
-    const { fieldMap, fields, enableSort, size = 'normal', hints: { sortHints = undefined } = {} } = useConfig(
-      (state) => state,
-    );
+    const {
+      fields,
+      enableSort,
+      size = 'normal',
+      hints: { sortHints = undefined } = {},
+    } = useConfig((state) => state);
     const { addValue, editPosition } = useMatcher((state) => state);
     const { updateSort } = useSort((state) => state);
 
@@ -32,10 +36,11 @@ export const FieldSelection = React.memo(
       () =>
         fields.filter(
           (f) =>
-          (!showSort ||
-            (enableSort && (!sortHints || sortHints.includes(f.name)) &&
-              !f.excludeFromSorting) &&
-            ignoreCaseCompare(f.title, filter))
+            !showSort ||
+            (enableSort &&
+              (!sortHints || sortHints.includes(f.name)) &&
+              !f.excludeFromSorting &&
+              ignoreCaseCompare(f.title, filter)),
         ),
       [fields, filter],
     );
@@ -105,17 +110,20 @@ export const FieldSelection = React.memo(
       <div className={s.fieldSelection} onMouseLeave={handleHideFields}>
         <Tooltip caption={showSort ? 'Add Sort Field' : 'Add Field'}>
           <div
-            id={showSort ? 'sf-sort-selection-button' : 'sf-filter-selection-button'}
+            id={
+              showSort
+                ? 'sf-sort-selection-button'
+                : 'sf-filter-selection-button'
+            }
             className={[s.addFieldIcon, s[`icon-${size}`]].join(' ')}
-            onMouseEnter={handleShowFields}>
+            onMouseEnter={handleShowFields}
+          >
             {showSort ? <BiSort /> : <MdAddBox />}
           </div>
         </Tooltip>
         {showFields && (
           <div className={[s.filterSelectionPopup, s[size]].join(' ')}>
-            <div className={s.title}>
-              {showSort ? 'Sort Fields' : 'Fields'}
-            </div>
+            <div className={s.title}>{showSort ? 'Sort Fields' : 'Fields'}</div>
             <div className={s.filter}>
               <label htmlFor="fields-filter">
                 Filter:

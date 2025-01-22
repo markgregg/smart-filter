@@ -19,9 +19,9 @@ const getMin = (field: Field): Date | undefined => {
       return moment(
         field.min,
         field.dateTimeFormat ??
-        (field.editorType === 'date'
-          ? DEFAULT_DATE_FORMAT
-          : DEFAULT_DATE_TIME_FORMAT),
+          (field.editorType === 'date'
+            ? DEFAULT_DATE_FORMAT
+            : DEFAULT_DATE_TIME_FORMAT),
         true,
       ).toDate();
     }
@@ -74,7 +74,11 @@ export const createArrayValue = ({
   field,
   valueArray,
   textArray,
-}: { field: string, valueArray: Value[], textArray: string[] }): ArrayValue => ({
+}: {
+  field: string;
+  valueArray: Value[];
+  textArray: string[];
+}): ArrayValue => ({
   type: 'a',
   field,
   valueArray,
@@ -91,7 +95,7 @@ export const createField = (field?: Field) => {
     text,
     value,
   });
-}
+};
 
 export const createRangeValue = ({
   field,
@@ -99,7 +103,13 @@ export const createRangeValue = ({
   text,
   valueTo,
   textTo,
-}: { field: string, value: Value, text: string, valueTo: Value, textTo: string }): RangeValue => ({
+}: {
+  field: string;
+  value: Value;
+  text: string;
+  valueTo: Value;
+  textTo: string;
+}): RangeValue => ({
   type: 'r',
   field,
   value,
@@ -112,7 +122,11 @@ export const createValue = ({
   field,
   value,
   text,
-}: { field: string, value: Value, text: string }): SingleValue => ({
+}: {
+  field: string;
+  value: Value;
+  text: string;
+}): SingleValue => ({
   type: 's',
   field,
   value,
@@ -120,7 +134,10 @@ export const createValue = ({
 });
 
 export const hasError = (matcher: Matcher) => {
-  if ((matcher.type === 's' || matcher.type === 'r') && matcher.value === null) {
+  if (
+    (matcher.type === 's' || matcher.type === 'r') &&
+    matcher.value === null
+  ) {
     return true;
   }
   if (matcher.type === 'r' && matcher.valueTo === null) {
@@ -182,10 +199,10 @@ export const isVisible = (element: HTMLElement) => {
   if (element.parentElement) {
     const { right: pright } = element.parentElement.getBoundingClientRect();
     const { left, right } = element.getBoundingClientRect();
-    return (left >= 0 && right <= pright);
+    return left >= 0 && right <= pright;
   }
   return true;
-}
+};
 
 export const isUnique = (
   value: string,
@@ -193,14 +210,17 @@ export const isUnique = (
   array: string[],
 ): boolean => array.indexOf(value) === index;
 
-export const uniqueComparions = (fields: Field[], operators: Operator[]): Operator[] => {
-  return fields.flatMap((f) => f.operators)
+export const uniqueComparions = (
+  fields: Field[],
+  operators: Operator[],
+): Operator[] =>
+  fields
+    .flatMap((f) => f.operators)
     .filter(isUnique)
-    .map(symbol => {
-      const op = operators.find(o => o.symbol === symbol);
+    .map((symbol) => {
+      const op = operators.find((o) => o.symbol === symbol);
       return op ?? { symbol };
     });
-}
 
 export const toText = (symbol: string) => {
   switch (symbol) {
@@ -227,4 +247,4 @@ export const toText = (symbol: string) => {
     default:
       return '';
   }
-}
+};

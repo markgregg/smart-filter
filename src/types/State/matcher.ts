@@ -15,7 +15,7 @@ export interface MatcherState {
   copyMatchers: string[] | null;
   fieldMap: Map<string, Field>;
   setFieldMap: (fieldMap: Map<string, Field>) => void;
-  setMatchers: (matchers: Matcher[]) => void,
+  setMatchers: (matchers: Matcher[]) => void;
   addValue: ({
     value,
     position,

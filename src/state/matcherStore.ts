@@ -14,10 +14,7 @@ import {
   MatcherState,
 } from '@/types/State';
 import { MatcherValue } from '@/types/values';
-import {
-  AND,
-  OR,
-} from '@/util/constants';
+import { AND, OR } from '@/util/constants';
 
 export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
   create<MatcherState>((set) => ({
@@ -44,21 +41,23 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
       operator?: LogicalOperator;
       comparison?: string;
       dontAppend?: true;
-    }) => set((state) =>
-      updateMatchers(
-        state.matchers,
-        state.fieldMap,
-        value,
-        state.selectedMatcher,
-        position,
-        operator,
-        comparison,
-        dontAppend,
-      )),
-    insertMatchers: (
-      matchers: Matcher | Matcher[],
-      position: number | null,
-    ) => set((state) => updateMatcherList(state.matchers, matchers, position, state.fieldMap)),
+    }) =>
+      set((state) =>
+        updateMatchers(
+          state.matchers,
+          state.fieldMap,
+          value,
+          state.selectedMatcher,
+          position,
+          operator,
+          comparison,
+          dontAppend,
+        ),
+      ),
+    insertMatchers: (matchers: Matcher | Matcher[], position: number | null) =>
+      set((state) =>
+        updateMatcherList(state.matchers, matchers, position, state.fieldMap),
+      ),
     addBracket: (
       bracket: Brackets,
       position: number | null,
@@ -71,7 +70,12 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
         operator: operator ?? AND,
       };
       set((state) =>
-        updateMatcherList(state.matchers, bracketMatcher, position, state.fieldMap),
+        updateMatcherList(
+          state.matchers,
+          bracketMatcher,
+          position,
+          state.fieldMap,
+        ),
       );
     },
     updateMatcher: (matcher: Matcher, ignoreLockedCheck?: true) => {
@@ -167,7 +171,6 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
     clearCopyMatcher: () => set({ copyMatchers: null }),
     addCopyMatcher: (key: string) =>
       set((state) => {
-
         const { copyMatchers, selectedMatcher, selectMatcher } = state;
         if (!selectedMatcher) {
           selectMatcher(key);
@@ -212,9 +215,7 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
       set((state) => {
         if (state.clearCallbacks.includes(callback)) {
           return {
-            clearCallbacks: state.clearCallbacks.filter(
-              (c) => c !== callback,
-            ),
+            clearCallbacks: state.clearCallbacks.filter((c) => c !== callback),
           };
         }
         return {};
@@ -327,8 +328,7 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
         }
         return nullUpdate;
       }),
-  })
-  );
+  }));
 
 const nullUpdate = {
   selectedMatcher: null,
@@ -357,20 +357,30 @@ const selectMatcherUpdate = (
 const checkFieldLimits = (
   matchers: Matcher[],
   matcher: Matcher | Matcher[],
-  fieldMap: Map<String, Field>,
+  fieldMap: Map<string, Field>,
 ) => {
-  (Array.isArray(matcher) ? matcher : [matcher]).find((m) => {
+  const a = Array.isArray(matcher) ? matcher : [matcher];
+  for (let index = 0; index < a.length; index += 1) {
+    const m = a[index];
     if ('field' in m) {
       const fieldName = m.field;
       const field = fieldMap.get(fieldName);
       if (field?.instanceLimit) {
-        if (matchers.filter((mf) => 'field' in mf && mf.field === fieldName && mf.key !== m.key).length + 1 > field.instanceLimit) {
-          throw Error(`Instance limt of (${field.instanceLimit}) has been exceed for ${field.title}`);
+        if (
+          matchers.filter(
+            (mf) => 'field' in mf && mf.field === fieldName && mf.key !== m.key,
+          ).length +
+          1 >
+          field.instanceLimit
+        ) {
+          throw Error(
+            `Instance limt of (${field.instanceLimit}) has been exceed for ${field.title}`,
+          );
         }
       }
     }
-  })
-}
+  }
+};
 
 const updateMatcherList = (
   matchers: Matcher[],
@@ -401,10 +411,15 @@ const updateMatcherList = (
       ? position + matcher.length
       : position
     : newMatchers.length - 1;
-  const editMatcher = !editPosition && !Array.isArray(matcher) && matcher.key === selectedMatcher.key &&
-    ((matcher.type === 's' || matcher.type === 'r') && matcher.value === null && matcher.text === '')
-    ? selectedMatcher
-    : null;
+  const editMatcher =
+    !editPosition &&
+      !Array.isArray(matcher) &&
+      matcher.key === selectedMatcher.key &&
+      (matcher.type === 's' || matcher.type === 'r') &&
+      matcher.value === null &&
+      matcher.text === ''
+      ? selectedMatcher
+      : null;
   return {
     matchers: newMatchers,
     selectedMatcher,
@@ -490,8 +505,7 @@ const appendToList = (
       const mField = fieldMap.get(value.field);
       if (mField?.allowList) {
         const newText = value.type === 'a' ? value.textArray : [value.text];
-        const newValues =
-          value.type === 'a' ? value.valueArray : [value.value];
+        const newValues = value.type === 'a' ? value.valueArray : [value.value];
         if (targetMatcher.type === 'a') {
           const existing = newValues.filter((v) =>
             targetMatcher.valueArray.includes(v),

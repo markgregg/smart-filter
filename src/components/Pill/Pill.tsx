@@ -65,11 +65,12 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
   const { unmatchedBrackets, hoverBracket, matchingHover, setHoverBracket } =
     useBrackets((state) => state);
 
-  const pillHeight = size === 'normal'
-    ? NORMAL_PILL_HEIGHT
-    : size === 'compact'
-      ? COMPACT_PILL_HEIGHT
-      : LARGE_PILL_HEIGHT;
+  const pillHeight =
+    size === 'normal'
+      ? NORMAL_PILL_HEIGHT
+      : size === 'compact'
+        ? COMPACT_PILL_HEIGHT
+        : LARGE_PILL_HEIGHT;
 
   const field = React.useMemo(
     () => ('field' in matcher ? (fieldMap.get(matcher.field) ?? null) : null),
@@ -214,9 +215,11 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
         const position =
           bounds.left + bounds.width / 2 > event.clientX ? 'before' : 'after';
         if (draggedItem.item.key !== matcher.key) {
-          if (!dragOverItem ||
+          if (
+            !dragOverItem ||
             dragOverItem.item.key !== matcher.key ||
-            dragOverItem.position !== position) {
+            dragOverItem.position !== position
+          ) {
             setDraggedOverItem(matcher, index, position);
           }
           event.dataTransfer.dropEffect = 'move';
@@ -299,7 +302,9 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
             <AiFillLock className={s.lockIcon} />
           </div>
         )}
-        {'field' in matcher && <span className={s.field}>{field?.title ?? matcher.field}</span>}
+        {'field' in matcher && (
+          <span className={s.field}>{field?.title ?? matcher.field}</span>
+        )}
         {matcher.type === 'a' && (
           <span className={s.arrayCount}>({matcher.valueArray.length})</span>
         )}

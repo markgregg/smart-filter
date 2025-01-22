@@ -37,10 +37,10 @@ const meta = {
       control: 'number',
       description: 'The width of each hint',
     },
-    /*sortHints: {
+    /* sortHints: {
       control: 'boolean',
       description: 'If true sort hints are shown',
-    },*/
+    }, */
     allowLocking: {
       control: 'boolean',
       description: 'If true allow pills to be locked',
@@ -83,7 +83,8 @@ const meta = {
     },
     showDropdownOnMouseOver: {
       control: 'boolean',
-      description: 'If true dropdown is only shown when the mouse enters the control',
+      description:
+        'If true dropdown is only shown when the mouse enters the control',
     },
     placeholder: {
       control: 'text',

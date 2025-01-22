@@ -34,4 +34,4 @@ interface Input {
   placeholder?: string;
 }
 
-export interface UIProperties extends FilterBar, DropDown, Input, Pills { }
+export interface UIProperties extends FilterBar, DropDown, Input, Pills {}

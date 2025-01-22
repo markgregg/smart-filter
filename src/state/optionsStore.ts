@@ -68,7 +68,9 @@ export const createOptionsStore = (
 ): UseBoundStore<StoreApi<OptionsState>> => {
   const fieldMap = new Map(fields.map((f) => [f.name, f]));
   const uniqueComparisonOps = uniqueComparions(fields, operators ?? []);
-  const comparisonsMap = new Map((uniqueComparisonOps ?? []).map((o) => [o.symbol, o]));
+  const comparisonsMap = new Map(
+    (uniqueComparisonOps ?? []).map((o) => [o.symbol, o]),
+  );
   return create<OptionsState>((set) => ({
     matcherKey: null,
     options: [],
@@ -159,8 +161,8 @@ export const createOptionsStore = (
         const { activeIndex: index, options } = state;
         const activeIndex =
           index === null ||
-            (index !== options.length - 1 &&
-              index + pageSize >= options.length - 1)
+          (index !== options.length - 1 &&
+            index + pageSize >= options.length - 1)
             ? options.length - 1
             : index === options.length - 1
               ? 0
@@ -196,18 +198,20 @@ const startBuild = async (buildState: BuildState) => {
       ...buildState,
       matchText: buildState.text,
     });
+  } else if (
+    !buildState.matcherKey &&
+    buildState.field &&
+    !buildState.comparison
+  ) {
+    addFieldOption(buildState, buildState.field);
+    updateOptions(buildState);
   } else {
-    if (!buildState.matcherKey && buildState.field && !buildState.comparison) {
-      addFieldOption(buildState, buildState.field);
-      updateOptions(buildState);
-    } else {
-      set(() => ({
-        options: [],
-        matchText: '',
-        activeIndex: null,
-        active: null,
-      }));
-    }
+    set(() => ({
+      options: [],
+      matchText: '',
+      activeIndex: null,
+      active: null,
+    }));
   }
 };
 
@@ -271,16 +275,17 @@ const checkForField = (buildState: BuildState): BuildState => {
       .trim()
       .toLocaleLowerCase()
       .includes(`${foundField.title.toLocaleLowerCase()}`) &&
-    (text.length === foundField.title.length || !text[foundField.title.length].match(/[a-z]/i)) &&
+    (text.length === foundField.title.length ||
+      !text[foundField.title.length].match(/[a-z]/i)) &&
     !text
       .trim()
       .toLocaleLowerCase()
       .includes(`${foundField.title.toLocaleLowerCase()} to `)
     ? {
-      ...buildState,
-      field: foundField,
-      text: text.substring(foundField.title.length).trimStart(),
-    }
+        ...buildState,
+        field: foundField,
+        text: text.substring(foundField.title.length).trimStart(),
+      }
     : buildState;
 };
 
@@ -291,7 +296,6 @@ const checkForComparison = (buildState: BuildState): BuildState => {
     for (let length = 1; length < 3; length += 1) {
       const symbol = text.substring(0, length);
       if (comparisonsMap.has(symbol)) {
-
         return {
           ...buildState,
           comparison: symbol,
@@ -337,9 +341,16 @@ const checkForRange = (buildState: BuildState): BuildState => {
 const contructOptions = (buildState: BuildState) => {
   const { text, field, fields, comparison } = buildState;
   fields
-    .filter((f) => (!field || field.name === f.name) && (!comparison || f.operators.includes(comparison)))
+    .filter(
+      (f) =>
+        (!field || field.name === f.name) &&
+        (!comparison || f.operators.includes(comparison)),
+    )
     .forEach((f) => {
-      if (text.trim() === '' || text.trim().toLocaleUpperCase().includes(EMPTY.toLocaleUpperCase())) {
+      if (
+        text.trim() === '' ||
+        text.trim().toLocaleUpperCase().includes(EMPTY.toLocaleUpperCase())
+      ) {
         if (f.allowBlanks) {
           addOption(buildState, f, EMPTY, null, true);
         }
@@ -418,11 +429,11 @@ const optionSort = (
   }
   const xdiff = Math.abs(
     ('displayText' in x.option ? x.option.displayText : x.option.text).length -
-    (matchedText?.length ?? 0),
+      (matchedText?.length ?? 0),
   );
   const ydiff = Math.abs(
     ('displayText' in y.option ? y.option.displayText : y.option.text).length -
-    (matchedText?.length ?? 0),
+      (matchedText?.length ?? 0),
   );
   return xdiff === ydiff ? (x.precedence - y.precedence) * -1 : xdiff - ydiff;
 };
@@ -486,9 +497,9 @@ const getValueIfValid = (text: string, field: Field) => {
       const date = moment(
         text,
         field.dateTimeFormat ??
-        (field.editorType === 'date'
-          ? DEFAULT_DATE_FORMAT
-          : DEFAULT_DATE_TIME_FORMAT),
+          (field.editorType === 'date'
+            ? DEFAULT_DATE_FORMAT
+            : DEFAULT_DATE_TIME_FORMAT),
         true,
       );
       if (date.isValid()) {
@@ -514,24 +525,26 @@ const matchPromiseOptions = (
   match: PromiseMatch,
 ) => {
   const { text, operator, currentValues, matcherKey } = buildState;
-  match.lookup(text, matcherKey ? OR : operator, currentValues).then((promiseItems) => {
-    if (!checkDebounced(buildState)) {
-      return;
-    }
+  match
+    .lookup(text, matcherKey ? OR : operator, currentValues)
+    .then((promiseItems) => {
+      if (!checkDebounced(buildState)) {
+        return;
+      }
 
-    const items = promiseItems.filter((item) =>
-      matchItem(item, field, text, true),
-    );
+      const items = promiseItems.filter((item) =>
+        matchItem(item, field, text, true),
+      );
 
-    if (items.length > 0) {
-      items.forEach((i) => {
-        const iText = getText(i, field);
-        const iValue = getValue(i, field);
-        addOption(buildState, field, iText, iValue);
-      });
-      updateOptions(buildState);
-    }
-  });
+      if (items.length > 0) {
+        items.forEach((i) => {
+          const iText = getText(i, field);
+          const iValue = getValue(i, field);
+          addOption(buildState, field, iText, iValue);
+        });
+        updateOptions(buildState);
+      }
+    });
 };
 
 const matchListOptions = (
@@ -641,10 +654,7 @@ const matchValueOptions = (
   }
 };
 
-const addFieldOption = (
-  buildState: BuildState,
-  field: Field,
-) => {
+const addFieldOption = (buildState: BuildState, field: Field) => {
   buildState.options.push({
     precedence: 10,
     expression: false,

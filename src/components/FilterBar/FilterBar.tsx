@@ -30,10 +30,9 @@ import s from './style.module.less';
 export const FilterBar = React.memo(() => {
   const filterBuittons = React.useRef<HTMLDivElement | null>(null);
   const searchBar = React.useRef<HTMLDivElement | null>(null);
-  const {
-    matchers: initialMatchers = [],
-    sort: initialSort = [],
-  } = useManaged((state) => state);
+  const { matchers: initialMatchers = [], sort: initialSort = [] } = useManaged(
+    (state) => state,
+  );
   const {
     size = 'normal',
     showSearchIcon,
@@ -45,9 +44,8 @@ export const FilterBar = React.memo(() => {
     onChange,
     onSortChange,
   } = useConfig((state) => state);
-  const { hasFocus, setHasFocus, hasMouse, setHasMouse, keyboardFocus } = useFocus(
-    (state) => state,
-  );
+  const { hasFocus, setHasFocus, hasMouse, setHasMouse, keyboardFocus } =
+    useFocus((state) => state);
   const {
     editMatcher,
     next,
@@ -71,11 +69,12 @@ export const FilterBar = React.memo(() => {
 
   const { width = '100%' } = useSizeWatcher(searchBar.current);
 
-  const buttonHeight = size === 'normal'
-    ? NORMAL_HEIGHT - 2
-    : size === 'compact'
-      ? COMPACT_HEIGHT - 2
-      : LARGE_HEIGHT - 2;
+  const buttonHeight =
+    size === 'normal'
+      ? NORMAL_HEIGHT - 2
+      : size === 'compact'
+        ? COMPACT_HEIGHT - 2
+        : LARGE_HEIGHT - 2;
 
   const showMovePrev =
     enableExpand && !expanded && (editPosition === null || editPosition > 0);
@@ -86,11 +85,11 @@ export const FilterBar = React.memo(() => {
 
   const maxPillContainerWidth = Math.floor(
     (searchBar.current?.clientWidth ?? 2000) -
-    (filterBuittons.current?.scrollWidth ?? 70) -
-    (sort.length > 0 ? sortPillWidth + 60 : 0) -
-    (showMoveNext ? 26 : 0) -
-    (showMovePrev ? 26 : 0) -
-    (showSearchIcon ? 30 : 0),
+      (filterBuittons.current?.scrollWidth ?? 70) -
+      (sort.length > 0 ? sortPillWidth + 60 : 0) -
+      (showMoveNext ? 26 : 0) -
+      (showMovePrev ? 26 : 0) -
+      (showSearchIcon ? 30 : 0),
   );
 
   React.useEffect(() => {
@@ -99,7 +98,7 @@ export const FilterBar = React.memo(() => {
 
   React.useEffect(() => {
     setMatchers(initialMatchers ?? []);
-  }, [initialMatchers])
+  }, [initialMatchers]);
 
   React.useEffect(() => {
     setSort(initialSort ?? []);
@@ -109,7 +108,7 @@ export const FilterBar = React.memo(() => {
     if (onChange) {
       onChange(matchers);
     }
-  }, [matchers, onChange])
+  }, [matchers, onChange]);
 
   React.useEffect(() => {
     if (onSortChange) {
@@ -270,25 +269,19 @@ export const FilterBar = React.memo(() => {
         className={[
           s.searchBarInner,
           expanded ? s.multiLineSearchBar : '',
-          s[size]
+          s[size],
         ].join(' ')}
         style={{
           width,
         }}
       >
         {showSearchIcon && (
-          <div
-            className={[s.filterIconContainer, s[size]].join(' ')}
-          >
+          <div className={[s.filterIconContainer, s[size]].join(' ')}>
             <TbFilter />
           </div>
         )}
         {showMovePrev && (
-          <Button
-            onClick={handleMovePrev}
-            height={buttonHeight}
-            width={26}
-          >
+          <Button onClick={handleMovePrev} height={buttonHeight} width={26}>
             <FaCaretLeft />
           </Button>
         )}
@@ -299,17 +292,15 @@ export const FilterBar = React.memo(() => {
           />
         </div>
         {showMoveNext && (
-          <Button
-            onClick={handleMoveNext}
-            height={buttonHeight}
-            width={26}
-          >
+          <Button onClick={handleMoveNext} height={buttonHeight} width={26}>
             <FaCaretRight />
           </Button>
         )}
         {enableSort && sort.length > 0 && <SortPill />}
         <FilterButtons ref={filterBuittons} />
-        {((!showDropdownOnMouseOver && hasFocus) || hasMouse || keyboardFocus) && <Dropdown />}
+        {((!showDropdownOnMouseOver && hasFocus) ||
+          hasMouse ||
+          keyboardFocus) && <Dropdown />}
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { FilterValueGetter } from "@/aggrid/ClientApi";
+import { FilterValueGetter } from '@/aggrid/ClientApi';
 
 export interface RowNode {
   data: any | undefined;

@@ -1,8 +1,15 @@
 import React from 'react';
-import Bond, { columns, constructFilter, constructSort, fields, hintGroups, operators } from './smartFilterFunctions';
-import { Matcher, SmartFilter as SmartFilterComponent, Sort } from '../';
 import { AgGridReact } from 'ag-grid-react';
 import { ColDef } from 'ag-grid-community';
+import Bond, {
+  columns,
+  constructFilter,
+  constructSort,
+  fields,
+  hintGroups,
+  operators,
+} from './smartFilterFunctions';
+import { Matcher, SmartFilter as SmartFilterComponent, Sort } from '..';
 import { bonds } from '../../data/bonds';
 import { FilterBarSize } from '@/types/uiProperties';
 import s from './style.module.less';
@@ -45,7 +52,7 @@ export interface SmartFilterProps {
 
   /* used only in options state */
   debounce?: number;
-  /* number of items to jump when page down/up pressed*/
+  /* number of items to jump when page down/up pressed */
   pageSize?: number;
 
   /* if ture search icon is shown */
@@ -88,34 +95,39 @@ export const SmartFilter: React.FC<SmartFilterProps> = ({
   const [matchers, setMatchers] = React.useState<Matcher[]>([]);
   const [sort, setSort] = React.useState<Sort[]>([]);
 
-  const hints = React.useMemo(() => ({
-    hintsPerColumn,
-    hintWidth,
-    sortHints,
-    hintGroups: hintGroups,
-  }), [hintsPerColumn, hintWidth, sortHints]);
+  const hints = React.useMemo(
+    () => ({
+      hintsPerColumn,
+      hintWidth,
+      sortHints,
+      hintGroups,
+    }),
+    [hintsPerColumn, hintWidth, sortHints],
+  );
 
-  const handleChange = React.useCallback((
-    newMatchers: Matcher[],
-  ) => {
-    setMatchers(newMatchers);
-    if (onChange) {
-      onChange(newMatchers);
-    }
-  }, [setMatchers, onChange]);
+  const handleChange = React.useCallback(
+    (newMatchers: Matcher[]) => {
+      setMatchers(newMatchers);
+      if (onChange) {
+        onChange(newMatchers);
+      }
+    },
+    [setMatchers, onChange],
+  );
 
-  const handleSortChange = React.useCallback((
-    newSort: Sort[],
-  ) => {
-    setSort(newSort);
-    if (onSortChange) {
-      onSortChange(newSort);
-    }
-  }, [setSort, onSortChange]);
+  const handleSortChange = React.useCallback(
+    (newSort: Sort[]) => {
+      setSort(newSort);
+      if (onSortChange) {
+        onSortChange(newSort);
+      }
+    },
+    [setSort, onSortChange],
+  );
 
   React.useEffect(() => {
     const filterFunc = constructFilter(matchers);
-    const newData = bonds.filter(b => !filterFunc || filterFunc(b));
+    const newData = bonds.filter((b) => !filterFunc || filterFunc(b));
     const sortFunc = constructSort(sort);
     if (sortFunc) {
       newData.sort(sortFunc);
@@ -128,7 +140,7 @@ export const SmartFilter: React.FC<SmartFilterProps> = ({
       className={s.storybookSmartFilterPage}
       style={{
         width,
-        height
+        height,
       }}
     >
       <div className={s.filterBar}>
@@ -142,15 +154,13 @@ export const SmartFilter: React.FC<SmartFilterProps> = ({
           size={size}
           hints={hints}
           showDropdownOnMouseOver={showDropdownOnMouseOver}
+          // eslint-disable-next-line react/jsx-props-no-spreading
           {...props}
         />
       </div>
       <div className={[s.grid, 'ag-theme-alpine'].join(' ')}>
-        <AgGridReact
-          rowData={rowData}
-          columnDefs={columnDefs}
-        />
+        <AgGridReact rowData={rowData} columnDefs={columnDefs} />
       </div>
     </div>
   );
-}
+};

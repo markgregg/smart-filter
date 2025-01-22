@@ -14,9 +14,8 @@ export const ArrayContent = React.memo(({ matcher, field }: ContentProps) => {
     value: null,
   });
   const [inEdit, setInEdit] = React.useState<boolean>(false);
-  const { editMatcher, selectMatcherForEdit, updateMatcher, clearEditMatcher } = useMatcher(
-    (state) => state,
-  );
+  const { editMatcher, selectMatcherForEdit, updateMatcher, clearEditMatcher } =
+    useMatcher((state) => state);
   const { clearOptions, options } = useOptions((state) => state);
   const {
     next,
@@ -116,14 +115,14 @@ export const ArrayContent = React.memo(({ matcher, field }: ContentProps) => {
       const valueArray =
         selectedIndex !== null
           ? arrayMatcher.valueArray.map((v, idx) =>
-            idx === selectedIndex ? value : v,
-          )
+              idx === selectedIndex ? value : v,
+            )
           : [...arrayMatcher.valueArray, value];
       const textArray =
         selectedIndex !== null
           ? arrayMatcher.textArray.map((t, idx) =>
-            idx === selectedIndex ? text : t,
-          )
+              idx === selectedIndex ? text : t,
+            )
           : [...arrayMatcher.textArray, text];
       const newMatcher = {
         ...arrayMatcher,
@@ -206,23 +205,23 @@ export const ArrayContent = React.memo(({ matcher, field }: ContentProps) => {
           <div onKeyDown={handleKeyDown} className={s.arrayContent}>
             {inEdit
               ? field && (
-                <Editor
-                  matcherKey={matcher.key}
-                  field={field}
-                  textValue={textValue}
-                  unset={textValue.value === null}
-                  onChanged={handleChange}
-                  onCancel={handleCancel}
-                />
-              )
+                  <Editor
+                    matcherKey={matcher.key}
+                    field={field}
+                    textValue={textValue}
+                    unset={textValue.value === null}
+                    onChanged={handleChange}
+                    onCancel={handleCancel}
+                  />
+                )
               : field && (
-                <TextDisplay
-                  field={field}
-                  text={arrayMatcher.textArray.join(',')}
-                  html={html}
-                  onClick={handleClick}
-                />
-              )}
+                  <TextDisplay
+                    field={field}
+                    text={arrayMatcher.textArray.join(',')}
+                    html={html}
+                    onClick={handleClick}
+                  />
+                )}
           </div>
         ) : (
           <div />

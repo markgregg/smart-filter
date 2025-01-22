@@ -1,13 +1,12 @@
 import React from 'react';
-import { IoClose } from 'react-icons/io5';
+import { IoClose, IoCaretUpSharp, IoCaretDownSharp } from 'react-icons/io5';
+import { MdDragIndicator } from 'react-icons/md';
 import { useConfig, useSort, useSortDrag } from '@/state/useState';
 import { Button } from '@/components/common/Button';
 import { Sort, SortDirection } from '@/types';
 import { Colours } from '@/util/colours';
 import { SortOption } from '@/components/Suggestions/Operators/FieldSelection/SortOption';
 import { clonePill, removePillFromDocument } from '@/util/dragDrop';
-import { IoCaretUpSharp, IoCaretDownSharp } from "react-icons/io5";
-import { MdDragIndicator } from 'react-icons/md';
 import s from './style.module.less';
 
 interface SortItemProps {
@@ -24,7 +23,14 @@ export const SortItem = React.memo(({ sort, index }: SortItemProps) => {
     () => fieldMap?.get(sort.field),
     [fieldMap, sort],
   );
-  const { removeSort, updateSort, moveTo, moveUp, moveDown, sort: sortArray } = useSort((state) => state);
+  const {
+    removeSort,
+    updateSort,
+    moveTo,
+    moveUp,
+    moveDown,
+    sort: sortArray,
+  } = useSort((state) => state);
   const {
     draggedItem,
     dragOverItem,
@@ -38,19 +44,13 @@ export const SortItem = React.memo(({ sort, index }: SortItemProps) => {
     removeSort(sort.field);
   }, [removeSort, sort]);
 
-  const handleMoveUp = React.useCallback(
-    () => {
-      moveUp(index);
-    },
-    [moveUp, index],
-  );
+  const handleMoveUp = React.useCallback(() => {
+    moveUp(index);
+  }, [moveUp, index]);
 
-  const handleMoveDown = React.useCallback(
-    () => {
-      moveDown(index);
-    },
-    [moveDown, index],
-  );
+  const handleMoveDown = React.useCallback(() => {
+    moveDown(index);
+  }, [moveDown, index]);
 
   const handleSelect = React.useCallback(
     (selectedField: string, sortDirection: SortDirection) => {

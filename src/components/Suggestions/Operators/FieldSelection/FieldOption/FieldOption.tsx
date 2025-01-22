@@ -20,11 +20,7 @@ export const FieldOption = React.memo(
     );
 
     return (
-      <div
-        id={fieldId}
-        className={s.fieldOption}
-        onClick={handleClick}
-      >
+      <div id={fieldId} className={s.fieldOption} onClick={handleClick}>
         {field.title}
       </div>
     );
