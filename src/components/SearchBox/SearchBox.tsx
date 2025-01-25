@@ -163,7 +163,7 @@ export const SearchBox = React.memo(
     }, [active, onSelect, clearOptions]);
 
     const addOptionToSearchText = React.useCallback(() => {
-      if (active !== null) {
+      if (active !== null && active.type !== 'f') {
         setSearchText(active.text);
       }
     }, [active, setSearchText]);

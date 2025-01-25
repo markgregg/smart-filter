@@ -7,7 +7,9 @@ export const SearchEditor = React.memo(
   ({ matcherKey, field, textValue, onChanged }: EditorComponentProps) => {
     const handleSelect = React.useCallback(
       (option: Option) => {
-        onChanged({ text: option.text, value: option.value }, true);
+        if (option.type !== 'f') {
+          onChanged({ text: option.text, value: option.value }, true);
+        }
       },
       [onChanged],
     );

@@ -9,30 +9,16 @@ Smart Filter is a powerful tool designed to help you filter and manage your data
 - Flexible and powerful filtering
 - Customizable filters
 
+## demo page
+[Demo Page][https://markgregg.github.io/smart-filter/?path=/story/examples-smartfilter--primary]
+
 ## Installation
 
 To install Smart Filter, follow these steps:
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/markgregg/smart-filter
-    ```
-2. Navigate to the project directory:
-    ```bash
-    cd smart-filter
-    ```
-3. Install the dependencies:
-    ```bash
-    npm install
-    ```
-4. To run harness:
-    ```bash
-    npm run dev
-    ```
-4. To view Storybook exmaples:
-    ```bash
-    npm run storybook
-    ```
+```bash
+npm i smart-filter
+```
 
 ## Contributing
 

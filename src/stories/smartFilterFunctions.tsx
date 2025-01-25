@@ -190,7 +190,7 @@ export const hintGroups: HintGrouping[] = [
         valueTo: moment().add(10, 'years').format('YYYY-MM-DD'),
       },
       {
-        display: '105Y - 15Y',
+        display: '10Y - 15Y',
         text: moment().add(10, 'years').format('YYYY-MM-DD'),
         value: moment().add(10, 'years').format('YYYY-MM-DD'),
         textTo: moment().add(15, 'years').format('YYYY-MM-DD'),
@@ -231,6 +231,59 @@ export const hintGroups: HintGrouping[] = [
     hints: [
       { text: 'Yes', value: true },
       { text: 'No', value: false },
+    ],
+  },
+  {
+    title: 'Coupon',
+    field: 'coupon',
+    hints: [
+      {
+        display: '< 0.5',
+        text: '0.5',
+        value: 0.5,
+        comparison: '<',
+      },
+      {
+        display: '0.5 - 1',
+        text: '0.5',
+        value: 0.5,
+        textTo: '1',
+        valueTo: 1,
+      },
+      {
+        display: '1 - 2',
+        text: '1',
+        value: 1,
+        textTo: '2',
+        valueTo: 2,
+      },
+      {
+        display: '2 - 3',
+        text: '2',
+        value: 2,
+        textTo: '3',
+        valueTo: 3,
+      },
+      {
+        display: '3 - 4',
+        text: '3',
+        value: 3,
+        textTo: '4',
+        valueTo: 4,
+      },
+      {
+        display: '4 - 5',
+        text: '4',
+        value: 4,
+        textTo: '5',
+        valueTo: 5,
+      },
+      {
+        display: '> 5',
+        text: '5',
+        value: 5,
+        comparison: '>',
+      },
     ],
   },
 ];
