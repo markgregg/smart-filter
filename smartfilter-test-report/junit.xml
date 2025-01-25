@@ -1,266 +1,266 @@
-<testsuites id="" name="" tests="121" failures="0" skipped="0" errors="0" time="57.318951999999996">
-<testsuite name="smartFilter\aggrid.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="3" failures="0" skipped="0" time="13.39" errors="0">
-<testcase name="Enetering filter values in smart filter automatically filters ag-grid-smartfilteraggrid" classname="smartFilter\aggrid.spec.ts" time="2.25">
+<testsuites id="" name="" tests="121" failures="0" skipped="0" errors="0" time="54.324926999999995">
+<testsuite name="smartFilter\aggrid.spec.ts" timestamp="2025-01-25T18:33:00.323Z" hostname="chromium" tests="3" failures="0" skipped="0" time="13.254" errors="0">
+<testcase name="Enetering filter values in smart filter automatically filters ag-grid-smartfilteraggrid" classname="smartFilter\aggrid.spec.ts" time="2.093">
 </testcase>
-<testcase name="Enetering sort fields in smart filter automatically sorts ag-grid-smartfilteraggrid" classname="smartFilter\aggrid.spec.ts" time="2.136">
+<testcase name="Enetering sort fields in smart filter automatically sorts ag-grid-smartfilteraggrid" classname="smartFilter\aggrid.spec.ts" time="7.965">
 </testcase>
-<testcase name="Sorting and filtering ag-grid-smartfilteraggrid" classname="smartFilter\aggrid.spec.ts" time="9.004">
-</testcase>
-</testsuite>
-<testsuite name="smartFilter\arrays.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="4" failures="0" skipped="0" time="14.452" errors="0">
-<testcase name="Editing an array shows all elements in the array" classname="smartFilter\arrays.spec.ts" time="8.151">
-</testcase>
-<testcase name="New elements can be add to the array" classname="smartFilter\arrays.spec.ts" time="2.216">
-</testcase>
-<testcase name="Elements can be removed from the array" classname="smartFilter\arrays.spec.ts" time="1.785">
-</testcase>
-<testcase name="Array items can be edited" classname="smartFilter\arrays.spec.ts" time="2.3">
+<testcase name="Sorting and filtering ag-grid-smartfilteraggrid" classname="smartFilter\aggrid.spec.ts" time="3.196">
 </testcase>
 </testsuite>
-<testsuite name="smartFilter\basic.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="18" failures="0" skipped="0" time="42.314" errors="0">
-<testcase name="All icons are shown when enabled-smartfilter" classname="smartFilter\basic.spec.ts" time="1.486">
+<testsuite name="smartFilter\arrays.spec.ts" timestamp="2025-01-25T18:33:00.323Z" hostname="chromium" tests="4" failures="0" skipped="0" time="11.568" errors="0">
+<testcase name="Editing an array shows all elements in the array" classname="smartFilter\arrays.spec.ts" time="2.532">
 </testcase>
-<testcase name="All icons are hidden when not enabled-smartfilter" classname="smartFilter\basic.spec.ts" time="1.516">
+<testcase name="New elements can be add to the array" classname="smartFilter\arrays.spec.ts" time="3.009">
 </testcase>
-<testcase name="Filterbar has blue border when inner element has focus-smartfilter" classname="smartFilter\basic.spec.ts" time="1.276">
+<testcase name="Elements can be removed from the array" classname="smartFilter\arrays.spec.ts" time="2.925">
 </testcase>
-<testcase name="The expand icon is disabled when content too small-smartfilter" classname="smartFilter\basic.spec.ts" time="1.518">
-</testcase>
-<testcase name="The expand icon highlights when content is bigger than control area-smartfilter" classname="smartFilter\basic.spec.ts" time="2.071">
-</testcase>
-<testcase name="Clicking the expand icon extends the filter bar-smartfilter" classname="smartFilter\basic.spec.ts" time="3.692">
-</testcase>
-<testcase name="The clear button clears all content-smartfilter" classname="smartFilter\basic.spec.ts" time="2.498">
-</testcase>
-<testcase name="Filter bar is expanded when a large size-smartfilter" classname="smartFilter\basic.spec.ts" time="2.644">
-</testcase>
-<testcase name="Filter bar is smaller when a compact size-smartfilter" classname="smartFilter\basic.spec.ts" time="2.906">
-</testcase>
-<testcase name="All icons are shown when enabled-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="1.894">
-</testcase>
-<testcase name="All icons are hidden when not enabled-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="2.341">
-</testcase>
-<testcase name="Filterbar has blue border when inner element has focus-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="2.222">
-</testcase>
-<testcase name="The expand icon is disabled when content too small-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="2.338">
-</testcase>
-<testcase name="The expand icon highlights when content is bigger than control area-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="2.933">
-</testcase>
-<testcase name="Clicking the expand icon extends the filter bar-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="4.461">
-</testcase>
-<testcase name="The clear button clears all content-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="2.787">
-</testcase>
-<testcase name="Filter bar is expanded when a large size-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="1.744">
-</testcase>
-<testcase name="Filter bar is smaller when a compact size-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="1.987">
+<testcase name="Array items can be edited" classname="smartFilter\arrays.spec.ts" time="3.102">
 </testcase>
 </testsuite>
-<testsuite name="smartFilter\brackets.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="2" failures="0" skipped="0" time="5.143" errors="0">
-<testcase name="Unmatched brackats are coloured red to show an error-smartfilter" classname="smartFilter\brackets.spec.ts" time="1.94">
+<testsuite name="smartFilter\basic.spec.ts" timestamp="2025-01-25T18:33:00.323Z" hostname="chromium" tests="18" failures="0" skipped="0" time="41.579" errors="0">
+<testcase name="All icons are shown when enabled-smartfilter" classname="smartFilter\basic.spec.ts" time="1.538">
 </testcase>
-<testcase name="Matching brackets will highlight when hovered over-smartfilter" classname="smartFilter\brackets.spec.ts" time="3.203">
+<testcase name="All icons are hidden when not enabled-smartfilter" classname="smartFilter\basic.spec.ts" time="1.617">
 </testcase>
-</testsuite>
-<testsuite name="smartFilter\dragdrop.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="2" failures="0" skipped="0" time="6.915" errors="0">
-<testcase name="Items can be dragged to the left" classname="smartFilter\dragdrop.spec.ts" time="3.456">
+<testcase name="Filterbar has blue border when inner element has focus-smartfilter" classname="smartFilter\basic.spec.ts" time="2.205">
 </testcase>
-<testcase name="Items can be dragged to the right" classname="smartFilter\dragdrop.spec.ts" time="3.459">
+<testcase name="The expand icon is disabled when content too small-smartfilter" classname="smartFilter\basic.spec.ts" time="2.304">
 </testcase>
-</testsuite>
-<testsuite name="smartFilter\editing.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="26" failures="0" skipped="0" time="61.357" errors="0">
-<testcase name="Clicking on a text value opens a text editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.654">
+<testcase name="The expand icon highlights when content is bigger than control area-smartfilter" classname="smartFilter\basic.spec.ts" time="3.074">
 </testcase>
-<testcase name="Clicking close shuts the editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.388">
+<testcase name="Clicking the expand icon extends the filter bar-smartfilter" classname="smartFilter\basic.spec.ts" time="3.929">
 </testcase>
-<testcase name="Clicking accept updates the value-smartfilter" classname="smartFilter\editing.spec.ts" time="2.918">
+<testcase name="The clear button clears all content-smartfilter" classname="smartFilter\basic.spec.ts" time="2.911">
 </testcase>
-<testcase name="Clicking on a numeric value opens a text editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.105">
+<testcase name="Filter bar is expanded when a large size-smartfilter" classname="smartFilter\basic.spec.ts" time="1.895">
 </testcase>
-<testcase name="Clicking close shuts the numeric editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.623">
+<testcase name="Filter bar is smaller when a compact size-smartfilter" classname="smartFilter\basic.spec.ts" time="1.648">
 </testcase>
-<testcase name="Clicking accept updates the numeric value-smartfilter" classname="smartFilter\editing.spec.ts" time="2.811">
+<testcase name="All icons are shown when enabled-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="1.65">
 </testcase>
-<testcase name="Clicking on a date value opens a date editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.638">
+<testcase name="All icons are hidden when not enabled-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="2.055">
 </testcase>
-<testcase name="Clicking close shuts the date editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.697">
+<testcase name="Filterbar has blue border when inner element has focus-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="1.996">
 </testcase>
-<testcase name="Clicking accept updates the date value-smartfilter" classname="smartFilter\editing.spec.ts" time="2.406">
+<testcase name="The expand icon is disabled when content too small-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="1.95">
 </testcase>
-<testcase name="Clicking on a boolean value toggles between true and false-smartfilter" classname="smartFilter\editing.spec.ts" time="2.133">
+<testcase name="The expand icon highlights when content is bigger than control area-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="2.627">
 </testcase>
-<testcase name="Clicking on a lookup text value opens a text editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.246">
+<testcase name="Clicking the expand icon extends the filter bar-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="3.744">
 </testcase>
-<testcase name="Clicking close shuts the lookup editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.251">
+<testcase name="The clear button clears all content-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="2.544">
 </testcase>
-<testcase name="Clicking accept updates the lookup value-smartfilter" classname="smartFilter\editing.spec.ts" time="2.429">
+<testcase name="Filter bar is expanded when a large size-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="1.96">
 </testcase>
-<testcase name="Clicking on a text value opens a text editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.459">
-</testcase>
-<testcase name="Clicking close shuts the editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.273">
-</testcase>
-<testcase name="Clicking accept updates the value-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="1.961">
-</testcase>
-<testcase name="Clicking on a numeric value opens a text editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="1.982">
-</testcase>
-<testcase name="Clicking close shuts the numeric editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.065">
-</testcase>
-<testcase name="Clicking accept updates the numeric value-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.479">
-</testcase>
-<testcase name="Clicking on a date value opens a date editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.212">
-</testcase>
-<testcase name="Clicking close shuts the date editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.524">
-</testcase>
-<testcase name="Clicking accept updates the date value-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.323">
-</testcase>
-<testcase name="Clicking on a boolean value toggles between true and false-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.051">
-</testcase>
-<testcase name="Clicking on a lookup text value opens a text editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.07">
-</testcase>
-<testcase name="Clicking close shuts the lookup editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.315">
-</testcase>
-<testcase name="Clicking accept updates the lookup value-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.344">
+<testcase name="Filter bar is smaller when a compact size-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="1.932">
 </testcase>
 </testsuite>
-<testsuite name="smartFilter\locking.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="2" failures="0" skipped="0" time="5.964" errors="0">
-<testcase name="When lock icon clicked pills are locked-smartfilter" classname="smartFilter\locking.spec.ts" time="2.921">
+<testsuite name="smartFilter\brackets.spec.ts" timestamp="2025-01-25T18:33:00.323Z" hostname="chromium" tests="2" failures="0" skipped="0" time="4.828" errors="0">
+<testcase name="Unmatched brackats are coloured red to show an error-smartfilter" classname="smartFilter\brackets.spec.ts" time="2.121">
 </testcase>
-<testcase name="When lock icon clicked pills aare unlocked-smartfilter" classname="smartFilter\locking.spec.ts" time="3.043">
-</testcase>
-</testsuite>
-<testsuite name="smartFilter\matchers.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="28" failures="0" skipped="0" time="63.616" errors="0">
-<testcase name="Strings are match to expressions matchers-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.208">
-</testcase>
-<testcase name="Strings are match to lookup matchers-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.392">
-</testcase>
-<testcase name="Strings are match to list matchers-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.412">
-</testcase>
-<testcase name="Numbers are match to expressions matchers-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.17">
-</testcase>
-<testcase name="Booleans are match to expressions matchers-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.641">
-</testcase>
-<testcase name="stringDates are match to expressions matchers-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.333">
-</testcase>
-<testcase name="Ranges can be manually entered-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.58">
-</testcase>
-<testcase name="Ranges with no spaces can be manually entered-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.561">
-</testcase>
-<testcase name="Lists can be manually entered-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.385">
-</testcase>
-<testcase name="Comparisons can be entered alongside values-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.041">
-</testcase>
-<testcase name="Operators and comparisons can be entered alongside values-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.039">
-</testcase>
-<testcase name="Operators, fields and comparisons can be entered alongside values-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.389">
-</testcase>
-<testcase name="Selecting empty for a value sets the value to null-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.267">
-</testcase>
-<testcase name="Smart filter can hadnle complex filter statements-smartfilter" classname="smartFilter\matchers.spec.ts" time="3.015">
-</testcase>
-<testcase name="Strings are match to expressions matchers-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.064">
-</testcase>
-<testcase name="Strings are match to lookup matchers-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="1.964">
-</testcase>
-<testcase name="Strings are match to list matchers-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="1.712">
-</testcase>
-<testcase name="Numbers are match to expressions matchers-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.039">
-</testcase>
-<testcase name="Booleans are match to expressions matchers-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.125">
-</testcase>
-<testcase name="stringDates are match to expressions matchers-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.281">
-</testcase>
-<testcase name="Ranges can be manually entered-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.177">
-</testcase>
-<testcase name="Ranges with no spaces can be manually entered-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.156">
-</testcase>
-<testcase name="Lists can be manually entered-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.234">
-</testcase>
-<testcase name="Comparisons can be entered alongside values-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="1.917">
-</testcase>
-<testcase name="Operators and comparisons can be entered alongside values-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.381">
-</testcase>
-<testcase name="Operators, fields and comparisons can be entered alongside values-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.282">
-</testcase>
-<testcase name="Selecting empty for a value sets the value to null-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.048">
-</testcase>
-<testcase name="Smart filter can hadnle complex filter statements-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.803">
+<testcase name="Matching brackets will highlight when hovered over-smartfilter" classname="smartFilter\brackets.spec.ts" time="2.707">
 </testcase>
 </testsuite>
-<testsuite name="smartFilter\options.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="7" failures="0" skipped="0" time="13.232" errors="0">
-<testcase name="When text is entered into the filter bar all options are shown" classname="smartFilter\options.spec.ts" time="1.836">
+<testsuite name="smartFilter\dragdrop.spec.ts" timestamp="2025-01-25T18:33:00.323Z" hostname="chromium" tests="2" failures="0" skipped="0" time="6.586" errors="0">
+<testcase name="Items can be dragged to the left" classname="smartFilter\dragdrop.spec.ts" time="3.218">
 </testcase>
-<testcase name="When text is entered into the filter bar that matches, only matches are shown" classname="smartFilter\options.spec.ts" time="1.674">
-</testcase>
-<testcase name="When numbers are entered into the filter bar that matches, only numeric matches are shown" classname="smartFilter\options.spec.ts" time="1.986">
-</testcase>
-<testcase name="When dates are entered into the filter bar that matches, only dates matches are shown" classname="smartFilter\options.spec.ts" time="2.057">
-</testcase>
-<testcase name="When a range is entered into the filter bar that matches, only a mathcing range is shown" classname="smartFilter\options.spec.ts" time="1.987">
-</testcase>
-<testcase name="When a range with no space is entered into the filter bar that matches, only a mathcing range is shown" classname="smartFilter\options.spec.ts" time="1.747">
-</testcase>
-<testcase name="When field is entered into the filter bar only the field is shown" classname="smartFilter\options.spec.ts" time="1.945">
+<testcase name="Items can be dragged to the right" classname="smartFilter\dragdrop.spec.ts" time="3.368">
 </testcase>
 </testsuite>
-<testsuite name="smartFilter\sort.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="5" failures="0" skipped="0" time="13.053" errors="0">
-<testcase name="Sort items are shown in the dropdown" classname="smartFilter\sort.spec.ts" time="2.438">
+<testsuite name="smartFilter\editing.spec.ts" timestamp="2025-01-25T18:33:00.323Z" hostname="chromium" tests="26" failures="0" skipped="0" time="58.757" errors="0">
+<testcase name="Clicking on a text value opens a text editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.346">
 </testcase>
-<testcase name="Sort pills can be moved up" classname="smartFilter\sort.spec.ts" time="2.567">
+<testcase name="Clicking close shuts the editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.595">
 </testcase>
-<testcase name="Sort pills can be moved down" classname="smartFilter\sort.spec.ts" time="2.692">
+<testcase name="Clicking accept updates the value-smartfilter" classname="smartFilter\editing.spec.ts" time="2.387">
 </testcase>
-<testcase name="Sort pills can be dragged up" classname="smartFilter\sort.spec.ts" time="2.68">
+<testcase name="Clicking on a numeric value opens a text editor-smartfilter" classname="smartFilter\editing.spec.ts" time="1.765">
 </testcase>
-<testcase name="Sort pills can be dragged down" classname="smartFilter\sort.spec.ts" time="2.676">
+<testcase name="Clicking close shuts the numeric editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.048">
+</testcase>
+<testcase name="Clicking accept updates the numeric value-smartfilter" classname="smartFilter\editing.spec.ts" time="2.489">
+</testcase>
+<testcase name="Clicking on a date value opens a date editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.28">
+</testcase>
+<testcase name="Clicking close shuts the date editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.264">
+</testcase>
+<testcase name="Clicking accept updates the date value-smartfilter" classname="smartFilter\editing.spec.ts" time="2.595">
+</testcase>
+<testcase name="Clicking on a boolean value toggles between true and false-smartfilter" classname="smartFilter\editing.spec.ts" time="2.203">
+</testcase>
+<testcase name="Clicking on a lookup text value opens a text editor-smartfilter" classname="smartFilter\editing.spec.ts" time="1.892">
+</testcase>
+<testcase name="Clicking close shuts the lookup editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.234">
+</testcase>
+<testcase name="Clicking accept updates the lookup value-smartfilter" classname="smartFilter\editing.spec.ts" time="2.533">
+</testcase>
+<testcase name="Clicking on a text value opens a text editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.458">
+</testcase>
+<testcase name="Clicking close shuts the editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.444">
+</testcase>
+<testcase name="Clicking accept updates the value-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.503">
+</testcase>
+<testcase name="Clicking on a numeric value opens a text editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.045">
+</testcase>
+<testcase name="Clicking close shuts the numeric editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="1.796">
+</testcase>
+<testcase name="Clicking accept updates the numeric value-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.365">
+</testcase>
+<testcase name="Clicking on a date value opens a date editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.189">
+</testcase>
+<testcase name="Clicking close shuts the date editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.32">
+</testcase>
+<testcase name="Clicking accept updates the date value-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.563">
+</testcase>
+<testcase name="Clicking on a boolean value toggles between true and false-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.238">
+</testcase>
+<testcase name="Clicking on a lookup text value opens a text editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="1.792">
+</testcase>
+<testcase name="Clicking close shuts the lookup editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="1.965">
+</testcase>
+<testcase name="Clicking accept updates the lookup value-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.448">
 </testcase>
 </testsuite>
-<testsuite name="smartFilter\suggestions.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="24" failures="0" skipped="0" time="47.4" errors="0">
-<testcase name="Dropdown suggestions are shown when mouse over-smartfilter" classname="smartFilter\suggestions.spec.ts" time="1.429">
+<testsuite name="smartFilter\locking.spec.ts" timestamp="2025-01-25T18:33:00.323Z" hostname="chromium" tests="2" failures="0" skipped="0" time="5.621" errors="0">
+<testcase name="When lock icon clicked pills are locked-smartfilter" classname="smartFilter\locking.spec.ts" time="2.699">
 </testcase>
-<testcase name="A pill is created when a field option is clicked-smartfilter" classname="smartFilter\suggestions.spec.ts" time="1.586">
+<testcase name="When lock icon clicked pills aare unlocked-smartfilter" classname="smartFilter\locking.spec.ts" time="2.922">
 </testcase>
-<testcase name="A pill is created when a sort option is clicked-smartfilter" classname="smartFilter\suggestions.spec.ts" time="2.191">
+</testsuite>
+<testsuite name="smartFilter\matchers.spec.ts" timestamp="2025-01-25T18:33:00.323Z" hostname="chromium" tests="28" failures="0" skipped="0" time="59.363" errors="0">
+<testcase name="Strings are match to expressions matchers-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.122">
 </testcase>
-<testcase name="Brackets pills are created when brackets are selected-smartfilter" classname="smartFilter\suggestions.spec.ts" time="2.157">
+<testcase name="Strings are match to lookup matchers-smartfilter" classname="smartFilter\matchers.spec.ts" time="1.992">
 </testcase>
-<testcase name="Suggestions change when a pill is selected-smartfilter" classname="smartFilter\suggestions.spec.ts" time="2.481">
+<testcase name="Strings are match to list matchers-smartfilter" classname="smartFilter\matchers.spec.ts" time="1.641">
 </testcase>
-<testcase name="Selecting an operator applies the operator to the pill-smartfilter" classname="smartFilter\suggestions.spec.ts" time="2.796">
+<testcase name="Numbers are match to expressions matchers-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.039">
 </testcase>
-<testcase name="Selecting empty removes the pills value-smartfilter" classname="smartFilter\suggestions.spec.ts" time="2.389">
+<testcase name="Booleans are match to expressions matchers-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.239">
 </testcase>
-<testcase name="Selecting list turns the pills into a list-smartfilter" classname="smartFilter\suggestions.spec.ts" time="2.431">
+<testcase name="stringDates are match to expressions matchers-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.374">
 </testcase>
-<testcase name="Selecting range turns the pills into a range-smartfilter" classname="smartFilter\suggestions.spec.ts" time="1.942">
+<testcase name="Ranges can be manually entered-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.327">
 </testcase>
-<testcase name="Selecting &apos;or&apos; adds the or operator-smartfilter" classname="smartFilter\suggestions.spec.ts" time="2.043">
+<testcase name="Ranges with no spaces can be manually entered-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.349">
 </testcase>
-<testcase name="Selecting group shows all group hints-smartfilter" classname="smartFilter\suggestions.spec.ts" time="1.752">
+<testcase name="Lists can be manually entered-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.583">
 </testcase>
-<testcase name="Selecting a hint creates a pill-smartfilter" classname="smartFilter\suggestions.spec.ts" time="1.858">
+<testcase name="Comparisons can be entered alongside values-smartfilter" classname="smartFilter\matchers.spec.ts" time="1.898">
 </testcase>
-<testcase name="Dropdown suggestions are shown when mouse over-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.811">
+<testcase name="Operators and comparisons can be entered alongside values-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.189">
 </testcase>
-<testcase name="A pill is created when a field option is clicked-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="2.157">
+<testcase name="Operators, fields and comparisons can be entered alongside values-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.221">
 </testcase>
-<testcase name="A pill is created when a sort option is clicked-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.876">
+<testcase name="Selecting empty for a value sets the value to null-smartfilter" classname="smartFilter\matchers.spec.ts" time="1.946">
 </testcase>
-<testcase name="Brackets pills are created when brackets are selected-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.896">
+<testcase name="Smart filter can hadnle complex filter statements-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.773">
 </testcase>
-<testcase name="Suggestions change when a pill is selected-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="2.103">
+<testcase name="Strings are match to expressions matchers-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="1.953">
 </testcase>
-<testcase name="Selecting an operator applies the operator to the pill-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="2.174">
+<testcase name="Strings are match to lookup matchers-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="1.723">
 </testcase>
-<testcase name="Selecting empty removes the pills value-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="2.096">
+<testcase name="Strings are match to list matchers-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.069">
 </testcase>
-<testcase name="Selecting list turns the pills into a list-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.975">
+<testcase name="Numbers are match to expressions matchers-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="1.911">
 </testcase>
-<testcase name="Selecting range turns the pills into a range-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.762">
+<testcase name="Booleans are match to expressions matchers-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="1.899">
 </testcase>
-<testcase name="Selecting &apos;or&apos; adds the or operator-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.9">
+<testcase name="stringDates are match to expressions matchers-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.047">
 </testcase>
-<testcase name="Selecting group shows all group hints-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.313">
+<testcase name="Ranges can be manually entered-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="1.67">
 </testcase>
-<testcase name="Selecting a hint creates a pill-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.282">
+<testcase name="Ranges with no spaces can be manually entered-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="1.828">
+</testcase>
+<testcase name="Lists can be manually entered-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.231">
+</testcase>
+<testcase name="Comparisons can be entered alongside values-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.051">
+</testcase>
+<testcase name="Operators and comparisons can be entered alongside values-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.281">
+</testcase>
+<testcase name="Operators, fields and comparisons can be entered alongside values-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.188">
+</testcase>
+<testcase name="Selecting empty for a value sets the value to null-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="1.969">
+</testcase>
+<testcase name="Smart filter can hadnle complex filter statements-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.85">
+</testcase>
+</testsuite>
+<testsuite name="smartFilter\options.spec.ts" timestamp="2025-01-25T18:33:00.323Z" hostname="chromium" tests="7" failures="0" skipped="0" time="12.6" errors="0">
+<testcase name="When text is entered into the filter bar all options are shown" classname="smartFilter\options.spec.ts" time="1.844">
+</testcase>
+<testcase name="When text is entered into the filter bar that matches, only matches are shown" classname="smartFilter\options.spec.ts" time="1.841">
+</testcase>
+<testcase name="When numbers are entered into the filter bar that matches, only numeric matches are shown" classname="smartFilter\options.spec.ts" time="1.725">
+</testcase>
+<testcase name="When dates are entered into the filter bar that matches, only dates matches are shown" classname="smartFilter\options.spec.ts" time="1.708">
+</testcase>
+<testcase name="When a range is entered into the filter bar that matches, only a mathcing range is shown" classname="smartFilter\options.spec.ts" time="1.715">
+</testcase>
+<testcase name="When a range with no space is entered into the filter bar that matches, only a mathcing range is shown" classname="smartFilter\options.spec.ts" time="1.89">
+</testcase>
+<testcase name="When field is entered into the filter bar only the field is shown" classname="smartFilter\options.spec.ts" time="1.877">
+</testcase>
+</testsuite>
+<testsuite name="smartFilter\sort.spec.ts" timestamp="2025-01-25T18:33:00.323Z" hostname="chromium" tests="5" failures="0" skipped="0" time="12.415" errors="0">
+<testcase name="Sort items are shown in the dropdown" classname="smartFilter\sort.spec.ts" time="2.498">
+</testcase>
+<testcase name="Sort pills can be moved up" classname="smartFilter\sort.spec.ts" time="2.506">
+</testcase>
+<testcase name="Sort pills can be moved down" classname="smartFilter\sort.spec.ts" time="2.334">
+</testcase>
+<testcase name="Sort pills can be dragged up" classname="smartFilter\sort.spec.ts" time="2.609">
+</testcase>
+<testcase name="Sort pills can be dragged down" classname="smartFilter\sort.spec.ts" time="2.468">
+</testcase>
+</testsuite>
+<testsuite name="smartFilter\suggestions.spec.ts" timestamp="2025-01-25T18:33:00.323Z" hostname="chromium" tests="24" failures="0" skipped="0" time="46.471" errors="0">
+<testcase name="Dropdown suggestions are shown when mouse over-smartfilter" classname="smartFilter\suggestions.spec.ts" time="1.52">
+</testcase>
+<testcase name="A pill is created when a field option is clicked-smartfilter" classname="smartFilter\suggestions.spec.ts" time="1.702">
+</testcase>
+<testcase name="A pill is created when a sort option is clicked-smartfilter" classname="smartFilter\suggestions.spec.ts" time="1.927">
+</testcase>
+<testcase name="Brackets pills are created when brackets are selected-smartfilter" classname="smartFilter\suggestions.spec.ts" time="1.975">
+</testcase>
+<testcase name="Suggestions change when a pill is selected-smartfilter" classname="smartFilter\suggestions.spec.ts" time="1.915">
+</testcase>
+<testcase name="Selecting an operator applies the operator to the pill-smartfilter" classname="smartFilter\suggestions.spec.ts" time="2.153">
+</testcase>
+<testcase name="Selecting empty removes the pills value-smartfilter" classname="smartFilter\suggestions.spec.ts" time="2.081">
+</testcase>
+<testcase name="Selecting list turns the pills into a list-smartfilter" classname="smartFilter\suggestions.spec.ts" time="1.985">
+</testcase>
+<testcase name="Selecting range turns the pills into a range-smartfilter" classname="smartFilter\suggestions.spec.ts" time="2.031">
+</testcase>
+<testcase name="Selecting &apos;or&apos; adds the or operator-smartfilter" classname="smartFilter\suggestions.spec.ts" time="2.275">
+</testcase>
+<testcase name="Selecting group shows all group hints-smartfilter" classname="smartFilter\suggestions.spec.ts" time="1.878">
+</testcase>
+<testcase name="Selecting a hint creates a pill-smartfilter" classname="smartFilter\suggestions.spec.ts" time="1.933">
+</testcase>
+<testcase name="Dropdown suggestions are shown when mouse over-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.504">
+</testcase>
+<testcase name="A pill is created when a field option is clicked-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="2.027">
+</testcase>
+<testcase name="A pill is created when a sort option is clicked-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.908">
+</testcase>
+<testcase name="Brackets pills are created when brackets are selected-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="2.189">
+</testcase>
+<testcase name="Suggestions change when a pill is selected-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="2.041">
+</testcase>
+<testcase name="Selecting an operator applies the operator to the pill-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="2.395">
+</testcase>
+<testcase name="Selecting empty removes the pills value-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="2.016">
+</testcase>
+<testcase name="Selecting list turns the pills into a list-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="2.131">
+</testcase>
+<testcase name="Selecting range turns the pills into a range-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.998">
+</testcase>
+<testcase name="Selecting &apos;or&apos; adds the or operator-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.911">
+</testcase>
+<testcase name="Selecting group shows all group hints-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.628">
+</testcase>
+<testcase name="Selecting a hint creates a pill-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.348">
 </testcase>
 </testsuite>
 </testsuites>

@@ -1,36 +1,48 @@
-# React Smart Search
+# Smart Filter
 
-ReactSmartSearch is a simple yet powerful search/filter. It provides a user friendly alternative to Ag-Grids advance filters.
+Smart Filter is a powerful tool designed to help you filter and manage your data efficiently.
 
-Visit the [Demo page](https://markgregg.github.io/react-smart-search-examples/?story=smart-search-basic--smart-seach-basic)
+## Features
 
-Contact: gregg.mark@gmail.com
+- Easy to use interface
+- Advanced filtering options
+- Flexible and powerful filtering
+- Customizable filters
 
-## To install
+## Installation
 
-```js
-yarn add react-smart-search
-```
+To install Smart Filter, follow these steps:
 
-or
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/markgregg/smart-filter
+    ```
+2. Navigate to the project directory:
+    ```bash
+    cd smart-filter
+    ```
+3. Install the dependencies:
+    ```bash
+    npm install
+    ```
+4. To run harness:
+    ```bash
+    npm run dev
+    ```
+4. To view Storybook exmaples:
+    ```bash
+    npm run storybook
+    ```
 
-```js
-npm i react-smart-search
-```
+## Contributing
 
-## [Quick Start](docs/QuickStart.md)
+Contributions are welcome!
 
-## [Features](docs/Features.md)
+## License
 
-## [Properties](docs/Properties.md)
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## Types 
- - [Field](docs/Field.md)
- - [FieldMatch](docs/FieldMatch.md)
- - [Matcher](docs/Matcher.md)
- - [Hint](docs/Hint.md)
- - [AgHint](docs/AgHint.md)
- - [ComparisonItem](docs/ComparisonItem.md)
- 
-## [Keboard Shortcuts](docs/KeyboardShortCuts.md)
+## Contact
+
+If you have any questions or feedback, feel free to reach out to us at [gregg.mark@gmail.com](mailto:gregg.mark@gmail.com).
 
