@@ -10,7 +10,7 @@ Smart Filter is a powerful tool designed to help you filter and manage your data
 - Customizable filters
 
 ## demo page
-[Demo Page][https://markgregg.github.io/smart-filter/?path=/story/examples-smartfilter--primary]
+[Demo Page](https://markgregg.github.io/smart-filter/?path=/story/examples-smartfilter--primary)
 
 ## Installation
 
