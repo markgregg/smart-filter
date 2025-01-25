@@ -1,431 +1,266 @@
-<testsuites id="" name="" tests="24" failures="7" skipped="0" errors="0" time="327.134724">
-<testsuite name="smartFilter\suggestions.spec.ts" timestamp="2025-01-20T21:22:06.468Z" hostname="chromium" tests="24" failures="7" skipped="0" time="174.164" errors="0">
-<testcase name="Dropdown suggestions are shown when mouse over-smartfilter" classname="smartFilter\suggestions.spec.ts" time="24.172">
+<testsuites id="" name="" tests="121" failures="0" skipped="0" errors="0" time="57.318951999999996">
+<testsuite name="smartFilter\aggrid.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="3" failures="0" skipped="0" time="13.39" errors="0">
+<testcase name="Enetering filter values in smart filter automatically filters ag-grid-smartfilteraggrid" classname="smartFilter\aggrid.spec.ts" time="2.25">
 </testcase>
-<testcase name="A pill is created when a field option is clicked-smartfilter" classname="smartFilter\suggestions.spec.ts" time="6.678">
-<failure message="suggestions.spec.ts:28:3 A pill is created when a field option is clicked-smartfilter" type="FAILURE">
-<![CDATA[  [chromium] › smartFilter\suggestions.spec.ts:28:3 › A pill is created when a field option is clicked-smartfilter › Then the field pill is shown in the filterbar 
-
-    Error: expect(locator).toHaveScreenshot(expected)
-
-      3397 pixels (ratio 0.14 of all image pixels) are different.
-
-    Expected: C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts-snapshots\filter-bar-has-field-option-smartfilter-chromium-win32.png
-    Received: C:\Users\gregg\development\smart-filter\test-results\smartFilter-suggestions-A--a01ce-tion-is-clicked-smartfilter-chromium\filter-bar-has-field-option-smartfilter-actual.png
-        Diff: C:\Users\gregg\development\smart-filter\test-results\smartFilter-suggestions-A--a01ce-tion-is-clicked-smartfilter-chromium\filter-bar-has-field-option-smartfilter-diff.png
-
-    Call log:
-      - expect.toHaveScreenshot(filter-bar-has-field-option-smartfilter.png) with timeout 5000ms
-        - verifying given screenshot expectation
-      - waiting for locator('#sf-filter-bar')
-        - locator resolved to <div tabindex="0" id="sf-filter-bar" class="_searchBar_kp0r0_1 _normal_kp0r0_48 _font-normal_kp0r0_58">…</div>
-      - taking element screenshot
-        - disabled all CSS animations
-      - waiting for fonts to load...
-      - fonts loaded
-      - attempting scroll into view action
-        - waiting for element to be stable
-      - 3397 pixels (ratio 0.14 of all image pixels) are different.
-      - waiting 100ms before taking screenshot
-      - waiting for locator('#sf-filter-bar')
-        - locator resolved to <div tabindex="0" id="sf-filter-bar" class="_searchBar_kp0r0_1 _normal_kp0r0_48 _font-normal_kp0r0_58">…</div>
-      - taking element screenshot
-        - disabled all CSS animations
-      - waiting for fonts to load...
-      - fonts loaded
-      - attempting scroll into view action
-        - waiting for element to be stable
-      - captured a stable screenshot
-      - 3397 pixels (ratio 0.14 of all image pixels) are different.
-
-
-      49 |
-      50 |       await Then('the field pill is shown in the filterbar', async () => {
-    > 51 |         await expect(filterBar).toHaveScreenshot(`filter-bar-has-field-option-${view}.png`);
-         |                                 ^
-      52 |       });
-      53 |     }
-      54 |   );
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:51:33
-        at Then (C:\Users\gregg\development\smart-filter\tests\visual\common\ghkerkin.ts:23:8)
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:50:13
-
-    attachment #1: filter-bar-has-field-option-smartfilter-expected.png (image/png) ────────────────
-    tests\visual\smartFilter\suggestions.spec.ts-snapshots\filter-bar-has-field-option-smartfilter-chromium-win32.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    attachment #2: filter-bar-has-field-option-smartfilter-actual.png (image/png) ──────────────────
-    test-results\smartFilter-suggestions-A--a01ce-tion-is-clicked-smartfilter-chromium\filter-bar-has-field-option-smartfilter-actual.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    attachment #3: filter-bar-has-field-option-smartfilter-diff.png (image/png) ────────────────────
-    test-results\smartFilter-suggestions-A--a01ce-tion-is-clicked-smartfilter-chromium\filter-bar-has-field-option-smartfilter-diff.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-]]>
-</failure>
-<system-out>
-<![CDATA[
-[[ATTACHMENT|..\tests\visual\smartFilter\suggestions.spec.ts-snapshots\filter-bar-has-field-option-smartfilter-chromium-win32.png]]
-
-[[ATTACHMENT|..\test-results\smartFilter-suggestions-A--a01ce-tion-is-clicked-smartfilter-chromium\filter-bar-has-field-option-smartfilter-actual.png]]
-
-[[ATTACHMENT|..\test-results\smartFilter-suggestions-A--a01ce-tion-is-clicked-smartfilter-chromium\filter-bar-has-field-option-smartfilter-diff.png]]
-]]>
-</system-out>
+<testcase name="Enetering sort fields in smart filter automatically sorts ag-grid-smartfilteraggrid" classname="smartFilter\aggrid.spec.ts" time="2.136">
 </testcase>
-<testcase name="A pill is created when a sort option is clicked-smartfilter" classname="smartFilter\suggestions.spec.ts" time="5.584">
+<testcase name="Sorting and filtering ag-grid-smartfilteraggrid" classname="smartFilter\aggrid.spec.ts" time="9.004">
 </testcase>
-<testcase name="Brackets pills are created when brackets are selected-smartfilter" classname="smartFilter\suggestions.spec.ts" time="5.135">
+</testsuite>
+<testsuite name="smartFilter\arrays.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="4" failures="0" skipped="0" time="14.452" errors="0">
+<testcase name="Editing an array shows all elements in the array" classname="smartFilter\arrays.spec.ts" time="8.151">
 </testcase>
-<testcase name="Suggestions change when a pill is selected-smartfilter" classname="smartFilter\suggestions.spec.ts" time="5.902">
+<testcase name="New elements can be add to the array" classname="smartFilter\arrays.spec.ts" time="2.216">
 </testcase>
-<testcase name="Selecting an operator applies the operator to the pill-smartfilter" classname="smartFilter\suggestions.spec.ts" time="4.939">
+<testcase name="Elements can be removed from the array" classname="smartFilter\arrays.spec.ts" time="1.785">
 </testcase>
-<testcase name="Selecting empty removes the pills value-smartfilter" classname="smartFilter\suggestions.spec.ts" time="7.982">
+<testcase name="Array items can be edited" classname="smartFilter\arrays.spec.ts" time="2.3">
 </testcase>
-<testcase name="Selecting list turns the pills into a list-smartfilter" classname="smartFilter\suggestions.spec.ts" time="8.058">
+</testsuite>
+<testsuite name="smartFilter\basic.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="18" failures="0" skipped="0" time="42.314" errors="0">
+<testcase name="All icons are shown when enabled-smartfilter" classname="smartFilter\basic.spec.ts" time="1.486">
 </testcase>
-<testcase name="Selecting range turns the pills into a range-smartfilter" classname="smartFilter\suggestions.spec.ts" time="8.203">
-<failure message="suggestions.spec.ts:234:3 Selecting range turns the pills into a range-smartfilter" type="FAILURE">
-<![CDATA[  [chromium] › smartFilter\suggestions.spec.ts:234:3 › Selecting range turns the pills into a range-smartfilter › Then the pills is transformed into a range 
-
-    Error: expect(locator).toHaveScreenshot(expected)
-
-      439 pixels (ratio 0.02 of all image pixels) are different.
-
-    Expected: C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-is-a-range-smartfilter-chromium-win32.png
-    Received: C:\Users\gregg\development\smart-filter\test-results\smartFilter-suggestions-Se-46084-ls-into-a-range-smartfilter-chromium\pill-is-a-range-smartfilter-actual.png
-        Diff: C:\Users\gregg\development\smart-filter\test-results\smartFilter-suggestions-Se-46084-ls-into-a-range-smartfilter-chromium\pill-is-a-range-smartfilter-diff.png
-
-    Call log:
-      - expect.toHaveScreenshot(pill-is-a-range-smartfilter.png) with timeout 5000ms
-        - verifying given screenshot expectation
-      - waiting for locator('#sf-filter-bar')
-        - locator resolved to <div tabindex="0" id="sf-filter-bar" class="_searchBar_kp0r0_1 _normal_kp0r0_48 _font-normal_kp0r0_58">…</div>
-      - taking element screenshot
-        - disabled all CSS animations
-      - waiting for fonts to load...
-      - fonts loaded
-      - attempting scroll into view action
-        - waiting for element to be stable
-      - 439 pixels (ratio 0.02 of all image pixels) are different.
-      - waiting 100ms before taking screenshot
-      - waiting for locator('#sf-filter-bar')
-        - locator resolved to <div tabindex="0" id="sf-filter-bar" class="_searchBar_kp0r0_1 _normal_kp0r0_48 _font-normal_kp0r0_58">…</div>
-      - taking element screenshot
-        - disabled all CSS animations
-      - waiting for fonts to load...
-      - fonts loaded
-      - attempting scroll into view action
-        - waiting for element to be stable
-      - captured a stable screenshot
-      - 439 pixels (ratio 0.02 of all image pixels) are different.
-
-
-      259 |
-      260 |       await Then('the pills is transformed into a range', async () => {
-    > 261 |         await expect(filterBar).toHaveScreenshot(`pill-is-a-range-${view}.png`);
-          |                                 ^
-      262 |       });
-      263 |     }
-      264 |   );
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:261:33
-        at Then (C:\Users\gregg\development\smart-filter\tests\visual\common\ghkerkin.ts:23:8)
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:260:13
-
-    attachment #1: pill-is-a-range-smartfilter-expected.png (image/png) ────────────────────────────
-    tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-is-a-range-smartfilter-chromium-win32.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    attachment #2: pill-is-a-range-smartfilter-actual.png (image/png) ──────────────────────────────
-    test-results\smartFilter-suggestions-Se-46084-ls-into-a-range-smartfilter-chromium\pill-is-a-range-smartfilter-actual.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    attachment #3: pill-is-a-range-smartfilter-diff.png (image/png) ────────────────────────────────
-    test-results\smartFilter-suggestions-Se-46084-ls-into-a-range-smartfilter-chromium\pill-is-a-range-smartfilter-diff.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-]]>
-</failure>
-<system-out>
-<![CDATA[
-[[ATTACHMENT|..\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-is-a-range-smartfilter-chromium-win32.png]]
-
-[[ATTACHMENT|..\test-results\smartFilter-suggestions-Se-46084-ls-into-a-range-smartfilter-chromium\pill-is-a-range-smartfilter-actual.png]]
-
-[[ATTACHMENT|..\test-results\smartFilter-suggestions-Se-46084-ls-into-a-range-smartfilter-chromium\pill-is-a-range-smartfilter-diff.png]]
-]]>
-</system-out>
+<testcase name="All icons are hidden when not enabled-smartfilter" classname="smartFilter\basic.spec.ts" time="1.516">
 </testcase>
-<testcase name="Selecting &apos;or&apos; adds the or operator-smartfilter" classname="smartFilter\suggestions.spec.ts" time="16.483">
-<failure message="suggestions.spec.ts:266:3 Selecting &apos;or&apos; adds the or operator-smartfilter" type="FAILURE">
-<![CDATA[  [chromium] › smartFilter\suggestions.spec.ts:266:3 › Selecting 'or' adds the or operator-smartfilter 
-
-    Error: A snapshot doesn't exist at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-has-or-operator-smartfilter-chromium-win32.png, writing actual.
-
-      290 |
-      291 |       await Then('the pills is transformed into a range', async () => {
-    > 292 |         await expect(filterBar).toHaveScreenshot(`pill-has-or-operator-${view}.png`);
-          |         ^
-      293 |       });
-      294 |     }
-      295 |   );
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:292:9
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:291:7
-
-    attachment #1: pill-has-or-operator-smartfilter-expected.png (image/png) ───────────────────────
-    tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-has-or-operator-smartfilter-chromium-win32.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    attachment #2: pill-has-or-operator-smartfilter-actual.png (image/png) ─────────────────────────
-    test-results\smartFilter-suggestions-Se-3557a-the-or-operator-smartfilter-chromium\pill-has-or-operator-smartfilter-actual.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-]]>
-</failure>
-<system-out>
-<![CDATA[
-[[ATTACHMENT|..\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-has-or-operator-smartfilter-chromium-win32.png]]
-
-[[ATTACHMENT|..\test-results\smartFilter-suggestions-Se-3557a-the-or-operator-smartfilter-chromium\pill-has-or-operator-smartfilter-actual.png]]
-]]>
-</system-out>
+<testcase name="Filterbar has blue border when inner element has focus-smartfilter" classname="smartFilter\basic.spec.ts" time="1.276">
 </testcase>
-<testcase name="Selecting group shows all group hints-smartfilter" classname="smartFilter\suggestions.spec.ts" time="5.923">
+<testcase name="The expand icon is disabled when content too small-smartfilter" classname="smartFilter\basic.spec.ts" time="1.518">
 </testcase>
-<testcase name="Selecting a hint creates a pill-smartfilter" classname="smartFilter\suggestions.spec.ts" time="11.834">
-<failure message="suggestions.spec.ts:324:3 Selecting a hint creates a pill-smartfilter" type="FAILURE">
-<![CDATA[  [chromium] › smartFilter\suggestions.spec.ts:324:3 › Selecting a hint creates a pill-smartfilter › Then the all items for group are shown 
-
-    Error: Timed out 5000ms waiting for expect(locator).toHaveScreenshot(expected)
-
-      Timeout 5000ms exceeded.
-
-    Expected: C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-created-from-hint-smartfilter-chromium-win32.png
-
-    Call log:
-      - expect.toHaveScreenshot(pill-created-from-hint-smartfilter.png) with timeout 5000ms
-        - verifying given screenshot expectation
-      - waiting for locator('#sf-filter-bar')
-        - locator resolved to <div tabindex="0" id="sf-filter-bar" class="_searchBar_kp0r0_1 _normal_kp0r0_48 _font-normal_kp0r0_58">…</div>
-      - taking element screenshot
-        - disabled all CSS animations
-      - waiting for fonts to load...
-      - Timeout 5000ms exceeded.
-
-
-      344 |
-      345 |       await Then('the all items for group are shown', async () => {
-    > 346 |         await expect(filterBar).toHaveScreenshot(`pill-created-from-hint-${view}.png`);
-          |                                 ^
-      347 |       });
-      348 |     }
-      349 |   );
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:346:33
-        at Then (C:\Users\gregg\development\smart-filter\tests\visual\common\ghkerkin.ts:23:8)
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:345:13
-
-    attachment #1: pill-created-from-hint-smartfilter-expected.png (image/png) ─────────────────────
-    tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-created-from-hint-smartfilter-chromium-win32.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-]]>
-</failure>
-<system-out>
-<![CDATA[
-[[ATTACHMENT|..\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-created-from-hint-smartfilter-chromium-win32.png]]
-]]>
-</system-out>
+<testcase name="The expand icon highlights when content is bigger than control area-smartfilter" classname="smartFilter\basic.spec.ts" time="2.071">
 </testcase>
-<testcase name="Dropdown suggestions are shown when mouse over-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="5.063">
+<testcase name="Clicking the expand icon extends the filter bar-smartfilter" classname="smartFilter\basic.spec.ts" time="3.692">
 </testcase>
-<testcase name="A pill is created when a field option is clicked-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="5.26">
-<failure message="suggestions.spec.ts:28:3 A pill is created when a field option is clicked-smartfilteraggrid" type="FAILURE">
-<![CDATA[  [chromium] › smartFilter\suggestions.spec.ts:28:3 › A pill is created when a field option is clicked-smartfilteraggrid › Then the field pill is shown in the filterbar 
-
-    Error: expect(locator).toHaveScreenshot(expected)
-
-      3397 pixels (ratio 0.14 of all image pixels) are different.
-
-    Expected: C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts-snapshots\filter-bar-has-field-option-smartfilteraggrid-chromium-win32.png
-    Received: C:\Users\gregg\development\smart-filter\test-results\smartFilter-suggestions-A--a94e1-s-clicked-smartfilteraggrid-chromium\filter-bar-has-field-option-smartfilteraggrid-actual.png
-        Diff: C:\Users\gregg\development\smart-filter\test-results\smartFilter-suggestions-A--a94e1-s-clicked-smartfilteraggrid-chromium\filter-bar-has-field-option-smartfilteraggrid-diff.png
-
-    Call log:
-      - expect.toHaveScreenshot(filter-bar-has-field-option-smartfilteraggrid.png) with timeout 5000ms
-        - verifying given screenshot expectation
-      - waiting for locator('#sf-filter-bar')
-        - locator resolved to <div tabindex="0" id="sf-filter-bar" class="_searchBar_kp0r0_1 _normal_kp0r0_48 _font-normal_kp0r0_58">…</div>
-      - taking element screenshot
-        - disabled all CSS animations
-      - waiting for fonts to load...
-      - fonts loaded
-      - attempting scroll into view action
-        - waiting for element to be stable
-      - 3397 pixels (ratio 0.14 of all image pixels) are different.
-      - waiting 100ms before taking screenshot
-      - waiting for locator('#sf-filter-bar')
-        - locator resolved to <div tabindex="0" id="sf-filter-bar" class="_searchBar_kp0r0_1 _normal_kp0r0_48 _font-normal_kp0r0_58">…</div>
-      - taking element screenshot
-        - disabled all CSS animations
-      - waiting for fonts to load...
-      - fonts loaded
-      - attempting scroll into view action
-        - waiting for element to be stable
-      - captured a stable screenshot
-      - 3397 pixels (ratio 0.14 of all image pixels) are different.
-
-
-      49 |
-      50 |       await Then('the field pill is shown in the filterbar', async () => {
-    > 51 |         await expect(filterBar).toHaveScreenshot(`filter-bar-has-field-option-${view}.png`);
-         |                                 ^
-      52 |       });
-      53 |     }
-      54 |   );
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:51:33
-        at Then (C:\Users\gregg\development\smart-filter\tests\visual\common\ghkerkin.ts:23:8)
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:50:13
-
-    attachment #1: filter-bar-has-field-option-smartfilteraggrid-expected.png (image/png) ──────────
-    tests\visual\smartFilter\suggestions.spec.ts-snapshots\filter-bar-has-field-option-smartfilteraggrid-chromium-win32.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    attachment #2: filter-bar-has-field-option-smartfilteraggrid-actual.png (image/png) ────────────
-    test-results\smartFilter-suggestions-A--a94e1-s-clicked-smartfilteraggrid-chromium\filter-bar-has-field-option-smartfilteraggrid-actual.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    attachment #3: filter-bar-has-field-option-smartfilteraggrid-diff.png (image/png) ──────────────
-    test-results\smartFilter-suggestions-A--a94e1-s-clicked-smartfilteraggrid-chromium\filter-bar-has-field-option-smartfilteraggrid-diff.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-]]>
-</failure>
-<system-out>
-<![CDATA[
-[[ATTACHMENT|..\tests\visual\smartFilter\suggestions.spec.ts-snapshots\filter-bar-has-field-option-smartfilteraggrid-chromium-win32.png]]
-
-[[ATTACHMENT|..\test-results\smartFilter-suggestions-A--a94e1-s-clicked-smartfilteraggrid-chromium\filter-bar-has-field-option-smartfilteraggrid-actual.png]]
-
-[[ATTACHMENT|..\test-results\smartFilter-suggestions-A--a94e1-s-clicked-smartfilteraggrid-chromium\filter-bar-has-field-option-smartfilteraggrid-diff.png]]
-]]>
-</system-out>
+<testcase name="The clear button clears all content-smartfilter" classname="smartFilter\basic.spec.ts" time="2.498">
 </testcase>
-<testcase name="A pill is created when a sort option is clicked-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="4.657">
+<testcase name="Filter bar is expanded when a large size-smartfilter" classname="smartFilter\basic.spec.ts" time="2.644">
 </testcase>
-<testcase name="Brackets pills are created when brackets are selected-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="4.344">
+<testcase name="Filter bar is smaller when a compact size-smartfilter" classname="smartFilter\basic.spec.ts" time="2.906">
 </testcase>
-<testcase name="Suggestions change when a pill is selected-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="7.025">
+<testcase name="All icons are shown when enabled-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="1.894">
 </testcase>
-<testcase name="Selecting an operator applies the operator to the pill-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="4.886">
+<testcase name="All icons are hidden when not enabled-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="2.341">
 </testcase>
-<testcase name="Selecting empty removes the pills value-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="4.744">
+<testcase name="Filterbar has blue border when inner element has focus-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="2.222">
 </testcase>
-<testcase name="Selecting list turns the pills into a list-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="5.162">
+<testcase name="The expand icon is disabled when content too small-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="2.338">
 </testcase>
-<testcase name="Selecting range turns the pills into a range-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="5.076">
-<failure message="suggestions.spec.ts:234:3 Selecting range turns the pills into a range-smartfilteraggrid" type="FAILURE">
-<![CDATA[  [chromium] › smartFilter\suggestions.spec.ts:234:3 › Selecting range turns the pills into a range-smartfilteraggrid › Then the pills is transformed into a range 
-
-    Error: expect(locator).toHaveScreenshot(expected)
-
-      448 pixels (ratio 0.02 of all image pixels) are different.
-
-    Expected: C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-is-a-range-smartfilteraggrid-chromium-win32.png
-    Received: C:\Users\gregg\development\smart-filter\test-results\smartFilter-suggestions-Se-6aca4-o-a-range-smartfilteraggrid-chromium\pill-is-a-range-smartfilteraggrid-actual.png
-        Diff: C:\Users\gregg\development\smart-filter\test-results\smartFilter-suggestions-Se-6aca4-o-a-range-smartfilteraggrid-chromium\pill-is-a-range-smartfilteraggrid-diff.png
-
-    Call log:
-      - expect.toHaveScreenshot(pill-is-a-range-smartfilteraggrid.png) with timeout 5000ms
-        - verifying given screenshot expectation
-      - waiting for locator('#sf-filter-bar')
-        - locator resolved to <div tabindex="0" id="sf-filter-bar" class="_searchBar_kp0r0_1 _normal_kp0r0_48 _font-normal_kp0r0_58">…</div>
-      - taking element screenshot
-        - disabled all CSS animations
-      - waiting for fonts to load...
-      - fonts loaded
-      - attempting scroll into view action
-        - waiting for element to be stable
-      - 448 pixels (ratio 0.02 of all image pixels) are different.
-      - waiting 100ms before taking screenshot
-      - waiting for locator('#sf-filter-bar')
-        - locator resolved to <div tabindex="0" id="sf-filter-bar" class="_searchBar_kp0r0_1 _normal_kp0r0_48 _font-normal_kp0r0_58">…</div>
-      - taking element screenshot
-        - disabled all CSS animations
-      - waiting for fonts to load...
-      - fonts loaded
-      - attempting scroll into view action
-        - waiting for element to be stable
-      - captured a stable screenshot
-      - 448 pixels (ratio 0.02 of all image pixels) are different.
-
-
-      259 |
-      260 |       await Then('the pills is transformed into a range', async () => {
-    > 261 |         await expect(filterBar).toHaveScreenshot(`pill-is-a-range-${view}.png`);
-          |                                 ^
-      262 |       });
-      263 |     }
-      264 |   );
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:261:33
-        at Then (C:\Users\gregg\development\smart-filter\tests\visual\common\ghkerkin.ts:23:8)
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:260:13
-
-    attachment #1: pill-is-a-range-smartfilteraggrid-expected.png (image/png) ──────────────────────
-    tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-is-a-range-smartfilteraggrid-chromium-win32.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    attachment #2: pill-is-a-range-smartfilteraggrid-actual.png (image/png) ────────────────────────
-    test-results\smartFilter-suggestions-Se-6aca4-o-a-range-smartfilteraggrid-chromium\pill-is-a-range-smartfilteraggrid-actual.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    attachment #3: pill-is-a-range-smartfilteraggrid-diff.png (image/png) ──────────────────────────
-    test-results\smartFilter-suggestions-Se-6aca4-o-a-range-smartfilteraggrid-chromium\pill-is-a-range-smartfilteraggrid-diff.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-]]>
-</failure>
-<system-out>
-<![CDATA[
-[[ATTACHMENT|..\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-is-a-range-smartfilteraggrid-chromium-win32.png]]
-
-[[ATTACHMENT|..\test-results\smartFilter-suggestions-Se-6aca4-o-a-range-smartfilteraggrid-chromium\pill-is-a-range-smartfilteraggrid-actual.png]]
-
-[[ATTACHMENT|..\test-results\smartFilter-suggestions-Se-6aca4-o-a-range-smartfilteraggrid-chromium\pill-is-a-range-smartfilteraggrid-diff.png]]
-]]>
-</system-out>
+<testcase name="The expand icon highlights when content is bigger than control area-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="2.933">
 </testcase>
-<testcase name="Selecting &apos;or&apos; adds the or operator-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="8.172">
-<failure message="suggestions.spec.ts:266:3 Selecting &apos;or&apos; adds the or operator-smartfilteraggrid" type="FAILURE">
-<![CDATA[  [chromium] › smartFilter\suggestions.spec.ts:266:3 › Selecting 'or' adds the or operator-smartfilteraggrid 
-
-    Error: A snapshot doesn't exist at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-has-or-operator-smartfilteraggrid-chromium-win32.png, writing actual.
-
-      290 |
-      291 |       await Then('the pills is transformed into a range', async () => {
-    > 292 |         await expect(filterBar).toHaveScreenshot(`pill-has-or-operator-${view}.png`);
-          |         ^
-      293 |       });
-      294 |     }
-      295 |   );
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:292:9
-        at C:\Users\gregg\development\smart-filter\tests\visual\smartFilter\suggestions.spec.ts:291:7
-
-    attachment #1: pill-has-or-operator-smartfilteraggrid-expected.png (image/png) ─────────────────
-    tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-has-or-operator-smartfilteraggrid-chromium-win32.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    attachment #2: pill-has-or-operator-smartfilteraggrid-actual.png (image/png) ───────────────────
-    test-results\smartFilter-suggestions-Se-9009c--operator-smartfilteraggrid-chromium\pill-has-or-operator-smartfilteraggrid-actual.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-]]>
-</failure>
-<system-out>
-<![CDATA[
-[[ATTACHMENT|..\tests\visual\smartFilter\suggestions.spec.ts-snapshots\pill-has-or-operator-smartfilteraggrid-chromium-win32.png]]
-
-[[ATTACHMENT|..\test-results\smartFilter-suggestions-Se-9009c--operator-smartfilteraggrid-chromium\pill-has-or-operator-smartfilteraggrid-actual.png]]
-]]>
-</system-out>
+<testcase name="Clicking the expand icon extends the filter bar-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="4.461">
 </testcase>
-<testcase name="Selecting group shows all group hints-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="4.226">
+<testcase name="The clear button clears all content-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="2.787">
 </testcase>
-<testcase name="Selecting a hint creates a pill-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="4.656">
+<testcase name="Filter bar is expanded when a large size-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="1.744">
+</testcase>
+<testcase name="Filter bar is smaller when a compact size-smartfilteraggrid" classname="smartFilter\basic.spec.ts" time="1.987">
+</testcase>
+</testsuite>
+<testsuite name="smartFilter\brackets.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="2" failures="0" skipped="0" time="5.143" errors="0">
+<testcase name="Unmatched brackats are coloured red to show an error-smartfilter" classname="smartFilter\brackets.spec.ts" time="1.94">
+</testcase>
+<testcase name="Matching brackets will highlight when hovered over-smartfilter" classname="smartFilter\brackets.spec.ts" time="3.203">
+</testcase>
+</testsuite>
+<testsuite name="smartFilter\dragdrop.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="2" failures="0" skipped="0" time="6.915" errors="0">
+<testcase name="Items can be dragged to the left" classname="smartFilter\dragdrop.spec.ts" time="3.456">
+</testcase>
+<testcase name="Items can be dragged to the right" classname="smartFilter\dragdrop.spec.ts" time="3.459">
+</testcase>
+</testsuite>
+<testsuite name="smartFilter\editing.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="26" failures="0" skipped="0" time="61.357" errors="0">
+<testcase name="Clicking on a text value opens a text editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.654">
+</testcase>
+<testcase name="Clicking close shuts the editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.388">
+</testcase>
+<testcase name="Clicking accept updates the value-smartfilter" classname="smartFilter\editing.spec.ts" time="2.918">
+</testcase>
+<testcase name="Clicking on a numeric value opens a text editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.105">
+</testcase>
+<testcase name="Clicking close shuts the numeric editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.623">
+</testcase>
+<testcase name="Clicking accept updates the numeric value-smartfilter" classname="smartFilter\editing.spec.ts" time="2.811">
+</testcase>
+<testcase name="Clicking on a date value opens a date editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.638">
+</testcase>
+<testcase name="Clicking close shuts the date editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.697">
+</testcase>
+<testcase name="Clicking accept updates the date value-smartfilter" classname="smartFilter\editing.spec.ts" time="2.406">
+</testcase>
+<testcase name="Clicking on a boolean value toggles between true and false-smartfilter" classname="smartFilter\editing.spec.ts" time="2.133">
+</testcase>
+<testcase name="Clicking on a lookup text value opens a text editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.246">
+</testcase>
+<testcase name="Clicking close shuts the lookup editor-smartfilter" classname="smartFilter\editing.spec.ts" time="2.251">
+</testcase>
+<testcase name="Clicking accept updates the lookup value-smartfilter" classname="smartFilter\editing.spec.ts" time="2.429">
+</testcase>
+<testcase name="Clicking on a text value opens a text editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.459">
+</testcase>
+<testcase name="Clicking close shuts the editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.273">
+</testcase>
+<testcase name="Clicking accept updates the value-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="1.961">
+</testcase>
+<testcase name="Clicking on a numeric value opens a text editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="1.982">
+</testcase>
+<testcase name="Clicking close shuts the numeric editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.065">
+</testcase>
+<testcase name="Clicking accept updates the numeric value-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.479">
+</testcase>
+<testcase name="Clicking on a date value opens a date editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.212">
+</testcase>
+<testcase name="Clicking close shuts the date editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.524">
+</testcase>
+<testcase name="Clicking accept updates the date value-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.323">
+</testcase>
+<testcase name="Clicking on a boolean value toggles between true and false-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.051">
+</testcase>
+<testcase name="Clicking on a lookup text value opens a text editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.07">
+</testcase>
+<testcase name="Clicking close shuts the lookup editor-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.315">
+</testcase>
+<testcase name="Clicking accept updates the lookup value-smartfilteraggrid" classname="smartFilter\editing.spec.ts" time="2.344">
+</testcase>
+</testsuite>
+<testsuite name="smartFilter\locking.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="2" failures="0" skipped="0" time="5.964" errors="0">
+<testcase name="When lock icon clicked pills are locked-smartfilter" classname="smartFilter\locking.spec.ts" time="2.921">
+</testcase>
+<testcase name="When lock icon clicked pills aare unlocked-smartfilter" classname="smartFilter\locking.spec.ts" time="3.043">
+</testcase>
+</testsuite>
+<testsuite name="smartFilter\matchers.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="28" failures="0" skipped="0" time="63.616" errors="0">
+<testcase name="Strings are match to expressions matchers-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.208">
+</testcase>
+<testcase name="Strings are match to lookup matchers-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.392">
+</testcase>
+<testcase name="Strings are match to list matchers-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.412">
+</testcase>
+<testcase name="Numbers are match to expressions matchers-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.17">
+</testcase>
+<testcase name="Booleans are match to expressions matchers-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.641">
+</testcase>
+<testcase name="stringDates are match to expressions matchers-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.333">
+</testcase>
+<testcase name="Ranges can be manually entered-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.58">
+</testcase>
+<testcase name="Ranges with no spaces can be manually entered-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.561">
+</testcase>
+<testcase name="Lists can be manually entered-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.385">
+</testcase>
+<testcase name="Comparisons can be entered alongside values-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.041">
+</testcase>
+<testcase name="Operators and comparisons can be entered alongside values-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.039">
+</testcase>
+<testcase name="Operators, fields and comparisons can be entered alongside values-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.389">
+</testcase>
+<testcase name="Selecting empty for a value sets the value to null-smartfilter" classname="smartFilter\matchers.spec.ts" time="2.267">
+</testcase>
+<testcase name="Smart filter can hadnle complex filter statements-smartfilter" classname="smartFilter\matchers.spec.ts" time="3.015">
+</testcase>
+<testcase name="Strings are match to expressions matchers-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.064">
+</testcase>
+<testcase name="Strings are match to lookup matchers-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="1.964">
+</testcase>
+<testcase name="Strings are match to list matchers-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="1.712">
+</testcase>
+<testcase name="Numbers are match to expressions matchers-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.039">
+</testcase>
+<testcase name="Booleans are match to expressions matchers-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.125">
+</testcase>
+<testcase name="stringDates are match to expressions matchers-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.281">
+</testcase>
+<testcase name="Ranges can be manually entered-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.177">
+</testcase>
+<testcase name="Ranges with no spaces can be manually entered-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.156">
+</testcase>
+<testcase name="Lists can be manually entered-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.234">
+</testcase>
+<testcase name="Comparisons can be entered alongside values-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="1.917">
+</testcase>
+<testcase name="Operators and comparisons can be entered alongside values-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.381">
+</testcase>
+<testcase name="Operators, fields and comparisons can be entered alongside values-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.282">
+</testcase>
+<testcase name="Selecting empty for a value sets the value to null-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.048">
+</testcase>
+<testcase name="Smart filter can hadnle complex filter statements-smartfilteraggrid" classname="smartFilter\matchers.spec.ts" time="2.803">
+</testcase>
+</testsuite>
+<testsuite name="smartFilter\options.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="7" failures="0" skipped="0" time="13.232" errors="0">
+<testcase name="When text is entered into the filter bar all options are shown" classname="smartFilter\options.spec.ts" time="1.836">
+</testcase>
+<testcase name="When text is entered into the filter bar that matches, only matches are shown" classname="smartFilter\options.spec.ts" time="1.674">
+</testcase>
+<testcase name="When numbers are entered into the filter bar that matches, only numeric matches are shown" classname="smartFilter\options.spec.ts" time="1.986">
+</testcase>
+<testcase name="When dates are entered into the filter bar that matches, only dates matches are shown" classname="smartFilter\options.spec.ts" time="2.057">
+</testcase>
+<testcase name="When a range is entered into the filter bar that matches, only a mathcing range is shown" classname="smartFilter\options.spec.ts" time="1.987">
+</testcase>
+<testcase name="When a range with no space is entered into the filter bar that matches, only a mathcing range is shown" classname="smartFilter\options.spec.ts" time="1.747">
+</testcase>
+<testcase name="When field is entered into the filter bar only the field is shown" classname="smartFilter\options.spec.ts" time="1.945">
+</testcase>
+</testsuite>
+<testsuite name="smartFilter\sort.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="5" failures="0" skipped="0" time="13.053" errors="0">
+<testcase name="Sort items are shown in the dropdown" classname="smartFilter\sort.spec.ts" time="2.438">
+</testcase>
+<testcase name="Sort pills can be moved up" classname="smartFilter\sort.spec.ts" time="2.567">
+</testcase>
+<testcase name="Sort pills can be moved down" classname="smartFilter\sort.spec.ts" time="2.692">
+</testcase>
+<testcase name="Sort pills can be dragged up" classname="smartFilter\sort.spec.ts" time="2.68">
+</testcase>
+<testcase name="Sort pills can be dragged down" classname="smartFilter\sort.spec.ts" time="2.676">
+</testcase>
+</testsuite>
+<testsuite name="smartFilter\suggestions.spec.ts" timestamp="2025-01-25T18:00:46.553Z" hostname="chromium" tests="24" failures="0" skipped="0" time="47.4" errors="0">
+<testcase name="Dropdown suggestions are shown when mouse over-smartfilter" classname="smartFilter\suggestions.spec.ts" time="1.429">
+</testcase>
+<testcase name="A pill is created when a field option is clicked-smartfilter" classname="smartFilter\suggestions.spec.ts" time="1.586">
+</testcase>
+<testcase name="A pill is created when a sort option is clicked-smartfilter" classname="smartFilter\suggestions.spec.ts" time="2.191">
+</testcase>
+<testcase name="Brackets pills are created when brackets are selected-smartfilter" classname="smartFilter\suggestions.spec.ts" time="2.157">
+</testcase>
+<testcase name="Suggestions change when a pill is selected-smartfilter" classname="smartFilter\suggestions.spec.ts" time="2.481">
+</testcase>
+<testcase name="Selecting an operator applies the operator to the pill-smartfilter" classname="smartFilter\suggestions.spec.ts" time="2.796">
+</testcase>
+<testcase name="Selecting empty removes the pills value-smartfilter" classname="smartFilter\suggestions.spec.ts" time="2.389">
+</testcase>
+<testcase name="Selecting list turns the pills into a list-smartfilter" classname="smartFilter\suggestions.spec.ts" time="2.431">
+</testcase>
+<testcase name="Selecting range turns the pills into a range-smartfilter" classname="smartFilter\suggestions.spec.ts" time="1.942">
+</testcase>
+<testcase name="Selecting &apos;or&apos; adds the or operator-smartfilter" classname="smartFilter\suggestions.spec.ts" time="2.043">
+</testcase>
+<testcase name="Selecting group shows all group hints-smartfilter" classname="smartFilter\suggestions.spec.ts" time="1.752">
+</testcase>
+<testcase name="Selecting a hint creates a pill-smartfilter" classname="smartFilter\suggestions.spec.ts" time="1.858">
+</testcase>
+<testcase name="Dropdown suggestions are shown when mouse over-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.811">
+</testcase>
+<testcase name="A pill is created when a field option is clicked-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="2.157">
+</testcase>
+<testcase name="A pill is created when a sort option is clicked-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.876">
+</testcase>
+<testcase name="Brackets pills are created when brackets are selected-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.896">
+</testcase>
+<testcase name="Suggestions change when a pill is selected-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="2.103">
+</testcase>
+<testcase name="Selecting an operator applies the operator to the pill-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="2.174">
+</testcase>
+<testcase name="Selecting empty removes the pills value-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="2.096">
+</testcase>
+<testcase name="Selecting list turns the pills into a list-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.975">
+</testcase>
+<testcase name="Selecting range turns the pills into a range-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.762">
+</testcase>
+<testcase name="Selecting &apos;or&apos; adds the or operator-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.9">
+</testcase>
+<testcase name="Selecting group shows all group hints-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.313">
+</testcase>
+<testcase name="Selecting a hint creates a pill-smartfilteraggrid" classname="smartFilter\suggestions.spec.ts" time="1.282">
 </testcase>
 </testsuite>
 </testsuites>

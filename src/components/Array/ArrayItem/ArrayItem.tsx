@@ -41,10 +41,12 @@ export const ArrayItem = React.memo(
 
     return (
       <div
+        id={`sf-arr-item-${text}`}
         className={[s.arrayItem, active ? s.active : ''].join(' ')}
         onClick={handleClick}
       >
         <Button
+          id={`sf-delete-arr-${text}`}
           onClick={handleDeleteArrayItem}
           height={12}
           width={12}
