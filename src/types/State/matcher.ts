@@ -7,6 +7,7 @@ export type ClearCallbackFunction = () => void;
 export interface MatcherState {
   clearCallbacks: ClearCallbackFunction[];
   matchers: Matcher[];
+  undoBuffer: Matcher[][];
   selectedIndex: number | null;
   selectedMatcher: Matcher | null;
   focus: boolean;
@@ -54,4 +55,5 @@ export interface MatcherState {
   prev: () => void;
   first: () => void;
   last: () => void;
+  undo: () => void;
 }

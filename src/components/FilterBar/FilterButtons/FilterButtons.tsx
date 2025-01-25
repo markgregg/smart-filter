@@ -19,7 +19,7 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
   } = useConfig((state) => state);
   const { enableExpand, expanded, setExpanded, locked, setlocked } =
     useFilterBar((state) => state);
-  const { clearMatchers, lockMatchers, unlockMatchers } = useMatcher(
+  const { clearMatchers, lockMatchers, unlockMatchers, undo } = useMatcher(
     (state) => state,
   );
   const clearSort = useSort((state) => state.clearSort);
@@ -39,7 +39,9 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
     }
   }, [clearMatchers, onClear]);
 
-  const handleUndoClick = React.useCallback(() => {}, []);
+  const handleUndoClick = React.useCallback(() => {
+    undo();
+  }, [undo]);
 
   const handleLockClick = React.useCallback(() => {
     if (locked) {
