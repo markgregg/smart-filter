@@ -127,7 +127,6 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
   React.useEffect(() => {
     if (
       pillRef.current &&
-      !expanded &&
       (editMatcher?.key === matcher.key ||
         (selectedMatcher?.key === matcher.key && focus))
     ) {

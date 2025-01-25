@@ -10,6 +10,8 @@ import {
 } from '@/util/functions';
 import s from './style.module.less';
 import { VALUE, VALUE_ARRAY, VALUE_TO } from '@/util/constants';
+import { IoClose } from 'react-icons/io5';
+import { Colours } from '@/util/colours';
 
 export interface HintItemsProps {
   field: string;
@@ -190,7 +192,24 @@ export const HintItems = React.memo(
             typeof h.hint !== 'string' && 'key' in h.hint ? h.hint.key : h.hint;
           return (
             // @ts-expect-error key is not exposed to the user and is automatically add in the config
-            <div key={key}>
+            <div key={key} style={{ display: 'flex' }}>
+              {h.selected && <Button
+                onClick={() => { handleValueClick(h) }}
+                height={12}
+                width={12}
+                color={Colours.buttons.arrayItem}
+                hoverColor={Colours.buttons.arrayItemhover}
+                backgroundColor={Colours.buttons.arrayItembackground}
+                hoverBackgroundColor={Colours.buttons.arrayItemHoverBackground}
+                style={{
+                  alignSelf: 'center',
+                  marginLeft: '3px',
+                  paddingBlock: 0,
+                  paddingInline: 0,
+                }}
+              >
+                <IoClose />
+              </Button>}
               <Button
                 id={`sf-${field}-item`}
                 onClick={() => handleValueClick(h)}
