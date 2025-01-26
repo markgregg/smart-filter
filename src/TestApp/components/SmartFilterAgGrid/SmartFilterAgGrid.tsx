@@ -8,9 +8,8 @@ import {
   IRowNode,
 } from 'ag-grid-community';
 import { FilterFunction, Matcher, Sort } from '@/types';
-import Bond from '@/TestApp/types/Bond';
 import { bonds } from '../../../../data/bonds';
-import { columns, hintGroups, operators } from '@/stories/smartFilterFunctions';
+import Bond, { columns, hintGroups, operators } from '@/stories/smartFilterFunctions';
 import { SmartFilterAgGrid as SmartFilterAgGridCompoent } from '@/components';
 import s from './style.module.less';
 import 'ag-grid-community/styles/ag-grid.css';
