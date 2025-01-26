@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
+import { Given, Scenario, Then, When } from "../common/ghkerkin";
 
 Scenario(
   `When text is entered into the filter bar all options are shown`,
