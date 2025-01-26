@@ -1,6 +1,6 @@
 import React from 'react';
 import { SearchBox } from '../SearchBox';
-import { Option } from '@/types';
+import { Brackets, Option } from '@/types';
 import { useConfig, useMatcher, useOptions } from '../../state/useState';
 import {
   createField,
@@ -20,9 +20,16 @@ export const MainSearch = React.memo(
   ({ reducedWidth, position }: MainSearchProps) => {
     const [text, setText] = React.useState<string[]>(['']);
     const { fieldMap, size = 'normal' } = useConfig((state) => state);
-    const { addValue, editPosition } = useMatcher((state) => state);
+    const { addValue, editPosition, addBracket } = useMatcher((state) => state);
     const { comparison, operator } = useOptions((state) => state);
     const maxWidth = reducedWidth ? '130px' : undefined;
+
+    const handleCreateBracket = React.useCallback(
+      (bracket: Brackets) => {
+        addBracket(bracket, editPosition);
+      },
+      [addBracket],
+    );
 
     const handleSelect = React.useCallback(
       (option: Option) => {
@@ -53,7 +60,12 @@ export const MainSearch = React.memo(
           maxWidth,
         }}
       >
-        <SearchBox text={text} onSelect={handleSelect} position={position} />
+        <SearchBox
+          text={text}
+          onSelect={handleSelect}
+          onCreateBracket={handleCreateBracket}
+          position={position}
+        />
       </div>
     );
   },

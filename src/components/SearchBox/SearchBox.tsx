@@ -8,7 +8,7 @@ import {
   useSort,
 } from '../../state/useState';
 import { KeyBoardkeys } from '@/util/constants';
-import { Field, Option } from '@/types';
+import { Brackets, Field, Option } from '@/types';
 import s from './style.module.less';
 import { isVisible } from '@/util/functions';
 
@@ -17,11 +17,19 @@ interface SearchBoxProps {
   field?: Field;
   text: string[];
   onSelect: (option: Option) => void;
+  onCreateBracket?: (bracket: Brackets) => void;
   position?: number;
 }
 
 export const SearchBox = React.memo(
-  ({ matcherKey, field, text, onSelect, position }: SearchBoxProps) => {
+  ({
+    matcherKey,
+    field,
+    text,
+    onSelect,
+    onCreateBracket,
+    position,
+  }: SearchBoxProps) => {
     const inputRef = React.useRef<HTMLInputElement | null>(null);
     const [searchText, setSearchText] = React.useState<string>(text[0]);
     const { placeholder, size } = useConfig((state) => state);
@@ -50,17 +58,16 @@ export const SearchBox = React.memo(
     const setKeyboardFocus = useFocus((state) => state.setKeyboardFocus);
 
     React.useEffect(() => {
+      const clearSeachText = () => {
+        setSearchText('');
+      };
       if (!matcherKey) {
-        const clearSeachText = () => {
-          setSearchText('');
-        };
         addClearCallback(clearSeachText);
-        return () => {
-          removeClearCallback(clearSeachText);
-        };
       }
       return () => {
-        /* nothing */
+        if (!matcherKey) {
+          removeClearCallback(clearSeachText);
+        }
       };
     }, [matcherKey]);
 
@@ -150,7 +157,12 @@ export const SearchBox = React.memo(
 
     const handleChange = React.useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchText(event.currentTarget.value);
+        const inputText = event.currentTarget.value.trim();
+        if ((inputText === '(' || inputText === ')') && onCreateBracket) {
+          onCreateBracket(inputText);
+        } else {
+          setSearchText(event.currentTarget.value);
+        }
       },
       [setSearchText],
     );
@@ -242,6 +254,10 @@ export const SearchBox = React.memo(
         type="text"
         placeholder={placeholder ?? 'Enter text to search...'}
         value={searchText}
+        autoCapitalize="none"
+        autoComplete="off"
+        autoCorrect="off"
+        spellCheck="false"
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         onFocus={handleFocus}
