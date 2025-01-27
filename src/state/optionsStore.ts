@@ -340,6 +340,13 @@ const checkForRange = (buildState: BuildState): BuildState => {
 
 const contructOptions = (buildState: BuildState) => {
   const { text, field, fields, comparison } = buildState;
+  if (!buildState.matcherKey) {
+    fields.forEach((f) => {
+      if (f.title.toLocaleUpperCase().includes(text.toLocaleUpperCase())) {
+        addFieldOption(buildState, f);
+      }
+    });
+  }
   fields
     .filter(
       (f) =>
@@ -414,10 +421,10 @@ const optionSort = (
   y: CategoryOption,
 ) => {
   if (x.option.type === 'f') {
-    return -1;
+    return y.expression ? -1 : 1;
   }
   if (y.option.type === 'f') {
-    return 1;
+    return x.expression ? 1 : -1;
   }
   if (y.expression !== x.expression) {
     if (x.expression) {
@@ -656,8 +663,8 @@ const matchValueOptions = (
 
 const addFieldOption = (buildState: BuildState, field: Field) => {
   buildState.options.push({
-    precedence: 10,
-    expression: false,
+    precedence: 99,
+    expression: true,
     option: {
       type: 'f',
       key: uuidv4(),
