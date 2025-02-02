@@ -19,9 +19,9 @@ const getMin = (field: Field): Date | undefined => {
       return moment(
         field.min,
         field.dateTimeFormat ??
-          (field.editorType === 'date'
-            ? DEFAULT_DATE_FORMAT
-            : DEFAULT_DATE_TIME_FORMAT),
+        (field.editorType === 'date'
+          ? DEFAULT_DATE_FORMAT
+          : DEFAULT_DATE_TIME_FORMAT),
         true,
       ).toDate();
     }
@@ -196,10 +196,11 @@ export const matchExact = (
 };
 
 export const isVisible = (element: HTMLElement) => {
-  if (element.parentElement) {
-    const { right: pright } = element.parentElement.getBoundingClientRect();
+  const pillContainer = document.getElementById('sf-pill-container');
+  if (pillContainer) {
+    const { left: pleft, right: pright } = pillContainer.getBoundingClientRect();
     const { left, right } = element.getBoundingClientRect();
-    return left >= 0 && right <= pright;
+    return left >= pleft && right <= pright;
   }
   return true;
 };

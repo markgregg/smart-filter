@@ -1,6 +1,7 @@
 export const CLIPBOARD_FORMAT = 'text/json';
 export const DELIMITERS = [',', '\t', '\n'];
 
+export const UNDO_BUFFER_CAPACITY = 100;
 export const DEFAULT_KEYBOARD_DROPDOWN_DISPLAY_TIME = 1500;
 export const DEFAULT_SORT_OPTION_WIDTH = 200;
 export const DEFAULT_SORT_PILL_WIDTH = 90;

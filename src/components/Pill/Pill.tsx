@@ -45,7 +45,7 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
   const {
     deleteMatcher,
     selectedMatcher,
-    focus,
+    lastAdd,
     editMatcher,
     selectMatcher,
     clearEditMatcher,
@@ -128,16 +128,17 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
     if (
       pillRef.current &&
       (editMatcher?.key === matcher.key ||
-        (selectedMatcher?.key === matcher.key && focus))
+        (selectedMatcher?.key === matcher.key))
     ) {
       if (enableExpand && !isVisible(pillRef.current)) {
         pillRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
       }
-      if (editMatcher?.key !== matcher.key) {
+      //check position and if adding, not navigating don't set focus
+      if (editMatcher?.key !== matcher.key && index !== lastAdd) {
         pillRef.current.focus();
       }
     }
-  }, [editMatcher, selectedMatcher, matcher, focus, expanded, enableExpand]);
+  }, [editMatcher, selectedMatcher, matcher, lastAdd, expanded, enableExpand]);
 
   const Content = React.useMemo(
     () =>

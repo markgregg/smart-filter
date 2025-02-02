@@ -14,16 +14,16 @@ import {
   MatcherState,
 } from '@/types/State';
 import { MatcherValue } from '@/types/values';
-import { AND, OR } from '@/util/constants';
+import { AND, OR, UNDO_BUFFER_CAPACITY } from '@/util/constants';
 
 export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
   create<MatcherState>((set) => ({
     clearCallbacks: [],
     undoBuffer: [],
     matchers: [],
+    lastAdd: null,
     selectedIndex: null,
     selectedMatcher: null,
-    focus: false,
     editPosition: null,
     editMatcher: null,
     copyMatchers: null,
@@ -98,44 +98,44 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
         set((state) =>
           matcher.key === state.selectedMatcher?.key
             ? {
-                undoBuffer: [
-                  ...state.undoBuffer,
-                  structuredClone(state.matchers),
-                ],
-                matchers: state.matchers.map((m) =>
-                  m.key === matcher.key ? matcher : m,
-                ),
-                selectedMatcher: matcher,
-                focus: false,
-              }
+              undoBuffer: trimUndoBuffer([
+                ...state.undoBuffer,
+                structuredClone(state.matchers),
+              ]),
+              matchers: state.matchers.map((m) =>
+                m.key === matcher.key ? matcher : m,
+              ),
+              selectedMatcher: matcher,
+            }
             : {
-                undoBuffer: [
-                  ...state.undoBuffer,
-                  structuredClone(state.matchers),
-                ],
-                matchers: state.matchers.map((m) =>
-                  m.key === matcher.key ? matcher : m,
-                ),
-              },
+              undoBuffer: trimUndoBuffer([
+                ...state.undoBuffer,
+                structuredClone(state.matchers),
+              ]),
+              matchers: state.matchers.map((m) =>
+                m.key === matcher.key ? matcher : m,
+              ),
+            },
         );
       }
     },
     deleteMatcher: (matcher: Matcher) => {
       if (!matcher.locked) {
         set((state) => ({
-          undoBuffer: [...state.undoBuffer, structuredClone(state.matchers)],
+          undoBuffer: trimUndoBuffer([...state.undoBuffer, structuredClone(state.matchers)]),
           matchers: state.matchers.filter((m) => m.key !== matcher.key),
           selectedMatcher: null,
           selectedIndex: null,
           editMatcher: null,
           copyMatchers: null,
+          lastAdd: null,
         }));
       }
     },
     deleteMatchers: (matchers: Matcher[]) => {
       if (matchers.every((m) => !m.locked)) {
         set((state) => ({
-          undoBuffer: [...state.undoBuffer, structuredClone(state.matchers)],
+          undoBuffer: trimUndoBuffer([...state.undoBuffer, structuredClone(state.matchers)]),
           matchers: state.matchers.filter(
             (m) => !matchers.find((fm) => fm.key === m.key),
           ),
@@ -143,6 +143,7 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
           selectedIndex: null,
           editMatcher: null,
           copyMatchers: null,
+          lastAdd: null,
         }));
       }
     },
@@ -171,10 +172,9 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
           const selectedIndex =
             matchers.findIndex((m) => m.key === selectedMatcher?.key) ?? null;
           return {
-            undoBuffer: [...state.undoBuffer, structuredClone(state.matchers)],
+            undoBuffer: trimUndoBuffer([...state.undoBuffer, structuredClone(state.matchers)]),
             matchers,
             selectedIndex,
-            focus: false,
           };
         }
         return {};
@@ -186,7 +186,7 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
         const selectedMatcher = index !== -1 ? state.matchers[index] : null;
         const editMatcher =
           selectedMatcher !== null &&
-          selectedMatcher.key !== state.editMatcher?.key
+            selectedMatcher.key !== state.editMatcher?.key
             ? null
             : state.editMatcher;
         return {
@@ -194,8 +194,8 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
           selectedIndex,
           editPosition: null,
           editMatcher,
-          focus: true,
           copyMatchers: null,
+          lastAdd: null,
         };
       }),
     clearCopyMatcher: () => set({ copyMatchers: null }),
@@ -222,13 +222,14 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
       }),
     clearMatchers: () => {
       set((state) => ({
-        undoBuffer: [...state.undoBuffer, structuredClone(state.matchers)],
+        undoBuffer: trimUndoBuffer([...state.undoBuffer, structuredClone(state.matchers)]),
         matchers: state.matchers.filter((m) => m.locked),
         selectedMatcher: null,
         selectedIndex: null,
         editPosition: null,
         editMatcher: null,
         copyMatchers: null,
+        lastAdd: null,
       }));
       set((state) => {
         state.clearCallbacks.forEach((c) => c());
@@ -258,18 +259,19 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
         editPosition: null,
         editMatcher: null,
         copyMatchers: null,
+        lastAdd: null,
       }),
     clearEditPosition: () => set({ editPosition: null }),
     clearEditMatcher: () => set({ editMatcher: null }),
     lockMatchers: () =>
       set((state) => ({
-        undoBuffer: [...state.undoBuffer, structuredClone(state.matchers)],
+        undoBuffer: trimUndoBuffer([...state.undoBuffer, structuredClone(state.matchers)]),
         matchers: state.matchers?.map((m) => ({ ...m, locked: true })),
         editMatcher: null,
       })),
     unlockMatchers: () =>
       set((state) => ({
-        undoBuffer: [...state.undoBuffer, structuredClone(state.matchers)],
+        undoBuffer: trimUndoBuffer([...state.undoBuffer, structuredClone(state.matchers)]),
         matchers: state.matchers?.map((m) => ({ ...m, locked: false })),
         editMatcher: null,
       })),
@@ -377,12 +379,14 @@ const nullUpdate = {
   selectedMatcher: null,
   selectedIndex: null,
   editPosition: null,
+  lastAdd: null,
 };
 
 const editPositionUpdate = (editPosition: number) => ({
   selectedMatcher: null,
   selectedIndex: null,
   editPosition,
+  lastAdd: null,
 });
 
 const selectMatcherUpdate = (
@@ -394,7 +398,7 @@ const selectMatcherUpdate = (
   selectedIndex,
   editPosition: null,
   editMatcher: selectedMatcher.key !== editMatcher?.key ? null : editMatcher,
-  focus: true,
+  lastAdd: null,
 });
 
 const checkFieldLimits = (
@@ -413,7 +417,7 @@ const checkFieldLimits = (
           matchers.filter(
             (mf) => 'field' in mf && mf.field === fieldName && mf.key !== m.key,
           ).length +
-            1 >
+          1 >
           field.instanceLimit
         ) {
           throw Error(
@@ -436,12 +440,12 @@ const updateMatcherList = (
   const newMatchers =
     position !== null
       ? [
-          ...(position > 0 ? matchers.slice(0, position) : []),
-          ...(Array.isArray(matcher) ? matcher : [matcher]),
-          ...(position < matchers.length
-            ? matchers.slice(position, matchers.length)
-            : []),
-        ]
+        ...(position > 0 ? matchers.slice(0, position) : []),
+        ...(Array.isArray(matcher) ? matcher : [matcher]),
+        ...(position < matchers.length
+          ? matchers.slice(position, matchers.length)
+          : []),
+      ]
       : [...matchers, ...(Array.isArray(matcher) ? matcher : [matcher])];
   const editPosition =
     position !== null
@@ -457,21 +461,21 @@ const updateMatcherList = (
     : newMatchers.length - 1;
   const editMatcher =
     !editPosition &&
-    !Array.isArray(matcher) &&
-    matcher.key === selectedMatcher.key &&
-    (matcher.type === 's' || matcher.type === 'r') &&
-    matcher.value === null &&
-    matcher.text === ''
+      !Array.isArray(matcher) &&
+      matcher.key === selectedMatcher.key &&
+      (matcher.type === 's' || matcher.type === 'r') &&
+      matcher.value === null &&
+      matcher.text === ''
       ? selectedMatcher
       : null;
   return {
-    undoBuffer: [...undoBuffer, structuredClone(matchers)],
+    undoBuffer: trimUndoBuffer([...undoBuffer, structuredClone(matchers)]),
     matchers: newMatchers,
     selectedMatcher,
     selectedIndex,
     editPosition,
     editMatcher,
-    focus: false,
+    lastAdd: selectedIndex,
   };
 };
 
@@ -503,9 +507,9 @@ const updateMatchers = (
       return {
         matchers: newMatchers,
         selectedMatcher: updatedMatcher,
+        lastAdd: selectedIndex,
         selectedIndex,
-        focus: false,
-        undoBuffer: [...undoBuffer, structuredClone(matchers)],
+        undoBuffer: trimUndoBuffer([...undoBuffer, structuredClone(matchers)]),
       };
     }
   }
@@ -535,6 +539,7 @@ const getTagetMatcher = (
         : position - 1;
   return prevIndex !== null ? matchers[prevIndex] : null;
 };
+
 const appendToList = (
   matchers: Matcher[],
   fieldMap: Map<string, Field>,
@@ -594,3 +599,9 @@ const appendToList = (
   }
   return {};
 };
+
+const trimUndoBuffer = (undoBuffer: Matcher[][]): Matcher[][] => {
+  return undoBuffer.length >= UNDO_BUFFER_CAPACITY
+    ? undoBuffer.slice(undoBuffer.length - UNDO_BUFFER_CAPACITY)
+    : undoBuffer;
+}

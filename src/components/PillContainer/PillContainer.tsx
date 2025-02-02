@@ -45,6 +45,7 @@ export const PillContainer = React.memo(
 
     return (
       <div
+        id="sf-pill-container"
         className={[
           s.pillContainer,
           singleLine ? s.singleLine : s.multiLine,

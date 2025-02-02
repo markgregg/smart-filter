@@ -47,8 +47,10 @@ export const SearchBox = React.memo(
     } = useOptions((state) => state);
     const clearSelections = useMatcher((state) => state.clearSelections);
     const {
+      matchers,
       editMatcher,
       selectedMatcher,
+      selectedIndex,
       editPosition,
       addClearCallback,
       removeClearCallback,
@@ -84,7 +86,7 @@ export const SearchBox = React.memo(
       if (
         (!matcherKey &&
           editMatcher === null &&
-          selectedMatcher === null &&
+          (selectedIndex === null || selectedIndex === matchers.length - 1) &&
           !sortActive &&
           editPosition === null) ||
         (editPosition !== null && editPosition === position)
@@ -100,12 +102,14 @@ export const SearchBox = React.memo(
         }
       }
     }, [
+      matcherKey,
       editMatcher,
-      selectedMatcher,
+      selectedIndex,
       editPosition,
       sortActive,
       position,
       enableExpand,
+      matchers
     ]);
 
     React.useEffect(() => {
@@ -129,9 +133,6 @@ export const SearchBox = React.memo(
     const handleFocus = React.useCallback(() => {
       if (sortActive) {
         setActive(false);
-      }
-      if (!matcherKey && position === undefined) {
-        clearSelections();
       }
       if (!matcherKey && searchText !== '') {
         buildOptions(
