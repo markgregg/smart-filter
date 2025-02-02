@@ -109,7 +109,7 @@ export const SearchBox = React.memo(
       sortActive,
       position,
       enableExpand,
-      matchers
+      matchers,
     ]);
 
     React.useEffect(() => {

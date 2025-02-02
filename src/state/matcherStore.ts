@@ -98,31 +98,34 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
         set((state) =>
           matcher.key === state.selectedMatcher?.key
             ? {
-              undoBuffer: trimUndoBuffer([
-                ...state.undoBuffer,
-                structuredClone(state.matchers),
-              ]),
-              matchers: state.matchers.map((m) =>
-                m.key === matcher.key ? matcher : m,
-              ),
-              selectedMatcher: matcher,
-            }
+                undoBuffer: trimUndoBuffer([
+                  ...state.undoBuffer,
+                  structuredClone(state.matchers),
+                ]),
+                matchers: state.matchers.map((m) =>
+                  m.key === matcher.key ? matcher : m,
+                ),
+                selectedMatcher: matcher,
+              }
             : {
-              undoBuffer: trimUndoBuffer([
-                ...state.undoBuffer,
-                structuredClone(state.matchers),
-              ]),
-              matchers: state.matchers.map((m) =>
-                m.key === matcher.key ? matcher : m,
-              ),
-            },
+                undoBuffer: trimUndoBuffer([
+                  ...state.undoBuffer,
+                  structuredClone(state.matchers),
+                ]),
+                matchers: state.matchers.map((m) =>
+                  m.key === matcher.key ? matcher : m,
+                ),
+              },
         );
       }
     },
     deleteMatcher: (matcher: Matcher) => {
       if (!matcher.locked) {
         set((state) => ({
-          undoBuffer: trimUndoBuffer([...state.undoBuffer, structuredClone(state.matchers)]),
+          undoBuffer: trimUndoBuffer([
+            ...state.undoBuffer,
+            structuredClone(state.matchers),
+          ]),
           matchers: state.matchers.filter((m) => m.key !== matcher.key),
           selectedMatcher: null,
           selectedIndex: null,
@@ -135,7 +138,10 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
     deleteMatchers: (matchers: Matcher[]) => {
       if (matchers.every((m) => !m.locked)) {
         set((state) => ({
-          undoBuffer: trimUndoBuffer([...state.undoBuffer, structuredClone(state.matchers)]),
+          undoBuffer: trimUndoBuffer([
+            ...state.undoBuffer,
+            structuredClone(state.matchers),
+          ]),
           matchers: state.matchers.filter(
             (m) => !matchers.find((fm) => fm.key === m.key),
           ),
@@ -172,7 +178,10 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
           const selectedIndex =
             matchers.findIndex((m) => m.key === selectedMatcher?.key) ?? null;
           return {
-            undoBuffer: trimUndoBuffer([...state.undoBuffer, structuredClone(state.matchers)]),
+            undoBuffer: trimUndoBuffer([
+              ...state.undoBuffer,
+              structuredClone(state.matchers),
+            ]),
             matchers,
             selectedIndex,
           };
@@ -186,7 +195,7 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
         const selectedMatcher = index !== -1 ? state.matchers[index] : null;
         const editMatcher =
           selectedMatcher !== null &&
-            selectedMatcher.key !== state.editMatcher?.key
+          selectedMatcher.key !== state.editMatcher?.key
             ? null
             : state.editMatcher;
         return {
@@ -222,7 +231,10 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
       }),
     clearMatchers: () => {
       set((state) => ({
-        undoBuffer: trimUndoBuffer([...state.undoBuffer, structuredClone(state.matchers)]),
+        undoBuffer: trimUndoBuffer([
+          ...state.undoBuffer,
+          structuredClone(state.matchers),
+        ]),
         matchers: state.matchers.filter((m) => m.locked),
         selectedMatcher: null,
         selectedIndex: null,
@@ -265,13 +277,19 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
     clearEditMatcher: () => set({ editMatcher: null }),
     lockMatchers: () =>
       set((state) => ({
-        undoBuffer: trimUndoBuffer([...state.undoBuffer, structuredClone(state.matchers)]),
+        undoBuffer: trimUndoBuffer([
+          ...state.undoBuffer,
+          structuredClone(state.matchers),
+        ]),
         matchers: state.matchers?.map((m) => ({ ...m, locked: true })),
         editMatcher: null,
       })),
     unlockMatchers: () =>
       set((state) => ({
-        undoBuffer: trimUndoBuffer([...state.undoBuffer, structuredClone(state.matchers)]),
+        undoBuffer: trimUndoBuffer([
+          ...state.undoBuffer,
+          structuredClone(state.matchers),
+        ]),
         matchers: state.matchers?.map((m) => ({ ...m, locked: false })),
         editMatcher: null,
       })),
@@ -417,7 +435,7 @@ const checkFieldLimits = (
           matchers.filter(
             (mf) => 'field' in mf && mf.field === fieldName && mf.key !== m.key,
           ).length +
-          1 >
+            1 >
           field.instanceLimit
         ) {
           throw Error(
@@ -440,12 +458,12 @@ const updateMatcherList = (
   const newMatchers =
     position !== null
       ? [
-        ...(position > 0 ? matchers.slice(0, position) : []),
-        ...(Array.isArray(matcher) ? matcher : [matcher]),
-        ...(position < matchers.length
-          ? matchers.slice(position, matchers.length)
-          : []),
-      ]
+          ...(position > 0 ? matchers.slice(0, position) : []),
+          ...(Array.isArray(matcher) ? matcher : [matcher]),
+          ...(position < matchers.length
+            ? matchers.slice(position, matchers.length)
+            : []),
+        ]
       : [...matchers, ...(Array.isArray(matcher) ? matcher : [matcher])];
   const editPosition =
     position !== null
@@ -461,11 +479,11 @@ const updateMatcherList = (
     : newMatchers.length - 1;
   const editMatcher =
     !editPosition &&
-      !Array.isArray(matcher) &&
-      matcher.key === selectedMatcher.key &&
-      (matcher.type === 's' || matcher.type === 'r') &&
-      matcher.value === null &&
-      matcher.text === ''
+    !Array.isArray(matcher) &&
+    matcher.key === selectedMatcher.key &&
+    (matcher.type === 's' || matcher.type === 'r') &&
+    matcher.value === null &&
+    matcher.text === ''
       ? selectedMatcher
       : null;
   return {
@@ -600,8 +618,7 @@ const appendToList = (
   return {};
 };
 
-const trimUndoBuffer = (undoBuffer: Matcher[][]): Matcher[][] => {
-  return undoBuffer.length >= UNDO_BUFFER_CAPACITY
+const trimUndoBuffer = (undoBuffer: Matcher[][]): Matcher[][] =>
+  undoBuffer.length >= UNDO_BUFFER_CAPACITY
     ? undoBuffer.slice(undoBuffer.length - UNDO_BUFFER_CAPACITY)
     : undoBuffer;
-}

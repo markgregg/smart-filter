@@ -127,13 +127,12 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
   React.useEffect(() => {
     if (
       pillRef.current &&
-      (editMatcher?.key === matcher.key ||
-        (selectedMatcher?.key === matcher.key))
+      (editMatcher?.key === matcher.key || selectedMatcher?.key === matcher.key)
     ) {
       if (enableExpand && !isVisible(pillRef.current)) {
         pillRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
       }
-      //check position and if adding, not navigating don't set focus
+      // check position and if adding, not navigating don't set focus
       if (editMatcher?.key !== matcher.key && index !== lastAdd) {
         pillRef.current.focus();
       }
