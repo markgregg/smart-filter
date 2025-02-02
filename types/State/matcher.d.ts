@@ -8,9 +8,9 @@ export interface MatcherState {
     clearCallbacks: ClearCallbackFunction[];
     matchers: Matcher[];
     undoBuffer: Matcher[][];
+    lastAdd: number | null;
     selectedIndex: number | null;
     selectedMatcher: Matcher | null;
-    focus: boolean;
     editPosition: number | null;
     editMatcher: Matcher | null;
     copyMatchers: string[] | null;

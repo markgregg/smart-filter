@@ -1,5 +1,6 @@
 export declare const CLIPBOARD_FORMAT = "text/json";
 export declare const DELIMITERS: string[];
+export declare const UNDO_BUFFER_CAPACITY = 100;
 export declare const DEFAULT_KEYBOARD_DROPDOWN_DISPLAY_TIME = 1500;
 export declare const DEFAULT_SORT_OPTION_WIDTH = 200;
 export declare const DEFAULT_SORT_PILL_WIDTH = 90;
