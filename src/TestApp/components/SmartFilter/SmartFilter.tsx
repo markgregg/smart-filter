@@ -8,6 +8,7 @@ import Bond, {
   fields,
   hintGroups,
   operators,
+  pasteOptions,
 } from '@/stories/smartFilterFunctions';
 import { Matcher, SmartFilter as SmartFilterComponent, Sort } from '../../..';
 import { bonds } from '../../../../data/bonds';
@@ -81,6 +82,7 @@ export const SmartFilter = () => {
           allowLocking={!queryParams.noIcons}
           showSearchIcon={!queryParams.noIcons}
           showUndoIcon={!queryParams.noIcons}
+          pasteOptions={pasteOptions}
         />
       </div>
       <div className={[s.grid, 'ag-theme-alpine'].join(' ')}>

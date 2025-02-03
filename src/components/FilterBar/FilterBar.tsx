@@ -186,8 +186,12 @@ export const FilterBar = React.memo(() => {
   }, [matchers, selectedIndex, copyMatchers, deleteMatchers]);
 
   const handlePaste = React.useCallback(() => {
-    navigator.clipboard.readText().then((text) => {
-      const pasteMatchers = getMatchersFromText(text, fieldMap, pasteOptions);
+    navigator.clipboard.readText().then(async (text) => {
+      const pasteMatchers = await getMatchersFromText(
+        text,
+        fieldMap,
+        pasteOptions,
+      );
       if (pasteMatchers) {
         insertMatchers(pasteMatchers, editPosition);
       }

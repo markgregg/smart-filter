@@ -43,7 +43,7 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await When('a field option is selected', async () => {
-        await selectFieldSuggestion('maturityDate');
+        await selectFieldSuggestion('side');
         await pause(50);
       });
 

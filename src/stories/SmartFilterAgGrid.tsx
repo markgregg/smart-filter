@@ -7,7 +7,12 @@ import {
   GridReadyEvent,
   IRowNode,
 } from 'ag-grid-community';
-import Bond, { columns, hintGroups, operators } from './smartFilterFunctions';
+import Bond, {
+  columns,
+  hintGroups,
+  operators,
+  pasteOptions,
+} from './smartFilterFunctions';
 import {
   FilterFunction,
   Matcher,
@@ -186,6 +191,7 @@ export const SmartFilterAgGrid: React.FC<SmartFilterAgGridProps> = ({
           showDropdownOnMouseOver={showDropdownOnMouseOver}
           gridApi={gridApi}
           columnApi={columnApi}
+          pasteOptions={pasteOptions}
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...props}
         />

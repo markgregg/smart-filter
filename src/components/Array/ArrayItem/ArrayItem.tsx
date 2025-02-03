@@ -3,19 +3,20 @@ import { FaCaretRight } from 'react-icons/fa6';
 import { IoClose } from 'react-icons/io5';
 import { useArray, useMatcher } from '@/state/useState';
 import { Button } from '@/components/common/Button';
-import { Matcher } from '@/types';
+import { Matcher, Value } from '@/types';
 import { Colours } from '@/util/colours';
 import s from './style.module.less';
 
 interface ArrayItemProps {
   index: number;
   text: string;
+  value: Value;
   active: boolean;
   selected: boolean;
 }
 
 export const ArrayItem = React.memo(
-  ({ index, text, active, selected }: ArrayItemProps) => {
+  ({ index, text, value, active, selected }: ArrayItemProps) => {
     const { selectItem, setMatcher, matcher } = useArray((state) => state);
     const updateMatcher = useMatcher((state) => state.updateMatcher);
 
@@ -42,7 +43,11 @@ export const ArrayItem = React.memo(
     return (
       <div
         id={`sf-arr-item-${text}`}
-        className={[s.arrayItem, active ? s.active : ''].join(' ')}
+        className={[
+          s.arrayItem,
+          active ? s.active : '',
+          value === null ? s.error : '',
+        ].join(' ')}
         onClick={handleClick}
       >
         <Button

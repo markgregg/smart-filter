@@ -4,7 +4,9 @@ import {
   Field,
   Matcher,
   PasteOptions,
+  PromiseMatch,
   SingleMatcher,
+  SourceItem,
   ValueMatcher,
 } from '@/types';
 import { AND, DELIMITERS } from '@/util/constants';
@@ -101,7 +103,7 @@ const findFieldMatch = (
         const matches = textArray.filter((text) =>
           typeof pattern === 'function' ? pattern(text) : text.match(pattern),
         ).length;
-        if (matches > textArray.length * 0.8) {
+        if (matches >= textArray.length * 0.8) {
           return pastePatterns.field;
         }
       }
@@ -110,8 +112,13 @@ const findFieldMatch = (
   return null;
 };
 
-const createMatcher = (textArray: string[], field: Field): ArrayMatcher => {
-  const valueArray = [...textArray];
+const createMatcher = async (
+  textArray: string[],
+  field: Field,
+  lookupOnPaste: (text: string) => Promise<SourceItem | null>,
+): Promise<ArrayMatcher> => {
+  const valueArray = await Promise.all(textArray.map((t) => lookupOnPaste(t)));
+
   return {
     type: 'a',
     key: uuidv4(),
@@ -123,11 +130,11 @@ const createMatcher = (textArray: string[], field: Field): ArrayMatcher => {
   };
 };
 
-export const getMatchersFromText = (
+export const getMatchersFromText = async (
   text: string,
   fieldMap: Map<string, Field>,
   pasteOptions?: PasteOptions,
-): Matcher | Matcher[] | null => {
+): Promise<Matcher | Matcher[] | null> => {
   if (pasteOptions) {
     if (pasteOptions.customParsers) {
       for (let idx = 0; idx < pasteOptions.customParsers.length; idx += 1) {
@@ -143,8 +150,13 @@ export const getMatchersFromText = (
       const fieldName = findFieldMatch(textArray, pasteOptions);
       if (fieldName) {
         const field = fieldMap.get(fieldName);
-        if (field) {
-          return createMatcher(textArray, field);
+        if (field?.fieldMatchers) {
+          const matcherDef = field.fieldMatchers.find(
+            (m) => 'lookupOnPaste' in m,
+          ) as PromiseMatch;
+          if (matcherDef.lookupOnPaste) {
+            return createMatcher(textArray, field, matcherDef.lookupOnPaste);
+          }
         }
       }
     }

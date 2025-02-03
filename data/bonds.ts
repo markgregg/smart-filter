@@ -1,4 +1,5 @@
-import Bond from '../src/TestApp/types/Bond';
+import Bond from "@/stories/smartFilterFunctions";
+
 
 export const bonds: Bond[] = [
   {

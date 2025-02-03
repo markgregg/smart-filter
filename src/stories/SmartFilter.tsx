@@ -8,6 +8,7 @@ import Bond, {
   fields,
   hintGroups,
   operators,
+  pasteOptions,
 } from './smartFilterFunctions';
 import { Matcher, SmartFilter as SmartFilterComponent, Sort } from '..';
 import { bonds } from '../../data/bonds';
@@ -154,6 +155,7 @@ export const SmartFilter: React.FC<SmartFilterProps> = ({
           size={size}
           hints={hints}
           showDropdownOnMouseOver={showDropdownOnMouseOver}
+          pasteOptions={pasteOptions}
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...props}
         />

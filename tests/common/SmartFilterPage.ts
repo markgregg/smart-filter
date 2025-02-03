@@ -45,6 +45,7 @@ export interface SmartFilterPage {
   updateLookupValue: (pillIndex: number, text: string) => void;
   clickClose: () => void;
   clickAccept: () => void;
+  getDateEditorValue: () => Promise<string>;
 
   clickSort: () => void;
   sortOptions: () => Promise<Locator>;
@@ -256,6 +257,14 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
         throw Error('accept cannot be found');
       }
       await accept.click();
+    },
+
+    getDateEditorValue: async (): Promise<string> => {
+      const dateEditor = await page.locator(`#sf-date-editor`);
+      if (!dateEditor) {
+        throw Error('dateEditor cannot be found');
+      }
+      return await dateEditor.inputValue();
     },
     /* End editing */
 

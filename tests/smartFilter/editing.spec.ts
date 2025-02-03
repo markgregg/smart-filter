@@ -199,10 +199,10 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
     `Clicking on a date value opens a date editor-${view}`,
     async ({
       smartFilterPage: {
-        filterBar,
         use,
         enterAndSelectItemInSearchBox,
         clickTextDisplay,
+        getDateEditorValue,
       },
     }) => {
       await Given('the SmartFilter test page is shown', async () => {
@@ -218,7 +218,8 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await Then('a date editor is dispalyed', async () => {
-        await expect(filterBar).toHaveScreenshot(`date-editor-shown-${view}.png`);
+        const acutalDate = await getDateEditorValue();
+        expect(acutalDate).toBe('2026-01-14');
       });
     }
   );

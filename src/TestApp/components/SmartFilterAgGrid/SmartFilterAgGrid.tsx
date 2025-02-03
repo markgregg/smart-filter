@@ -13,6 +13,7 @@ import Bond, {
   columns,
   hintGroups,
   operators,
+  pasteOptions,
 } from '@/stories/smartFilterFunctions';
 import { SmartFilterAgGrid as SmartFilterAgGridCompoent } from '@/components';
 import s from './style.module.less';
@@ -102,6 +103,7 @@ export const SmartFilterAgGrid = () => {
           allowLocking={!queryParams.noIcons}
           showSearchIcon={!queryParams.noIcons}
           showUndoIcon={!queryParams.noIcons}
+          pasteOptions={pasteOptions}
           returnAllOptions
           gridApi={gridApi}
           columnApi={columnApi}

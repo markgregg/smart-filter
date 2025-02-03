@@ -13,6 +13,7 @@ export const Array = React.memo(() => {
           index={idx}
           key={item}
           text={item}
+          value={matcher?.valueArray[idx]}
           active={idx === index}
           selected={idx === selectedIndex}
         />

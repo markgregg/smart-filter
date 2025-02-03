@@ -6,6 +6,7 @@ import {
   HintGrouping,
   Matcher,
   Operator,
+  PasteOptions,
   Sort,
   SortDirection,
   SourceItem,
@@ -39,7 +40,23 @@ export default interface Bond {
   };
 }
 
-const findMatching = (
+const findItem = async (
+  text: string,
+  getter: (bond: Bond) => string,
+): Promise<SourceItem | null> =>
+  new Promise<SourceItem | null>((resolve) => {
+    setTimeout(() => {
+      const isin =
+        bonds
+          .map(getter)
+          .find((t) =>
+            (t ?? '').toLocaleUpperCase().includes(text.toLocaleUpperCase()),
+          ) ?? null;
+      resolve(isin);
+    }, 1);
+  });
+
+const findMatching = async (
   text: string,
   getter: (bond: Bond) => string,
 ): Promise<SourceItem[]> =>
@@ -55,6 +72,16 @@ const findMatching = (
       resolve([...set.values()].slice(0, 10));
     }, 10);
   });
+
+export const pasteOptions: PasteOptions = {
+  fieldPasteMatchPatterns: [
+    {
+      field: 'isin',
+      patterns: /[A-Z]{2}[-]{0,1}[0-9A-Z]{8}[-]{0,1}[0-9]/,
+    },
+  ],
+};
+
 export const fields: Field[] = [
   {
     name: 'isin',
@@ -63,6 +90,7 @@ export const fields: Field[] = [
     fieldMatchers: [
       {
         lookup: (text: string) => findMatching(text, (bond) => bond.isin),
+        lookupOnPaste: (text: string) => findItem(text, (bond) => bond.isin),
       },
     ],
     allowList: true,
