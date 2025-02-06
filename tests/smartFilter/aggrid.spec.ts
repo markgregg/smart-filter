@@ -1,16 +1,11 @@
-import { expect } from "@playwright/test";
-import { Given, Scenario, Then, When } from "../common/ghkerkin";
+import { expect } from '@playwright/test';
+import { Given, Scenario, Then, When } from '../common/ghkerkin';
 
-['smartfilteraggrid'].forEach(view => {
+['smartfilteraggrid'].forEach((view) => {
   Scenario(
     `Enetering filter values in smart filter automatically filters ag-grid-${view}`,
     async ({
-      smartFilterPage: {
-        agGrid,
-        use,
-        enterAndSelectItemInSearchBox,
-        pause,
-      },
+      smartFilterPage: { agGrid, use, enterAndSelectItemInSearchBox },
     }) => {
       await Given('the SmartFilter test page is shown', async () => {
         await use(view);
@@ -18,13 +13,14 @@ import { Given, Scenario, Then, When } from "../common/ghkerkin";
 
       await When('a value is entered into smart filter', async () => {
         await enterAndSelectItemInSearchBox('SELL');
-        await pause(250);
       });
 
       await Then('ag-grid is updated', async () => {
-        await expect(agGrid).toHaveScreenshot(`ag-grid-filtered-to-show-sells-${view}.png`);
+        await expect(agGrid).toHaveScreenshot(
+          `ag-grid-filtered-to-show-sells-${view}.png`,
+        );
       });
-    }
+    },
   );
 
   Scenario(
@@ -35,7 +31,6 @@ import { Given, Scenario, Then, When } from "../common/ghkerkin";
         sortSelectionButton,
         use,
         selectSortSuggestion,
-        pause,
       },
     }) => {
       await Given('the SmartFilter test page is shown', async () => {
@@ -45,13 +40,14 @@ import { Given, Scenario, Then, When } from "../common/ghkerkin";
       await When('a field is entered into smart filter', async () => {
         await sortSelectionButton.hover();
         await selectSortSuggestion('isin', 'desc');
-        await pause(250);
       });
 
       await Then('ag-grid is updated', async () => {
-        await expect(agGrid).toHaveScreenshot(`ag-grid-sorted-by-isin-${view}.png`);
+        await expect(agGrid).toHaveScreenshot(
+          `ag-grid-sorted-by-isin-${view}.png`,
+        );
       });
-    }
+    },
   );
 
   Scenario(
@@ -64,7 +60,6 @@ import { Given, Scenario, Then, When } from "../common/ghkerkin";
         enterAndSelectItemInSearchBox,
         sortSelectionButton,
         selectSortSuggestion,
-        pause,
       },
     }) => {
       await Given('the SmartFilter test page is shown', async () => {
@@ -76,13 +71,16 @@ import { Given, Scenario, Then, When } from "../common/ghkerkin";
         await enterAndSelectItemInSearchBox('active true');
         await sortSelectionButton.hover();
         await selectSortSuggestion('isin', 'asc');
-        await pause(250);
       });
 
       await Then('ag-grid is updated', async () => {
-        await expect(filterBar).toHaveScreenshot(`filter-bar-has-options-${view}.png`);
-        await expect(agGrid).toHaveScreenshot(`ag-grid-sorted-and-filtered-${view}.png`);
+        await expect(filterBar).toHaveScreenshot(
+          `filter-bar-has-options-${view}.png`,
+        );
+        await expect(agGrid).toHaveScreenshot(
+          `ag-grid-sorted-and-filtered-${view}.png`,
+        );
       });
-    }
+    },
   );
 });

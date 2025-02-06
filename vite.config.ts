@@ -1,18 +1,18 @@
-import { resolve } from 'path'
-import { defineConfig } from 'vite'
-import eslintPlugin from '@nabla/vite-plugin-eslint'
-import react from '@vitejs/plugin-react-swc'
-import { libInjectCss } from 'vite-plugin-lib-inject-css'
-import dts from 'vite-plugin-dts'
-import { getBabelOutputPlugin } from '@rollup/plugin-babel'
-import * as packageJson from './package.json'
+import { resolve } from 'path';
+import { defineConfig } from 'vite';
+import eslintPlugin from '@nabla/vite-plugin-eslint';
+import react from '@vitejs/plugin-react-swc';
+import { libInjectCss } from 'vite-plugin-lib-inject-css';
+import dts from 'vite-plugin-dts';
+import { getBabelOutputPlugin } from '@rollup/plugin-babel';
+import * as packageJson from './package.json';
 
 const projectName = 'smart-filter';
 
 export default defineConfig(({ mode }) => {
   const debug = mode !== 'production';
 
-  return ({
+  return {
     define: {
       'process.env.NODE_ENV': debug ? '"development"' : '"production"',
     },
@@ -29,12 +29,10 @@ export default defineConfig(({ mode }) => {
           'lcov',
         ],
         include: ['./tests/functional/**/*.{test,spec}.{ts,tsx}'],
-      }
+      },
     },
     resolve: {
-      alias: [
-        { find: '@', replacement: '/src' },
-      ]
+      alias: [{ find: '@', replacement: '/src' }],
     },
     plugins: [
       react(),
@@ -50,9 +48,9 @@ export default defineConfig(({ mode }) => {
     css: {
       preprocessorOptions: {
         less: {
-          math: "always",
+          math: 'always',
           relativeUrls: true,
-          javascriptEnabled: true
+          javascriptEnabled: true,
         },
       },
     },
@@ -64,9 +62,12 @@ export default defineConfig(({ mode }) => {
       },
       rollupOptions: {
         input: {
-          [projectName]: resolve(__dirname, 'src/index.tsx')
+          [projectName]: resolve(__dirname, 'src/index.tsx'),
         },
-        external: [...Object.keys(packageJson.peerDependencies)],
+        external: [
+          'react/jsx-runtime',
+          ...Object.keys(packageJson.peerDependencies),
+        ],
         output: {
           assetFileNames: debug
             ? `${projectName}.[ext]`
@@ -86,6 +87,6 @@ export default defineConfig(({ mode }) => {
     esbuild: {
       minifyIdentifiers: !debug,
       keepNames: debug,
-    }
-  });
-})
+    },
+  };
+});

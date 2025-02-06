@@ -1,7 +1,6 @@
-import Bond from "@/stories/smartFilterFunctions";
+import Bond from '@/stories/smartFilterFunctions';
 
-
-export const bonds: Bond[] = [
+export const deterministicTestData: Bond[] = [
   {
     isin: 'FR0013405222',
     currency: 'USD',

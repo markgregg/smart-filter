@@ -5,13 +5,13 @@ import Bond, {
   columns,
   constructFilter,
   constructSort,
-  fields,
   hintGroups,
   operators,
   pasteOptions,
+  bonds,
+  getFields,
 } from './smartFilterFunctions';
 import { Matcher, SmartFilter as SmartFilterComponent, Sort } from '..';
-import { bonds } from '../../data/bonds';
 import { FilterBarSize } from '@/types/uiProperties';
 import s from './style.module.less';
 import 'ag-grid-community/styles/ag-grid.css';
@@ -78,6 +78,7 @@ export interface SmartFilterProps {
   placeholder?: string;
 }
 
+const fields = getFields(bonds);
 /** Primary UI component for user interaction */
 export const SmartFilter: React.FC<SmartFilterProps> = ({
   onChange,

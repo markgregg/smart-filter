@@ -1,5 +1,5 @@
 import { ColDef } from 'ag-grid-community';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import {
   Field,
   FilterFunction,
@@ -12,7 +12,6 @@ import {
   SourceItem,
   ValueMatcher,
 } from '..';
-import { bonds } from '../../data/bonds';
 import {
   OR,
   defaultComparisons,
@@ -40,39 +39,6 @@ export default interface Bond {
   };
 }
 
-const findItem = async (
-  text: string,
-  getter: (bond: Bond) => string,
-): Promise<SourceItem | null> =>
-  new Promise<SourceItem | null>((resolve) => {
-    setTimeout(() => {
-      const isin =
-        bonds
-          .map(getter)
-          .find((t) =>
-            (t ?? '').toLocaleUpperCase().includes(text.toLocaleUpperCase()),
-          ) ?? null;
-      resolve(isin);
-    }, 1);
-  });
-
-const findMatching = async (
-  text: string,
-  getter: (bond: Bond) => string,
-): Promise<SourceItem[]> =>
-  new Promise((resolve) => {
-    setTimeout(() => {
-      const set = new Set<string>();
-      bonds
-        .map(getter)
-        .filter((t) =>
-          (t ?? '').toLocaleUpperCase().includes(text.toLocaleUpperCase()),
-        )
-        .forEach((t) => set.add(t));
-      resolve([...set.values()].slice(0, 10));
-    }, 10);
-  });
-
 export const pasteOptions: PasteOptions = {
   fieldPasteMatchPatterns: [
     {
@@ -82,112 +48,147 @@ export const pasteOptions: PasteOptions = {
   ],
 };
 
-export const fields: Field[] = [
-  {
-    name: 'isin',
-    title: 'ISIN',
-    operators: ['=', '!'],
-    fieldMatchers: [
-      {
-        lookup: (text: string) => findMatching(text, (bond) => bond.isin),
-        lookupOnPaste: (text: string) => findItem(text, (bond) => bond.isin),
-      },
-    ],
-    allowList: true,
-    allowBlanks: true,
-  },
-  {
-    name: 'side',
-    title: 'Side',
-    operators: ['=', '!'],
-    fieldMatchers: [
-      {
-        ignoreCase: true,
-        source: ['BUY', 'SELL'],
-      },
-    ],
-    allowBlanks: true,
-  },
-  {
-    name: 'currency',
-    title: 'CCY',
-    operators: ['=', '!'],
-    fieldMatchers: [
-      {
-        lookup: (text: string) => findMatching(text, (bond) => bond.currency),
-      },
-    ],
-    allowList: true,
-    allowBlanks: true,
-  },
-  {
-    name: 'issueDate',
-    title: 'IssueDate',
-    operators: numberComparisons,
-    editorType: 'dateString',
-    dateTimeFormat: 'YYYY-MM-DD',
-    allowRange: true,
-    allowBlanks: true,
-    precedence: 8,
-  },
-  {
-    name: 'maturityDate',
-    title: 'MaturityDate',
-    operators: numberComparisons,
-    editorType: 'dateString',
-    dateTimeFormat: 'YYYY-MM-DD',
-    allowRange: true,
-    allowBlanks: true,
-    precedence: 9,
-  },
-  {
-    name: 'coupon',
-    title: 'Coupon',
-    operators: numberComparisons,
-    editorType: 'float',
-    allowRange: true,
-    allowBlanks: true,
-    precedence: 7,
-  },
-  {
-    name: 'issuer',
-    title: 'Issuer',
-    operators: stringComparisons,
-    editorType: 'text',
-    allowList: true,
-    allowBlanks: true,
-  },
-  {
-    name: 'hairCut',
-    title: 'Hair Cut',
-    operators: numberComparisons,
-    editorType: 'float',
-    allowRange: true,
-    allowBlanks: true,
-    precedence: 6,
-  },
-  {
-    name: 'active',
-    title: 'Active',
-    operators: defaultComparisons,
-    editorType: 'bool',
-    allowBlanks: true,
-    precedence: 10,
-  },
-  {
-    name: 'sector',
-    title: 'Sector',
-    operators: ['=', '!'],
-    fieldMatchers: [
-      {
-        lookup: (text: string) =>
-          findMatching(text, (bond) => bond.categories.sector),
-      },
-    ],
-    allowList: true,
-    allowBlanks: true,
-  },
-];
+export const getFields = (bondData: Bond[]): Field[] => {
+  const findItem = async (
+    text: string,
+    getter: (bond: Bond) => string,
+  ): Promise<SourceItem | null> =>
+    new Promise<SourceItem | null>((resolve) => {
+      setTimeout(() => {
+        const isin =
+          bondData
+            .map(getter)
+            .find((t) =>
+              (t ?? '').toLocaleUpperCase().includes(text.toLocaleUpperCase()),
+            ) ?? null;
+        resolve(isin);
+      }, 1);
+    });
+
+  const findMatching = async (
+    text: string,
+    getter: (bond: Bond) => string,
+  ): Promise<SourceItem[]> =>
+    new Promise((resolve) => {
+      setTimeout(() => {
+        const set = new Set<string>();
+        bondData
+          .map(getter)
+          .filter((t) =>
+            (t ?? '').toLocaleUpperCase().includes(text.toLocaleUpperCase()),
+          )
+          .forEach((t) => set.add(t));
+        resolve([...set.values()].slice(0, 10));
+      }, 10);
+    });
+
+  return [
+    {
+      name: 'isin',
+      title: 'ISIN',
+      operators: ['=', '!'],
+      fieldMatchers: [
+        {
+          lookup: (text: string) => findMatching(text, (bond) => bond.isin),
+          lookupOnPaste: (text: string) => findItem(text, (bond) => bond.isin),
+        },
+      ],
+      allowList: true,
+      allowBlanks: true,
+    },
+    {
+      name: 'side',
+      title: 'Side',
+      operators: ['=', '!'],
+      fieldMatchers: [
+        {
+          ignoreCase: true,
+          source: ['BUY', 'SELL'],
+        },
+      ],
+      allowBlanks: true,
+    },
+    {
+      name: 'currency',
+      title: 'CCY',
+      operators: ['=', '!'],
+      fieldMatchers: [
+        {
+          lookup: (text: string) => findMatching(text, (bond) => bond.currency),
+        },
+      ],
+      allowList: true,
+      allowBlanks: true,
+    },
+    {
+      name: 'issueDate',
+      title: 'IssueDate',
+      operators: numberComparisons,
+      editorType: 'dateString',
+      dateTimeFormat: 'YYYY-MM-DD',
+      allowRange: true,
+      allowBlanks: true,
+      precedence: 8,
+    },
+    {
+      name: 'maturityDate',
+      title: 'MaturityDate',
+      operators: numberComparisons,
+      editorType: 'dateString',
+      dateTimeFormat: 'YYYY-MM-DD',
+      allowRange: true,
+      allowBlanks: true,
+      precedence: 9,
+    },
+    {
+      name: 'coupon',
+      title: 'Coupon',
+      operators: numberComparisons,
+      editorType: 'float',
+      allowRange: true,
+      allowBlanks: true,
+      precedence: 7,
+    },
+    {
+      name: 'issuer',
+      title: 'Issuer',
+      operators: stringComparisons,
+      editorType: 'text',
+      allowList: true,
+      allowBlanks: true,
+    },
+    {
+      name: 'hairCut',
+      title: 'Hair Cut',
+      operators: numberComparisons,
+      editorType: 'float',
+      allowRange: true,
+      allowBlanks: true,
+      precedence: 6,
+    },
+    {
+      name: 'active',
+      title: 'Active',
+      operators: defaultComparisons,
+      editorType: 'bool',
+      allowBlanks: true,
+      precedence: 10,
+    },
+    {
+      name: 'sector',
+      title: 'Sector',
+      operators: ['=', '!'],
+      fieldMatchers: [
+        {
+          lookup: (text: string) =>
+            findMatching(text, (bond) => bond.categories.sector),
+        },
+      ],
+      allowList: true,
+      allowBlanks: true,
+    },
+  ];
+};
 
 export const operators: Operator[] = [
   { symbol: '=', description: 'Equals' },
@@ -206,49 +207,49 @@ export const hintGroups: HintGrouping[] = [
     hints: [
       {
         display: '< 5Y',
-        text: moment().add(5, 'years').format('YYYY-MM-DD'),
-        value: moment().add(5, 'years').format('YYYY-MM-DD'),
+        text: dayjs().add(5, 'years').format('YYYY-MM-DD'),
+        value: dayjs().add(5, 'years').format('YYYY-MM-DD'),
         comparison: '<',
       },
       {
         display: '5Y - 10Y',
-        text: moment().add(5, 'years').format('YYYY-MM-DD'),
-        value: moment().add(5, 'years').format('YYYY-MM-DD'),
-        textTo: moment().add(10, 'years').format('YYYY-MM-DD'),
-        valueTo: moment().add(10, 'years').format('YYYY-MM-DD'),
+        text: dayjs().add(5, 'years').format('YYYY-MM-DD'),
+        value: dayjs().add(5, 'years').format('YYYY-MM-DD'),
+        textTo: dayjs().add(10, 'years').format('YYYY-MM-DD'),
+        valueTo: dayjs().add(10, 'years').format('YYYY-MM-DD'),
       },
       {
         display: '10Y - 15Y',
-        text: moment().add(10, 'years').format('YYYY-MM-DD'),
-        value: moment().add(10, 'years').format('YYYY-MM-DD'),
-        textTo: moment().add(15, 'years').format('YYYY-MM-DD'),
-        valueTo: moment().add(15, 'years').format('YYYY-MM-DD'),
+        text: dayjs().add(10, 'years').format('YYYY-MM-DD'),
+        value: dayjs().add(10, 'years').format('YYYY-MM-DD'),
+        textTo: dayjs().add(15, 'years').format('YYYY-MM-DD'),
+        valueTo: dayjs().add(15, 'years').format('YYYY-MM-DD'),
       },
       {
         display: '15Y - 20Y',
-        text: moment().add(15, 'years').format('YYYY-MM-DD'),
-        value: moment().add(15, 'years').format('YYYY-MM-DD'),
-        textTo: moment().add(20, 'years').format('YYYY-MM-DD'),
-        valueTo: moment().add(20, 'years').format('YYYY-MM-DD'),
+        text: dayjs().add(15, 'years').format('YYYY-MM-DD'),
+        value: dayjs().add(15, 'years').format('YYYY-MM-DD'),
+        textTo: dayjs().add(20, 'years').format('YYYY-MM-DD'),
+        valueTo: dayjs().add(20, 'years').format('YYYY-MM-DD'),
       },
       {
         display: '20Y - 30Y',
-        text: moment().add(20, 'years').format('YYYY-MM-DD'),
-        value: moment().add(20, 'years').format('YYYY-MM-DD'),
-        textTo: moment().add(30, 'years').format('YYYY-MM-DD'),
-        valueTo: moment().add(30, 'years').format('YYYY-MM-DD'),
+        text: dayjs().add(20, 'years').format('YYYY-MM-DD'),
+        value: dayjs().add(20, 'years').format('YYYY-MM-DD'),
+        textTo: dayjs().add(30, 'years').format('YYYY-MM-DD'),
+        valueTo: dayjs().add(30, 'years').format('YYYY-MM-DD'),
       },
       {
         display: '30Y - 40Y',
-        text: moment().add(30, 'years').format('YYYY-MM-DD'),
-        value: moment().add(30, 'years').format('YYYY-MM-DD'),
-        textTo: moment().add(40, 'years').format('YYYY-MM-DD'),
-        valueTo: moment().add(40, 'years').format('YYYY-MM-DD'),
+        text: dayjs().add(30, 'years').format('YYYY-MM-DD'),
+        value: dayjs().add(30, 'years').format('YYYY-MM-DD'),
+        textTo: dayjs().add(40, 'years').format('YYYY-MM-DD'),
+        valueTo: dayjs().add(40, 'years').format('YYYY-MM-DD'),
       },
       {
         display: '> 40Y',
-        text: moment().add(40, 'years').format('YYYY-MM-DD'),
-        value: moment().add(40, 'years').format('YYYY-MM-DD'),
+        text: dayjs().add(40, 'years').format('YYYY-MM-DD'),
+        value: dayjs().add(40, 'years').format('YYYY-MM-DD'),
         comparison: '>',
       },
     ],
@@ -837,10 +838,11 @@ const constructDateStringFilter = (
       if (!value) {
         return false;
       }
-      const dateV = moment(value, 'YYYY-MM-DD', true);
+      const dateV = dayjs(value, 'YYYY-MM-DD', true);
       return (
-        dateV.isSameOrAfter(moment(matcher.value, 'YYYY-MM-DD', true)) &&
-        dateV.isBefore(moment(matcher.valueTo, 'YYYY-MM-DD', true))
+        (dateV.isSame(dayjs(matcher.value, 'YYYY-MM-DD', true)) ||
+          dateV.isAfter(dayjs(matcher.value, 'YYYY-MM-DD', true))) &&
+        dateV.isBefore(dayjs(matcher.valueTo, 'YYYY-MM-DD', true))
       );
     };
   }
@@ -852,14 +854,14 @@ const constructDateStringFilter = (
   }
   const compareDateString =
     (
-      valueValuePredicate: (x: moment.Moment, y: moment.Moment) => boolean,
-      arrayValuePredicate: (x: string[], y: moment.Moment) => boolean,
+      valueValuePredicate: (x: dayjs.Dayjs, y: dayjs.Dayjs) => boolean,
+      arrayValuePredicate: (x: string[], y: dayjs.Dayjs) => boolean,
     ): FilterFunction =>
     (row: any) => {
       if (!matcher.value || typeof matcher.value !== 'string') {
         return false;
       }
-      const dateM = moment(matcher.value, 'YYYY-MM-DD', true);
+      const dateM = dayjs(matcher.value, 'YYYY-MM-DD', true);
       const value = valueGetter(row);
       if (Array.isArray(value)) {
         return arrayValuePredicate(value, dateM);
@@ -867,7 +869,7 @@ const constructDateStringFilter = (
       if (!value || typeof value !== 'string') {
         return false;
       }
-      const dateV = moment(value, 'YYYY-MM-DD', true);
+      const dateV = dayjs(value, 'YYYY-MM-DD', true);
       return dateV.isValid() && valueValuePredicate(dateV, dateM);
     };
 
@@ -875,39 +877,47 @@ const constructDateStringFilter = (
     case '=':
       return compareDateString(
         (v, m) => v.isSame(m),
-        (v, m) => v.some((vi) => moment(vi, 'YYYY-MM-DD', true).isSame(m)),
+        (v, m) => v.some((vi) => dayjs(vi, 'YYYY-MM-DD', true).isSame(m)),
       );
 
     case '>':
       return compareDateString(
         (v, m) => v.isAfter(m),
-        (v, m) => v.every((vi) => moment(vi, 'YYYY-MM-DD', true).isAfter(m)),
+        (v, m) => v.every((vi) => dayjs(vi, 'YYYY-MM-DD', true).isAfter(m)),
       );
 
     case '<':
       return compareDateString(
         (v, m) => v.isBefore(m),
-        (v, m) => v.every((vi) => moment(vi, 'YYYY-MM-DD', true).isBefore(m)),
+        (v, m) => v.every((vi) => dayjs(vi, 'YYYY-MM-DD', true).isBefore(m)),
       );
 
     case '>=':
       return compareDateString(
-        (v, m) => v.isSameOrAfter(m),
+        (v, m) => v.isSame(m) || v.isAfter(m),
         (v, m) =>
-          v.every((vi) => moment(vi, 'YYYY-MM-DD', true).isSameOrAfter(m)),
+          v.every(
+            (vi) =>
+              dayjs(vi, 'YYYY-MM-DD', true).isSame(m) ||
+              dayjs(vi, 'YYYY-MM-DD', true).isAfter(m),
+          ),
       );
 
     case '<=':
       return compareDateString(
-        (v, m) => v.isSameOrBefore(m),
+        (v, m) => v.isSame(m) || v.isBefore(m),
         (v, m) =>
-          v.every((vi) => moment(vi, 'YYYY-MM-DD', true).isSameOrBefore(m)),
+          v.every(
+            (vi) =>
+              dayjs(vi, 'YYYY-MM-DD', true).isSame(m) ||
+              dayjs(vi, 'YYYY-MM-DD', true).isBefore(m),
+          ),
       );
 
     case '!':
       return compareDateString(
         (v, m) => !v.isSame(m),
-        (v, m) => v.every((vi) => !moment(vi, 'YYYY-MM-DD', true).isSame(m)),
+        (v, m) => v.every((vi) => !dayjs(vi, 'YYYY-MM-DD', true).isSame(m)),
       );
 
     default:
@@ -1037,8 +1047,8 @@ const createSortFunction = (sortItem: Sort): SortFunction | null => {
         if (typeof valY !== 'string') {
           return -1;
         }
-        const valXDate = moment(valX, 'YYYY-MM-DD', true);
-        const valYDate = moment(valY, 'YYYY-MM-DD', true);
+        const valXDate = dayjs(valX, 'YYYY-MM-DD', true);
+        const valYDate = dayjs(valY, 'YYYY-MM-DD', true);
         return valXDate.isBefore(valYDate)
           ? sortItem.sortDirection === 'asc'
             ? -1
@@ -1065,3 +1075,100 @@ const createSortFunction = (sortItem: Sort): SortFunction | null => {
   }
   return sortFunc;
 };
+
+const randomInt = (min: number, max: number) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+};
+
+const COUNRY_CODES = ['US', 'GB', 'FR', 'AT', 'IT', 'DE', 'XS'] as const;
+const CURRENCIES = ['USD', 'GBP', 'EUR'] as const;
+
+const currencyFromCountry = (country: string) => {
+  switch (country) {
+    case 'US':
+      return 'USD';
+    case 'GB':
+      return 'GBP';
+    case 'XS':
+      return CURRENCIES[randomInt(0, CURRENCIES.length)];
+    default:
+      return 'EUR';
+  }
+};
+
+const fromCountry = (): { isin: string; currency: string } => {
+  const country = COUNRY_CODES[randomInt(0, COUNRY_CODES.length)];
+  const isinNumber = new Intl.NumberFormat('en-US', {
+    minimumIntegerDigits: 8,
+    useGrouping: false,
+  }).format(randomInt(0, 99999999));
+  return {
+    isin: `${country}00${isinNumber}`,
+    currency: currencyFromCountry(country),
+  };
+};
+
+const randomDate = (startDate: string, endDate: string) => {
+  const start = dayjs(startDate);
+  const end = dayjs(endDate);
+  const date = new Date(
+    start.valueOf() + Math.random() * (end.valueOf() - start.valueOf()),
+  );
+  return dayjs(date).format('YYYY-MM-DD');
+};
+
+function randomFloat(min: number, max: number) {
+  return Number((Math.random() * (max - min) + min).toPrecision(3));
+}
+
+const randomWord = () => {
+  const characters = 'abcdefghijklmnopqrstuvwxyz';
+  let result = '';
+  for (let i = 0; i < randomInt(0, 5) + 2; i += 1) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters[randomIndex];
+  }
+  return result;
+};
+
+const randomWords = () => {
+  const words = [];
+  for (let i = 0; i < randomInt(0, 2) + 1; i += 1) {
+    words.push(randomWord());
+  }
+  return words.join(' ');
+};
+
+const SECTORS = [
+  'Technology',
+  'Medicine',
+  'Media',
+  'Manufacturing',
+  'Chemicals',
+  'Engineering',
+  'Transport',
+  'Energy',
+] as const;
+
+const generateBondData = (): Bond => ({
+  ...fromCountry(),
+  issueDate: randomDate('2010-01-01', '2025-02-01'),
+  maturityDate: randomDate('2023-01-01', '2080-01-01'),
+  price: randomFloat(90.0, 110.0),
+  size: randomInt(10, 100) * 10000,
+  side: randomInt(0, 2) === 0 ? 'BUY' : 'SELL',
+  coupon: randomFloat(0, 10),
+  issuer: randomWords(),
+  hairCut: randomFloat(0, 30),
+  active: randomInt(0, 2) === 0,
+  categories: {
+    type: 'corporate',
+    sector: SECTORS[randomInt(0, 6)],
+  },
+});
+
+const bonds = new Array(5000).fill(0).map(() => generateBondData());
+
+export { bonds };

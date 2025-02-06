@@ -541,7 +541,7 @@ const updateMatchers = (
   return updateMatcherList(undoBuffer, matchers, matcher, position, fieldMap);
 };
 
-const getTagetMatcher = (
+const getTargetMatcher = (
   matchers: Matcher[],
   selectedMatcher: Matcher | null,
   position: number | null,
@@ -565,7 +565,7 @@ const appendToList = (
   selectedMatcher: Matcher | null,
   position: number | null,
 ) => {
-  const targetMatcher = getTagetMatcher(matchers, selectedMatcher, position);
+  const targetMatcher = getTargetMatcher(matchers, selectedMatcher, position);
   if (targetMatcher && !targetMatcher.locked) {
     if (
       'field' in targetMatcher &&
@@ -581,13 +581,13 @@ const appendToList = (
             targetMatcher.valueArray.includes(v),
           );
           if (existing.length > 0) {
-            throw new Error(`${existing.join(',')} alrady exist in pill`);
+            throw new Error(`${existing.join(',')} Already exist in pill`);
           }
         }
         if (targetMatcher.type === 's') {
           const existing = newValues.filter((v) => targetMatcher.value === v);
           if (existing.length > 0) {
-            throw new Error(`${existing.join(',')} alrady exist in pill`);
+            throw new Error(`${existing.join(',')} Already exist in pill`);
           }
         }
         const textArray =

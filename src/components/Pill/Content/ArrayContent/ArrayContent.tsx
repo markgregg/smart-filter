@@ -109,7 +109,7 @@ export const ArrayContent = React.memo(({ matcher, field }: ContentProps) => {
     (text: string, value: Value) => {
       if (selectedIndex === null) {
         if (arrayMatcher.valueArray.includes(value)) {
-          throw new Error(`${value} alrady exist in pill`);
+          throw new Error(`${value} Already exist in pill`);
         }
       }
       const valueArray =

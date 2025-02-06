@@ -21,9 +21,23 @@ export const OR = 'or';
 export const EQUALS = '=';
 
 export const EMPTY = 'Empty';
-export const defaultComparisons: string[] = ['=', '!'];
-export const stringComparisons: string[] = ['=', '!', '*', '!*', '<*', '>*'];
-export const numberComparisons: string[] = ['=', '>', '<', '>=', '<=', '!'];
+export const defaultComparisons: string[] = ['=', '!'] as const;
+export const stringComparisons: string[] = [
+  '=',
+  '!',
+  '*',
+  '!*',
+  '<*',
+  '>*',
+] as const;
+export const numberComparisons: string[] = [
+  '=',
+  '>',
+  '<',
+  '>=',
+  '<=',
+  '!',
+] as const;
 
 export const DEFAULT_PAGE_SIZE = 10;
 

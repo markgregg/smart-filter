@@ -5,13 +5,15 @@ import Bond, {
   columns,
   constructFilter,
   constructSort,
-  fields,
   hintGroups,
   operators,
   pasteOptions,
+  bonds,
+  getFields,
 } from '@/stories/smartFilterFunctions';
 import { Matcher, SmartFilter as SmartFilterComponent, Sort } from '../../..';
-import { bonds } from '../../../../data/bonds';
+import { getQueryParams } from '@/TestApp/functions';
+import { deterministicTestData } from '../../../../data/bonds';
 import s from './style.module.less';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -21,19 +23,17 @@ const hints = {
 };
 
 export const SmartFilter = () => {
-  const [rowData, setRowData] = React.useState<Bond[]>(bonds);
+  const queryParams = getQueryParams();
+  const bondData = React.useMemo(
+    () => (queryParams.automation ? deterministicTestData : bonds),
+    [queryParams.automation],
+  );
+  const [rowData, setRowData] = React.useState<Bond[]>(bondData);
   const [columnDefs] = React.useState<ColDef<Bond>[]>(columns);
   const [matchers, setMatchers] = React.useState<Matcher[]>([]);
   const [sort, setSort] = React.useState<Sort[]>([]);
 
-  const queryParams = React.useMemo(() => {
-    const query = window.location.search.substring(1);
-    const params = query.split('&').filter((t) => t.trim() !== '');
-    return params.reduce((p: any, v) => {
-      const pv = v.split('=');
-      return pv.length < 2 ? { ...p, [pv[0]]: true } : { ...p, [pv[0]]: pv[1] };
-    }, {});
-  }, []);
+  const fields = React.useMemo(() => getFields(bondData), [bondData]);
 
   const handleChange = React.useCallback(
     (newMatchers: Matcher[]) => {
@@ -51,13 +51,13 @@ export const SmartFilter = () => {
 
   React.useEffect(() => {
     const filterFunc = constructFilter(matchers);
-    const newData = bonds.filter((b) => !filterFunc || filterFunc(b));
+    const newData = bondData.filter((b) => !filterFunc || filterFunc(b));
     const sortFunc = constructSort(sort);
     if (sortFunc) {
       newData.sort(sortFunc);
     }
     setRowData(newData);
-  }, [sort, matchers, setRowData]);
+  }, [bondData, sort, matchers, setRowData]);
 
   const style = queryParams.width
     ? { width: `${queryParams.width}px` }

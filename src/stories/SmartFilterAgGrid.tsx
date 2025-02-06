@@ -12,6 +12,7 @@ import Bond, {
   hintGroups,
   operators,
   pasteOptions,
+  bonds,
 } from './smartFilterFunctions';
 import {
   FilterFunction,
@@ -19,7 +20,6 @@ import {
   SmartFilterAgGrid as SmartFilterAgGridComponent,
   Sort,
 } from '..';
-import { bonds } from '../../data/bonds';
 import { FilterBarSize } from '@/types/uiProperties';
 import s from './style.module.less';
 import 'ag-grid-community/styles/ag-grid.css';

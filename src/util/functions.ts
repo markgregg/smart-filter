@@ -1,4 +1,5 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Field, Matcher, Operator, SourceItem, Value, ValueMatch } from '..';
 import {
   DEFAULT_DATE_FORMAT,
@@ -6,6 +7,8 @@ import {
   EQUALS,
 } from './constants';
 import { ArrayValue, RangeValue, SingleValue } from '@/types/values';
+
+dayjs.extend(customParseFormat);
 
 export const ignoreCaseCompare = (text1: string, text2: string) =>
   text1.toLocaleLowerCase().includes(text2.toLocaleLowerCase());
@@ -16,7 +19,7 @@ export const getDefaultComparison = (field?: Field) =>
 const getMin = (field: Field): Date | undefined => {
   if (field.min) {
     if (typeof field.min === 'string') {
-      return moment(
+      return dayjs(
         field.min,
         field.dateTimeFormat ??
           (field.editorType === 'date'
@@ -44,7 +47,7 @@ export const getDefaultTextValue = (field?: Field) => {
   if (field?.editorType === 'date') {
     const date = getMin(field);
     return {
-      text: moment(date, true).format(
+      text: dayjs(date, undefined, true).format(
         field.dateTimeFormat ?? DEFAULT_DATE_FORMAT,
       ),
       value: date,
@@ -53,7 +56,7 @@ export const getDefaultTextValue = (field?: Field) => {
   if (field?.editorType === 'datetime') {
     const date = getMin(field);
     return {
-      text: moment(date, true).format(
+      text: dayjs(date, undefined, true).format(
         field.dateTimeFormat ?? DEFAULT_DATE_TIME_FORMAT,
       ),
       value: date,

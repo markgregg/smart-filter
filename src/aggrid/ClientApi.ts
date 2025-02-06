@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { Column, ColumnApi, GridApi, RowNode } from '@/types/agGrid';
 import {
   FieldMatch,
@@ -99,15 +99,15 @@ export const createClientApi = (
         match: (text: string) =>
           Number.isNaN(Number(text)) &&
           (dateFormats
-            ? moment(text, dateFormats, true)
-            : moment(text)
+            ? dayjs(text, dateFormats, true)
+            : dayjs(text)
           ).isValid(),
         value: (text: string) =>
           dateFormats
-            ? moment(text, dateFormats, true).toDate()
-            : moment(text).toDate(),
+            ? dayjs(text, dateFormats, true).toDate()
+            : dayjs(text).toDate(),
         label: (value: any) => {
-          const date = moment(value);
+          const date = dayjs(value);
           return date.isValid()
             ? date.format(displayFormat ?? DEFAULT_DATE_FORMAT)
             : value;
@@ -121,11 +121,11 @@ export const createClientApi = (
     ) {
       return {
         match: (text: string) =>
-          Number.isNaN(Number(text)) && moment(text).isValid(),
+          Number.isNaN(Number(text)) && dayjs(text).isValid(),
         value: (text: string) =>
-          moment(text).format(displayFormat ?? DEFAULT_DATE_FORMAT),
+          dayjs(text).format(displayFormat ?? DEFAULT_DATE_FORMAT),
         label: (value: any) => {
-          const date = moment(value);
+          const date = dayjs(value);
           return date.isValid()
             ? date.format(displayFormat ?? DEFAULT_DATE_FORMAT)
             : value;
@@ -724,10 +724,11 @@ export const createClientApi = (
         if (!value) {
           return false;
         }
-        const dateV = moment(value);
+        const dateV = dayjs(value);
         return (
-          dateV.isSameOrAfter(moment(matcher.value)) &&
-          dateV.isBefore(moment(matcher.valueTo))
+          (dateV.isSame(dayjs(matcher.value)) ||
+            dateV.isAfter(dayjs(matcher.value))) &&
+          dateV.isBefore(dayjs(matcher.valueTo))
         );
       };
     }
@@ -739,14 +740,14 @@ export const createClientApi = (
     }
     const compareDateString =
       (
-        valueValuePredicate: (x: moment.Moment, y: moment.Moment) => boolean,
-        arrayValuePredicate: (x: string[], y: moment.Moment) => boolean,
+        valueValuePredicate: (x: dayjs.Dayjs, y: dayjs.Dayjs) => boolean,
+        arrayValuePredicate: (x: string[], y: dayjs.Dayjs) => boolean,
       ): FilterFunction =>
       (row) => {
         if (!matcher.value || typeof matcher.value !== 'string') {
           return false;
         }
-        const dateM = moment(matcher.value);
+        const dateM = dayjs(matcher.value);
         const value = valueGetter<string | undefined>(row.data);
         if (Array.isArray(value)) {
           return arrayValuePredicate(value, dateM);
@@ -754,7 +755,7 @@ export const createClientApi = (
         if (!value || typeof value !== 'string') {
           return false;
         }
-        const dateV = moment(value);
+        const dateV = dayjs(value);
         return dateV.isValid() && valueValuePredicate(dateV, dateM);
       };
 
@@ -762,37 +763,39 @@ export const createClientApi = (
       case '=':
         return compareDateString(
           (v, m) => v.isSame(m),
-          (v, m) => v.some((vi) => moment(vi).isSame(m)),
+          (v, m) => v.some((vi) => dayjs(vi).isSame(m)),
         );
 
       case '>':
         return compareDateString(
           (v, m) => v.isAfter(m),
-          (v, m) => v.every((vi) => moment(vi).isAfter(m)),
+          (v, m) => v.every((vi) => dayjs(vi).isAfter(m)),
         );
 
       case '<':
         return compareDateString(
           (v, m) => v.isBefore(m),
-          (v, m) => v.every((vi) => moment(vi).isBefore(m)),
+          (v, m) => v.every((vi) => dayjs(vi).isBefore(m)),
         );
 
       case '>=':
         return compareDateString(
-          (v, m) => v.isSameOrAfter(m),
-          (v, m) => v.every((vi) => moment(vi).isSameOrAfter(m)),
+          (v, m) => v.isSame(m) || v.isAfter(m),
+          (v, m) =>
+            v.every((vi) => dayjs(vi).isSame(m) || dayjs(vi).isBefore(m)),
         );
 
       case '<=':
         return compareDateString(
-          (v, m) => v.isSameOrBefore(m),
-          (v, m) => v.every((vi) => moment(vi).isSameOrBefore(m)),
+          (v, m) => v.isSame(m) || v.isAfter(m),
+          (v, m) =>
+            v.every((vi) => dayjs(vi).isSame(m) || dayjs(vi).isAfter(m)),
         );
 
       case '!':
         return compareDateString(
           (v, m) => !v.isSame(m),
-          (v, m) => v.every((vi) => !moment(vi).isSame(m)),
+          (v, m) => v.every((vi) => !dayjs(vi).isSame(m)),
         );
 
       default:

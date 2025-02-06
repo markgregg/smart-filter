@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { EditorComponentProps } from '../Editor';
 import { Value, Field } from '@/types';
 import {
@@ -14,7 +14,7 @@ const DATE_TIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss';
 
 const formatDate = (value: Value, field: Field): string => {
   if (typeof value === 'string') {
-    return moment(
+    return dayjs(
       value,
       field.dateTimeFormat ??
         (field.editorType === 'date' || field.editorType === 'dateString'
@@ -27,7 +27,7 @@ const formatDate = (value: Value, field: Field): string => {
         : DATE_TIME_FORMAT,
     );
   }
-  return moment(value, true).format(
+  return dayjs(value, undefined, true).format(
     field.editorType === 'date' || field.editorType === 'dateString'
       ? DATE_FORMAT
       : DATE_TIME_FORMAT,
@@ -50,14 +50,14 @@ export const DateTimeEditor = React.memo(
 
     const handleChange = React.useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
-        const tempValue = moment(
+        const tempValue = dayjs(
           event.currentTarget.value,
           field.editorType === 'date' || field.editorType === 'dateString'
             ? DATE_FORMAT
             : DATE_TIME_FORMAT,
           true,
         );
-        const label = moment(tempValue, true).format(
+        const label = dayjs(tempValue, undefined, true).format(
           field.dateTimeFormat ??
             (field.editorType === 'date' || field.editorType === 'dateString'
               ? DEFAULT_DATE_FORMAT

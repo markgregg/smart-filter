@@ -8,14 +8,16 @@ import {
   IRowNode,
 } from 'ag-grid-community';
 import { FilterFunction, Matcher, Sort } from '@/types';
-import { bonds } from '../../../../data/bonds';
 import Bond, {
   columns,
   hintGroups,
   operators,
   pasteOptions,
+  bonds,
 } from '@/stories/smartFilterFunctions';
+import { deterministicTestData } from '../../../../data/bonds';
 import { SmartFilterAgGrid as SmartFilterAgGridCompoent } from '@/components';
+import { getQueryParams } from '@/TestApp/functions';
 import s from './style.module.less';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -25,22 +27,18 @@ const hints = {
 };
 
 export const SmartFilterAgGrid = () => {
+  const queryParams = getQueryParams();
+  const bondData = React.useMemo(
+    () => (queryParams.automation ? deterministicTestData : bonds),
+    [queryParams.automation],
+  );
   const filterRef = React.useRef<FilterFunction | null>(null);
   const [gridApi, setGridApi] = React.useState<GridApi<Bond> | null>(null);
   const [columnApi, setColumnApi] = React.useState<ColumnApi | null>(null);
-  const [rowData] = React.useState<Bond[]>(bonds);
+  const [rowData] = React.useState<Bond[]>(bondData);
   const [columnDefs] = React.useState<ColDef<Bond>[]>(columns);
   const [matchers, setMatchers] = React.useState<Matcher[]>([]);
   const [sort, setSort] = React.useState<Sort[]>([]);
-
-  const queryParams = React.useMemo(() => {
-    const query = window.location.search.substring(1);
-    const params = query.split('&').filter((t) => t.trim() !== '');
-    return params.reduce((p: any, v) => {
-      const pv = v.split('=');
-      return pv.length < 2 ? { ...p, [pv[0]]: true } : { ...p, [pv[0]]: pv[1] };
-    }, {});
-  }, []);
 
   const handleChange = React.useCallback(
     (newMatchers: Matcher[]) => {

@@ -1,6 +1,6 @@
 import { StoreApi, UseBoundStore, create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import {
   Field,
   ListMatch,
@@ -499,7 +499,7 @@ const getValueIfValid = (text: string, field: Field) => {
     }
     case 'date':
     case 'datetime': {
-      const date = moment(
+      const date = dayjs(
         text,
         field.dateTimeFormat ??
           (field.editorType === 'date'
@@ -514,7 +514,7 @@ const getValueIfValid = (text: string, field: Field) => {
     }
     case 'dateString':
     case 'datetimeString': {
-      const date = moment(
+      const date = dayjs(
         text,
         field.dateTimeFormat ??
           (field.editorType === 'dateString'

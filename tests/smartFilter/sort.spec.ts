@@ -1,5 +1,5 @@
-import { expect } from "@playwright/test";
-import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
+import { expect } from '@playwright/test';
+import { And, Given, Scenario, Then, When } from '../common/ghkerkin';
 
 Scenario(
   `Sort items are shown in the dropdown`,
@@ -10,7 +10,6 @@ Scenario(
       sortPill,
       sortSelectionButton,
       use,
-      pause,
       selectSortSuggestion,
     },
   }) => {
@@ -24,18 +23,16 @@ Scenario(
       await selectSortSuggestion('side', 'asc');
       await selectSortSuggestion('currency', 'desc');
       await selectSortSuggestion('isin', 'asc');
-      await pause(50);
     });
 
     await And('the sort pill is selectged', async () => {
       await sortPill.click();
-      await pause(50);
     });
 
     await Then('the sort items are shown in the dropdown', async () => {
       await expect(dropDownBar).toHaveScreenshot(`sort-items-are-shown.png`);
     });
-  }
+  },
 );
 
 Scenario(
@@ -47,7 +44,6 @@ Scenario(
       sortPill,
       sortSelectionButton,
       use,
-      pause,
       selectSortSuggestion,
       moveSortItemUp,
     },
@@ -62,23 +58,22 @@ Scenario(
       await selectSortSuggestion('side', 'asc');
       await selectSortSuggestion('currency', 'desc');
       await selectSortSuggestion('isin', 'asc');
-      await pause(50);
     });
 
     await And('the sort pill is selected', async () => {
       await sortPill.click();
-      await pause(50);
     });
 
     await And('the the currency up button is clicked', async () => {
       await moveSortItemUp('currency');
-      await pause(50);
     });
 
     await Then('the sort items are reordered', async () => {
-      await expect(dropDownBar).toHaveScreenshot(`sort-items-are-reordered.png`);
+      await expect(dropDownBar).toHaveScreenshot(
+        `sort-items-are-reordered.png`,
+      );
     });
-  }
+  },
 );
 
 Scenario(
@@ -90,7 +85,6 @@ Scenario(
       sortPill,
       sortSelectionButton,
       use,
-      pause,
       selectSortSuggestion,
       moveSortItemDown,
     },
@@ -105,23 +99,22 @@ Scenario(
       await selectSortSuggestion('side', 'asc');
       await selectSortSuggestion('currency', 'desc');
       await selectSortSuggestion('isin', 'asc');
-      await pause(50);
     });
 
     await And('the sort pill is selected', async () => {
       await sortPill.click();
-      await pause(50);
     });
 
     await And('the the currency down button is clicked', async () => {
       await moveSortItemDown('currency');
-      await pause(50);
     });
 
     await Then('the sort items are reordered', async () => {
-      await expect(dropDownBar).toHaveScreenshot(`sort-items-are-reordered-again.png`);
+      await expect(dropDownBar).toHaveScreenshot(
+        `sort-items-are-reordered-again.png`,
+      );
     });
-  }
+  },
 );
 
 Scenario(
@@ -133,7 +126,6 @@ Scenario(
       sortPill,
       sortSelectionButton,
       use,
-      pause,
       selectSortSuggestion,
       dragSortItemTo,
     },
@@ -148,23 +140,20 @@ Scenario(
       await selectSortSuggestion('side', 'asc');
       await selectSortSuggestion('currency', 'desc');
       await selectSortSuggestion('isin', 'asc');
-      await pause(50);
     });
 
     await And('the sort pill is selected', async () => {
       await sortPill.click();
-      await pause(50);
     });
 
     await And('the the currency item is dragged up to side', async () => {
       await dragSortItemTo('currency', 'side');
-      await pause(50);
     });
 
     await Then('the sort item has been dragged up', async () => {
       await expect(dropDownBar).toHaveScreenshot(`sort-item-dragged-up.png`);
     });
-  }
+  },
 );
 
 Scenario(
@@ -176,7 +165,6 @@ Scenario(
       sortPill,
       sortSelectionButton,
       use,
-      pause,
       selectSortSuggestion,
       dragSortItemTo,
     },
@@ -191,21 +179,18 @@ Scenario(
       await selectSortSuggestion('side', 'asc');
       await selectSortSuggestion('currency', 'desc');
       await selectSortSuggestion('isin', 'asc');
-      await pause(50);
     });
 
     await And('the sort pill is selected', async () => {
       await sortPill.click();
-      await pause(50);
     });
 
     await And('the the currency item is dragged down to isin', async () => {
       await dragSortItemTo('currency', 'isin');
-      await pause(50);
     });
 
     await Then('the sort item has been dragged-down', async () => {
       await expect(dropDownBar).toHaveScreenshot(`sort-item-dragged-down.png`);
     });
-  }
+  },
 );
