@@ -20,15 +20,4 @@ To install Smart Filter, follow these steps:
 npm i smart-filter
 ```
 
-## Contributing
-
-Contributions are welcome!
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-If you have any questions or feedback, feel free to reach out to us at [gregg.mark@gmail.com](mailto:gregg.mark@gmail.com).
 
