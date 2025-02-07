@@ -10,7 +10,7 @@ import { createOptionsStore } from './optionsStore';
 import { createArrayStore } from './arrayStore';
 import { createMatcherDragStore } from './dragStore';
 import { createBracketsStore } from './bracketStore';
-import { createSortStore } from './SortStore';
+import { createSortStore } from './sortStore';
 import { DEFAULT_PAGE_SIZE } from '@/util/constants';
 import { createManagedStore } from './managedStore';
 

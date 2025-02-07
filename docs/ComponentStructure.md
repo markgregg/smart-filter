@@ -1,7 +1,0 @@
-# Smart Filter
-
-## components
-
-
-## state
-
