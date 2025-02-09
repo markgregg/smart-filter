@@ -9,4 +9,4 @@ At the momnent the following components will appear in the dropdown
 
 Suggestions is the default component. Arrays will appear if a user clicks on a pill with an array. Sort will appear if sorting is enabled and a user clicks on the sort pill. Finally options will appear if the user has entered text and there are matches.
 
-[Code Structure](docs/Structure.md)
+[Code Structure](../Structure.md)

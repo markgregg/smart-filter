@@ -30,4 +30,4 @@ The number of items to jump when a user press page/up down.
 ## pasteOptions
 Options to control pasting of text.
 
-[Types Overview](docs/types/Overview.md)
+[Types Overview](./types/Overview.md)

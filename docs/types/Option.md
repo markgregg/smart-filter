@@ -49,4 +49,4 @@ to Icon
 Text to disply for the option
 
 
-[Types Overview](docs/types/Overview.md)
+[Types Overview](./types/Overview.md)

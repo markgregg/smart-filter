@@ -54,4 +54,4 @@ If using a custom display component, set the component here.
 ## editComponent
 If using a custom edit component, set the component here.
 
-[Types Overview](docs/types/Overview.md)
+[Types Overview](./types/Overview.md)

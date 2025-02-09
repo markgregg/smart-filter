@@ -11,41 +11,41 @@ If fields are passed as properties to SmartFilterAgGrid, the fields will overrid
 ## Components
 
 ### Common Components
-- [Boolean Toogle](docs/Components/common/BooleanToggle.md)
-- [Button](docs/Components/common/Button.md)
-- [Tooltip](docs/Components/common/ToolTip.md)
-- [TooltipButton](docs/Components/common/ToolTipButton.md)
+- [Boolean Toogle](./Components/common/BooleanToggle.md)
+- [Button](./Components/common/Button.md)
+- [Tooltip](./Components/common/ToolTip.md)
+- [TooltipButton](./Components/common/ToolTipButton.md)
 
 ### Main Components
-- [Array](docs/Components/Array.md)
-- [CloseButton](docs/Components/CloseButton.md)
-- [Dropdown](docs/Components/Dropdown.md)
-- [FilterBar](docs/Components/FilterBar.md)
-- [MainSearch](docs/Components/MainSearch.md)
-- [Options](docs/Components/Options.md)
-- [Pill](docs/Components/Pill.md)
-- [PillContainer](docs/Components/PillContainer.md)
-- [SearchBox](docs/Components/SearchBox.md)
-- [Sort](docs/Components/CloseButton.md)
-- [SortPill](docs/Components/CloseButton.md)
-- [Suggestions](docs/Components/CloseButton.md)
+- [Array](./Components/Array.md)
+- [CloseButton](./Components/CloseButton.md)
+- [Dropdown](./Components/Dropdown.md)
+- [FilterBar](./Components/FilterBar.md)
+- [MainSearch](./Components/MainSearch.md)
+- [Options](./Components/Options.md)
+- [Pill](./Components/Pill.md)
+- [PillContainer](./Components/PillContainer.md)
+- [SearchBox](./Components/SearchBox.md)
+- [Sort](./Components/CloseButton.md)
+- [SortPill](./Components/CloseButton.md)
+- [Suggestions](./Components/CloseButton.md)
 
 ## Hooks
-- [UseExternalClicks](docs/hooks/UseExternalClicks.md)
-- [useSizeWatcher](docs/hooks/useSizeWatcher.md)
+- [UseExternalClicks](./hooks/UseExternalClicks.md)
+- [useSizeWatcher](./hooks/useSizeWatcher.md)
 
 ## State
-- [State Overview](docs/state/Overview.md)
+- [State Overview](./state/Overview.md)
 
 ### Types
-- [Types Overview](docs/types/Overview.md)
+- [Types Overview](./types/Overview.md)
 
 ### Util
-- [Colours](docs/util/Colours.md)
-- [Common](docs/util/Common.md)
-- [Constants](docs/util/Constants.md)
-- [DragDrop](docs/util/DragDrop.md)
-- [Functions](docs/types/Functions.md)
+- [Colours](./util/Colours.md)
+- [Common](./util/Common.md)
+- [Constants](./util/Constants.md)
+- [DragDrop](./util/DragDrop.md)
+- [Functions](./types/Functions.md)
 
 ### AgGrid
-- [ClientApi](docs/aggrid/ClientApi.md)
+- [ClientApi](./aggrid/ClientApi.md)

@@ -6,4 +6,4 @@ This property is included to make the operators optional, as otherwise they are 
 ## excludeFromFilter
 Set to true, if the field is not to be used for filtering.
 
-[Types Overview](docs/types/Overview.md)
+[Types Overview](./types/Overview.md)

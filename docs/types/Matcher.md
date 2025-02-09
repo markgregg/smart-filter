@@ -72,4 +72,4 @@ To value to compare against <.
 ### textTo
 Diplay text for to value.
 
-[Types Overview](docs/types/Overview.md)
+[Types Overview](./types/Overview.md)

@@ -5,4 +5,4 @@ The array has an inner element, called ArrayItem.
 
 If ever the SmartFilter is to handle large arrays, then the array items will need virtualisating.
 
-[Code Structure](docs/Structure.md)
+[Code Structure](../Structure.md)

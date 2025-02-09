@@ -5,4 +5,4 @@ When pasting a list of items. The field paste patterns are used to idetify if th
 ## customParsers
 Custom parsing when text is paste
 
-[Types Overview](docs/types/Overview.md)
+[Types Overview](./types/Overview.md)

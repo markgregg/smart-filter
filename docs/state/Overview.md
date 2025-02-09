@@ -2,20 +2,20 @@
 State is managed by zustand, which is lightweight and fast.
 
 ## Interaction with state
-STate is provided to the app by a combination of React.Context and hooks. The [StateProvider](docs/state/StateProvider.md) provides the context and is implemtned in the top level component.
+STate is provided to the app by a combination of React.Context and hooks. The [StateProvider](./state/StateProvider.md) provides the context and is implemtned in the top level component.
 
-State is access by components lower down in the tree by using [hooks](docs/state/UseState.md)
+State is access by components lower down in the tree by using [hooks](./state/UseState.md)
 
 ## State Stores
-- [ArrayStore](docs/state/ArrayStore.md)
-- [BracketStore](docs/state/BracketStore.md)
-- [ConfigStore](docs/state/ConfigStore.md)
-- [FilterBarStore](docs/state/FilterBarStore.md)
-- [FocusStore](docs/state/FocusStore.md)
-- [HintStore](docs/state/HintStore.md)
-- [ManagedStore](docs/state/ManagedStore.md)
-- [MatcherStore](docs/state/MatcherStore.md)
-- [OptionsStore](docs/state/OptionsStore.md)
-- [SortStore](docs/state/SortStore.md)
-- [StateProvider](docs/state/StateProvider.md)
-- [UseState](docs/state/UseState.md)
+- [ArrayStore](./state/ArrayStore.md)
+- [BracketStore](Overview.md/state/BracketStore.md)
+- [ConfigStore](./state/ConfigStore.md)
+- [FilterBarStore](./state/FilterBarStore.md)
+- [FocusStore](./state/FocusStore.md)
+- [HintStore](./state/HintStore.md)
+- [ManagedStore](./state/ManagedStore.md)
+- [MatcherStore](./state/MatcherStore.md)
+- [OptionsStore](./state/OptionsStore.md)
+- [SortStore](./state/SortStore.md)
+- [StateProvider](./state/StateProvider.md)
+- [UseState](./state/UseState.md)

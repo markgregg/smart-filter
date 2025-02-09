@@ -33,4 +33,4 @@ A javascript function that when given text returns a value.
 A javascript funciton that when given a value returns text.
 
 
-[Types Overview](docs/types/Overview.md)
+[Types Overview](./types/Overview.md)

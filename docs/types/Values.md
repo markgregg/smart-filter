@@ -35,4 +35,4 @@ Array of text
 ### valueArray
 Array of values
 
-[Types Overview](docs/types/Overview.md)
+[Types Overview](./types/Overview.md)

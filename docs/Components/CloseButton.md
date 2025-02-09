@@ -1,4 +1,4 @@
 # CloseButton
 THe close button is a specific button implemenation that is used in multiple point of the code.
 
-[Code Structure](docs/Structure.md)
+[Code Structure](../Structure.md)

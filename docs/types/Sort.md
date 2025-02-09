@@ -6,4 +6,4 @@ Field to sort
 ## sortDirection
 Ascending or descending
 
-[Types Overview](docs/types/Overview.md)
+[Types Overview](./types/Overview.md)
