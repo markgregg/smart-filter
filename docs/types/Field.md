@@ -3,7 +3,7 @@ The field type details how feilds should behave, their type, if they are lists o
 
 ## name
 The name of the field. Is used to reference the field everywhere else.
-## #title
+## title
 The display name for the field.
 ## operators
 Comparsion operators that can be used for the field.
