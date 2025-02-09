@@ -15,4 +15,4 @@ AgGrid api
 ## columnApi
 AgGrid column Api
 
-[Types Overview](./types/Overview.md)
+[Types Overview](./Overview.md)

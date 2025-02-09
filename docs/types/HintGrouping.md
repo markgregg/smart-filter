@@ -8,4 +8,4 @@ The field the options belong to.
 ## hints
 An array of [Hint](docs/types/Hint.md).
 
-[Types Overview](./types/Overview.md)
+[Types Overview](./Overview.md)

@@ -10,4 +10,4 @@ An array of [Hint Grouping](docs/types/HintGrouping.md)
 ## sortHints
 Specifies which fields to show in the sort hint dropdown and in what order.
 
-[Types Overview](./types/Overview.md)
+[Types Overview](./Overview.md)

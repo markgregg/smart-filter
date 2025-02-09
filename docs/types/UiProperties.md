@@ -27,4 +27,4 @@ If mouseover for dropdown is true, then this is time the dropdown will be displa
 ## placeholder
 Text placeholder shown in the main search input.
 
-[Types Overview](./types/Overview.md)
+[Types Overview](./Overview.md)

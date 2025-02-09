@@ -10,4 +10,4 @@ Fore colour of a pill if using the operator
 ## pillBackgroundColour
 Background colour of a pill if using the operator
 
-[Types Overview](./types/Overview.md)
+[Types Overview](./Overview.md)

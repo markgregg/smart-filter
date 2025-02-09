@@ -39,4 +39,4 @@ The display text for the option
 ## stirng
 Hints can also just be a single string.
 
-[Types Overview](./types/Overview.md)
+[Types Overview](./Overview.md)
