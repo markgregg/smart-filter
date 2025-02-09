@@ -1,15 +1,4 @@
-# Playwright
+# Storybook
+Story book is used to construct demos. Currently There are two, the standard SmartFilter and the SmartFilterAgGrid.
 
-## Running tests locally
-
-## Debugging tests locally
-
-## Updating snapshots
-
-## Playwright file structure
-
-### Gherkin
-
-### SmartFilterPage
-
-### Test specs
+To run bookbook - npm run storybook

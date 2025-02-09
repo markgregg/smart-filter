@@ -20,4 +20,12 @@ To install Smart Filter, follow these steps:
 npm i smart-filter
 ```
 
+## Contributions
 
+[Code Structure](docs/Structure.md)
+
+[Demos](docs/StoryBook.md)
+
+[Testing](docs/Playwright.md)
+
+[Merge Requests](docs/MergeRequests.md)

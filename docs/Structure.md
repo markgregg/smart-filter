@@ -11,10 +11,10 @@ If fields are passed as properties to SmartFilterAgGrid, the fields will overrid
 ## Components
 
 ### Common Components
-- [Boolean Toogle](docs/Components//common/BooleanToggle.md)
-- [Button](docs/Components//common/Button.md)
-- [Tooltip](docs/Components//common/ToolTip.md)
-- [TooltipButton](docs/Components//common/ToolTipButton.md)
+- [Boolean Toogle](docs/Components/common/BooleanToggle.md)
+- [Button](docs/Components/common/Button.md)
+- [Tooltip](docs/Components/common/ToolTip.md)
+- [TooltipButton](docs/Components/common/ToolTipButton.md)
 
 ### Main Components
 - [Array](docs/Components/Array.md)
@@ -35,36 +35,10 @@ If fields are passed as properties to SmartFilterAgGrid, the fields will overrid
 - [useSizeWatcher](docs/hooks/useSizeWatcher.md)
 
 ## State
-- [Overview](docs/state/Overview.md)
-- [ArrayStore](docs/state/ArrayStore.md)
-- [BracketStore](docs/state/BracketStore.md)
-- [ConfigStore](docs/state/ConfigStore.md)
-- [FilterBarStore](docs/state/FilterBarStore.md)
-- [FocusStore](docs/state/FocusStore.md)
-- [HintStore](docs/state/HintStore.md)
-- [ManagedStore](docs/state/ManagedStore.md)
-- [MatcherStore](docs/state/MatcherStore.md)
-- [OptionsStore](docs/state/OptionsStore.md)
-- [SortStore](docs/state/SortStore.md)
-- [StateProvider](docs/state/StateProvider.md)
-- [UseState](docs/state/UseState.md)
+- [State Overview](docs/state/Overview.md)
 
 ### Types
-- [AgField](docs/types/AgField.md)
-- [AgGrid](docs/types/AgGrid.md)
-- [Field](docs/types/Field.md)
-- [FieldMatches](docs/types/FieldMatches.md)
-- [Hint](docs/types/Hint.md)
-- [Matcher](docs/types/Matcher.md)
-- [Matchers](docs/types/Matchers.md)
-- [Operator](docs/types/Operator.md)
-- [Option](docs/types/Option.md)
-- [PasteOptions](docs/types/PasteOptions.md)
-- [SmartFilterProps](docs/types/SmartFilterProps.md)
-- [SmartFilterPropsAgGrid](docs/types/SmartFilterPropsAgGrid.md)
-- [Sort](docs/types/Sort.md)
-- [UiProperties](docs/types/UiProperties.md)
-- [Values](docs/types/Values.md)
+- [Types Overview](docs/types/Overview.md)
 
 ### Util
 - [Colours](docs/util/Colours.md)
