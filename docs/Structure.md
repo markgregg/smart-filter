@@ -50,4 +50,4 @@ If fields are passed as properties to SmartFilterAgGrid, the fields will overrid
 ### AgGrid
 - [ClientApi](./aggrid/ClientApi.md)
 
-- [Main](../README.md)
+[Main](../README.md)

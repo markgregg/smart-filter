@@ -22,4 +22,4 @@ The SmartFilterPage provides the interactions to the page being test. The locato
 ### Test specs
 THe tests are dvivided by functionality.
 
-- [Main](../README.md)
+[Main](../README.md)

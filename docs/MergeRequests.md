@@ -5,4 +5,4 @@ Merge requests require 2 approvals. At least one of the approvals must be from a
 ## Trusted Contributors
 
 
-- [Main](../README.md)
+[Main](../README.md)
