@@ -38,7 +38,7 @@ If fields are passed as properties to SmartFilterAgGrid, the fields will overrid
 - [State Overview](./state/Overview.md)
 
 ### Types
-- [Types Overview](./Overview.md)
+- [Types Overview](./types/Overview.md)
 
 ### Util
 - [Colours](./util/Colours.md)
