@@ -18,3 +18,5 @@ List of types exposed
 - [Sort](./Sort.md)
 - [UiProperties](./UiProperties.md)
 - [Values](./Values.md)
+
+[Code Structure](../Structure.md)
