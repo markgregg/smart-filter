@@ -1,7 +1,6 @@
 export * from './field';
 export * from './matcher';
 export * from './fieldMatches';
-export * from './matchers';
 export * from './operator';
 export * from './hint';
 export * from './hints';
