@@ -75,7 +75,7 @@ export const createMatcherStore = (): UseBoundStore<StoreApi<MatcherState>> =>
     addBracket: (
       bracket: Brackets,
       position: number | null,
-      operator?: LogicalOperator,
+      operator?: LogicalOperator | null,
     ) => {
       const bracketMatcher: BracketMatcher = {
         type: 'b',

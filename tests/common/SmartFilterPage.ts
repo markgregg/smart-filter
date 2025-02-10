@@ -27,7 +27,17 @@ export interface SmartFilterPage {
   enterAnItemInSearchBox: (text: string) => void;
   enterAndSelectItemInSearchBox: (text: string) => void;
   hoverOverPill: (index: number) => void;
-  clickPill: (index: number) => void;
+  clickPill: (
+    index: number,
+    options?: {
+      button?: 'left' | 'right' | 'middle';
+      modifiers?: Array<'Alt' | 'Control' | 'ControlOrMeta' | 'Meta' | 'Shift'>;
+      position?: {
+        x: number;
+        y: number;
+      };
+    },
+  ) => void;
   dragPillTo: (index: number, target: number) => void;
 
   selectSortSuggestion: (field: string, direction: SortDirection) => void;
@@ -54,6 +64,9 @@ export interface SmartFilterPage {
 
   deleteArrayItem: (item: string) => void;
   selectArrayItem: (item: string) => void;
+  copyToClipBoard: () => void;
+  pasteFromClipBoard: () => void;
+  addTextToClipBoard: (text: string) => void;
 }
 
 export const createSmartFilterPage = (page: Page): SmartFilterPage => {
@@ -113,9 +126,21 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
       await pill.hover();
     },
 
-    clickPill: async (index: number) => {
+    clickPill: async (
+      index: number,
+      options?: {
+        button?: 'left' | 'right' | 'middle';
+        modifiers?: Array<
+          'Alt' | 'Control' | 'ControlOrMeta' | 'Meta' | 'Shift'
+        >;
+        position?: {
+          x: number;
+          y: number;
+        };
+      },
+    ) => {
       const pill = await page.locator(`#sf-pill-content-${index}`);
-      await pill.click();
+      await pill.click(options);
     },
 
     dragPillTo: async (index: number, target: number) => {
@@ -256,5 +281,17 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
       await arrayItem.click();
     },
     /* End Array */
+
+    /* Copy/Paste */
+    copyToClipBoard: async () => {
+      await searchBox.press('Control+c');
+    },
+    pasteFromClipBoard: async () => {
+      await searchBox.press('Control+v');
+    },
+    addTextToClipBoard: async (text: string) => {
+      await page.evaluate(`navigator.clipboard.writeText("${text}")`);
+    },
+    /* End Copy Paste */
   };
 };

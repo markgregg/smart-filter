@@ -1,5 +1,5 @@
 import { Field } from '../field';
-import { LogicalOperator, Value } from '../matcher';
+import { Brackets, LogicalOperator, Value } from '../matcher';
 import { Option } from '../option';
 
 export type OptionSelectedCallback = (option: Option) => void;
@@ -20,6 +20,7 @@ export interface OptionsState {
     field?: Field,
     currentValues?: Value[],
     matcherKey?: string,
+    addBracket?: (bracket: Brackets, operator: LogicalOperator | null) => void,
   ) => void;
   clearOptions: () => void;
   selectOption: (option: Option) => void;

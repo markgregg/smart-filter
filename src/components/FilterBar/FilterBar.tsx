@@ -23,7 +23,6 @@ import {
   useSort,
 } from '../../state/useState';
 import { Button } from '../common/Button';
-import { getMatchersFromText } from './functions';
 import { SortPill } from '../SortPill';
 import s from './style.module.less';
 
@@ -36,7 +35,6 @@ export const FilterBar = React.memo(() => {
   const {
     size = 'normal',
     showSearchIcon,
-    pasteOptions,
     fieldMap,
     enableSort,
     sortPillWidth = DEFAULT_SORT_PILL_WIDTH,
@@ -56,9 +54,6 @@ export const FilterBar = React.memo(() => {
     editPosition,
     matchers,
     clearEditPosition,
-    copyMatchers,
-    insertMatchers,
-    deleteMatchers,
     setMatchers,
     setFieldMap,
   } = useMatcher((state) => state);
@@ -164,40 +159,6 @@ export const FilterBar = React.memo(() => {
     next();
   }, [next]);
 
-  const handleCopy = React.useCallback(() => {
-    const matchersToCopy = matchers.filter(
-      (m, i) =>
-        selectedIndex === i || (copyMatchers && copyMatchers.includes(m.key)),
-    );
-    if (matchersToCopy.length > 0) {
-      navigator.clipboard.writeText(JSON.stringify(matchersToCopy));
-    }
-  }, [matchers, selectedIndex, copyMatchers]);
-
-  const handleCut = React.useCallback(() => {
-    const matchersToCut = matchers.filter(
-      (m, i) =>
-        selectedIndex === i || (copyMatchers && copyMatchers.includes(m.key)),
-    );
-    if (matchersToCut.length > 0 && matchersToCut.every((m) => !m.locked)) {
-      navigator.clipboard.writeText(JSON.stringify(matchersToCut));
-      deleteMatchers(matchersToCut);
-    }
-  }, [matchers, selectedIndex, copyMatchers, deleteMatchers]);
-
-  const handlePaste = React.useCallback(() => {
-    navigator.clipboard.readText().then(async (text) => {
-      const pasteMatchers = await getMatchersFromText(
-        text,
-        fieldMap,
-        pasteOptions,
-      );
-      if (pasteMatchers) {
-        insertMatchers(pasteMatchers, editPosition);
-      }
-    });
-  }, [insertMatchers, fieldMap, pasteOptions, editPosition]);
-
   const handleKeyDown = React.useCallback(
     (event: React.KeyboardEvent) => {
       let endPropogation = false;
@@ -222,27 +183,6 @@ export const FilterBar = React.memo(() => {
           endPropogation = true;
           break;
         }
-        case KeyBoardkeys.c:
-        case KeyBoardkeys.C:
-          if (event.ctrlKey) {
-            handleCopy();
-            endPropogation = true;
-          }
-          break;
-        case KeyBoardkeys.x:
-        case KeyBoardkeys.X:
-          if (event.ctrlKey) {
-            handleCut();
-            endPropogation = true;
-          }
-          break;
-        case KeyBoardkeys.v:
-        case KeyBoardkeys.V:
-          if (event.ctrlKey) {
-            handlePaste();
-            endPropogation = true;
-          }
-          break;
         default: {
           // ignore
         }
@@ -252,7 +192,7 @@ export const FilterBar = React.memo(() => {
         event.preventDefault();
       }
     },
-    [first, last, next, prev, handleCopy, handlePaste, handleCut],
+    [first, last, next, prev],
   );
 
   return (

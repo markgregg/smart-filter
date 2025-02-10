@@ -34,7 +34,11 @@ export interface MatcherState {
     matchers: Matcher | Matcher[],
     position: number | null,
   ) => void;
-  addBracket: (bracket: Brackets, position: number | null) => void;
+  addBracket: (
+    bracket: Brackets,
+    position: number | null,
+    operator?: LogicalOperator | null,
+  ) => void;
   updateMatcher: (matcher: Matcher, ignoreLockedCheck?: true) => void;
   deleteMatcher: (matcher: Matcher) => void;
   deleteMatchers: (matchers: Matcher[]) => void;

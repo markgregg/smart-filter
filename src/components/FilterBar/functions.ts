@@ -2,15 +2,22 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   ArrayMatcher,
   Field,
+  ListMatch,
   Matcher,
   PasteOptions,
   PromiseMatch,
   SingleMatcher,
   SourceItem,
+  Value,
+  ValueMatch,
   ValueMatcher,
 } from '@/types';
 import { AND, DELIMITERS } from '@/util/constants';
-import { getDefaultComparison } from '@/util/functions';
+import {
+  getDefaultComparison,
+  getValue,
+  ignoreCaseCompare,
+} from '@/util/functions';
 
 const fromPartial = (matcher: Partial<Matcher>): Matcher => {
   if (matcher.type === 'b') {
@@ -112,7 +119,7 @@ const findFieldMatch = (
   return null;
 };
 
-const createMatcher = async (
+const createMatcherFromPromise = async (
   textArray: string[],
   field: Field,
   lookupOnPaste: (text: string) => Promise<SourceItem | null>,
@@ -130,11 +137,54 @@ const createMatcher = async (
   };
 };
 
-export const getMatchersFromText = async (
+const createMatcherFromList = (
+  textArray: string[],
+  field: Field,
+  source: SourceItem[],
+  ignoreCase?: boolean,
+): ArrayMatcher => {
+  const valueArray = textArray.map(
+    (t) =>
+      source.find((s) =>
+        ignoreCase
+          ? ignoreCaseCompare(t, getValue(s, field))
+          : t === getValue(s, field),
+      ) ?? null,
+  );
+
+  return {
+    type: 'a',
+    key: uuidv4(),
+    field: field.name,
+    operator: AND,
+    comparison: getDefaultComparison(field),
+    textArray,
+    valueArray,
+  };
+};
+
+const createMatcherFromValue = (
+  textArray: string[],
+  field: Field,
+  match: (text: string) => Value,
+): ArrayMatcher => {
+  const valueArray = textArray.map((t) => match(t) ?? null);
+
+  return {
+    type: 'a',
+    key: uuidv4(),
+    field: field.name,
+    operator: AND,
+    comparison: getDefaultComparison(field),
+    textArray,
+    valueArray,
+  };
+};
+
+export const getMatchersFromCustomParser = (
   text: string,
-  fieldMap: Map<string, Field>,
   pasteOptions?: PasteOptions,
-): Promise<Matcher | Matcher[] | null> => {
+): Matcher | Matcher[] | null => {
   if (pasteOptions) {
     if (pasteOptions.customParsers) {
       for (let idx = 0; idx < pasteOptions.customParsers.length; idx += 1) {
@@ -145,30 +195,73 @@ export const getMatchersFromText = async (
         }
       }
     }
+  }
+  return null;
+};
+
+export const getFieldNameFromDelimitedList = (
+  text: string,
+  fieldMap: Map<string, Field>,
+  pasteOptions?: PasteOptions,
+): { field: Field; textArray: string[] } | null => {
+  if (pasteOptions) {
     const textArray = splitString(text);
     if (textArray) {
       const fieldName = findFieldMatch(textArray, pasteOptions);
       if (fieldName) {
         const field = fieldMap.get(fieldName);
-        if (field?.fieldMatchers) {
-          const matcherDef = field.fieldMatchers.find(
-            (m) => 'lookupOnPaste' in m,
-          ) as PromiseMatch;
-          if (matcherDef.lookupOnPaste) {
-            return createMatcher(textArray, field, matcherDef.lookupOnPaste);
-          }
+        if (field) {
+          return { field, textArray };
         }
       }
     }
   }
-  if (text.includes('"key":')) {
-    const matchers = JSON.parse(text) as Matcher | Matcher[];
-    return Array.isArray(matchers)
-      ? matchers.map((m) => ({ ...m, key: uuidv4() }))
-      : {
-          ...matchers,
-          key: uuidv4(),
-        };
-  }
   return null;
+};
+
+export const checkAndPasteElements = async (
+  { field, textArray }: { field: Field; textArray: string[] },
+  insertPosition: number | null,
+  insertMatchers: (
+    matchers: Matcher | Matcher[],
+    position: number | null,
+  ) => void,
+) => {
+  if (field?.fieldMatchers) {
+    const lookupDef = field.fieldMatchers.find(
+      (m) => 'lookupOnPaste' in m,
+    ) as PromiseMatch;
+    if (lookupDef.lookupOnPaste) {
+      const arrayMatcher = await createMatcherFromPromise(
+        textArray,
+        field,
+        lookupDef.lookupOnPaste,
+      );
+      insertMatchers(arrayMatcher, insertPosition);
+      return;
+    }
+    const listDef = field.fieldMatchers.find(
+      (m) => 'source' in m && m.matchOnPaste,
+    ) as ListMatch;
+    if (listDef) {
+      const arrayMatcher = await createMatcherFromList(
+        textArray,
+        field,
+        listDef.source,
+      );
+      insertMatchers(arrayMatcher, insertPosition);
+      return;
+    }
+    const valueDef = field.fieldMatchers.find(
+      (m) => 'value' in m && m.matchOnPaste,
+    ) as ValueMatch;
+    if (valueDef) {
+      const arrayMatcher = await createMatcherFromValue(
+        textArray,
+        field,
+        valueDef.value,
+      );
+      insertMatchers(arrayMatcher, insertPosition);
+    }
+  }
 };

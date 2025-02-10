@@ -8,7 +8,7 @@ import {
   useSort,
 } from '../../state/useState';
 import { KeyBoardkeys } from '@/util/constants';
-import { Brackets, Field, Option } from '@/types';
+import { Brackets, Field, LogicalOperator, Option } from '@/types';
 import s from './style.module.less';
 import { isVisible } from '@/util/functions';
 
@@ -17,7 +17,13 @@ interface SearchBoxProps {
   field?: Field;
   text: string[];
   onSelect: (option: Option) => void;
-  onCreateBracket?: (bracket: Brackets) => void;
+  onCopy?: (event: React.ClipboardEvent) => void;
+  onCut?: (event: React.ClipboardEvent) => void;
+  onPaste?: (event: React.ClipboardEvent) => void;
+  onCreateBracket?: (
+    bracket: Brackets,
+    operator: LogicalOperator | null,
+  ) => void;
   position?: number;
 }
 
@@ -27,6 +33,9 @@ export const SearchBox = React.memo(
     field,
     text,
     onSelect,
+    onCopy,
+    onCut,
+    onPaste,
     onCreateBracket,
     position,
   }: SearchBoxProps) => {
@@ -119,8 +128,16 @@ export const SearchBox = React.memo(
         field,
         [],
         matcherKey,
+        onCreateBracket,
       );
-    }, [searchText]);
+    }, [
+      searchText,
+      matcherKey,
+      searchText,
+      searchText,
+      field,
+      onCreateBracket,
+    ]);
 
     const handleOptionSelected = React.useCallback(
       (option: Option) => {
@@ -141,6 +158,7 @@ export const SearchBox = React.memo(
           field,
           [],
           matcherKey,
+          onCreateBracket,
         );
       }
     }, [
@@ -154,16 +172,12 @@ export const SearchBox = React.memo(
       clearSelections,
       sortActive,
       setActive,
+      onCreateBracket,
     ]);
 
     const handleChange = React.useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
-        const inputText = event.currentTarget.value.trim();
-        if ((inputText === '(' || inputText === ')') && onCreateBracket) {
-          onCreateBracket(inputText);
-        } else {
-          setSearchText(event.currentTarget.value);
-        }
+        setSearchText(event.currentTarget.value);
       },
       [setSearchText],
     );
@@ -263,6 +277,9 @@ export const SearchBox = React.memo(
         onKeyDown={handleKeyDown}
         onFocus={handleFocus}
         onClick={handleClick}
+        onCopy={onCopy}
+        onCut={onCut}
+        onPaste={onPaste}
       />
     );
   },

@@ -1,4 +1,4 @@
-export const CLIPBOARD_FORMAT = 'text/json';
+export const CLIPBOARD_FORMAT = 'text/plain';
 export const DELIMITERS = [',', '\t', '\n'];
 
 export const UNDO_BUFFER_CAPACITY = 100;

@@ -2,6 +2,7 @@ import { StoreApi, UseBoundStore, create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
 import {
+  Brackets,
   Field,
   ListMatch,
   LogicalOperator,
@@ -52,6 +53,7 @@ interface BuildState {
   matchText: string;
   matcherKey?: string;
   currentValues?: Value[];
+  addBracket?: (bracket: Brackets, operator: LogicalOperator | null) => void;
   set: (
     update: (
       state: OptionsState | Partial<OptionsState>,
@@ -87,6 +89,10 @@ export const createOptionsStore = (
       field?: Field,
       currentValues?: Value[],
       matcherKey?: string,
+      addBracket?: (
+        bracket: Brackets,
+        operator: LogicalOperator | null,
+      ) => void,
     ) => {
       const buildState: BuildState = {
         text,
@@ -104,6 +110,7 @@ export const createOptionsStore = (
         matcherKey,
         currentValues,
         set,
+        addBracket,
       };
       set({ buildKey: buildState.buildKey });
       setTimeout(() => {
@@ -186,7 +193,7 @@ export const createOptionsStore = (
 };
 
 const startBuild = async (buildState: BuildState) => {
-  const { field, text, set } = buildState;
+  const { field, text, set, addBracket } = buildState;
   if (!field && text.length > 0) {
     buildState = checkForOperator(buildState);
     buildState = checkForField(buildState);
@@ -194,6 +201,14 @@ const startBuild = async (buildState: BuildState) => {
     buildState = checkForRange(buildState);
   }
   if (buildState.text.length > 0) {
+    const possibleBracket = buildState.text.trim();
+    if (addBracket && (possibleBracket === '(' || possibleBracket === ')')) {
+      addBracket(
+        possibleBracket,
+        possibleBracket === '(' ? buildState.operator : null,
+      );
+      return;
+    }
     contructOptions({
       ...buildState,
       matchText: buildState.text,
