@@ -37,6 +37,7 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
   const pillRef = React.useRef<HTMLDivElement | null>(null);
   const clonedPillRef = React.useRef<HTMLElement | null>(null);
   const [mouseOver, setMouseOver] = React.useState<boolean>(false);
+  const [inEdit, setInEdit] = React.useState<boolean>(false);
   const {
     fieldMap,
     comparisonsMap,
@@ -76,6 +77,15 @@ export const Pill = React.memo(({ matcher, index }: PillProps) => {
     () => ('field' in matcher ? (fieldMap.get(matcher.field) ?? null) : null),
     [fieldMap, matcher],
   );
+
+  React.useEffect(() => {
+    if (editMatcher?.key === matcher.key) {
+      setInEdit(true);
+    } else if (inEdit) {
+      setInEdit(false);
+      setMouseOver(false);
+    }
+  }, [inEdit, editMatcher, mouseOver]);
 
   const backgroundColor = React.useMemo(() => {
     if (hasError(matcher) || unmatchedBrackets.has(matcher.key)) {

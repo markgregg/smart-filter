@@ -107,6 +107,8 @@ export const RangeContent = React.memo(({ matcher, field }: ContentProps) => {
         textTo,
         valueTo,
       });
+      clearOptions();
+      clearEditMatcher();
     },
     [setEditField, matcher, updateMatcher],
   );
