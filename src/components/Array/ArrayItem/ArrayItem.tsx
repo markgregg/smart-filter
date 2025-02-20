@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaCaretRight } from 'react-icons/fa6';
-import { IoClose } from 'react-icons/io5';
-import { useArray, useMatcher } from '@/state/useState';
+import { VscClose } from 'react-icons/vsc';
+import { useArray, useConfig, useMatcher } from '@/state/useState';
 import { Button } from '@/components/common/Button';
 import { Matcher, Value } from '@/types';
 import { Colours } from '@/util/colours';
@@ -17,8 +17,11 @@ interface ArrayItemProps {
 
 export const ArrayItem = React.memo(
   ({ index, text, value, active, selected }: ArrayItemProps) => {
+    const { size = 'normal' } = useConfig((state) => state);
     const { selectItem, setMatcher, matcher } = useArray((state) => state);
     const updateMatcher = useMatcher((state) => state.updateMatcher);
+    const buttonSize = size === 'normal' ? 22 : size === 'compact' ? 20 : 26;
+    const iconSize = size === 'normal' ? 16 : size === 'compact' ? 12 : 20;
 
     const handleClick = React.useCallback(
       (event: React.MouseEvent) => {
@@ -53,8 +56,8 @@ export const ArrayItem = React.memo(
         <Button
           id={`sf-delete-arr-${text}`}
           onClick={handleDeleteArrayItem}
-          height={12}
-          width={12}
+          height={buttonSize}
+          width={buttonSize}
           color={Colours.buttons.arrayItem}
           hoverColor={Colours.buttons.arrayItemhover}
           backgroundColor={Colours.buttons.arrayItembackground}
@@ -66,7 +69,7 @@ export const ArrayItem = React.memo(
             paddingInline: 0,
           }}
         >
-          <IoClose />
+          <VscClose style={{ width: iconSize, height: iconSize }} />
         </Button>
         <div className={s.text}>
           {selected && <FaCaretRight />}

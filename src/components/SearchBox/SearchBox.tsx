@@ -61,6 +61,7 @@ export const SearchBox = React.memo(
       selectedMatcher,
       selectedIndex,
       editPosition,
+      clearEditMatcher,
       addClearCallback,
       removeClearCallback,
     } = useMatcher((state) => state);
@@ -85,11 +86,11 @@ export const SearchBox = React.memo(
     React.useEffect(() => {
       setSearchText(text[0]);
       if (inputRef.current) {
-        if (matcherKey) {
+        if (matcherKey && !editMatcher) {
           inputRef.current?.focus();
         }
       }
-    }, [text, matcherKey, selectedMatcher, sortActive]);
+    }, [text, matcherKey, selectedMatcher, sortActive, editMatcher]);
 
     React.useEffect(() => {
       if (
@@ -151,6 +152,9 @@ export const SearchBox = React.memo(
       if (sortActive) {
         setActive(false);
       }
+      if (editMatcher && !matcherKey) {
+        clearEditMatcher();
+      }
       if (!matcherKey && searchText !== '') {
         buildOptions(
           handleOptionSelected,
@@ -167,6 +171,7 @@ export const SearchBox = React.memo(
       searchText,
       field,
       matcherKey,
+      editMatcher,
       buildOptions,
       handleOptionSelected,
       clearSelections,

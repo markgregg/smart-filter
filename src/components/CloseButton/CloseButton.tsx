@@ -1,5 +1,5 @@
 import React from 'react';
-import { IoClose } from 'react-icons/io5';
+import { VscClose } from 'react-icons/vsc';
 import { Colours } from '@/util/colours';
 import { Button } from '../common/Button';
 import s from './style.module.less';
@@ -26,7 +26,7 @@ export const CloseButton = React.memo(({ onClick }: CloseButtonProps) => (
         borderRadius: '3px',
       }}
     >
-      <IoClose />
+      <VscClose />
     </Button>
   </div>
 ));

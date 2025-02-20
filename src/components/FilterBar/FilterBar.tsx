@@ -1,5 +1,5 @@
 import React from 'react';
-import { TbFilter } from 'react-icons/tb';
+import { AiFillLock, AiFillUnlock } from 'react-icons/ai';
 import { FaCaretRight, FaCaretLeft } from 'react-icons/fa6';
 import { PillContainer } from '../PillContainer';
 import { FilterButtons } from './FilterButtons';
@@ -29,18 +29,21 @@ import s from './style.module.less';
 export const FilterBar = React.memo(() => {
   const filterBuittons = React.useRef<HTMLDivElement | null>(null);
   const searchBar = React.useRef<HTMLDivElement | null>(null);
-  const { matchers: initialMatchers = [], sort: initialSort = [] } = useManaged(
-    (state) => state,
-  );
   const {
+    matchers: initialMatchers = [],
+    sort: initialSort = [],
+    locked: initialLocked,
+  } = useManaged((state) => state);
+  const {
+    allowLocking,
     size = 'normal',
-    showSearchIcon,
     fieldMap,
     enableSort,
     sortPillWidth = DEFAULT_SORT_PILL_WIDTH,
     showDropdownOnMouseOver,
     onChange,
     onSortChange,
+    onLock,
   } = useConfig((state) => state);
   const { hasFocus, setHasFocus, hasMouse, setHasMouse, keyboardFocus } =
     useFocus((state) => state);
@@ -56,13 +59,17 @@ export const FilterBar = React.memo(() => {
     clearEditPosition,
     setMatchers,
     setFieldMap,
+    lockMatchers,
+    unlockMatchers,
   } = useMatcher((state) => state);
   const { matcherKey, clearOptions } = useOptions((state) => state);
   const { matcher, setMatcher } = useArray((state) => state);
-  const { expanded, enableExpand } = useFilterBar((state) => state);
+  const { expanded, enableExpand, locked, setlocked } = useFilterBar(
+    (state) => state,
+  );
   const { sort, active, setActive, setSort } = useSort((state) => state);
 
-  const { width = '100%' } = useSizeWatcher(searchBar.current);
+  const { width: maxWidth = '100%' } = useSizeWatcher(searchBar.current);
 
   const buttonHeight =
     size === 'normal'
@@ -84,7 +91,7 @@ export const FilterBar = React.memo(() => {
       (sort.length > 0 ? sortPillWidth + 60 : 0) -
       (showMoveNext ? 26 : 0) -
       (showMovePrev ? 26 : 0) -
-      (showSearchIcon ? 30 : 0),
+      (allowLocking ? 26 : 0),
   );
 
   React.useEffect(() => {
@@ -98,6 +105,10 @@ export const FilterBar = React.memo(() => {
   React.useEffect(() => {
     setSort(initialSort ?? []);
   }, [initialSort]);
+
+  React.useEffect(() => {
+    setlocked(initialLocked ?? false);
+  }, [initialLocked]);
 
   React.useEffect(() => {
     if (onChange) {
@@ -195,6 +206,19 @@ export const FilterBar = React.memo(() => {
     [first, last, next, prev],
   );
 
+  const handleLockClick = React.useCallback(() => {
+    if (locked) {
+      unlockMatchers();
+    } else {
+      lockMatchers();
+    }
+    const newlocked = !locked;
+    setlocked(newlocked);
+    if (onLock) {
+      onLock(newlocked);
+    }
+  }, [locked, setlocked, onLock]);
+
   return (
     <div
       id="sf-filter-bar"
@@ -216,13 +240,19 @@ export const FilterBar = React.memo(() => {
           s[size],
         ].join(' ')}
         style={{
-          width,
+          maxWidth,
         }}
       >
-        {showSearchIcon && (
-          <div className={[s.filterIconContainer, s[size]].join(' ')}>
-            <TbFilter />
-          </div>
+        {allowLocking && (
+          <Button
+            id="sf-lock-icon"
+            onClick={handleLockClick}
+            height={buttonHeight}
+            width={26}
+            style={{ alignSelf: 'flex-start' }}
+          >
+            {locked ? <AiFillLock /> : <AiFillUnlock />}
+          </Button>
         )}
         {showMovePrev && (
           <Button onClick={handleMovePrev} height={buttonHeight} width={26}>

@@ -1,29 +1,36 @@
 export const Colours = {
   buttons: {
-    buttonDefault: 'black',
-    buttonDefaultHover: 'black',
+    buttonDefault: '#646464',
+    buttonDefaultHover: '#646464',
     buttonDefaultBackground: 'white',
-    buttonDefaultHoverBackground: 'lightgray',
+    buttonDefaultHoverBackground: '#F7F7F7',
 
-    arrayItem: 'black',
-    arrayItemhover: 'black',
-    arrayItembackground: 'lightgray',
+    selected: 'black',
+    selectedHover: 'black',
+    selectedBackground: '#EBEBEB',
+    selectedHoverBackground: '#E0E0E0',
+
+    arrayItem: '#646464',
+    arrayItemhover: '#646464',
+    arrayItembackground: '#F7F7F7',
     arrayItemHoverBackground: 'white',
 
     editor: 'white',
-    editorHover: 'black',
+    editorHover: '#646464',
     editorBackground: 'transparent',
     editorHoverBackground: 'white',
 
     delete: 'white',
-    deleteHover: 'black',
+    deleteHover: '#646464',
     deleteBackground: '#da0000',
     deleteHoverBackground: 'white',
 
     sort: 'white',
-    sortHover: 'black',
+    sortHover: '#646464',
     sortBackground: 'transparent',
     sortHoverBackground: 'white',
+
+    operator: '#095F95',
   },
 
   backgrounds: {

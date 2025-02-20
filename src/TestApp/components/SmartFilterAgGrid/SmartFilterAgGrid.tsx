@@ -99,7 +99,6 @@ export const SmartFilterAgGrid = () => {
           hints={hints}
           size={size}
           allowLocking={!queryParams.noIcons}
-          showSearchIcon={!queryParams.noIcons}
           showUndoIcon={!queryParams.noIcons}
           pasteOptions={pasteOptions}
           returnAllOptions

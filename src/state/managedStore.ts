@@ -5,8 +5,10 @@ import { ManagedState } from '@/types/State';
 export const createManagedStore = (
   matchers?: Matcher[],
   sort?: Sort[],
+  locked?: boolean,
 ): UseBoundStore<StoreApi<ManagedState>> =>
   create<ManagedState>(() => ({
     matchers,
     sort,
+    locked,
   }));

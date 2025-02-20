@@ -1,5 +1,6 @@
 import React from 'react';
-import { IoClose, IoCaretUpSharp, IoCaretDownSharp } from 'react-icons/io5';
+import { VscClose } from 'react-icons/vsc';
+import { IoCaretUpSharp, IoCaretDownSharp } from 'react-icons/io5';
 import { MdDragIndicator } from 'react-icons/md';
 import { useConfig, useSort, useSortDrag } from '@/state/useState';
 import { Button } from '@/components/common/Button';
@@ -154,7 +155,7 @@ export const SortItem = React.memo(({ sort, index }: SortItemProps) => {
             paddingInline: 0,
           }}
         >
-          <IoClose />
+          <VscClose />
         </Button>
         <div className={s.sortOption} id="pill-content">
           {field && <SortOption field={field} onSelect={handleSelect} />}

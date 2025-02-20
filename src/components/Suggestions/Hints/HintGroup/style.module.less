@@ -5,6 +5,7 @@
   flex-direction: row;
 
   .groupTitle {
+    color: @primary;
     display: flex;
     text-align: left;
     align-items: center;
@@ -13,10 +14,22 @@
     user-select: none;
     white-space: nowrap;
     height: 16px;
+    font-weight: bold;
   }
 
   .selectable {
     color: @selectable;
-    font-weight: bold;
   }
+}
+
+.compact {
+  height: @pill-height-compact;
+}
+
+.normal {
+  height: @pill-height;
+}
+
+.large {
+  height: @pill-height-large;
 }

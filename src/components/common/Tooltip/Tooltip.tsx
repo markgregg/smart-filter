@@ -12,22 +12,19 @@ export const Tooltip = React.memo(({ caption, children }: TooltipProps) => {
   const [marginLeft, setMarginLeft] = React.useState<number>(0);
   const size = useConfig((state) => state.size);
 
-  const handleSetSize = React.useCallback(
-    (element: HTMLDivElement | null) => {
-      if (element) {
-        setMarginLeft((element.offsetWidth / 2) * -1);
-      }
-    },
-    [setMarginLeft],
-  );
+  const handleSetSize = React.useCallback((element: HTMLDivElement | null) => {
+    if (element) {
+      setMarginLeft((element.offsetWidth / 2) * -1);
+    }
+  }, []);
 
   const handleMouseEnter = React.useCallback(() => {
     setShowTooltip(true);
-  }, [setShowTooltip]);
+  }, []);
 
   const handleMouseLeave = React.useCallback(() => {
     setShowTooltip(false);
-  }, [setShowTooltip]);
+  }, []);
 
   return (
     <div

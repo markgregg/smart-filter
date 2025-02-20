@@ -1,5 +1,5 @@
 import React from 'react';
-import { IoClose } from 'react-icons/io5';
+import { VscClose } from 'react-icons/vsc';
 import { Button } from '@/components/common/Button';
 import { ArrayHint, Hint, Matcher, SingleValueHint, Value } from '@/types';
 import { useConfig, useMatcher } from '@/state/useState';
@@ -70,8 +70,9 @@ const containsHint = (field: string, hint: Hint, matcher: Matcher): boolean => {
 export const HintItems = React.memo(
   ({ field, hintSource, showAll }: HintItemsProps) => {
     const {
-      hints: { hintsPerColumn = 3, hintWidth: width = 90 } = {},
+      hints: { hintsPerColumn = 3, hintWidth: width = 110 } = {},
       fieldMap,
+      size = 'normal',
     } = useConfig((state) => state);
     const {
       selectedMatcher,
@@ -81,6 +82,9 @@ export const HintItems = React.memo(
       editPosition,
       matchers,
     } = useMatcher((state) => state);
+    const buttonSize = size === 'normal' ? 22 : size === 'compact' ? 20 : 26;
+    const iconSize = size === 'normal' ? 16 : size === 'compact' ? 12 : 20;
+
     const hints = React.useMemo(
       () => (typeof hintSource === 'function' ? hintSource() : hintSource),
       [hintSource],
@@ -193,45 +197,50 @@ export const HintItems = React.memo(
           return (
             // @ts-expect-error key is not exposed to the user and is automatically add in the config
             <div key={key} style={{ display: 'flex' }}>
-              {h.selected && (
-                <Button
-                  onClick={() => {
-                    handleValueClick(h);
-                  }}
-                  height={12}
-                  width={12}
-                  color={Colours.buttons.arrayItem}
-                  hoverColor={Colours.buttons.arrayItemhover}
-                  backgroundColor={Colours.buttons.arrayItembackground}
-                  hoverBackgroundColor={
-                    Colours.buttons.arrayItemHoverBackground
-                  }
-                  style={{
-                    alignSelf: 'center',
-                    marginLeft: '3px',
-                    paddingBlock: 0,
-                    paddingInline: 0,
-                  }}
-                >
-                  <IoClose />
-                </Button>
-              )}
               <Button
                 id={`sf-${field}-item`}
                 onClick={() => handleValueClick(h)}
-                style={{ paddingBlock: 0, paddingInline: 0 }}
+                style={{ paddingBlock: 0, paddingInline: 0, margin: '2px 0' }}
+                height={buttonSize}
+                color={
+                  h.selected
+                    ? Colours.buttons.selected
+                    : Colours.buttons.buttonDefault
+                }
+                hoverColor={
+                  h.selected
+                    ? Colours.buttons.selectedHover
+                    : Colours.buttons.buttonDefaultHover
+                }
+                backgroundColor={
+                  h.selected
+                    ? Colours.buttons.selectedBackground
+                    : Colours.buttons.buttonDefaultBackground
+                }
+                hoverBackgroundColor={
+                  h.selected
+                    ? Colours.buttons.selectedHoverBackground
+                    : Colours.buttons.buttonDefaultHoverBackground
+                }
               >
                 <div
-                  className={s.hint}
-                  style={{ width, fontWeight: h.selected ? 'bold' : 'normal' }}
+                  className={[s.hint, h.selected ? s.selected : ''].join(' ')}
+                  style={{ width }}
                 >
-                  {typeof h.hint === 'string'
-                    ? h.hint
-                    : 'display' in h.hint
-                      ? h.hint.display
-                      : 'text' in h.hint
-                        ? h.hint.text
-                        : ''}
+                  <span className={s.hintText}>
+                    {typeof h.hint === 'string'
+                      ? h.hint
+                      : 'display' in h.hint
+                        ? h.hint.display
+                        : 'text' in h.hint
+                          ? h.hint.text
+                          : ''}
+                  </span>
+                  {h.selected && (
+                    <div className={s.hintIcon}>
+                      <VscClose style={{ width: iconSize, height: iconSize }} />
+                    </div>
+                  )}
                 </div>
               </Button>
             </div>

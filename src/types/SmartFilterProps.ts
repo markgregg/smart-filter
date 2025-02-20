@@ -21,6 +21,8 @@ export interface SmartFilterProps extends UIProperties {
 
   /* matcher clear notifier */
   onClear?: () => void;
+  /** lock state */
+  locked?: boolean;
   /* lock toggle notifier */
   onLock?: (locked: boolean) => void;
   /* expand toggle notifier */

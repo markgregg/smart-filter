@@ -10,6 +10,7 @@ import { useConfig, useMatcher } from '@/state/useState';
 import { FieldSelection } from './FieldSelection';
 import { toText } from '@/util/functions';
 import { AND, EMPTY, OR } from '@/util/constants';
+import { Colours } from '@/util/colours';
 import s from './style.module.less';
 
 const brackets: Brackets[] = ['(', ')'];
@@ -24,7 +25,7 @@ export const Operators = React.memo(() => {
   const { selectedMatcher, matchers, updateMatcher, addBracket, editPosition } =
     useMatcher((state) => state);
 
-  const buttonSize = size === 'normal' ? 22 : size === 'compact' ? 20 : 26;
+  const buttonSize = size === 'normal' ? 20 : size === 'compact' ? 16 : 24;
 
   const field = React.useMemo(
     () =>
@@ -273,6 +274,8 @@ export const Operators = React.memo(() => {
               onClick={() => handleComparisonClick(o)}
               height={buttonSize}
               width={buttonSize}
+              color={Colours.buttons.operator}
+              hoverColor={Colours.buttons.operator}
             >
               {o}
             </TooltipButton>
@@ -289,6 +292,8 @@ export const Operators = React.memo(() => {
               onClick={() => handleSpecialClick(f.code)}
               height={buttonSize}
               width={buttonSize}
+              color={Colours.buttons.operator}
+              hoverColor={Colours.buttons.operator}
             >
               {f.icon}
             </TooltipButton>
@@ -300,6 +305,8 @@ export const Operators = React.memo(() => {
             onClick={() => handleBracketClick(b)}
             height={buttonSize}
             width={buttonSize}
+            color={Colours.buttons.operator}
+            hoverColor={Colours.buttons.operator}
           >
             {b}
           </Button>
@@ -310,6 +317,8 @@ export const Operators = React.memo(() => {
             onClick={() => handleLogicalOperatorClick(currentOperator)}
             height={buttonSize}
             width={buttonSize}
+            color={Colours.buttons.operator}
+            hoverColor={Colours.buttons.operator}
           >
             {currentOperator}
           </Button>
@@ -322,6 +331,8 @@ export const Operators = React.memo(() => {
               onClick={handleToggleLock}
               height={buttonSize}
               width={buttonSize}
+              color={Colours.buttons.operator}
+              hoverColor={Colours.buttons.operator}
             >
               {selectedMatcher.locked ? <AiFillUnlock /> : <AiFillLock />}
             </Button>

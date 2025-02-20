@@ -1,8 +1,8 @@
 import React from 'react';
+import { IoSearch } from 'react-icons/io5';
 import { FaCaretDown, FaCaretUp } from 'react-icons/fa';
 import { MdOutlineClear } from 'react-icons/md';
 import { CgUndo } from 'react-icons/cg';
-import { AiFillLock, AiFillUnlock } from 'react-icons/ai';
 import { Button } from '../../common/Button';
 import { useConfig, useFilterBar, useMatcher, useSort } from '@/state/useState';
 import s from './style.module.less';
@@ -11,18 +11,15 @@ import { COMPACT_HEIGHT, LARGE_HEIGHT, NORMAL_HEIGHT } from '@/util/constants';
 export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
   const {
     size = 'normal',
-    allowLocking,
     showUndoIcon,
     onClear,
-    onLock,
     onExpand,
   } = useConfig((state) => state);
-  const { enableExpand, expanded, setExpanded, locked, setlocked } =
-    useFilterBar((state) => state);
-  const { clearMatchers, lockMatchers, unlockMatchers, undo } = useMatcher(
+  const { enableExpand, expanded, setExpanded } = useFilterBar(
     (state) => state,
   );
-  const clearSort = useSort((state) => state.clearSort);
+  const { clearMatchers, undo, matchers } = useMatcher((state) => state);
+  const { clearSort, sort } = useSort((state) => state);
 
   const buttonHeight =
     size === 'normal'
@@ -43,19 +40,6 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
     undo();
   }, [undo]);
 
-  const handleLockClick = React.useCallback(() => {
-    if (locked) {
-      unlockMatchers();
-    } else {
-      lockMatchers();
-    }
-    const newLocked = !locked;
-    setlocked(newLocked);
-    if (onLock) {
-      onLock(newLocked);
-    }
-  }, [locked, setlocked, unlockMatchers, lockMatchers, onLock]);
-
   const handleExpandClick = React.useCallback(() => {
     const newExpanded = !expanded;
     setExpanded(newExpanded);
@@ -69,7 +53,7 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
       id: 'sf-clear-icon',
       Icon: MdOutlineClear,
       onClick: handleClearClick,
-      hide: false,
+      hide: sort.length === 0 && matchers.length === 0,
     },
     {
       id: 'sf-undo-icon',
@@ -78,14 +62,8 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
       hide: !showUndoIcon,
     },
     {
-      id: 'sf-lock-icon',
-      Icon: locked ? AiFillLock : AiFillUnlock,
-      onClick: handleLockClick,
-      hide: !allowLocking,
-    },
-    {
       id: 'sf-expand-icon',
-      Icon: expanded ? FaCaretUp : FaCaretDown,
+      Icon: !enableExpand ? IoSearch : expanded ? FaCaretUp : FaCaretDown,
       onClick: handleExpandClick,
       disabled: !enableExpand,
     },

@@ -2,7 +2,7 @@
 
 .searchBar {
   position: relative;
-  width: 100%;
+  flex-grow: 1;
   font-family: @font-family;
 
   .searchBarInner {
@@ -15,7 +15,7 @@
     background-color: @background;
 
     &:hover {
-      border-color: @hover;
+      border-color: @hover-border;
     }
 
     &:focus-within {

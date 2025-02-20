@@ -53,10 +53,6 @@ const meta = {
       control: 'number',
       description: 'The number of items to jump when pressing page up/down',
     },
-    showSearchIcon: {
-      control: 'boolean',
-      description: 'If true the search icon is shown',
-    },
     showUndoIcon: {
       control: 'boolean',
       description: 'If true the undo icon is shown',
@@ -112,6 +108,5 @@ export const Primary: Story = {
     exampleHeight: 600,
     exampleWidth: 1000,
     enableSort: true,
-    showSearchIcon: true,
   },
 };

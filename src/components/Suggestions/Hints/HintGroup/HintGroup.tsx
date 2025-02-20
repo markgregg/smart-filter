@@ -1,6 +1,5 @@
 import React from 'react';
-import { TiArrowBack } from 'react-icons/ti';
-import { AiFillCaretRight } from 'react-icons/ai';
+import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import { IconType } from 'react-icons';
 import { TooltipButton } from '@/components/common/TooltipButton';
 import { useConfig, useHint } from '@/state/useState';
@@ -14,8 +13,10 @@ interface HintGroupProps {
 
 export const HintGroup = React.memo(
   ({ title, hints, selected }: HintGroupProps) => {
-    const { hintsPerColumn = 3, hintWidth: width = 90 } =
-      useConfig((state) => state.hints) ?? {};
+    const {
+      hints: { hintsPerColumn = 3, hintWidth: width = 110 } = {},
+      size = 'normal',
+    } = useConfig((state) => state);
     const { selectHintGroup, clearSelection } = useHint((state) => state);
 
     const hasMore = !selected && hints > hintsPerColumn;
@@ -30,7 +31,9 @@ export const HintGroup = React.memo(
 
     const renderTitle = (Icon?: IconType, selectable?: boolean) => (
       <div
-        className={[s.groupTitle, selectable ? s.selectable : ''].join(' ')}
+        className={[s.groupTitle, s[size], selectable ? s.selectable : ''].join(
+          ' ',
+        )}
         style={{ width }}
       >
         {Icon ? `${title} (${hints})` : title}
@@ -55,11 +58,13 @@ export const HintGroup = React.memo(
 
     const render = () => {
       if (selected) {
-        return <>{renderTooltipButton(`Close ${title}`, title, TiArrowBack)}</>;
+        return (
+          <>{renderTooltipButton(`Close ${title}`, title, MdChevronLeft)}</>
+        );
       }
       if (hasMore) {
         return (
-          <>{renderTooltipButton(`Open ${title}`, title, AiFillCaretRight)}</>
+          <>{renderTooltipButton(`Open ${title}`, title, MdChevronRight)}</>
         );
       }
       return <div className={s.nobutton}>{renderTitle()}</div>;

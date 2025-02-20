@@ -36,6 +36,7 @@ export const StateProvider = React.memo(
       onChange,
       onClear,
       onExpand,
+      locked,
       onLock,
       onSortChange,
       operators,
@@ -44,7 +45,6 @@ export const StateProvider = React.memo(
       pasteOptions,
       placeholder,
       showDropdownOnMouseOver,
-      showSearchIcon,
       showUndoIcon,
       size,
       sortPillWidth,
@@ -64,6 +64,7 @@ export const StateProvider = React.memo(
         onChange,
         onClear,
         onExpand,
+        locked,
         onLock,
         onSortChange,
         operators,
@@ -72,7 +73,6 @@ export const StateProvider = React.memo(
         pasteOptions,
         placeholder,
         showDropdownOnMouseOver,
-        showSearchIcon,
         showUndoIcon,
         size,
         sortPillWidth,
@@ -114,8 +114,8 @@ export const StateProvider = React.memo(
       [],
     );
     const managedStore = React.useMemo(
-      () => createManagedStore(matchers ?? [], sort ?? []),
-      [matchers, sort],
+      () => createManagedStore(matchers ?? [], sort ?? [], locked ?? false),
+      [matchers, sort, locked],
     );
 
     const stateValue = React.useMemo(

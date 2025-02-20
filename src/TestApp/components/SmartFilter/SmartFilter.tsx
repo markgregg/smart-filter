@@ -80,7 +80,6 @@ export const SmartFilter = () => {
           size={size}
           enableSort
           allowLocking={!queryParams.noIcons}
-          showSearchIcon={!queryParams.noIcons}
           showUndoIcon={!queryParams.noIcons}
           pasteOptions={pasteOptions}
         />

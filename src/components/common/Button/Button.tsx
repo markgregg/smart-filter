@@ -38,11 +38,11 @@ export const Button = React.memo(
 
     const handleMouseEnter = React.useCallback(() => {
       setMouseOver(true);
-    }, [setMouseOver]);
+    }, []);
 
     const handleMouseLeave = React.useCallback(() => {
       setMouseOver(false);
-    }, [setMouseOver]);
+    }, []);
 
     const handleClick = React.useCallback(
       (event: React.MouseEvent) => {

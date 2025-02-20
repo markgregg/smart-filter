@@ -1,8 +1,6 @@
 # UI Properies
 This are the UI specific proprties for the component.
 
-## showSearchIcon
-If true a search icon is shown on the left.
 ## showUndoIcon
 If true the undo icon is shown
 ## size

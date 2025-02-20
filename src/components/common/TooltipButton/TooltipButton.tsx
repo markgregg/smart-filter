@@ -10,6 +10,10 @@ interface TooltipButtonProps {
   height?: string | number;
   width?: string | number;
   style?: React.CSSProperties;
+  color?: string;
+  hoverColor?: string;
+  backgroundColor?: string;
+  hoverBackgroundColor?: string;
 }
 
 export const TooltipButton = React.memo((props: TooltipButtonProps) => {

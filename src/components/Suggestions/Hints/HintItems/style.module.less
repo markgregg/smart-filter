@@ -15,8 +15,22 @@
     align-items: center;
     column-gap: 3px;
     padding: 4px 6px;
-    color: @selectable;
+    color: #646464;
     user-select: none;
     white-space: nowrap;
+
+    .hintText {
+      flex-grow: 1;
+    }
+
+    .hintIcon {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .selected {
+    color: black;
+    font-weight: bold;
   }
 }

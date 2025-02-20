@@ -56,8 +56,6 @@ export interface SmartFilterProps {
   /* number of items to jump when page down/up pressed */
   pageSize?: number;
 
-  /* if ture search icon is shown */
-  showSearchIcon?: boolean;
   /* if true the undo icon is shown */
   showUndoIcon?: boolean;
   /* maxium pill width */

@@ -1,8 +1,6 @@
 export type FilterBarSize = 'compact' | 'normal' | 'large';
 
 interface FilterBar {
-  /* if ture search icon is shown */
-  showSearchIcon?: boolean;
   /* if true the undo icon is shown */
   showUndoIcon?: boolean;
   /* size of the filter bar */
