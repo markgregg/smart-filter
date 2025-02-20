@@ -1,6 +1,5 @@
 export type FilterBarSize = 'compact' | 'normal' | 'large';
 interface FilterBar {
-    showSearchIcon?: boolean;
     showUndoIcon?: boolean;
     size?: FilterBarSize;
 }

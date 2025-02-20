@@ -13,6 +13,8 @@ export interface SmartFilterProps extends UIProperties {
     sort?: Sort[];
     onSortChange?: (sort: Sort[]) => void;
     onClear?: () => void;
+    /** lock state */
+    locked?: boolean;
     onLock?: (locked: boolean) => void;
     onExpand?: (expanded: boolean) => void;
     fields: Field[];

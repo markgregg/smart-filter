@@ -4,6 +4,10 @@ export declare const Colours: {
         buttonDefaultHover: string;
         buttonDefaultBackground: string;
         buttonDefaultHoverBackground: string;
+        selected: string;
+        selectedHover: string;
+        selectedBackground: string;
+        selectedHoverBackground: string;
         arrayItem: string;
         arrayItemhover: string;
         arrayItembackground: string;
@@ -20,6 +24,7 @@ export declare const Colours: {
         sortHover: string;
         sortBackground: string;
         sortHoverBackground: string;
+        operator: string;
     };
     backgrounds: {
         standard: string;

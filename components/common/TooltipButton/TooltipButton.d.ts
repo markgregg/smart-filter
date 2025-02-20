@@ -8,6 +8,10 @@ interface TooltipButtonProps {
     height?: string | number;
     width?: string | number;
     style?: React.CSSProperties;
+    color?: string;
+    hoverColor?: string;
+    backgroundColor?: string;
+    hoverBackgroundColor?: string;
 }
 export declare const TooltipButton: React.MemoExoticComponent<(props: TooltipButtonProps) => import("react/jsx-runtime").JSX.Element>;
 export {};
