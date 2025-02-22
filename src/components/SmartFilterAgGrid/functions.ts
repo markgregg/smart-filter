@@ -194,7 +194,7 @@ export const constructFields = (
               filter,
               lookup,
             ),
-            allowList: useLists(filter),
+            allowList: useLists(filter, lookup),
             allowRange: useRanges(cellDataType),
             allowBlanks: true,
             editorType:

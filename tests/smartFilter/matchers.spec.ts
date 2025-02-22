@@ -369,7 +369,7 @@ import { Given, Scenario, Then, When } from '../common/ghkerkin';
       await When(
         'an operator, a comparison and number are entered into the search box',
         async () => {
-          await enterAndSelectItemInSearchBox('Maturity Date = 2024-12-23');
+          await enterAndSelectItemInSearchBox('MaturityDate = 2024-12-23');
           await enterAndSelectItemInSearchBox('or coupon > 0.5');
         },
       );
