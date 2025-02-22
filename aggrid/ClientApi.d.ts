@@ -6,7 +6,7 @@ export interface ClientApi {
     getAgColumn: (column: string) => Column | null;
     getAgColumns: () => Column[] | null;
     constructFilter: (matchers: Matcher[]) => FilterFunction | null;
-    getFieldMatch: (field?: string, type?: string | boolean, filter?: string, dateFormats?: string[], displayFormat?: string, filterValueGetter?: FilterValueGetter, returnAllOptions?: boolean) => FieldMatch;
+    getFieldMatch: (field?: string, type?: string | boolean, filter?: string, dateFormats?: string[], displayFormat?: string, filterValueGetter?: FilterValueGetter, returnAllOptions?: boolean, maxOptions?: number, lookup?: true) => FieldMatch;
     findUniqueHintValues: (column: Column | null, maxUniqueValues?: number, filterValueGetter?: FilterValueGetter) => string[];
     applySort: (sort: Sort[]) => void;
 }

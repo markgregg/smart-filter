@@ -46,11 +46,18 @@ export interface ColumnApi {
     getColumnState: () => ColumnState[];
     applyColumnState: (updateState: ApplyColumnStateParams) => boolean;
 }
-export interface GridApi {
+export interface GridApiOld {
     forEachNode: (callback: (rowNode: RowNode, index: number) => void, includeFooterNodes?: boolean) => void;
     forEachNodeAfterFilter: (callback: (rowNode: RowNode, index: number) => void) => void;
     setAdvancedFilterModel: (advancedFilterModel: AdvancedFilterModel | null) => void;
 }
+export interface GridApiNew extends GridApiOld {
+    getColumn: (column: string) => Column | null;
+    getColumns: () => Column[] | null;
+    getColumnState: () => ColumnState[];
+    applyColumnState: (updateState: ApplyColumnStateParams) => boolean;
+}
+export type GridApi = GridApiNew | GridApiOld;
 export type AdvancedFilterModel = JoinAdvancedFilterModel | ColumnAdvancedFilterModel;
 /** Represents a series of filter conditions joined together. */
 export interface JoinAdvancedFilterModel {

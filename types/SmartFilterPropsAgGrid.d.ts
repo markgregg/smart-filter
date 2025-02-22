@@ -9,6 +9,8 @@ export type SmartFilterAgGridProps = Omit<SmartFilterProps, 'fields'> & {
     displayDateFormat?: string;
     returnAllOptions?: boolean;
     onFiltersChange?: (filterFunction: FilterFunction | null) => void;
+    /** maximium options to show when searching */
+    maxOptions?: number;
     gridApi: GridApi | null;
     columnApi: ColumnApi | null;
 };

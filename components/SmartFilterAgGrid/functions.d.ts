@@ -6,9 +6,9 @@ import { ScalarAdvancedFilterModelType, TextAdvancedFilterModelType } from '../.
 export declare const textComparisonMap: Map<string, TextAdvancedFilterModelType>;
 export declare const scalarComparisonMap: Map<string, ScalarAdvancedFilterModelType>;
 export declare const getComparisons: (type?: string | boolean, filter?: string) => string[];
-export declare const getPrecedence: (filter?: string) => number;
-export declare const getDefaultComparison: (type?: string | boolean, filter?: string) => string;
-export declare const useLists: (filter?: string) => boolean;
+export declare const getPrecedence: (type?: string | boolean, filter?: string, lookup?: true) => number;
+export declare const getDefaultComparison: (type?: string | boolean, filter?: string, lookup?: true) => string;
+export declare const useLists: (filter?: string, lookup?: true) => boolean;
 export declare const useRanges: (type?: string | boolean, filter?: string) => boolean;
 export declare const convertToheader: (field?: string) => string;
-export declare const constructFields: (agClientApi: ClientApi | null, fields?: AgField[], dateFormats?: string[], displayDateFormat?: string, returnAllOptions?: boolean) => Field[] | null;
+export declare const constructFields: (agClientApi: ClientApi | null, fields?: AgField[], dateFormats?: string[], displayDateFormat?: string, returnAllOptions?: boolean, maxOptions?: number) => Field[] | null;
