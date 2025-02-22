@@ -16,6 +16,7 @@ export const SmartFilterAgGrid = React.memo((props: SmartFilterAgGridProps) => {
     sort,
     fields,
     hints,
+    maxOptions,
     dateFormats,
     displayDateFormat,
     returnAllOptions,
@@ -50,6 +51,7 @@ export const SmartFilterAgGrid = React.memo((props: SmartFilterAgGridProps) => {
         dateFormats,
         displayDateFormat,
         returnAllOptions,
+        maxOptions,
       ) ?? [];
     return {
       overriddenHints: {
@@ -79,7 +81,7 @@ export const SmartFilterAgGrid = React.memo((props: SmartFilterAgGridProps) => {
       overriddenFields: [
         ...autoFields,
         ...((fields?.filter(
-          (f) => !autoFields?.find((a) => a.name === f.name) && f.title,
+          (f) => !autoFields?.find((a) => a.name === f.name),
         ) as Field[]) ?? []),
       ],
     };

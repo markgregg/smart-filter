@@ -3,7 +3,7 @@ export const Colours = {
     buttonDefault: '#646464',
     buttonDefaultHover: '#646464',
     buttonDefaultBackground: 'white',
-    buttonDefaultHoverBackground: '#F7F7F7',
+    buttonDefaultHoverBackground: '#DDDDDD',
 
     selected: 'black',
     selectedHover: 'black',
@@ -12,7 +12,7 @@ export const Colours = {
 
     arrayItem: '#646464',
     arrayItemhover: '#646464',
-    arrayItembackground: '#F7F7F7',
+    arrayItembackground: '#DDDDDD',
     arrayItemHoverBackground: 'white',
 
     editor: 'white',

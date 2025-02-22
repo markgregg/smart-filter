@@ -7,7 +7,7 @@ export const Options = React.memo(() => {
   const { options, active } = useOptions((state) => state);
 
   return (
-    <div className={s.options}>
+    <div id="sf-options-list" className={s.options}>
       {options.map((o) => (
         <Option key={o.key} option={o} active={o.key === active?.key} />
       ))}

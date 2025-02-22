@@ -11,6 +11,7 @@ import {
   SortDirection,
   SourceItem,
   ValueMatcher,
+  AgField,
 } from '..';
 import {
   OR,
@@ -320,64 +321,62 @@ export const hintGroups: HintGrouping[] = [
 export const columns: ColDef<Bond>[] = [
   {
     field: 'isin',
-    filter: 'agSetColumnFilter',
     sortable: true,
     resizable: true,
+    cellDataType: 'text',
   },
   {
     field: 'side',
-    filter: 'agSetColumnFilter',
     sortable: true,
     resizable: true,
+    cellDataType: 'text',
   },
   {
     field: 'currency',
-    filter: 'agSetColumnFilter',
     sortable: true,
     resizable: true,
+    cellDataType: 'text',
   },
   {
     field: 'issueDate',
-    filter: 'agDateStringColumnFilter',
     sortable: true,
     resizable: true,
   },
   {
     field: 'maturityDate',
-    filter: 'agDateStringColumnFilter',
     sortable: true,
     resizable: true,
   },
   {
     field: 'coupon',
-    filter: 'agNumberColumnFilter',
     sortable: true,
     resizable: true,
+    cellDataType: 'number',
   },
   {
     field: 'issuer',
-    filter: 'agTextColumnFilter',
     sortable: true,
     resizable: true,
+    cellDataType: 'text',
   },
   {
     field: 'hairCut',
-    filter: 'agNumberColumnFilter',
     sortable: true,
     resizable: true,
+    cellDataType: 'number',
   },
   {
     field: 'active',
-    filter: 'agBooleanColumnFilter',
     sortable: true,
     resizable: true,
+    cellDataType: 'boolean',
   },
   {
     colId: 'sector',
     field: 'categories.sector',
-    filter: 'agSetColumnFilter',
     sortable: true,
     resizable: true,
+    cellDataType: 'text',
   },
 ];
 
@@ -1169,6 +1168,24 @@ const generateBondData = (): Bond => ({
   },
 });
 
+export const agFields: AgField[] = [
+  {
+    name: 'isin',
+    lookup: true,
+  },
+  {
+    name: 'side',
+    lookup: true,
+  },
+  {
+    name: 'currency',
+    lookup: true,
+  },
+  {
+    name: 'sector',
+    lookup: true,
+  },
+];
 const bonds = new Array(5000).fill(0).map(() => generateBondData());
 
 export { bonds };

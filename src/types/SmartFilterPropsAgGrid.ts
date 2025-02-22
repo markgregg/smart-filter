@@ -15,6 +15,8 @@ export type SmartFilterAgGridProps = Omit<SmartFilterProps, 'fields'> & {
   returnAllOptions?: boolean;
   /* change event for filters */
   onFiltersChange?: (filterFunction: FilterFunction | null) => void;
+  /** maximium options to show when searching */
+  maxOptions?: number;
   /* ag-grid api */
   gridApi: GridApi | null;
   /* ag-grid column api */

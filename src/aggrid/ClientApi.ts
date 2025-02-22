@@ -26,6 +26,8 @@ export interface ClientApi {
     displayFormat?: string,
     filterValueGetter?: FilterValueGetter,
     returnAllOptions?: boolean,
+    maxOptions?: number,
+    lookup?: true,
   ) => FieldMatch;
   findUniqueHintValues: (
     column: Column | null,
@@ -44,9 +46,14 @@ export const createClientApi = (
   }
 
   const getAgColumn = (column: string): Column | null =>
-    columnApi?.getColumn(column) ?? null;
+    'getColumn' in gridApi
+      ? (gridApi.getColumn(column) ?? null)
+      : (columnApi?.getColumn(column) ?? null);
 
-  const getAgColumns = (): Column[] | null => columnApi?.getColumns() ?? null;
+  const getAgColumns = (): Column[] | null =>
+    'getColumns' in gridApi
+      ? (gridApi.getColumns() ?? null)
+      : (columnApi?.getColumns() ?? null);
 
   const getFieldMatch = (
     field?: string,
@@ -56,6 +63,8 @@ export const createClientApi = (
     displayFormat?: string,
     filterValueGetter?: FilterValueGetter,
     returnAllOptions?: boolean,
+    maxOptions?: number,
+    lookup?: true,
   ): FieldMatch => {
     if (type === AgTypes.boolean) {
       return {
@@ -66,7 +75,7 @@ export const createClientApi = (
         matchOnPaste: true,
       };
     }
-    if (field && filter === AgFilters.agSetColumnFilter) {
+    if (field && (filter === AgFilters.agSetColumnFilter || lookup)) {
       return {
         ignoreCase: true,
         minimumSearchLength: 2,
@@ -78,6 +87,7 @@ export const createClientApi = (
                 field,
                 op === 'or' || returnAllOptions === true,
                 filterValueGetter,
+                maxOptions,
               ),
             );
           }),
@@ -203,6 +213,7 @@ export const createClientApi = (
     field: string,
     isOr: boolean,
     filterValueGetter?: FilterValueGetter,
+    maxOptions?: number,
   ): SourceItem[] => {
     const uniqueItems = new Set<string>();
     const uniqueValueCallback = (row: RowNode) => {
@@ -239,7 +250,9 @@ export const createClientApi = (
       gridApi.forEachNodeAfterFilter(uniqueValueCallback);
     }
     const items = [...uniqueItems].sort();
-    return items.length > 10 ? items?.slice(10) : items;
+    return items.length > (maxOptions ?? 10)
+      ? items?.slice(0, maxOptions ?? 10)
+      : items;
   };
 
   const findItem = (
@@ -837,7 +850,10 @@ export const createClientApi = (
   };
 
   const applySort = (sort: Sort[]) => {
-    const columnState = columnApi?.getColumnState();
+    const columnState =
+      'getColumnState' in gridApi
+        ? (gridApi.getColumnState() ?? null)
+        : columnApi?.getColumnState();
     if (columnState) {
       const fieldState = sort.map((sortField, index) => ({ sortField, index }));
       const newColumnState = columnState.map((cs) => {
@@ -849,7 +865,11 @@ export const createClientApi = (
         };
       });
 
-      columnApi?.applyColumnState({ state: newColumnState });
+      if ('applyColumnState' in gridApi) {
+        gridApi.applyColumnState({ state: newColumnState });
+      } else {
+        columnApi?.applyColumnState({ state: newColumnState });
+      }
     }
   };
 

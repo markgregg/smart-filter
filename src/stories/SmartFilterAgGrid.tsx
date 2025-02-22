@@ -13,6 +13,7 @@ import Bond, {
   operators,
   pasteOptions,
   bonds,
+  agFields,
 } from './smartFilterFunctions';
 import {
   FilterFunction,
@@ -178,6 +179,7 @@ export const SmartFilterAgGrid: React.FC<SmartFilterAgGridProps> = ({
     >
       <div className={s.filterBar}>
         <SmartFilterAgGridComponent
+          fields={agFields}
           matchers={matchers}
           onChange={handleChange}
           sort={sort}

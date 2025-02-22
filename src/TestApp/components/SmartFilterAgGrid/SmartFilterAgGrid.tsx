@@ -14,6 +14,7 @@ import Bond, {
   operators,
   pasteOptions,
   bonds,
+  agFields,
 } from '@/stories/smartFilterFunctions';
 import { deterministicTestData } from '../../../../data/bonds';
 import { SmartFilterAgGrid as SmartFilterAgGridCompoent } from '@/components';
@@ -89,6 +90,7 @@ export const SmartFilterAgGrid = () => {
       <h4>Smart Filter AgGrid</h4>
       <div className={s.filterBar} style={style}>
         <SmartFilterAgGridCompoent
+          fields={agFields}
           matchers={matchers}
           onChange={handleChange}
           enableSort

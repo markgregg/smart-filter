@@ -54,7 +54,7 @@ export interface ColumnApi {
   applyColumnState: (updateState: ApplyColumnStateParams) => boolean;
 }
 
-export interface GridApi {
+export interface GridApiOld {
   forEachNode: (
     callback: (rowNode: RowNode, index: number) => void,
     includeFooterNodes?: boolean,
@@ -66,6 +66,15 @@ export interface GridApi {
     advancedFilterModel: AdvancedFilterModel | null,
   ) => void;
 }
+
+export interface GridApiNew extends GridApiOld {
+  getColumn: (column: string) => Column | null;
+  getColumns: () => Column[] | null;
+  getColumnState: () => ColumnState[];
+  applyColumnState: (updateState: ApplyColumnStateParams) => boolean;
+}
+
+export type GridApi = GridApiNew | GridApiOld;
 
 export type AdvancedFilterModel =
   | JoinAdvancedFilterModel

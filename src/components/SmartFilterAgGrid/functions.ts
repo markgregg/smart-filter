@@ -62,8 +62,9 @@ export const getComparisons = (
 const getEditorType = (
   type?: string | boolean,
   filter?: string,
+  lookup?: true,
 ): ValueType | undefined => {
-  if (filter === AgFilters.agSetColumnFilter) {
+  if (filter === AgFilters.agSetColumnFilter || lookup) {
     return undefined;
   }
   switch (type) {
@@ -82,13 +83,27 @@ const getEditorType = (
   }
 };
 
-export const getPrecedence = (filter?: string): number => {
-  if (filter === AgFilters.agTextColumnFilter) {
+export const getPrecedence = (
+  type?: string | boolean,
+  filter?: string,
+  lookup?: true,
+): number => {
+  if (filter === AgFilters.agTextColumnFilter && type === AgTypes.text) {
     return 0;
   }
 
-  if (filter === AgFilters.agSetColumnFilter) {
+  if (filter === AgFilters.agSetColumnFilter || lookup) {
     return 10;
+  }
+  if (type === AgTypes.boolean) {
+    return 9;
+  }
+  if (
+    type === AgTypes.date ||
+    type === AgTypes.dateString ||
+    type === AgTypes.number
+  ) {
+    return 8;
   }
   return 5;
 };
@@ -96,19 +111,21 @@ export const getPrecedence = (filter?: string): number => {
 export const getDefaultComparison = (
   type?: string | boolean,
   filter?: string,
+  lookup?: true,
 ): string => {
   if (
     type === AgTypes.text &&
     filter !== AgFilters.agSetColumnFilter &&
-    filter !== AgFilters.agDateStringColumnFilter
+    filter !== AgFilters.agDateStringColumnFilter &&
+    !lookup
   ) {
     return '*';
   }
   return '=';
 };
 
-export const useLists = (filter?: string): boolean => {
-  if (filter === AgFilters.agSetColumnFilter) {
+export const useLists = (filter?: string, lookup?: true): boolean => {
+  if (filter === AgFilters.agSetColumnFilter || lookup) {
     return true;
   }
   return false;
@@ -144,6 +161,7 @@ export const constructFields = (
   dateFormats?: string[],
   displayDateFormat?: string,
   returnAllOptions?: boolean,
+  maxOptions?: number,
 ): Field[] | null => {
   if (agClientApi) {
     const columns = agClientApi?.getAgColumns() ?? [];
@@ -163,6 +181,7 @@ export const constructFields = (
             excludeFromFilter,
             dateTimeFormat,
             editorType,
+            lookup,
             ...fieldOverides
           } = overrides ?? {};
           const fieldName = colId ?? field;
@@ -170,14 +189,19 @@ export const constructFields = (
             name: fieldName ?? '',
             title: headerName ?? convertToheader(field),
             operators: getComparisons(cellDataType),
-            defaultComparison: getDefaultComparison(cellDataType, filter),
+            defaultComparison: getDefaultComparison(
+              cellDataType,
+              filter,
+              lookup,
+            ),
             allowList: useLists(filter),
             allowRange: useRanges(cellDataType),
             allowBlanks: true,
-            editorType: editorType ?? getEditorType(cellDataType, filter),
+            editorType:
+              editorType ?? getEditorType(cellDataType, filter, lookup),
             dateTimeFormat:
               dateTimeFormat ?? displayDateFormat ?? DEFAULT_DATE_FORMAT,
-            precedence: getPrecedence(filter),
+            precedence: getPrecedence(cellDataType, filter, lookup),
             fieldMatchers:
               fieldName && !excludeFromFilter
                 ? [
@@ -191,6 +215,8 @@ export const constructFields = (
                         ? filterValueGetter
                         : undefined,
                       returnAllOptions,
+                      maxOptions,
+                      lookup,
                     ),
                   ]
                 : [],

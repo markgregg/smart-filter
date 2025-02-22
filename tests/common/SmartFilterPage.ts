@@ -88,6 +88,8 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
 
   const sortPill = page.locator('#sf-sort-pill');
 
+  const optionsList = page.locator('#sf-options-list');
+
   return {
     filterBar,
     innerFilterBar,
@@ -110,14 +112,14 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
       await searchBox.scrollIntoViewIfNeeded();
       await searchBox.click();
       await searchBox.fill(text);
-      await page.waitForTimeout(50);
+      await optionsList.waitFor({ state: 'visible', timeout: 1000 });
     },
 
     enterAndSelectItemInSearchBox: async (text: string) => {
       await searchBox.scrollIntoViewIfNeeded();
       await searchBox.click();
       await searchBox.fill(text);
-      await page.waitForTimeout(50);
+      await optionsList.waitFor({ state: 'visible', timeout: 1000 });
       await searchBox.press('Enter');
     },
 
@@ -203,14 +205,12 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
     updateNumericValue: async (value: number) => {
       const numberEditor = await page.locator('#sf-number-editor');
       await numberEditor.fill(`${value}`);
-      await page.waitForTimeout(50);
       await numberEditor.press('Enter');
     },
 
     updateDateValue: async (date: string) => {
       const dateEditor = await page.locator('#sf-date-editor');
       await dateEditor.fill(date);
-      await page.waitForTimeout(50);
       await dateEditor.press('Enter');
     },
 
@@ -218,7 +218,7 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
       const pill = await page.locator(`#sf-pill-content-${pillIndex}`);
       const lookupEditor = await pill.locator('#sf-search-box');
       await lookupEditor.fill(text);
-      await page.waitForTimeout(50);
+      await optionsList.waitFor({ state: 'visible', timeout: 1000 });
       await lookupEditor.press('Enter');
     },
 
