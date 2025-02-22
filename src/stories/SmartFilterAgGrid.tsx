@@ -86,6 +86,8 @@ export interface SmartFilterAgGridProps {
 
   onFiltersChange: (filterFunction: FilterFunction | null) => void;
 
+  /* return all values, not just the filtered rows */
+  returnAllOptions?: boolean;
   dateFormats?: string[];
   displayDateFormat?: string;
 }

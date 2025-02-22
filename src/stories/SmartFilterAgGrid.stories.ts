@@ -108,5 +108,7 @@ export const Primary: Story = {
     exampleHeight: 600,
     exampleWidth: 1000,
     enableSort: true,
+    returnAllOptions: true,
+    maxValueWidth: 200,
   },
 };

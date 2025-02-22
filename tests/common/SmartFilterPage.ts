@@ -124,7 +124,7 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
     },
 
     hoverOverPill: async (index: number) => {
-      const pill = await page.locator(`#sf-pill-content-${index}`);
+      const pill = page.locator(`#sf-pill-content-${index}`);
       await pill.hover();
     },
 
@@ -141,19 +141,19 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
         };
       },
     ) => {
-      const pill = await page.locator(`#sf-pill-content-${index}`);
+      const pill = page.locator(`#sf-pill-content-${index}`);
       await pill.click(options);
     },
 
     dragPillTo: async (index: number, target: number) => {
-      const pill = await page.locator(`#sf-pill-content-${index}`);
-      const targetPill = await page.locator(`#sf-pill-content-${target}`);
+      const pill = page.locator(`#sf-pill-content-${index}`);
+      const targetPill = page.locator(`#sf-pill-content-${target}`);
       await pill.dragTo(targetPill);
     },
 
     /* sugestions start */
     selectSortSuggestion: async (field: string, direction: SortDirection) => {
-      const sortOpt = await page.locator(`#sf-${field}-${direction}-opt`);
+      const sortOpt = page.locator(`#sf-${field}-${direction}-opt`);
       if (!sortOpt) {
         throw Error(`sort for ${field} cannot be found`);
       }
@@ -162,17 +162,17 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
 
     selectFieldSuggestion: async (field: string) => {
       await fieldSelectionButton.hover();
-      const fieldOpt = await page.locator(`#sf-${field}-opt`);
+      const fieldOpt = page.locator(`#sf-${field}-opt`);
       await fieldOpt.click();
     },
 
     selectOperatorBarItemSuggestion: async (option: string) => {
-      const operator = await page.locator(`#sf-${option}-operator`);
+      const operator = page.locator(`#sf-${option}-operator`);
       await operator.click();
     },
 
     selectHintGroup: async (group: string) => {
-      const hintGroup = await page.locator(`#sf-${group}-group`);
+      const hintGroup = page.locator(`#sf-${group}-group`);
       await hintGroup.click();
     },
 
@@ -187,35 +187,35 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
 
     /* editing */
     clickTextDisplay: async () => {
-      const textDisplay = await page.locator('#sf-text-display');
+      const textDisplay = page.locator('#sf-text-display');
       await textDisplay.click();
     },
 
     clickBooleanToggle: async () => {
-      const booleanToggle = await page.locator('#sf-boolean-toggle');
+      const booleanToggle = page.locator('#sf-boolean-toggle');
       await booleanToggle.click();
     },
 
     updateTextValue: async (text: string) => {
-      const texteditor = await page.locator('#sf-text-editor');
+      const texteditor = page.locator('#sf-text-editor');
       await texteditor.fill(text);
       await texteditor.press('Enter');
     },
 
     updateNumericValue: async (value: number) => {
-      const numberEditor = await page.locator('#sf-number-editor');
+      const numberEditor = page.locator('#sf-number-editor');
       await numberEditor.fill(`${value}`);
       await numberEditor.press('Enter');
     },
 
     updateDateValue: async (date: string) => {
-      const dateEditor = await page.locator('#sf-date-editor');
+      const dateEditor = page.locator('#sf-date-editor');
       await dateEditor.fill(date);
       await dateEditor.press('Enter');
     },
 
     updateLookupValue: async (pillIndex: number, text: string) => {
-      const pill = await page.locator(`#sf-pill-content-${pillIndex}`);
+      const pill = page.locator(`#sf-pill-content-${pillIndex}`);
       const lookupEditor = await pill.locator('#sf-search-box');
       await lookupEditor.fill(text);
       await optionsList.waitFor({ state: 'visible', timeout: 1000 });
@@ -223,17 +223,17 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
     },
 
     clickClose: async () => {
-      const close = await page.locator(`#sf-editor-close`);
+      const close = page.locator(`#sf-editor-close`);
       await close.click();
     },
 
     clickAccept: async () => {
-      const accept = await page.locator(`#sf-editor-accept`);
+      const accept = page.locator(`#sf-editor-accept`);
       await accept.click();
     },
 
     getDateEditorValue: async (): Promise<string> => {
-      const dateEditor = await page.locator(`#sf-date-editor`);
+      const dateEditor = page.locator(`#sf-date-editor`);
       const dateValue = await dateEditor.inputValue();
       return dateValue;
     },
@@ -241,12 +241,12 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
 
     /* sorting */
     sortOptions: async (): Promise<Locator> => {
-      const sortOptions = await page.locator(`#sf-drop-down`);
+      const sortOptions = page.locator(`#sf-drop-down`);
       return sortOptions;
     },
 
     moveSortItemUp: async (field: string) => {
-      const sortButton = await page.locator(`#sf-${field}-move-up`);
+      const sortButton = page.locator(`#sf-${field}-move-up`);
       if (!sortButton) {
         throw Error('sort button cannot be found');
       }
@@ -254,30 +254,30 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
     },
 
     moveSortItemDown: async (field: string) => {
-      const sortButton = await page.locator(`#sf-${field}-move-down`);
+      const sortButton = page.locator(`#sf-${field}-move-down`);
       await sortButton.click();
     },
 
     dragSortItemTo: async (field: string, toField: string) => {
-      const sortItem = await page.locator(`#sf-sort-item-${field}`);
-      const toSortItem = await page.locator(`#sf-sort-item-${toField}`);
+      const sortItem = page.locator(`#sf-sort-item-${field}`);
+      const toSortItem = page.locator(`#sf-sort-item-${toField}`);
       await sortItem.dragTo(toSortItem);
     },
 
     clickSortItemDirection: async (field: string, direction: SortDirection) => {
-      const sortButton = await page.locator(`#sf-${field}-${direction}-opt`);
+      const sortButton = page.locator(`#sf-${field}-${direction}-opt`);
       await sortButton.click();
     },
     /* End sorting */
 
     /* Array */
     deleteArrayItem: async (item: string) => {
-      const deleteButton = await page.locator(`#sf-delete-arr-${item}`);
+      const deleteButton = page.locator(`#sf-delete-arr-${item}`);
       await deleteButton.click();
     },
 
     selectArrayItem: async (item: string) => {
-      const arrayItem = await page.locator(`#sf-arr-item-${item}`);
+      const arrayItem = page.locator(`#sf-arr-item-${item}`);
       await arrayItem.click();
     },
     /* End Array */
