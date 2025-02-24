@@ -1,7 +1,7 @@
-import { expect } from "@playwright/test";
-import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
+import { expect } from '@playwright/test';
+import { And, Given, Scenario, Then, When } from '../common/ghkerkin';
 
-['smartfilter', 'smartfilteraggrid'].forEach(view => {
+['smartfilter', 'smartfilteraggrid'].forEach((view) => {
   Scenario(
     `Clicking on a text value opens a text editor-${view}`,
     async ({
@@ -25,9 +25,11 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await Then('a text editor is dispalyed', async () => {
-        await expect(filterBar).toHaveScreenshot(`text-editor-shown-${view}.png`);
+        await expect(filterBar).toHaveScreenshot(
+          `text-editor-shown-${view}.png`,
+        );
       });
-    }
+    },
   );
 
   Scenario(
@@ -58,9 +60,11 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await Then('a text editor is hidden', async () => {
-        await expect(filterBar).toHaveScreenshot(`text-editor-is-hidden-${view}.png`);
+        await expect(filterBar).toHaveScreenshot(
+          `text-editor-is-hidden-${view}.png`,
+        );
       });
-    }
+    },
   );
 
   Scenario(
@@ -88,16 +92,17 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await And('the value is changed and accept clicked', async () => {
-        await updateTextValue("test");
+        await updateTextValue('test');
         await clickAccept();
       });
 
       await Then('the value updated and the editor hidden', async () => {
-        await expect(filterBar).toHaveScreenshot(`the-text-is-updated-${view}.png`);
+        await expect(filterBar).toHaveScreenshot(
+          `the-text-is-updated-${view}.png`,
+        );
       });
-    }
+    },
   );
-
 
   Scenario(
     `Clicking on a numeric value opens a text editor-${view}`,
@@ -122,9 +127,11 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await Then('a numeric editor is dispalyed', async () => {
-        await expect(filterBar).toHaveScreenshot(`numeric-editor-shown-${view}.png`);
+        await expect(filterBar).toHaveScreenshot(
+          `numeric-editor-shown-${view}.png`,
+        );
       });
-    }
+    },
   );
 
   Scenario(
@@ -155,9 +162,11 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await Then('a numeric editor is hidden', async () => {
-        await expect(filterBar).toHaveScreenshot(`numeric-editor-is-hidden-${view}.png`);
+        await expect(filterBar).toHaveScreenshot(
+          `numeric-editor-is-hidden-${view}.png`,
+        );
       });
-    }
+    },
   );
 
   Scenario(
@@ -190,9 +199,11 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await Then('the value updated and the editor hidden', async () => {
-        await expect(filterBar).toHaveScreenshot(`the-number-is-updated-${view}.png`);
+        await expect(filterBar).toHaveScreenshot(
+          `the-number-is-updated-${view}.png`,
+        );
       });
-    }
+    },
   );
 
   Scenario(
@@ -221,7 +232,7 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
         const acutalDate = await getDateEditorValue();
         expect(acutalDate).toBe('2026-01-14');
       });
-    }
+    },
   );
 
   Scenario(
@@ -252,9 +263,11 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await Then('a numeric editor is hidden', async () => {
-        await expect(filterBar).toHaveScreenshot(`date-editor-is-hidden-${view}.png`);
+        await expect(filterBar).toHaveScreenshot(
+          `date-editor-is-hidden-${view}.png`,
+        );
       });
-    }
+    },
   );
 
   Scenario(
@@ -282,14 +295,16 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await And('the date is changed and accept clicked', async () => {
-        await updateDateValue("2031-07-18");
+        await updateDateValue('2031-07-18');
         await clickAccept();
       });
 
       await Then('the date updated and the editor hidden', async () => {
-        await expect(filterBar).toHaveScreenshot(`the-date-is-updated-${view}.png`);
+        await expect(filterBar).toHaveScreenshot(
+          `the-date-is-updated-${view}.png`,
+        );
       });
-    }
+    },
   );
 
   Scenario(
@@ -315,9 +330,11 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await Then('a text editor is dispalyed', async () => {
-        await expect(filterBar).toHaveScreenshot(`boolean-value-is-false-${view}.png`);
+        await expect(filterBar).toHaveScreenshot(
+          `boolean-value-is-false-${view}.png`,
+        );
       });
-    }
+    },
   );
 
   Scenario(
@@ -335,7 +352,10 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await When('a lookup text value is entered', async () => {
-        await enterAndSelectItemInSearchBox('XS1');
+        await enterAndSelectItemInSearchBox(
+          'AT0000A2CGC5',
+          view === 'smartfilteraggrid' ? 'Isin' : 'ISIN',
+        );
       });
 
       await And('a lookup text value is clicked', async () => {
@@ -343,9 +363,11 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await Then('a lookup editor is dispalyed', async () => {
-        await expect(filterBar).toHaveScreenshot(`lookup-text-editor-shown-${view}.png`);
+        await expect(filterBar).toHaveScreenshot(
+          `lookup-text-editor-shown-${view}.png`,
+        );
       });
-    }
+    },
   );
 
   Scenario(
@@ -364,7 +386,10 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await When('a lookup text value is entered', async () => {
-        await enterAndSelectItemInSearchBox('XS1');
+        await enterAndSelectItemInSearchBox(
+          'AT0000A2CGC5',
+          view === 'smartfilteraggrid' ? 'Isin' : 'ISIN',
+        );
       });
 
       await And('a lookup text value is clicked', async () => {
@@ -376,9 +401,11 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await Then('the lookup editor is hidden', async () => {
-        await expect(filterBar).toHaveScreenshot(`lookup-editor-is-hidden-${view}.png`);
+        await expect(filterBar).toHaveScreenshot(
+          `lookup-editor-is-hidden-${view}.png`,
+        );
       });
-    }
+    },
   );
 
   Scenario(
@@ -398,7 +425,10 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await When('a  text value is entered', async () => {
-        await enterAndSelectItemInSearchBox('XS1');
+        await enterAndSelectItemInSearchBox(
+          'AT0000A2CGC5',
+          view === 'smartfilteraggrid' ? 'Isin' : 'ISIN',
+        );
       });
 
       await And('a lookup text value is clicked', async () => {
@@ -411,8 +441,10 @@ import { And, Given, Scenario, Then, When } from "../common/ghkerkin";
       });
 
       await Then('the lookup value updated and the editor hidden', async () => {
-        await expect(filterBar).toHaveScreenshot(`the-lookup-is-updated-${view}.png`);
+        await expect(filterBar).toHaveScreenshot(
+          `the-lookup-is-updated-${view}.png`,
+        );
       });
-    }
+    },
   );
 });

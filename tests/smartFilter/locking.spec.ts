@@ -20,8 +20,8 @@ import { And, Given, Scenario, Then, When } from '../common/ghkerkin';
       });
 
       await When('pills have been entered', async () => {
-        await enterAndSelectItemInSearchBox('GBP');
-        await enterAndSelectItemInSearchBox('XS1');
+        await enterAndSelectItemInSearchBox('GBP', 'CCY');
+        await enterAndSelectItemInSearchBox('AT0000A2CGC5', 'ISIN');
         await selectOperatorBarItemSuggestion('open');
       });
 
@@ -38,7 +38,7 @@ import { And, Given, Scenario, Then, When } from '../common/ghkerkin';
   );
 
   Scenario(
-    `When lock icon clicked pills aare unlocked-${view}`,
+    `When lock icon clicked pills are unlocked-${view}`,
     async ({
       smartFilterPage: {
         searchBox,
@@ -55,8 +55,8 @@ import { And, Given, Scenario, Then, When } from '../common/ghkerkin';
       });
 
       await When('pills have been entered', async () => {
-        await enterAndSelectItemInSearchBox('GBP');
-        await enterAndSelectItemInSearchBox('XS1');
+        await enterAndSelectItemInSearchBox('GBP', 'CCY');
+        await enterAndSelectItemInSearchBox('AT0000A2CGC5', 'ISIN');
         await selectOperatorBarItemSuggestion('open');
       });
 

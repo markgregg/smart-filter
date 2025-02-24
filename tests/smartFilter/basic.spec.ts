@@ -76,8 +76,14 @@ import { And, Given, Scenario, Then, When } from '../common/ghkerkin';
       });
 
       await When('the pills take more space than the filterbar', async () => {
-        await enterAndSelectItemInSearchBox('XS1');
-        await enterAndSelectItemInSearchBox('GBP');
+        await enterAndSelectItemInSearchBox(
+          'FR0127739573',
+          view === 'smartfilteraggrid' ? 'Isin' : 'ISIN',
+        );
+        await enterAndSelectItemInSearchBox(
+          'GBP',
+          view === 'smartfilteraggrid' ? 'Currency' : 'CCY',
+        );
       });
 
       await And('the mouse is over the filterbar', async () => {
@@ -107,11 +113,23 @@ import { And, Given, Scenario, Then, When } from '../common/ghkerkin';
       });
 
       await When('the pills take more space than the filterbar', async () => {
-        await enterAndSelectItemInSearchBox('XS1');
-        await enterAndSelectItemInSearchBox('GBP');
+        await enterAndSelectItemInSearchBox(
+          'FR0127739573',
+          view === 'smartfilteraggrid' ? 'Isin' : 'ISIN',
+        );
+        await enterAndSelectItemInSearchBox(
+          'GBP',
+          view === 'smartfilteraggrid' ? 'Currency' : 'CCY',
+        );
         await enterAndSelectItemInSearchBox('*bank');
-        await enterAndSelectItemInSearchBox('XS1');
-        await enterAndSelectItemInSearchBox('EUR');
+        await enterAndSelectItemInSearchBox(
+          'IT0004534415',
+          view === 'smartfilteraggrid' ? 'Isin' : 'ISIN',
+        );
+        await enterAndSelectItemInSearchBox(
+          'EUR',
+          view === 'smartfilteraggrid' ? 'Currency' : 'CCY',
+        );
       });
 
       await And('the expand icon is clicked', async () => {
@@ -143,7 +161,10 @@ import { And, Given, Scenario, Then, When } from '../common/ghkerkin';
       });
 
       await When('pills are entered', async () => {
-        await enterAndSelectItemInSearchBox('XS1');
+        await enterAndSelectItemInSearchBox(
+          'FR0127739573',
+          view === 'smartfilteraggrid' ? 'Isin' : 'ISIN',
+        );
       });
 
       await And('and sort pills entered', async () => {

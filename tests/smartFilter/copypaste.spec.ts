@@ -19,8 +19,8 @@ Scenario(
     });
 
     await When('items are entered', async () => {
-      await enterAndSelectItemInSearchBox('XS1');
-      await enterAndSelectItemInSearchBox('XS2');
+      await enterAndSelectItemInSearchBox('FR0127739573', 'ISIN');
+      await enterAndSelectItemInSearchBox('AT0000A2CGC5', 'ISIN');
       await enterAndSelectItemInSearchBox('or > 0.5');
     });
 

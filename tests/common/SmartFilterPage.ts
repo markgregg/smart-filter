@@ -25,7 +25,7 @@ export interface SmartFilterPage {
   use: (example: string, params?: string) => void;
 
   enterAnItemInSearchBox: (text: string) => void;
-  enterAndSelectItemInSearchBox: (text: string) => void;
+  enterAndSelectItemInSearchBox: (text: string, waitForText?: string) => void;
   hoverOverPill: (index: number) => void;
   clickPill: (
     index: number,
@@ -115,11 +115,18 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
       await optionsList.waitFor({ state: 'visible', timeout: 1000 });
     },
 
-    enterAndSelectItemInSearchBox: async (text: string) => {
+    enterAndSelectItemInSearchBox: async (
+      text: string,
+      waitForText?: string,
+    ) => {
       await searchBox.scrollIntoViewIfNeeded();
       await searchBox.click();
       await searchBox.fill(text);
       await optionsList.waitFor({ state: 'visible', timeout: 1000 });
+      if (waitForText) {
+        const waitForItem = optionsList.getByText(waitForText);
+        await waitForItem.waitFor({ state: 'visible', timeout: 1000 });
+      }
       await searchBox.press('Enter');
     },
 

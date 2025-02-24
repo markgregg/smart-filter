@@ -128,7 +128,10 @@ import { And, Given, Scenario, Then, When } from '../common/ghkerkin';
       );
 
       await When('a pill is selected', async () => {
-        await enterAndSelectItemInSearchBox('XS1');
+        await enterAndSelectItemInSearchBox(
+          'FR0127495044',
+          view === 'smartfilteraggrid' ? 'Isin' : 'ISIN',
+        );
       });
 
       await Then(
@@ -162,7 +165,10 @@ import { And, Given, Scenario, Then, When } from '../common/ghkerkin';
       );
 
       await When('a pill is selected', async () => {
-        await enterAndSelectItemInSearchBox('XS1');
+        await enterAndSelectItemInSearchBox(
+          'FR0127495044',
+          view === 'smartfilteraggrid' ? 'Isin' : 'ISIN',
+        );
       });
 
       await And('the not comparison is selected', async () => {
@@ -197,7 +203,10 @@ import { And, Given, Scenario, Then, When } from '../common/ghkerkin';
       );
 
       await When('a pill is selected', async () => {
-        await enterAndSelectItemInSearchBox('XS1');
+        await enterAndSelectItemInSearchBox(
+          'FR0127495044',
+          view === 'smartfilteraggrid' ? 'Isin' : 'ISIN',
+        );
       });
 
       await And('the empty option is selected', async () => {
@@ -232,7 +241,10 @@ import { And, Given, Scenario, Then, When } from '../common/ghkerkin';
       );
 
       await When('a pill is selected', async () => {
-        await enterAndSelectItemInSearchBox('XS1');
+        await enterAndSelectItemInSearchBox(
+          'FR0127495044',
+          view === 'smartfilteraggrid' ? 'Isin' : 'ISIN',
+        );
       });
 
       await And('the list option is selected', async () => {
@@ -299,7 +311,10 @@ import { And, Given, Scenario, Then, When } from '../common/ghkerkin';
 
       await When('a pill is selected', async () => {
         await enterAndSelectItemInSearchBox('> 5');
-        await enterAndSelectItemInSearchBox('GBP');
+        await enterAndSelectItemInSearchBox(
+          'GBP',
+          view === 'smartfilteraggrid' ? 'Currency' : 'CCY',
+        );
       });
 
       await And('the or option is selected', async () => {

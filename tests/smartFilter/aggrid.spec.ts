@@ -12,7 +12,7 @@ import { Given, Scenario, Then, When } from '../common/ghkerkin';
       });
 
       await When('a value is entered into smart filter', async () => {
-        await enterAndSelectItemInSearchBox('SELL');
+        await enterAndSelectItemInSearchBox('SELL', 'Side');
       });
 
       await Then('ag-grid is updated', async () => {

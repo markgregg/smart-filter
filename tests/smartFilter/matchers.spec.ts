@@ -51,7 +51,10 @@ import { Given, Scenario, Then, When } from '../common/ghkerkin';
       );
 
       await When('text is entered into the search box', async () => {
-        await enterAndSelectItemInSearchBox('XS1');
+        await enterAndSelectItemInSearchBox(
+          'FR0127739573',
+          view === 'smartfilteraggrid' ? 'Isin' : 'ISIN',
+        );
       });
 
       await Then('a matching lookup pill is created', async () => {
@@ -81,7 +84,7 @@ import { Given, Scenario, Then, When } from '../common/ghkerkin';
       );
 
       await When('text is entered into the search box', async () => {
-        await enterAndSelectItemInSearchBox('SELL');
+        await enterAndSelectItemInSearchBox('SELL', 'Side');
       });
 
       await Then('a matching list pill is created', async () => {
@@ -261,8 +264,14 @@ import { Given, Scenario, Then, When } from '../common/ghkerkin';
       );
 
       await When('text is entered into the search box', async () => {
-        await enterAndSelectItemInSearchBox('XS1');
-        await enterAndSelectItemInSearchBox('XS2');
+        await enterAndSelectItemInSearchBox(
+          'FR0127739573',
+          view === 'smartfilteraggrid' ? 'Isin' : 'ISIN',
+        );
+        await enterAndSelectItemInSearchBox(
+          'FR0127614701',
+          view === 'smartfilteraggrid' ? 'Isin' : 'ISIN',
+        );
       });
 
       await Then('a list pill is created', async () => {
@@ -332,7 +341,10 @@ import { Given, Scenario, Then, When } from '../common/ghkerkin';
       await When(
         'an operator, a comparison and number are entered into the search box',
         async () => {
-          await enterAndSelectItemInSearchBox('XS1');
+          await enterAndSelectItemInSearchBox(
+            'FR0127739573',
+            view === 'smartfilteraggrid' ? 'Isin' : 'ISIN',
+          );
           await enterAndSelectItemInSearchBox('or > 0.5');
         },
       );
@@ -435,7 +447,10 @@ import { Given, Scenario, Then, When } from '../common/ghkerkin';
       );
 
       await When('text is entered into the search box', async () => {
-        await enterAndSelectItemInSearchBox('GBP');
+        await enterAndSelectItemInSearchBox(
+          'GBP',
+          view === 'smartfilteraggrid' ? 'Currency' : 'CCY',
+        );
         await selectOperatorBarItemSuggestion('open');
         await enterAndSelectItemInSearchBox('> 0.5');
         await enterAndSelectItemInSearchBox('or < 0.8');

@@ -16,8 +16,8 @@ Scenario(
     });
 
     await When('an array in entered', async () => {
-      await enterAndSelectItemInSearchBox('XS1');
-      await enterAndSelectItemInSearchBox('XS2');
+      await enterAndSelectItemInSearchBox('FR0013405222', 'ISIN');
+      await enterAndSelectItemInSearchBox('FR0127739573', 'ISIN');
     });
 
     await And('the pill is selected for edit', async () => {
@@ -47,8 +47,8 @@ Scenario(
     });
 
     await When('an array is entered', async () => {
-      await enterAndSelectItemInSearchBox('XS1');
-      await enterAndSelectItemInSearchBox('XS2');
+      await enterAndSelectItemInSearchBox('FR0013405222', 'ISIN');
+      await enterAndSelectItemInSearchBox('FR0127739573', 'ISIN');
     });
 
     await And('the pill is selected for edit', async () => {
@@ -84,9 +84,9 @@ Scenario(
     });
 
     await When('an array is entered', async () => {
-      await enterAndSelectItemInSearchBox('XS1');
-      await enterAndSelectItemInSearchBox('XS1907155235');
-      await enterAndSelectItemInSearchBox('FR0013405222');
+      await enterAndSelectItemInSearchBox('FR0127495044', 'ISIN');
+      await enterAndSelectItemInSearchBox('XS1907155235', 'ISIN');
+      await enterAndSelectItemInSearchBox('FR0013405222', 'ISIN');
     });
 
     await And('the pill is selected for edit', async () => {
@@ -123,8 +123,8 @@ Scenario(
     });
 
     await When('an array is entered', async () => {
-      await enterAndSelectItemInSearchBox('XS1');
-      await enterAndSelectItemInSearchBox('FR0013405222');
+      await enterAndSelectItemInSearchBox('FR0013405222', 'ISIN');
+      await enterAndSelectItemInSearchBox('FR0127614701', 'ISIN');
     });
 
     await And('the pill is selected for edit', async () => {
