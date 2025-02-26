@@ -10,8 +10,6 @@ The size of the component. Can be;
 - large
 ## maxValueWidth
 Maximium width of a value
-## sortPillWidth
-Maximium width of the sort pill
 ## maxDropdownHeight
 Maximium height of the dropdown
 ## dropdownWidth

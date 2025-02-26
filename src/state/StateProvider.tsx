@@ -4,13 +4,12 @@ import { createFilterBarStore } from './filterBarStore';
 import { createHintStore } from './hintStore';
 import { createConfigStore } from './configStore';
 import { StateContext } from '@/state/state';
-import { Matcher, SmartFilterProps, Sort } from '@/types';
+import { Matcher, SmartFilterProps } from '@/types';
 import { createMatcherStore } from './matcherStore';
 import { createOptionsStore } from './optionsStore';
 import { createArrayStore } from './arrayStore';
 import { createMatcherDragStore } from './dragStore';
 import { createBracketsStore } from './bracketStore';
-import { createSortStore } from './sortStore';
 import { DEFAULT_PAGE_SIZE } from '@/util/constants';
 import { createManagedStore } from './managedStore';
 
@@ -23,12 +22,10 @@ export const StateProvider = React.memo(
   ({ props, children }: ProviderProps) => {
     const {
       matchers,
-      sort,
       allowLocking,
       debounce,
       dropDownDispalyWhenKeyPressed,
       dropdownWidth,
-      enableSort,
       fields,
       hints,
       maxDropdownHeight,
@@ -38,7 +35,6 @@ export const StateProvider = React.memo(
       onExpand,
       locked,
       onLock,
-      onSortChange,
       operators,
       optionWidth,
       pageSize,
@@ -47,7 +43,6 @@ export const StateProvider = React.memo(
       showDropdownOnMouseOver,
       showUndoIcon,
       size,
-      sortPillWidth,
     } = props;
     const configStore = React.useMemo(
       () => createConfigStore(props),
@@ -56,7 +51,6 @@ export const StateProvider = React.memo(
         debounce,
         dropDownDispalyWhenKeyPressed,
         dropdownWidth,
-        enableSort,
         fields,
         hints,
         maxDropdownHeight,
@@ -66,7 +60,6 @@ export const StateProvider = React.memo(
         onExpand,
         locked,
         onLock,
-        onSortChange,
         operators,
         optionWidth,
         pageSize,
@@ -75,7 +68,6 @@ export const StateProvider = React.memo(
         showDropdownOnMouseOver,
         showUndoIcon,
         size,
-        sortPillWidth,
       ],
     );
     const focusStore = React.useMemo(
@@ -108,14 +100,9 @@ export const StateProvider = React.memo(
       [],
     );
     const bracketsStore = React.useMemo(createBracketsStore, []);
-    const sortStore = React.useMemo(createSortStore, []);
-    const sortDragStore = React.useMemo(
-      () => createMatcherDragStore<Sort>(),
-      [],
-    );
     const managedStore = React.useMemo(
-      () => createManagedStore(matchers ?? [], sort ?? [], locked ?? false),
-      [matchers, sort, locked],
+      () => createManagedStore(matchers ?? [], locked ?? false),
+      [matchers, locked],
     );
 
     const stateValue = React.useMemo(
@@ -129,8 +116,6 @@ export const StateProvider = React.memo(
         arrayStore,
         matcherDragStore,
         bracketsStore,
-        sortStore,
-        sortDragStore,
         managedStore,
       }),
       [
@@ -143,8 +128,6 @@ export const StateProvider = React.memo(
         arrayStore,
         matcherDragStore,
         bracketsStore,
-        sortStore,
-        sortDragStore,
         managedStore,
       ],
     );

@@ -9,8 +9,6 @@ import { ArrayState } from './array';
 import { DragState } from './drag';
 import { Matcher } from '../matcher';
 import { BracketState } from './brackets';
-import { SortState } from './sort';
-import { Sort } from '../sort';
 import { ManagedState } from './managed';
 
 export interface State {
@@ -23,7 +21,5 @@ export interface State {
   arrayStore: UseBoundStore<StoreApi<ArrayState>>;
   matcherDragStore: UseBoundStore<StoreApi<DragState<Matcher>>>;
   bracketsStore: UseBoundStore<StoreApi<BracketState>>;
-  sortStore: UseBoundStore<StoreApi<SortState>>;
-  sortDragStore: UseBoundStore<StoreApi<DragState<Sort>>>;
   managedStore: UseBoundStore<StoreApi<ManagedState>>;
 }

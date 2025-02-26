@@ -39,8 +39,6 @@ If true lists can be entered for the field.
 If true ranges can be enrted for the field.
 ## allowBlanks
 If true blanks (nulls) can be entered for the field.
-## excludeFromSorting
-If true the field can not be used for sorting. To sort, sorting must be enabled in the main properties.
 ## iconMap
 If icons are to be displayed. This map will be used to determine the icon to show for a value.
 ## display

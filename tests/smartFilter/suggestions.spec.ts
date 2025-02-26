@@ -47,38 +47,6 @@ import { And, Given, Scenario, Then, When } from '../common/ghkerkin';
   );
 
   Scenario(
-    `A pill is created when a sort option is clicked-${view}`,
-    async ({
-      smartFilterPage: {
-        searchBox,
-        filterBar,
-        sortSelectionButton,
-        selectSortSuggestion,
-        use,
-      },
-    }) => {
-      await Given(
-        'the SmartFilter test page is shown andthe suggestion panel is visible',
-        async () => {
-          await use(view);
-          await searchBox.click();
-        },
-      );
-
-      await When('a field option is selected', async () => {
-        await sortSelectionButton.hover();
-        await selectSortSuggestion('maturityDate', 'desc');
-      });
-
-      await Then('the sort pill is shown in the filterbar', async () => {
-        await expect(filterBar).toHaveScreenshot(
-          `filter-bar-has-sort-option-${view}.png`,
-        );
-      });
-    },
-  );
-
-  Scenario(
     `Brackets pills are created when brackets are selected-${view}`,
     async ({
       smartFilterPage: {

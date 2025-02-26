@@ -5,10 +5,6 @@ The smart filter props are the proeprties available in the main component.
 If the component is managed matcher should be supplied.
 ## onChange
 Call when the matchers change
-## enableSortsort
-If true, the sort fields can be selected
-## onSortChange
-Called if the sort pill changes
 ## onClear
 Call if the filterbar is cleared
 ## onLock

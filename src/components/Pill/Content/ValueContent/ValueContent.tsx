@@ -51,9 +51,7 @@ export const ValueContent = React.memo(({ matcher, field }: ContentProps) => {
       return;
     }
     setInEdit(true);
-    if (editMatcher?.key !== matcher.key) {
-      selectMatcherForEdit(matcher.key);
-    }
+    selectMatcherForEdit(matcher.key);
   }, [matcher, setInEdit, matcher, selectMatcherForEdit]);
 
   const handleCancel = React.useCallback(() => {

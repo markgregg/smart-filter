@@ -6,7 +6,6 @@ import {
   Matcher,
   ValueMatcher,
   FilterFunction,
-  Sort,
 } from '..';
 import { AgFilters, AgTypes, DEFAULT_DATE_FORMAT, OR } from '@/util/constants';
 
@@ -34,7 +33,6 @@ export interface ClientApi {
     maxUniqueValues?: number,
     filterValueGetter?: FilterValueGetter,
   ) => string[];
-  applySort: (sort: Sort[]) => void;
 }
 
 export const createClientApi = (
@@ -849,36 +847,11 @@ export const createClientApi = (
     }
   };
 
-  const applySort = (sort: Sort[]) => {
-    const columnState =
-      'getColumnState' in gridApi
-        ? (gridApi.getColumnState() ?? null)
-        : columnApi?.getColumnState();
-    if (columnState) {
-      const fieldState = sort.map((sortField, index) => ({ sortField, index }));
-      const newColumnState = columnState.map((cs) => {
-        const entry = fieldState.find((f) => f.sortField.field === cs.colId);
-        return {
-          ...cs,
-          sort: entry?.sortField.sortDirection ?? null,
-          sortIndex: entry?.index ?? 0,
-        };
-      });
-
-      if ('applyColumnState' in gridApi) {
-        gridApi.applyColumnState({ state: newColumnState });
-      } else {
-        columnApi?.applyColumnState({ state: newColumnState });
-      }
-    }
-  };
-
   return {
     constructFilter,
     getAgColumn,
     getAgColumns,
     getFieldMatch,
     findUniqueHintValues,
-    applySort,
   };
 };

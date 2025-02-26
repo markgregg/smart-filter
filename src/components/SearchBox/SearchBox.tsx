@@ -5,12 +5,11 @@ import {
   useFocus,
   useMatcher,
   useOptions,
-  useSort,
 } from '../../state/useState';
 import { KeyBoardkeys } from '@/util/constants';
 import { Brackets, Field, LogicalOperator, Option } from '@/types';
-import s from './style.module.less';
 import { isVisible } from '@/util/functions';
+import s from './style.module.less';
 
 interface SearchBoxProps {
   matcherKey?: string;
@@ -65,7 +64,6 @@ export const SearchBox = React.memo(
       addClearCallback,
       removeClearCallback,
     } = useMatcher((state) => state);
-    const { active: sortActive, setActive } = useSort((state) => state);
     const enableExpand = useFilterBar((state) => state.enableExpand);
     const setKeyboardFocus = useFocus((state) => state.setKeyboardFocus);
 
@@ -85,21 +83,17 @@ export const SearchBox = React.memo(
 
     React.useEffect(() => {
       setSearchText(text[0]);
-      if (inputRef.current) {
-        if (matcherKey && !editMatcher) {
-          inputRef.current?.focus();
-        }
-      }
-    }, [text, matcherKey, selectedMatcher, sortActive, editMatcher]);
+    }, [text, matcherKey, selectedMatcher, editMatcher]);
 
     React.useEffect(() => {
+      if (editMatcher !== null && matcherKey !== editMatcher?.key) {
+        return;
+      }
       if (
-        (!matcherKey &&
-          editMatcher === null &&
-          (selectedIndex === null || selectedIndex === matchers.length - 1) &&
-          !sortActive &&
+        ((selectedIndex === null || selectedIndex === matchers.length - 1) &&
           editPosition === null) ||
-        (editPosition !== null && editPosition === position)
+        (editPosition !== null && editPosition === position) ||
+        matcherKey === editMatcher?.key
       ) {
         if (inputRef.current) {
           if (enableExpand && !isVisible(inputRef.current)) {
@@ -116,7 +110,6 @@ export const SearchBox = React.memo(
       editMatcher,
       selectedIndex,
       editPosition,
-      sortActive,
       position,
       enableExpand,
       matchers,
@@ -149,9 +142,6 @@ export const SearchBox = React.memo(
     );
 
     const handleFocus = React.useCallback(() => {
-      if (sortActive) {
-        setActive(false);
-      }
       if (editMatcher && !matcherKey) {
         clearEditMatcher();
       }
@@ -175,8 +165,6 @@ export const SearchBox = React.memo(
       buildOptions,
       handleOptionSelected,
       clearSelections,
-      sortActive,
-      setActive,
       onCreateBracket,
     ]);
 

@@ -16,7 +16,6 @@ State is access by components lower down in the tree by using [hooks](./state/Us
 - [ManagedStore](./state/ManagedStore.md)
 - [MatcherStore](./state/MatcherStore.md)
 - [OptionsStore](./state/OptionsStore.md)
-- [SortStore](./state/SortStore.md)
 - [StateProvider](./state/StateProvider.md)
 - [UseState](./state/UseState.md)
 

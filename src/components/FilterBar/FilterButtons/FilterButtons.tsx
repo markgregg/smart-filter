@@ -4,7 +4,7 @@ import { FaCaretDown, FaCaretUp } from 'react-icons/fa';
 import { MdOutlineClear } from 'react-icons/md';
 import { CgUndo } from 'react-icons/cg';
 import { Button } from '../../common/Button';
-import { useConfig, useFilterBar, useMatcher, useSort } from '@/state/useState';
+import { useConfig, useFilterBar, useMatcher } from '@/state/useState';
 import s from './style.module.less';
 import { COMPACT_HEIGHT, LARGE_HEIGHT, NORMAL_HEIGHT } from '@/util/constants';
 
@@ -19,7 +19,6 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
     (state) => state,
   );
   const { clearMatchers, undo, matchers } = useMatcher((state) => state);
-  const { clearSort, sort } = useSort((state) => state);
 
   const buttonHeight =
     size === 'normal'
@@ -30,7 +29,6 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
 
   const handleClearClick = React.useCallback(() => {
     clearMatchers();
-    clearSort();
     if (onClear) {
       onClear();
     }
@@ -53,7 +51,7 @@ export const FilterButtons = React.forwardRef<HTMLDivElement>((_, ref) => {
       id: 'sf-clear-icon',
       Icon: MdOutlineClear,
       onClick: handleClearClick,
-      hide: sort.length === 0 && matchers.length === 0,
+      hide: matchers.length === 0,
     },
     {
       id: 'sf-undo-icon',

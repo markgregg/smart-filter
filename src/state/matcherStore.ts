@@ -471,16 +471,16 @@ const updateMatcherList = (
       : null;
   const selectedMatcher = Array.isArray(matcher)
     ? matcher[matcher.length - 1]
-    : matcher;
+    : (newMatchers.find((m) => m.key === (matcher as Matcher).key) ?? null);
   const selectedIndex = position
     ? Array.isArray(matcher)
       ? position + matcher.length
       : position
-    : newMatchers.length - 1;
+    : (newMatchers.findIndex((m) => m.key === (matcher as Matcher).key) ??
+      null);
   const editMatcher =
-    !editPosition &&
     !Array.isArray(matcher) &&
-    matcher.key === selectedMatcher.key &&
+    matcher.key === selectedMatcher?.key &&
     (matcher.type === 's' || matcher.type === 'r') &&
     matcher.value === null &&
     matcher.text === ''

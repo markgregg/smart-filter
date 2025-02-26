@@ -15,7 +15,6 @@ List of types exposed
 - [PasteOptions](./PasteOptions.md)
 - [SmartFilterProps](./SmartFilterProps.md)
 - [SmartFilterPropsAgGrid](./SmartFilterPropsAgGrid.md)
-- [Sort](./Sort.md)
 - [UiProperties](./UiProperties.md)
 - [Values](./Values.md)
 

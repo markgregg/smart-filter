@@ -7,7 +7,5 @@ The number of hints to show in a column. If there are more that can be dispalyed
 The width of each hint.
 ## hintGroups
 An array of [Hint Grouping](docs/types/HintGrouping.md)
-## sortHints
-Specifies which fields to show in the sort hint dropdown and in what order.
 
 [Types Overview](./Overview.md)

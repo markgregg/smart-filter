@@ -10,8 +10,6 @@ interface FilterBar {
 interface Pills {
   /* maxium pill width */
   maxValueWidth?: number;
-  /* maxium width of the sort pill. Defaults to 90px */
-  sortPillWidth?: number;
 }
 
 interface DropDown {

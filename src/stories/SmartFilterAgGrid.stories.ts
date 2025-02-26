@@ -25,10 +25,6 @@ const meta = {
     size: {
       options: ['compact', 'normal', 'large'],
     },
-    enableSort: {
-      control: 'boolean',
-      description: 'If true sort options are available',
-    },
     hintsPerColumn: {
       control: 'number',
       description: 'The number of hints per column',
@@ -37,10 +33,6 @@ const meta = {
       control: 'number',
       description: 'The width of each hint',
     },
-    /* sortHints: {
-      control: 'boolean',
-      description: 'If true sort hints are shown',
-    }, */
     allowLocking: {
       control: 'boolean',
       description: 'If true allow pills to be locked',
@@ -60,10 +52,6 @@ const meta = {
     maxValueWidth: {
       control: 'number',
       description: 'The max width of each value',
-    },
-    sortPillWidth: {
-      control: 'number',
-      description: 'The width of the sort pill',
     },
     maxDropdownHeight: {
       control: 'number',
@@ -90,7 +78,6 @@ const meta = {
   // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
   args: {
     onChange: fn(),
-    onSortChange: fn(),
     onFiltersChange: fn(),
     onClear: fn(),
     onLock: fn(),
@@ -107,7 +94,6 @@ export const Primary: Story = {
     size: 'normal',
     exampleHeight: 600,
     exampleWidth: 1000,
-    enableSort: true,
     returnAllOptions: true,
     maxValueWidth: 200,
   },

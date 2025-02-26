@@ -1,5 +1,4 @@
 import { Locator, Page } from '@playwright/test';
-import { SortDirection } from '@/types';
 
 export interface SmartFilterPage {
   readonly filterBar: Locator;
@@ -13,14 +12,11 @@ export interface SmartFilterPage {
   readonly clearIcon: Locator;
   readonly lockIcon: Locator;
 
-  readonly sortSelectionButton: Locator;
   readonly fieldSelectionButton: Locator;
 
   readonly searchBox: Locator;
 
   readonly agGrid: Locator;
-
-  readonly sortPill: Locator;
 
   use: (example: string, params?: string) => void;
 
@@ -40,7 +36,6 @@ export interface SmartFilterPage {
   ) => void;
   dragPillTo: (index: number, target: number) => void;
 
-  selectSortSuggestion: (field: string, direction: SortDirection) => void;
   selectFieldSuggestion: (field: string) => void;
   selectOperatorBarItemSuggestion: (option: string) => void;
   selectHintGroup: (group: string) => void;
@@ -55,12 +50,6 @@ export interface SmartFilterPage {
   clickClose: () => void;
   clickAccept: () => void;
   getDateEditorValue: () => Promise<string>;
-
-  sortOptions: () => Promise<Locator>;
-  moveSortItemUp: (field: string) => void;
-  moveSortItemDown: (field: string) => void;
-  dragSortItemTo: (field: string, toField: string) => void;
-  clickSortItemDirection: (field: string, direction: SortDirection) => void;
 
   deleteArrayItem: (item: string) => void;
   selectArrayItem: (item: string) => void;
@@ -79,14 +68,11 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
   const expandIcon = page.locator('#sf-expand-icon');
   const clearIcon = page.locator('#sf-clear-icon');
   const lockIcon = page.locator('#sf-lock-icon');
-  const sortSelectionButton = page.locator('#sf-sort-selection-button');
   const fieldSelectionButton = page.locator('#sf-filter-selection-button');
 
   const searchBox = page.locator('#sf-search-box');
 
   const agGrid = page.locator('#sf-ag-grid');
-
-  const sortPill = page.locator('#sf-sort-pill');
 
   const optionsList = page.locator('#sf-options-list');
 
@@ -98,11 +84,9 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
     expandIcon,
     clearIcon,
     lockIcon,
-    sortSelectionButton,
     fieldSelectionButton,
     searchBox,
     agGrid,
-    sortPill,
 
     use: async (testPage: string, params?: string) => {
       await page.goto(`/${testPage}?automation${params ? `&${params}` : ''}`);
@@ -156,15 +140,6 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
       const pill = page.locator(`#sf-pill-content-${index}`);
       const targetPill = page.locator(`#sf-pill-content-${target}`);
       await pill.dragTo(targetPill);
-    },
-
-    /* sugestions start */
-    selectSortSuggestion: async (field: string, direction: SortDirection) => {
-      const sortOpt = page.locator(`#sf-${field}-${direction}-opt`);
-      if (!sortOpt) {
-        throw Error(`sort for ${field} cannot be found`);
-      }
-      await sortOpt.click();
     },
 
     selectFieldSuggestion: async (field: string) => {
@@ -245,37 +220,6 @@ export const createSmartFilterPage = (page: Page): SmartFilterPage => {
       return dateValue;
     },
     /* End editing */
-
-    /* sorting */
-    sortOptions: async (): Promise<Locator> => {
-      const sortOptions = page.locator(`#sf-drop-down`);
-      return sortOptions;
-    },
-
-    moveSortItemUp: async (field: string) => {
-      const sortButton = page.locator(`#sf-${field}-move-up`);
-      if (!sortButton) {
-        throw Error('sort button cannot be found');
-      }
-      await sortButton.click();
-    },
-
-    moveSortItemDown: async (field: string) => {
-      const sortButton = page.locator(`#sf-${field}-move-down`);
-      await sortButton.click();
-    },
-
-    dragSortItemTo: async (field: string, toField: string) => {
-      const sortItem = page.locator(`#sf-sort-item-${field}`);
-      const toSortItem = page.locator(`#sf-sort-item-${toField}`);
-      await sortItem.dragTo(toSortItem);
-    },
-
-    clickSortItemDirection: async (field: string, direction: SortDirection) => {
-      const sortButton = page.locator(`#sf-${field}-${direction}-opt`);
-      await sortButton.click();
-    },
-    /* End sorting */
 
     /* Array */
     deleteArrayItem: async (item: string) => {

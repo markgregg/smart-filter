@@ -1,7 +1,7 @@
 import React from 'react';
 import { SmartFilterAgGridProps } from '@/types/SmartFilterPropsAgGrid';
 import { createClientApi } from '@/aggrid/ClientApi';
-import { Field, Hints, Matcher, Sort } from '@/types';
+import { Field, Hints, Matcher } from '@/types';
 import { constructFields } from './functions';
 import { SmartFilter } from '../SmartFilter/SmartFilter';
 
@@ -11,9 +11,7 @@ export const SmartFilterAgGrid = React.memo((props: SmartFilterAgGridProps) => {
     columnApi,
     onFiltersChange,
     onChange,
-    onSortChange,
     matchers,
-    sort,
     fields,
     hints,
     maxOptions,
@@ -33,12 +31,6 @@ export const SmartFilterAgGrid = React.memo((props: SmartFilterAgGridProps) => {
       onFiltersChange(filter);
     }
   }, [matchers, agClientApi]);
-
-  React.useEffect(() => {
-    if (agClientApi && sort) {
-      agClientApi.applySort(sort);
-    }
-  }, [sort, agClientApi]);
 
   const { overriddenFields, overriddenHints } = React.useMemo<{
     overriddenFields: Field[];
@@ -102,18 +94,6 @@ export const SmartFilterAgGrid = React.memo((props: SmartFilterAgGridProps) => {
     [agClientApi, onFiltersChange, onChange],
   );
 
-  const handleSortChanged = React.useCallback(
-    (s: Sort[]) => {
-      if (agClientApi) {
-        agClientApi.applySort(s);
-        if (onSortChange) {
-          onSortChange(s);
-        }
-      }
-    },
-    [agClientApi, onSortChange],
-  );
-
   return (
     <SmartFilter
       /* eslint-disable-next-line react/jsx-props-no-spreading */
@@ -121,7 +101,6 @@ export const SmartFilterAgGrid = React.memo((props: SmartFilterAgGridProps) => {
       fields={overriddenFields}
       hints={overriddenHints}
       onChange={handleChanged}
-      onSortChange={handleSortChanged}
     />
   );
 });

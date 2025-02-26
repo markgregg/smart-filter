@@ -92,11 +92,10 @@ export const createField = (field?: Field) => {
   if (!field) {
     return null;
   }
-  const { text, value } = getDefaultTextValue(field);
   return createValue({
     field: field.name,
-    text,
-    value,
+    text: '',
+    value: null,
   });
 };
 

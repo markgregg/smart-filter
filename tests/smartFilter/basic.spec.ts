@@ -151,8 +151,6 @@ import { And, Given, Scenario, Then, When } from '../common/ghkerkin';
         clearIcon,
         filterBar,
         enterAndSelectItemInSearchBox,
-        sortSelectionButton,
-        selectSortSuggestion,
         use,
       },
     }) => {
@@ -165,11 +163,6 @@ import { And, Given, Scenario, Then, When } from '../common/ghkerkin';
           'FR0127739573',
           view === 'smartfilteraggrid' ? 'Isin' : 'ISIN',
         );
-      });
-
-      await And('and sort pills entered', async () => {
-        await sortSelectionButton.hover();
-        await selectSortSuggestion('maturityDate', 'asc');
       });
 
       await And('the clear button is clicked', async () => {

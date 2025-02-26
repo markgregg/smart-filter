@@ -19,7 +19,6 @@ import {
   FilterFunction,
   Matcher,
   SmartFilterAgGrid as SmartFilterAgGridComponent,
-  Sort,
 } from '..';
 import { FilterBarSize } from '@/types/uiProperties';
 import s from './style.module.less';
@@ -38,11 +37,6 @@ export interface SmartFilterAgGridProps {
   /* change notifier for matchers */
   onChange?: (matchers: Matcher[]) => void;
 
-  /* if sorting is allow */
-  enableSort?: boolean;
-  /* sort change notifier */
-  onSortChange?: (sort: Sort[]) => void;
-
   /* matcher clear notifier */
   onClear?: () => void;
   /* lock toggle notifier */
@@ -54,8 +48,6 @@ export interface SmartFilterAgGridProps {
   hintsPerColumn?: number;
   /* width of hints */
   hintWidth?: number;
-  /* true show all fields or specify which fields */
-  sortHints?: string[];
 
   /* if true pills can be locked */
   allowLocking?: boolean;
@@ -69,8 +61,6 @@ export interface SmartFilterAgGridProps {
   showUndoIcon?: boolean;
   /* maxium pill width */
   maxValueWidth?: number;
-  /* maxium width of the sort pill. Defaults to 90px */
-  sortPillWidth?: number;
 
   /* max height of the dropdown */
   maxDropdownHeight?: number;
@@ -95,11 +85,9 @@ export interface SmartFilterAgGridProps {
 /** Primary UI component for user interaction */
 export const SmartFilterAgGrid: React.FC<SmartFilterAgGridProps> = ({
   onChange,
-  onSortChange,
   onFiltersChange,
   hintsPerColumn,
   hintWidth,
-  sortHints,
   exampleHeight: height = 800,
   exampleWidth: width = 1000,
   size = 'normal',
@@ -112,16 +100,14 @@ export const SmartFilterAgGrid: React.FC<SmartFilterAgGridProps> = ({
   const [rowData] = React.useState<Bond[]>(bonds);
   const [columnDefs] = React.useState<ColDef<Bond>[]>(columns);
   const [matchers, setMatchers] = React.useState<Matcher[]>([]);
-  const [sort, setSort] = React.useState<Sort[]>([]);
 
   const hints = React.useMemo(
     () => ({
       hintsPerColumn,
       hintWidth,
-      sortHints,
       hintGroups,
     }),
-    [hintsPerColumn, hintWidth, sortHints],
+    [hintsPerColumn, hintWidth],
   );
 
   const handleChange = React.useCallback(
@@ -134,16 +120,6 @@ export const SmartFilterAgGrid: React.FC<SmartFilterAgGridProps> = ({
     [setMatchers, onChange],
   );
 
-  const handleSortChange = React.useCallback(
-    (newSort: Sort[]) => {
-      setSort(newSort);
-      if (onSortChange) {
-        onSortChange(newSort);
-      }
-    },
-    [setSort, onSortChange],
-  );
-
   const handleFilterChange = React.useCallback(
     (newFilter: FilterFunction | null) => {
       filterRef.current = newFilter;
@@ -152,7 +128,7 @@ export const SmartFilterAgGrid: React.FC<SmartFilterAgGridProps> = ({
         onFiltersChange(newFilter);
       }
     },
-    [gridApi, setSort, onFiltersChange],
+    [gridApi, onFiltersChange],
   );
 
   const handleGridReady = (event: GridReadyEvent<Bond>) => {
@@ -184,8 +160,6 @@ export const SmartFilterAgGrid: React.FC<SmartFilterAgGridProps> = ({
           fields={agFields}
           matchers={matchers}
           onChange={handleChange}
-          sort={sort}
-          onSortChange={handleSortChange}
           onFiltersChange={handleFilterChange}
           operators={operators}
           hints={hints}

@@ -2,7 +2,7 @@
 The SmartFilter is the highest level of the component. The component creates the state provider, which enables all lower level components to access state.
 
 # SmartFilterAgAGrid
-The SmartFilterAgGrid is a wrapper around SmartFilter that utilises the AgGrid API to automatically configure the SmartFilter and apply state and sort order. 
+The SmartFilterAgGrid is a wrapper around SmartFilter that utilises the AgGrid API to automatically configure the SmartFilter and apply state. 
 
 SmartFilterAgGrid has all the same properties as SmartFilter the the addition of AgGrid API and Filter function on change event. 
 
@@ -26,8 +26,6 @@ If fields are passed as properties to SmartFilterAgGrid, the fields will overrid
 - [Pill](./Components/Pill.md)
 - [PillContainer](./Components/PillContainer.md)
 - [SearchBox](./Components/SearchBox.md)
-- [Sort](./Components/CloseButton.md)
-- [SortPill](./Components/CloseButton.md)
 - [Suggestions](./Components/CloseButton.md)
 
 ## Hooks

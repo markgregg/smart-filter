@@ -24,42 +24,13 @@ import { Given, Scenario, Then, When } from '../common/ghkerkin';
   );
 
   Scenario(
-    `Enetering sort fields in smart filter automatically sorts ag-grid-${view}`,
-    async ({
-      smartFilterPage: {
-        agGrid,
-        sortSelectionButton,
-        use,
-        selectSortSuggestion,
-      },
-    }) => {
-      await Given('the SmartFilter test page is shown', async () => {
-        await use(view);
-      });
-
-      await When('a field is entered into smart filter', async () => {
-        await sortSelectionButton.hover();
-        await selectSortSuggestion('isin', 'desc');
-      });
-
-      await Then('ag-grid is updated', async () => {
-        await expect(agGrid).toHaveScreenshot(
-          `ag-grid-sorted-by-isin-${view}.png`,
-        );
-      });
-    },
-  );
-
-  Scenario(
-    `Sorting and filtering ag-grid-${view}`,
+    `More filtering ag-grid-${view}`,
     async ({
       smartFilterPage: {
         agGrid,
         filterBar,
         use,
         enterAndSelectItemInSearchBox,
-        sortSelectionButton,
-        selectSortSuggestion,
       },
     }) => {
       await Given('the SmartFilter test page is shown', async () => {
@@ -69,8 +40,6 @@ import { Given, Scenario, Then, When } from '../common/ghkerkin';
       await When('a value is entered into smart filter', async () => {
         await enterAndSelectItemInSearchBox('maturitydate > 2050-01-01');
         await enterAndSelectItemInSearchBox('active true');
-        await sortSelectionButton.hover();
-        await selectSortSuggestion('isin', 'asc');
       });
 
       await Then('ag-grid is updated', async () => {
@@ -78,7 +47,7 @@ import { Given, Scenario, Then, When } from '../common/ghkerkin';
           `filter-bar-has-options-${view}.png`,
         );
         await expect(agGrid).toHaveScreenshot(
-          `ag-grid-sorted-and-filtered-${view}.png`,
+          `ag-grid-is-filtered-${view}.png`,
         );
       });
     },

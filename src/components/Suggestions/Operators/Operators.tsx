@@ -18,7 +18,6 @@ export const Operators = React.memo(() => {
   const {
     fieldMap,
     comparisonsMap,
-    enableSort,
     allowLocking,
     size = 'normal',
   } = useConfig((state) => state);
@@ -257,12 +256,6 @@ export const Operators = React.memo(() => {
     <div className={s.operators}>
       <FieldSelection />
       <div className={s.seperator} />
-      {enableSort && (
-        <>
-          <FieldSelection showSort />
-          <div className={s.seperator} />
-        </>
-      )}
       <div className={s.operatorSelection}>
         {selectedMatcher &&
           !(selectedMatcher.type === 'r') &&

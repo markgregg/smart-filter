@@ -6,7 +6,6 @@ import { FilterButtons } from './FilterButtons';
 import { Dropdown } from '../Dropdown';
 import {
   COMPACT_HEIGHT,
-  DEFAULT_SORT_PILL_WIDTH,
   KeyBoardkeys,
   LARGE_HEIGHT,
   NORMAL_HEIGHT,
@@ -20,29 +19,22 @@ import {
   useManaged,
   useMatcher,
   useOptions,
-  useSort,
 } from '../../state/useState';
 import { Button } from '../common/Button';
-import { SortPill } from '../SortPill';
 import s from './style.module.less';
 
 export const FilterBar = React.memo(() => {
-  const filterBuittons = React.useRef<HTMLDivElement | null>(null);
+  const filterButtons = React.useRef<HTMLDivElement | null>(null);
   const searchBar = React.useRef<HTMLDivElement | null>(null);
-  const {
-    matchers: initialMatchers = [],
-    sort: initialSort = [],
-    locked: initialLocked,
-  } = useManaged((state) => state);
+  const { matchers: initialMatchers = [], locked: initialLocked } = useManaged(
+    (state) => state,
+  );
   const {
     allowLocking,
     size = 'normal',
     fieldMap,
-    enableSort,
-    sortPillWidth = DEFAULT_SORT_PILL_WIDTH,
     showDropdownOnMouseOver,
     onChange,
-    onSortChange,
     onLock,
   } = useConfig((state) => state);
   const { hasFocus, setHasFocus, hasMouse, setHasMouse, keyboardFocus } =
@@ -67,8 +59,6 @@ export const FilterBar = React.memo(() => {
   const { expanded, enableExpand, locked, setlocked } = useFilterBar(
     (state) => state,
   );
-  const { sort, active, setActive, setSort } = useSort((state) => state);
-
   const { width: maxWidth = '100%' } = useSizeWatcher(searchBar.current);
 
   const buttonHeight =
@@ -87,8 +77,7 @@ export const FilterBar = React.memo(() => {
 
   const maxPillContainerWidth = Math.floor(
     (searchBar.current?.clientWidth ?? 2000) -
-      (filterBuittons.current?.scrollWidth ?? 70) -
-      (sort.length > 0 ? sortPillWidth + 60 : 0) -
+      (filterButtons.current?.scrollWidth ?? 70) -
       (showMoveNext ? 26 : 0) -
       (showMovePrev ? 26 : 0) -
       (allowLocking ? 26 : 0),
@@ -103,10 +92,6 @@ export const FilterBar = React.memo(() => {
   }, [initialMatchers]);
 
   React.useEffect(() => {
-    setSort(initialSort ?? []);
-  }, [initialSort]);
-
-  React.useEffect(() => {
     setlocked(initialLocked ?? false);
   }, [initialLocked]);
 
@@ -115,12 +100,6 @@ export const FilterBar = React.memo(() => {
       onChange(matchers);
     }
   }, [matchers, onChange]);
-
-  React.useEffect(() => {
-    if (onSortChange) {
-      onSortChange(sort);
-    }
-  }, [sort, onSortChange]);
 
   React.useEffect(() => {
     if (matcher?.key !== editMatcher?.key || !editMatcher) {
@@ -139,12 +118,6 @@ export const FilterBar = React.memo(() => {
       clearEditPosition();
     }
   }, [editPosition, matchers]);
-
-  React.useEffect(() => {
-    if (active && (editMatcher !== null || selectedIndex !== null)) {
-      setActive(false);
-    }
-  }, [active, setActive, selectedIndex, editMatcher]);
 
   const handleFocus = React.useCallback(() => {
     setHasFocus(true);
@@ -259,7 +232,7 @@ export const FilterBar = React.memo(() => {
             <FaCaretLeft />
           </Button>
         )}
-        <div className={s.pullContainerWrapper}>
+        <div className={s.pillContainerWrapper}>
           <PillContainer
             maxWidth={maxPillContainerWidth}
             singleLine={!expanded}
@@ -270,8 +243,7 @@ export const FilterBar = React.memo(() => {
             <FaCaretRight />
           </Button>
         )}
-        {enableSort && sort.length > 0 && <SortPill />}
-        <FilterButtons ref={filterBuittons} />
+        <FilterButtons ref={filterButtons} />
         {((!showDropdownOnMouseOver && hasFocus) ||
           hasMouse ||
           keyboardFocus) && <Dropdown />}

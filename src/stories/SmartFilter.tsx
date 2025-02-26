@@ -4,14 +4,13 @@ import { ColDef } from 'ag-grid-community';
 import Bond, {
   columns,
   constructFilter,
-  constructSort,
   hintGroups,
   operators,
   pasteOptions,
   bonds,
   getFields,
 } from './smartFilterFunctions';
-import { Matcher, SmartFilter as SmartFilterComponent, Sort } from '..';
+import { Matcher, SmartFilter as SmartFilterComponent } from '..';
 import { FilterBarSize } from '@/types/uiProperties';
 import s from './style.module.less';
 import 'ag-grid-community/styles/ag-grid.css';
@@ -29,11 +28,6 @@ export interface SmartFilterProps {
   /* change notifier for matchers */
   onChange?: (matchers: Matcher[]) => void;
 
-  /* if sorting is allow */
-  enableSort?: boolean;
-  /* sort change notifier */
-  onSortChange?: (sort: Sort[]) => void;
-
   /* matcher clear notifier */
   onClear?: () => void;
   /* lock toggle notifier */
@@ -45,8 +39,6 @@ export interface SmartFilterProps {
   hintsPerColumn?: number;
   /* width of hints */
   hintWidth?: number;
-  /* true show all fields or specify which fields */
-  sortHints?: string[];
 
   /* if true pills can be locked */
   allowLocking?: boolean;
@@ -60,8 +52,6 @@ export interface SmartFilterProps {
   showUndoIcon?: boolean;
   /* maxium pill width */
   maxValueWidth?: number;
-  /* maxium width of the sort pill. Defaults to 90px */
-  sortPillWidth?: number;
 
   /* max height of the dropdown */
   maxDropdownHeight?: number;
@@ -80,10 +70,8 @@ const fields = getFields(bonds);
 /** Primary UI component for user interaction */
 export const SmartFilter: React.FC<SmartFilterProps> = ({
   onChange,
-  onSortChange,
   hintsPerColumn,
   hintWidth,
-  sortHints,
   exampleHeight: height = 800,
   exampleWidth: width = 1000,
   size = 'normal',
@@ -93,16 +81,14 @@ export const SmartFilter: React.FC<SmartFilterProps> = ({
   const [rowData, setRowData] = React.useState<Bond[]>(bonds);
   const [columnDefs] = React.useState<ColDef<Bond>[]>(columns);
   const [matchers, setMatchers] = React.useState<Matcher[]>([]);
-  const [sort, setSort] = React.useState<Sort[]>([]);
 
   const hints = React.useMemo(
     () => ({
       hintsPerColumn,
       hintWidth,
-      sortHints,
       hintGroups,
     }),
-    [hintsPerColumn, hintWidth, sortHints],
+    [hintsPerColumn, hintWidth],
   );
 
   const handleChange = React.useCallback(
@@ -115,25 +101,11 @@ export const SmartFilter: React.FC<SmartFilterProps> = ({
     [setMatchers, onChange],
   );
 
-  const handleSortChange = React.useCallback(
-    (newSort: Sort[]) => {
-      setSort(newSort);
-      if (onSortChange) {
-        onSortChange(newSort);
-      }
-    },
-    [setSort, onSortChange],
-  );
-
   React.useEffect(() => {
     const filterFunc = constructFilter(matchers);
     const newData = bonds.filter((b) => !filterFunc || filterFunc(b));
-    const sortFunc = constructSort(sort);
-    if (sortFunc) {
-      newData.sort(sortFunc);
-    }
     setRowData(newData);
-  }, [sort, matchers, setRowData]);
+  }, [matchers, setRowData]);
 
   return (
     <div
@@ -147,8 +119,6 @@ export const SmartFilter: React.FC<SmartFilterProps> = ({
         <SmartFilterComponent
           matchers={matchers}
           onChange={handleChange}
-          sort={sort}
-          onSortChange={handleSortChange}
           fields={fields}
           operators={operators}
           size={size}

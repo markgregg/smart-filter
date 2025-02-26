@@ -7,7 +7,7 @@ import {
   GridReadyEvent,
   IRowNode,
 } from 'ag-grid-community';
-import { FilterFunction, Matcher, Sort } from '@/types';
+import { FilterFunction, Matcher } from '@/types';
 import Bond, {
   columns,
   hintGroups,
@@ -39,7 +39,6 @@ export const SmartFilterAgGrid = () => {
   const [rowData] = React.useState<Bond[]>(bondData);
   const [columnDefs] = React.useState<ColDef<Bond>[]>(columns);
   const [matchers, setMatchers] = React.useState<Matcher[]>([]);
-  const [sort, setSort] = React.useState<Sort[]>([]);
 
   const handleChange = React.useCallback(
     (newMatchers: Matcher[]) => {
@@ -48,19 +47,12 @@ export const SmartFilterAgGrid = () => {
     [setMatchers],
   );
 
-  const handleSortChange = React.useCallback(
-    (newSort: Sort[]) => {
-      setSort(newSort);
-    },
-    [setSort, columnApi],
-  );
-
   const handleFilterChange = React.useCallback(
     (newFilter: FilterFunction | null) => {
       filterRef.current = newFilter;
       gridApi?.onFilterChanged();
     },
-    [setSort, gridApi],
+    [gridApi],
   );
 
   const handleGridReady = (event: GridReadyEvent<Bond>) => {
@@ -93,9 +85,6 @@ export const SmartFilterAgGrid = () => {
           fields={agFields}
           matchers={matchers}
           onChange={handleChange}
-          enableSort
-          sort={sort}
-          onSortChange={handleSortChange}
           onFiltersChange={handleFilterChange}
           operators={operators}
           hints={hints}

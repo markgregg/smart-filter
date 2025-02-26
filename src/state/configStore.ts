@@ -6,7 +6,6 @@ import { uniqueComparions } from '@/util/functions';
 
 export const createConfigStore = ({
   onChange,
-  onSortChange,
   onClear,
   onLock,
   onExpand,
@@ -23,15 +22,12 @@ export const createConfigStore = ({
   debounce,
   pageSize,
   pasteOptions,
-  sortPillWidth,
-  enableSort,
   optionWidth,
   showDropdownOnMouseOver,
 }: SmartFilterProps): UseBoundStore<StoreApi<ConfigState>> => {
   const uniqueComparisonOps = uniqueComparions(fields, operators ?? []);
   return create<ConfigState>(() => ({
     onChange,
-    onSortChange,
     onClear,
     onLock,
     onExpand,
@@ -65,8 +61,6 @@ export const createConfigStore = ({
     debounce,
     pageSize,
     pasteOptions,
-    sortPillWidth,
-    enableSort,
     optionWidth,
     showDropdownOnMouseOver,
   }));
