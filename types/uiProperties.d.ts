@@ -5,7 +5,6 @@ interface FilterBar {
 }
 interface Pills {
     maxValueWidth?: number;
-    sortPillWidth?: number;
 }
 interface DropDown {
     maxDropdownHeight?: number;

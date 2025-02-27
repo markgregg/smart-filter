@@ -22,7 +22,6 @@ export interface Field {
     allowList?: boolean;
     allowRange?: boolean;
     allowBlanks?: boolean;
-    excludeFromSorting?: boolean;
     iconMap?: Map<Value, IconType>;
     display?: FieldDisplay;
     textGetter?: (item: object) => string;

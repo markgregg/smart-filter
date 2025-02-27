@@ -12,4 +12,3 @@ export * from './pasteOptions';
 export * from './values';
 export * from './agField';
 export * from './agGrid';
-export * from './sort';
